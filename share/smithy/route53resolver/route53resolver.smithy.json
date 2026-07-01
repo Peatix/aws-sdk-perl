@@ -112,7 +112,7 @@
             "target" : "com.amazonaws.route53resolver#AssociateFirewallRuleGroupResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Associates a <a>FirewallRuleGroup</a> with a VPC, to provide DNS filtering for the VPC. </p>"
+            "smithy.api#documentation" : "<p>Associates a <a>FirewallRuleGroup</a> with a VPC, to provide DNS filtering for the VPC.</p>\n         <p>If the rule group contains any rule configured with the <code>PartnerThreatProtection</code> rule type, the calling account must hold an active AWS Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected.</p>"
          },
          "type" : "operation"
       },
@@ -810,6 +810,9 @@
                }
             }
          },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The confidence threshold for a DNS Firewall Advanced rule. One of:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>LOW</code> — Provides the highest detection rate for threats, but also increases false positives.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MEDIUM</code> — Provides a balance between detecting threats and false positives.</p>\n            </li>\n            <li>\n               <p>\n                  <code>HIGH</code> — Detects only the most well-corroborated threats with a low rate of false positives.</p>\n            </li>\n         </ul>"
+         },
          "type" : "enum"
       },
       "com.amazonaws.route53resolver#ConflictException" : {
@@ -930,7 +933,7 @@
             "target" : "com.amazonaws.route53resolver#CreateFirewallRuleResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.</p>"
+            "smithy.api#documentation" : "<p>Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field — they are mutually exclusive:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>FirewallDomainListId</code> — match a customer-managed or AWS-managed domain list.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DnsThreatProtection</code> — match a built-in DNS Firewall Advanced threat detector (<code>DGA</code>, <code>DNS_TUNNELING</code>, or <code>DICTIONARY_DGA</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>FirewallRuleType</code> — match one of the rule-type variants returned by <a>ListFirewallRuleTypes</a>: <code>FirewallAdvancedContentCategory</code>, <code>FirewallAdvancedThreatCategory</code>, <code>DnsThreatProtection</code>, or <code>PartnerThreatProtection</code>. The <code>PartnerThreatProtection</code> variant requires an active AWS Marketplace subscription to the named partner product.</p>\n            </li>\n         </ul>\n         <p>For rules that require asynchronous provisioning (today, the <code>PartnerThreatProtection</code> rule type), the rule's <code>Status</code> begins at <code>CREATING</code> and transitions to <code>COMPLETE</code> once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, <code>Status</code> becomes <code>CREATION_FAILED</code> and <code>StatusMessage</code> contains a human-readable reason; the rule is then immutable and must be removed with <a>DeleteFirewallRule</a>.</p>"
          },
          "type" : "operation"
       },
@@ -989,7 +992,7 @@
             "DnsThreatProtection" : {
                "target" : "com.amazonaws.route53resolver#DnsThreatProtection",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with <code>FirewallDomainListId</code> and <code>FirewallRuleType</code>. Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DICT_DGA</code>: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with <code>FirewallDomainListId</code> and <code>FirewallRuleType</code>. Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DICTIONARY_DGA</code>: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.</p>\n            </li>\n         </ul>"
                }
             },
             "FirewallDomainListId" : {
@@ -1014,7 +1017,7 @@
             "FirewallRuleType" : {
                "target" : "com.amazonaws.route53resolver#FirewallRuleType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The rule type configuration for the firewall rule. This setting is mutually exclusive with the top-level <code>FirewallDomainListId</code> and <code>DnsThreatProtection</code> fields.</p>"
+                  "smithy.api#documentation" : "<p>The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level <code>FirewallDomainListId</code> and <code>DnsThreatProtection</code> fields. Use one of:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>FirewallAdvancedContentCategory</code> — match an AWS-managed content category (for example, <code>VIOLENCE_AND_HATE_SPEECH</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>FirewallAdvancedThreatCategory</code> — match an AWS-managed advanced threat category (for example, <code>PHISHING</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>DnsThreatProtection</code> — match a built-in DNS Firewall Advanced threat detector (<code>DGA</code>, <code>DNS_TUNNELING</code>, or <code>DICTIONARY_DGA</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>PartnerThreatProtection</code> — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.</p>\n            </li>\n         </ul>\n         <p>To enumerate the values supported in your account, call <a>ListFirewallRuleTypes</a>.</p>"
                }
             },
             "Name" : {
@@ -1165,7 +1168,7 @@
             "DnsThreatProtection" : {
                "target" : "com.amazonaws.route53resolver#DnsThreatProtection",
                "traits" : {
-                  "smithy.api#documentation" : "<p>\n\t\t\tUse to create a DNS Firewall Advanced rule.\n\t\t</p>"
+                  "smithy.api#documentation" : "<p>\n\t\t\tThe type of the DNS Firewall Advanced rule. This setting is mutually exclusive with <code>FirewallDomainListId</code> and <code>FirewallRuleType</code>. Valid values are:\n\t\t</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DICTIONARY_DGA</code>: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.</p>\n            </li>\n         </ul>"
                }
             },
             "FirewallDomainListId" : {
@@ -1190,7 +1193,7 @@
             "FirewallRuleType" : {
                "target" : "com.amazonaws.route53resolver#FirewallRuleType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The rule type configuration for the firewall rule. This setting is mutually exclusive with the top-level <code>FirewallDomainListId</code> and <code>DnsThreatProtection</code> fields.</p>"
+                  "smithy.api#documentation" : "<p>The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level <code>FirewallDomainListId</code> and <code>DnsThreatProtection</code> fields. Use one of:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>FirewallAdvancedContentCategory</code> — match an AWS-managed content category (for example, <code>VIOLENCE_AND_HATE_SPEECH</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>FirewallAdvancedThreatCategory</code> — match an AWS-managed advanced threat category (for example, <code>PHISHING</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>DnsThreatProtection</code> — match a built-in DNS Firewall Advanced threat detector (<code>DGA</code>, <code>DNS_TUNNELING</code>, or <code>DICTIONARY_DGA</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>PartnerThreatProtection</code> — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.</p>\n            </li>\n         </ul>\n         <p>To enumerate the values supported in your account, call <a>ListFirewallRuleTypes</a>.</p>"
                }
             },
             "Name" : {
@@ -1777,7 +1780,7 @@
             "target" : "com.amazonaws.route53resolver#DeleteFirewallRuleResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Deletes the specified firewall rule.</p>"
+            "smithy.api#documentation" : "<p>Deletes the specified firewall rule. Identify the rule using either <code>FirewallDomainListId</code> (for domain-list and DNS Firewall Advanced rules) or <code>FirewallThreatProtectionId</code> (for partner-managed and DNS Firewall Advanced rules) — together with <code>FirewallRuleGroupId</code>.</p>\n         <p>\n            <code>DeleteFirewallRule</code> is the only operation that succeeds against a rule whose <code>Status</code> is <code>CREATION_FAILED</code>.</p>"
          },
          "type" : "operation"
       },
@@ -2487,7 +2490,7 @@
             "Value" : {
                "target" : "com.amazonaws.route53resolver#DnsThreatProtectionRuleTypeValue",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of DNS threat protection. Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DICT_DGA</code>: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.</p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The type of DNS threat protection. Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DICTIONARY_DGA</code>: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -2499,6 +2502,7 @@
       },
       "com.amazonaws.route53resolver#DnsThreatProtectionRuleTypeValue" : {
          "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of a built-in DNS Firewall Advanced threat detector. Known values are <code>DGA</code>, <code>DNS_TUNNELING</code>, and <code>DICTIONARY_DGA</code>. Returned in the <code>Value</code> field of a <a>FirewallRuleTypeDefinition</a> for the <code>DnsThreatProtection</code> rule type, and used as <code>DnsThreatProtectionRuleTypeConfig.Value</code> when creating a DNS threat protection firewall rule.</p>",
             "smithy.api#length" : {
                "max" : 128,
                "min" : 1
@@ -2611,6 +2615,7 @@
       },
       "com.amazonaws.route53resolver#FirewallAdvancedContentCategoryValue" : {
          "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of an AWS-managed content category (for example, <code>VIOLENCE_AND_HATE_SPEECH</code>), returned in the <code>Value</code> field of a <a>FirewallRuleTypeDefinition</a> for the <code>FirewallAdvancedContentCategory</code> rule type. Pass this string as <code>FirewallAdvancedContentCategoryConfig.Category</code> when creating a content-category firewall rule.</p>",
             "smithy.api#length" : {
                "max" : 128,
                "min" : 1
@@ -2635,6 +2640,7 @@
       },
       "com.amazonaws.route53resolver#FirewallAdvancedThreatCategoryValue" : {
          "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of an AWS-managed advanced threat category (for example, <code>PHISHING</code>), returned in the <code>Value</code> field of a <a>FirewallRuleTypeDefinition</a> for the <code>FirewallAdvancedThreatCategory</code> rule type. Pass this string as <code>FirewallAdvancedThreatCategoryConfig.Category</code> when creating a threat-category firewall rule.</p>",
             "smithy.api#length" : {
                "max" : 128,
                "min" : 1
@@ -2993,7 +2999,7 @@
             "DnsThreatProtection" : {
                "target" : "com.amazonaws.route53resolver#DnsThreatProtection",
                "traits" : {
-                  "smithy.api#documentation" : "<p>\n\t\t\tThe type of the DNS Firewall Advanced rule. Valid values are:\n\t\t</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains \n\t\t\t\tto to launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without \n\t\t\t\tmaking a network connection to the client.</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>\n\t\t\tThe type of the DNS Firewall Advanced rule. Valid values are:\n\t\t</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains\n\t\t\t\tto launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without\n\t\t\t\tmaking a network connection to the client.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DICTIONARY_DGA</code>: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.</p>\n            </li>\n         </ul>"
                }
             },
             "FirewallDomainListId" : {
@@ -3017,7 +3023,7 @@
             "FirewallRuleType" : {
                "target" : "com.amazonaws.route53resolver#FirewallRuleType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The rule type configuration for the firewall rule. Exactly one member of this union should be set.</p>"
+                  "smithy.api#documentation" : "<p>The rule type configuration for the firewall rule. This is a tagged union — exactly one of its members will be populated. Possible members are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>FirewallAdvancedContentCategory</code> — an AWS-managed content category (for example, <code>VIOLENCE_AND_HATE_SPEECH</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>FirewallAdvancedThreatCategory</code> — an AWS-managed advanced threat category (for example, <code>PHISHING</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>DnsThreatProtection</code> — a built-in DNS Firewall Advanced threat detector (<code>DGA</code>, <code>DNS_TUNNELING</code>, or <code>DICTIONARY_DGA</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>PartnerThreatProtection</code> — a third-party threat feed delivered through AWS Marketplace.</p>\n            </li>\n         </ul>\n         <p>To enumerate the values supported in your account, call <a>ListFirewallRuleTypes</a>.</p>"
                }
             },
             "FirewallThreatProtectionId" : {
@@ -3048,6 +3054,18 @@
                "target" : "com.amazonaws.route53resolver#Qtype",
                "traits" : {
                   "smithy.api#documentation" : "<p>\n\t\t\tThe DNS query type you want the rule to evaluate. Allowed values are;\n\t\t</p>\n         <ul>\n            <li>\n               <p>\n\t\t\t\tA: Returns an IPv4 address.</p>\n            </li>\n            <li>\n               <p>AAAA: Returns an Ipv6 address.</p>\n            </li>\n            <li>\n               <p>CAA: Restricts CAs that can create SSL/TLS certifications for the domain.</p>\n            </li>\n            <li>\n               <p>CNAME: Returns another domain name.</p>\n            </li>\n            <li>\n               <p>DS: Record that identifies the DNSSEC signing key of a delegated zone.</p>\n            </li>\n            <li>\n               <p>MX: Specifies mail servers.</p>\n            </li>\n            <li>\n               <p>NAPTR: Regular-expression-based rewriting of domain names.</p>\n            </li>\n            <li>\n               <p>NS: Authoritative name servers.</p>\n            </li>\n            <li>\n               <p>PTR: Maps an IP address to a domain name.</p>\n            </li>\n            <li>\n               <p>SOA: Start of authority record for the zone.</p>\n            </li>\n            <li>\n               <p>SPF: Lists the servers authorized to send emails from a domain.</p>\n            </li>\n            <li>\n               <p>SRV: Application specific values that identify servers.</p>\n            </li>\n            <li>\n               <p>TXT: Verifies email senders and application-specific values.</p>\n            </li>\n            <li>\n               <p>A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be\n\t\t\t\tdefined as TYPENUMBER, where the\n\t\t\t\tNUMBER can be 1-65534, for\n\t\t\t\texample, TYPE28. For more information, see \n\t\t\t\t<a href=\"https://en.wikipedia.org/wiki/List_of_DNS_record_types\">List of DNS record types</a>.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.route53resolver#FirewallRuleStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle state of the firewall rule. Possible values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CREATING</code> — DNS Firewall is provisioning the rule. Rules created with the <code>PartnerThreatProtection</code> rule type begin in this state while DNS Firewall verifies the calling account's AWS Marketplace entitlement.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COMPLETE</code> — The rule is provisioned and enforcing matches.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CREATION_FAILED</code> — Provisioning failed. <code>StatusMessage</code> contains a human-readable reason. A rule in this state is immutable: <a>UpdateFirewallRule</a> rejects the request, and the rule must be removed with <a>DeleteFirewallRule</a>.</p>\n            </li>\n         </ul>\n         <p>For rules that do not require asynchronous provisioning, this field may be absent.</p>"
+               }
+            },
+            "StatusMessage" : {
+               "target" : "com.amazonaws.route53resolver#FirewallRuleStatusMessage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An additional message about the rule's lifecycle state. Populated when <code>Status</code> is <code>CREATION_FAILED</code> to describe why provisioning failed.</p>"
                }
             }
          },
@@ -3327,29 +3345,55 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.route53resolver#FirewallRuleStatus" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The lifecycle state of a DNS Firewall rule. Known values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CREATING</code> — DNS Firewall is provisioning the rule. Rules created with the <code>PartnerThreatProtection</code> rule type begin in this state while DNS Firewall verifies the calling account's AWS Marketplace entitlement.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COMPLETE</code> — The rule is provisioned and enforcing matches.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CREATION_FAILED</code> — Provisioning failed. <a>UpdateFirewallRule</a> rejects updates to a rule in this state; the rule must be removed with <a>DeleteFirewallRule</a>.</p>\n            </li>\n         </ul>",
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.route53resolver#FirewallRuleStatusMessage" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A human-readable description of why a firewall rule is in <code>CREATION_FAILED</code> state.</p>",
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.route53resolver#FirewallRuleType" : {
          "members" : {
             "DnsThreatProtection" : {
                "target" : "com.amazonaws.route53resolver#DnsThreatProtectionRuleTypeConfig",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The configuration for a DNS threat protection rule type, such as DGA or DNS tunneling detection.</p>"
+                  "smithy.api#documentation" : "<p>Configures the rule to match a built-in DNS Firewall Advanced threat detector — <code>DGA</code>, <code>DNS_TUNNELING</code>, or <code>DICTIONARY_DGA</code>. See <a>DnsThreatProtectionRuleTypeConfig</a>.</p>"
                }
             },
             "FirewallAdvancedContentCategory" : {
                "target" : "com.amazonaws.route53resolver#FirewallAdvancedContentCategoryConfig",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The configuration for a content category-based filtering rule.</p>"
+                  "smithy.api#documentation" : "<p>Configures the rule to match an AWS-managed content category (for example, <code>VIOLENCE_AND_HATE_SPEECH</code>). See <a>FirewallAdvancedContentCategoryConfig</a>.</p>"
                }
             },
             "FirewallAdvancedThreatCategory" : {
                "target" : "com.amazonaws.route53resolver#FirewallAdvancedThreatCategoryConfig",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The configuration for a threat category-based filtering rule.</p>"
+                  "smithy.api#documentation" : "<p>Configures the rule to match an AWS-managed advanced threat category (for example, <code>PHISHING</code>). See <a>FirewallAdvancedThreatCategoryConfig</a>.</p>"
+               }
+            },
+            "PartnerThreatProtection" : {
+               "target" : "com.amazonaws.route53resolver#PartnerThreatProtectionConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures the rule to match a third-party threat feed delivered through AWS Marketplace. The calling account must hold an active subscription to the partner product named in <code>Partner</code>; if the subscription is missing or revoked, the rule is created with <code>Status</code>\n            <code>CREATION_FAILED</code> and cannot be modified — only deleted. See <a>PartnerThreatProtectionConfig</a>.</p>"
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The configuration for a rule type in a DNS Firewall rule. This is a union type — exactly one member should be set.</p>"
+            "smithy.api#documentation" : "<p>The rule-type configuration for a DNS Firewall rule. <code>FirewallRuleType</code> is a tagged union — exactly one member must be set per rule, and the member determines what the rule matches against. This shape is mutually exclusive with the top-level <code>FirewallDomainListId</code> and <code>DnsThreatProtection</code> fields on <a>CreateFirewallRule</a> and <a>UpdateFirewallRule</a>.</p>\n         <p>Call <a>ListFirewallRuleTypes</a> to discover which rule-type variants and which values within each variant are available in your account and Region.</p>"
          },
          "type" : "structure"
       },
@@ -3371,6 +3415,12 @@
                "target" : "com.amazonaws.route53resolver#RuleTypeName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The category or class of the rule type, such as <code>FirewallAdvancedContentCategory</code> or <code>FirewallAdvancedThreatCategory</code>.</p>"
+               }
+            },
+            "SubscriptionInfo" : {
+               "target" : "com.amazonaws.route53resolver#SubscriptionInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>For rule types that require an external subscription (today, only the <code>PartnerThreatProtection</code> variant), describes the AWS Marketplace product that backs the rule type. Absent for rule types that are managed by AWS and do not require a separate subscription. See <a>SubscriptionInfo</a>.</p>"
                }
             },
             "Value" : {
@@ -4577,6 +4627,12 @@
                   "smithy.api#enumValue" : "FAILED_CREATION"
                }
             },
+            "FailedCreationInsufficientEC2CapacityInOutpost" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED_CREATION_INSUFFICIENT_EC2_CAPACITY_IN_OUTPOST"
+               }
+            },
             "FailedResourceGone" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -5130,7 +5186,7 @@
             "target" : "com.amazonaws.route53resolver#ListFirewallRuleTypesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Retrieves the available rule types that can be used in DNS Firewall rules.</p>",
+            "smithy.api#documentation" : "<p>Retrieves the rule-type variants that can be used in the <code>FirewallRuleType</code> field of <a>CreateFirewallRule</a> and <a>UpdateFirewallRule</a>. Each returned <a>FirewallRuleTypeDefinition</a> identifies one variant + value combination — for example, <code>FirewallAdvancedContentCategory</code> + <code>VIOLENCE_AND_HATE_SPEECH</code>, or <code>PartnerThreatProtection</code> + a partner-managed feed.</p>\n         <p>The supported <code>RuleType</code> filter values are <code>FirewallAdvancedContentCategory</code>, <code>FirewallAdvancedThreatCategory</code>, <code>DnsThreatProtection</code>, and <code>PartnerThreatProtection</code>. When a returned definition's variant requires an external subscription (currently only <code>PartnerThreatProtection</code>), the response also includes a <a>SubscriptionInfo</a> identifying the AWS Marketplace product that backs it; absence of <code>SubscriptionInfo</code> means the variant is fully managed by AWS and requires no separate subscription.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "NextToken",
                "items" : "FirewallRuleTypes",
@@ -5157,7 +5213,7 @@
             "RuleType" : {
                "target" : "com.amazonaws.route53resolver#RuleTypeName",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The rule type to filter by. If specified, only rule types matching this value are returned.</p>"
+                  "smithy.api#documentation" : "<p>An optional filter that restricts the response to a single <a>FirewallRuleType</a> variant. Supported values: <code>FirewallAdvancedContentCategory</code>, <code>FirewallAdvancedThreatCategory</code>, <code>DnsThreatProtection</code>, and <code>PartnerThreatProtection</code>. If omitted, definitions across all variants are returned.</p>"
                }
             }
          },
@@ -5211,7 +5267,7 @@
             "target" : "com.amazonaws.route53resolver#ListFirewallRulesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. </p>\n         <p>A single call might return only a partial list of the rules. For information, see <code>MaxResults</code>. </p>",
+            "smithy.api#documentation" : "<p>Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.</p>\n         <p>A single call might return only a partial list of the rules. For information, see <code>MaxResults</code>.</p>\n         <p>For rules that require asynchronous provisioning, the response includes <code>Status</code> (see <a>FirewallRuleStatus</a>) and, on failure, <code>StatusMessage</code> with the reason.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "NextToken",
                "items" : "FirewallRules",
@@ -6405,6 +6461,31 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.route53resolver#PartnerThreatProtectionConfig" : {
+         "members" : {
+            "Partner" : {
+               "target" : "com.amazonaws.route53resolver#PartnerValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the partner threat-protection product, exactly as returned in the <code>Value</code> field of a <a>FirewallRuleTypeDefinition</a> with <code>RuleType</code> set to <code>PartnerThreatProtection</code>. The calling account must hold an active AWS Marketplace subscription to this product.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for a partner threat-protection rule. To enumerate the partners available in your account, call <a>ListFirewallRuleTypes</a> with <code>RuleType</code> set to <code>PartnerThreatProtection</code> — each returned <a>FirewallRuleTypeDefinition</a> includes a <a>SubscriptionInfo</a> identifying the AWS Marketplace product that backs it.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53resolver#PartnerValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of a partner threat-protection product, returned in the <code>Value</code> field of a <a>FirewallRuleTypeDefinition</a> for the <code>PartnerThreatProtection</code> rule type. Pass this string as <code>PartnerThreatProtectionConfig.Partner</code> when creating a partner-managed firewall rule.</p>",
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.route53resolver#Port" : {
          "traits" : {
             "smithy.api#range" : {
@@ -6416,6 +6497,15 @@
       },
       "com.amazonaws.route53resolver#Priority" : {
          "type" : "integer"
+      },
+      "com.amazonaws.route53resolver#ProductId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.route53resolver#Protocol" : {
          "members" : {
@@ -9032,6 +9122,7 @@
       },
       "com.amazonaws.route53resolver#RuleTypeDescription" : {
          "traits" : {
+            "smithy.api#documentation" : "<p>A human-readable description of a rule-type definition returned by <a>ListFirewallRuleTypes</a>.</p>",
             "smithy.api#length" : {
                "max" : 1024,
                "min" : 0
@@ -9041,6 +9132,7 @@
       },
       "com.amazonaws.route53resolver#RuleTypeName" : {
          "traits" : {
+            "smithy.api#documentation" : "<p>The variant name of a rule type. Known values are <code>FirewallAdvancedContentCategory</code>, <code>FirewallAdvancedThreatCategory</code>, <code>DnsThreatProtection</code>, and <code>PartnerThreatProtection</code>. Returned in the <code>RuleType</code> field of a <a>FirewallRuleTypeDefinition</a>.</p>",
             "smithy.api#length" : {
                "max" : 128,
                "min" : 0
@@ -9079,6 +9171,7 @@
       },
       "com.amazonaws.route53resolver#RuleTypeValue" : {
          "traits" : {
+            "smithy.api#documentation" : "<p>The variant-specific value of a rule type, returned in the <code>Value</code> field of a <a>FirewallRuleTypeDefinition</a>. The interpretation of this string depends on <code>RuleType</code>; see <a>FirewallAdvancedContentCategoryValue</a>, <a>FirewallAdvancedThreatCategoryValue</a>, <a>DnsThreatProtectionRuleTypeValue</a>, or <a>PartnerValue</a>.</p>",
             "smithy.api#length" : {
                "max" : 128,
                "min" : 0
@@ -9191,6 +9284,26 @@
             }
          },
          "type" : "string"
+      },
+      "com.amazonaws.route53resolver#SubscriptionInfo" : {
+         "members" : {
+            "ProductId" : {
+               "target" : "com.amazonaws.route53resolver#ProductId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier of the partner threat-protection product. Use this value to verify or manage the calling account's subscription in AWS Marketplace.</p>"
+               }
+            },
+            "VendorName" : {
+               "target" : "com.amazonaws.route53resolver#VendorName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the AWS Marketplace seller (vendor) that publishes the partner threat-protection product (for example, <code>Palo Alto Networks</code>).</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Identifies the AWS Marketplace product that backs a partner-managed rule type. Returned as part of <a>FirewallRuleTypeDefinition</a> when the rule type variant requires an active customer subscription to the named product.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.route53resolver#Tag" : {
          "members" : {
@@ -9646,7 +9759,7 @@
             "target" : "com.amazonaws.route53resolver#UpdateFirewallRuleResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates the specified firewall rule. </p>"
+            "smithy.api#documentation" : "<p>Updates the specified firewall rule. The rule's <code>FirewallRuleType</code>, <code>FirewallDomainListId</code>, and top-level <code>DnsThreatProtection</code> match source cannot be changed after creation. Rules whose <code>Status</code> is <code>CREATING</code> or <code>CREATION_FAILED</code> cannot be updated; remove a failed rule with <a>DeleteFirewallRule</a>.</p>"
          },
          "type" : "operation"
       },
@@ -9697,7 +9810,7 @@
             "DnsThreatProtection" : {
                "target" : "com.amazonaws.route53resolver#DnsThreatProtection",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with <code>FirewallDomainListId</code> and <code>FirewallRuleType</code>. Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DICT_DGA</code>: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with <code>FirewallDomainListId</code> and <code>FirewallRuleType</code>. Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DICTIONARY_DGA</code>: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.</p>\n            </li>\n         </ul>"
                }
             },
             "FirewallDomainListId" : {
@@ -9722,7 +9835,7 @@
             "FirewallRuleType" : {
                "target" : "com.amazonaws.route53resolver#FirewallRuleType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The rule type configuration for the firewall rule. This setting is mutually exclusive with the top-level <code>FirewallDomainListId</code> and <code>DnsThreatProtection</code> fields.</p>"
+                  "smithy.api#documentation" : "<p>The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level <code>FirewallDomainListId</code> and <code>DnsThreatProtection</code> fields. Use one of:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>FirewallAdvancedContentCategory</code> — match an AWS-managed content category (for example, <code>VIOLENCE_AND_HATE_SPEECH</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>FirewallAdvancedThreatCategory</code> — match an AWS-managed advanced threat category (for example, <code>PHISHING</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>DnsThreatProtection</code> — match a built-in DNS Firewall Advanced threat detector (<code>DGA</code>, <code>DNS_TUNNELING</code>, or <code>DICTIONARY_DGA</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>PartnerThreatProtection</code> — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.</p>\n            </li>\n         </ul>\n         <p>To enumerate the values supported in your account, call <a>ListFirewallRuleTypes</a>.</p>"
                }
             },
             "FirewallThreatProtectionId" : {
@@ -9875,7 +9988,7 @@
             "DnsThreatProtection" : {
                "target" : "com.amazonaws.route53resolver#DnsThreatProtection",
                "traits" : {
-                  "smithy.api#documentation" : "<p>\n\t\t\tThe type of the DNS Firewall Advanced rule. Valid values are:\n\t\t</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains \n\t\t\t\tto to launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without\n\t\t\t\tmaking a network connection to the client.</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>\n\t\t\tThe type of the DNS Firewall Advanced rule. This setting is mutually exclusive with <code>FirewallDomainListId</code> and <code>FirewallRuleType</code>. Valid values are:\n\t\t</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DGA</code>: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains\n\t\t\t\tto launch malware attacks.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DNS_TUNNELING</code>: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without\n\t\t\t\tmaking a network connection to the client.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DICTIONARY_DGA</code>: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.</p>\n            </li>\n         </ul>"
                }
             },
             "FirewallDomainListId" : {
@@ -9900,7 +10013,7 @@
             "FirewallRuleType" : {
                "target" : "com.amazonaws.route53resolver#FirewallRuleType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The rule type configuration for the firewall rule. This setting is mutually exclusive with the top-level <code>FirewallDomainListId</code> and <code>DnsThreatProtection</code> fields.</p>"
+                  "smithy.api#documentation" : "<p>The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level <code>FirewallDomainListId</code> and <code>DnsThreatProtection</code> fields. Use one of:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>FirewallAdvancedContentCategory</code> — match an AWS-managed content category (for example, <code>VIOLENCE_AND_HATE_SPEECH</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>FirewallAdvancedThreatCategory</code> — match an AWS-managed advanced threat category (for example, <code>PHISHING</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>DnsThreatProtection</code> — match a built-in DNS Firewall Advanced threat detector (<code>DGA</code>, <code>DNS_TUNNELING</code>, or <code>DICTIONARY_DGA</code>).</p>\n            </li>\n            <li>\n               <p>\n                  <code>PartnerThreatProtection</code> — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.</p>\n            </li>\n         </ul>\n         <p>To enumerate the values supported in your account, call <a>ListFirewallRuleTypes</a>.</p>"
                }
             },
             "FirewallThreatProtectionId" : {
@@ -10425,6 +10538,15 @@
             "smithy.api#error" : "client"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.route53resolver#VendorName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
       }
    },
    "smithy" : "2.0"
