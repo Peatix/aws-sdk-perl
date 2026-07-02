@@ -1,4 +1,12 @@
 {
+   "acm" : [
+      {
+         "uri" : "https://acm-acme.{region}.amazonaws.com"
+      },
+      {
+         "uri" : "https://acm.{region}.amazonaws.com"
+      }
+   ],
    "api.ecr" : [
       {
          "uri" : "https://api.ecr.{region}.amazonaws.com"

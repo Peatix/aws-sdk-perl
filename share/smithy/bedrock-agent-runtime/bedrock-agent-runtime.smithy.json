@@ -487,8 +487,1122 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveAction" : {
+         "members" : {
+            "fullDocumentExpansion" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveFullDocExpansionDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of a full document expansion action.</p>"
+               }
+            },
+            "retrieve" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveActionDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the retrieve action.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An action taken during agentic retrieval.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveActionDetails" : {
+         "members" : {
+            "inputQuery" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveMessageContent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The input query used for retrieval.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sourceRetrievers" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceRetrieverList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of source retrievers targeted by this action.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details of a retrieve action including the query and target retrievers.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveActions" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveAction",
+            "traits" : {
+               "smithy.api#documentation" : "<p>A single retrieval action.</p>"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of actions taken during an agentic retrieval step.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveBedrockGuardrailConfiguration" : {
+         "members" : {
+            "guardrailId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the guardrail.</p>",
+                  "smithy.api#length" : {
+                     "max" : 64
+                  },
+                  "smithy.api#pattern" : "^[a-z0-9]+$",
+                  "smithy.api#required" : {}
+               }
+            },
+            "guardrailVersion" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the guardrail to use.</p>",
+                  "smithy.api#length" : {
+                     "max" : 5,
+                     "min" : 1
+                  },
+                  "smithy.api#pattern" : "^(([1-9][0-9]{0,7})|(DRAFT))$",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for a Bedrock guardrail applied during agentic retrieval.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveBedrockRerankingConfiguration" : {
+         "members" : {
+            "modelConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveBedrockRerankingModelConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The model configuration containing the model ARN.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for a Bedrock reranking model.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveBedrockRerankingModelConfiguration" : {
+         "members" : {
+            "modelArn" : {
+               "target" : "com.amazonaws.bedrockagentruntime#BedrockModelArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Bedrock reranking model.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Model configuration for a Bedrock reranking model.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveCitation" : {
+         "members" : {
+            "endIndex" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Character offset end (exclusive) in the answer text.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "references" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveCitationReferenceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>References to results that support this span.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "startIndex" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Character offset start in the answer text.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A citation mapping a span of the generated answer to supporting results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveCitationList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveCitation"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of citations.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveCitationReference" : {
+         "members" : {
+            "resultIndex" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Index into the results array on the same event.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A reference to a specific result item.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveCitationReferenceList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveCitationReference"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of citation references.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveConfiguration" : {
+         "members" : {
+            "foundationModelConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#FoundationModelConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The foundation model configuration. Required when foundationModelType is CUSTOM.</p>"
+               }
+            },
+            "foundationModelType" : {
+               "target" : "com.amazonaws.bedrockagentruntime#FoundationModelType",
+               "traits" : {
+                  "smithy.api#default" : "MANAGED",
+                  "smithy.api#documentation" : "<p>The type of foundation model to use. CUSTOM uses a specified model, MANAGED uses the service default.</p>"
+               }
+            },
+            "maxAgentIteration" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#default" : 5,
+                  "smithy.api#documentation" : "<p>The maximum number of agent iterations for retrieval.</p>",
+                  "smithy.api#range" : {
+                     "min" : 2
+                  }
+               }
+            },
+            "rerankingConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveRerankingConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reranking model configuration. Required when rerankingModelType is CUSTOM.</p>"
+               }
+            },
+            "rerankingModelType" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveRerankingModelType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of reranking model to use. CUSTOM uses a specified model, MANAGED uses the service default. If not specified, defaults to MANAGED for managed embedding knowledge bases and NONE for custom embedding knowledge bases.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration settings for the agentic retrieval operation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveFailure" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the failure.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A failure that occurred during agentic retrieval.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveFailures" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveFailure",
+            "traits" : {
+               "smithy.api#documentation" : "<p>A single failure.</p>"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of failures that occurred during agentic retrieval.</p>",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveFullDocExpansionDetails" : {
+         "members" : {
+            "documentId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the document to expand.</p>"
+               }
+            },
+            "sourceRetriever" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceRetriever",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source retriever associated with the document.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details of a full document expansion action.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveGeneratedResponse" : {
+         "members" : {
+            "answer" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The generated answer text.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "citations" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveCitationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Citations mapping spans of the answer to supporting results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The generated response synthesized from retrieved results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveGuardrailWarning" : {
+         "members" : {
+            "action" : {
+               "target" : "com.amazonaws.bedrockagentruntime#GuardrailAction",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The action taken by the guardrail.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the guardrail.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the guardrail evaluation result.</p>"
+               }
+            },
+            "version" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the guardrail.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A warning generated by a guardrail during agentic retrieval.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveMessage" : {
+         "members" : {
+            "content" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveMessageContent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content of the message.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "role" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ConversationRole",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The role of the message sender (e.g., user or assistant).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A message in the agentic retrieval conversation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveMessageContent" : {
+         "members" : {
+            "text" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The text content of the message.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The content of an agentic retrieval message.</p>",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveMessages" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveMessage",
+            "traits" : {
+               "smithy.api#documentation" : "<p>A single message in the conversation.</p>"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of messages in the agentic retrieval conversation.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveMetadata" : {
+         "key" : {
+            "target" : "smithy.api#String",
+            "traits" : {
+               "smithy.api#documentation" : "<p>The metadata key.</p>"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Metadata key-value pairs associated with a retrieved item.</p>"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "smithy.api#Document",
+            "traits" : {
+               "smithy.api#documentation" : "<p>The metadata value.</p>"
+            }
+         }
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrievePolicyConfiguration" : {
+         "members" : {
+            "bedrockGuardrailConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveBedrockGuardrailConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for Bedrock guardrails to apply during retrieval.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Policy configuration for agentic retrieval.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveRerankingConfiguration" : {
+         "members" : {
+            "bedrockRerankingConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveBedrockRerankingConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Bedrock reranking model configuration.</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveRerankingConfigurationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of reranking configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for the reranking model.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveRerankingConfigurationType" : {
+         "members" : {
+            "BEDROCK_RERANKING_MODEL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BEDROCK_RERANKING_MODEL"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of reranking configuration.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveRerankingModelType" : {
+         "members" : {
+            "CUSTOM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOM"
+               }
+            },
+            "MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANAGED"
+               }
+            },
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NONE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of reranking model.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveResponseEvent" : {
+         "members" : {
+            "text" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The generated text chunk.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A chunk of the generated answer text.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveResultEvent" : {
+         "members" : {
+            "generatedResponse" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveGeneratedResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The generated response. Present only when generateResponse is true.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.bedrockagentruntime#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Opaque continuation token for paginated results.</p>"
+               }
+            },
+            "results" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of retrieved result items.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An event containing agentic retrieval results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveResultItem" : {
+         "members" : {
+            "content" : {
+               "target" : "com.amazonaws.bedrockagentruntime#RetrievalContent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retrieved content.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Metadata associated with the retrieved item.</p>"
+               }
+            },
+            "sourceRetriever" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceRetriever",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source retriever that produced this result.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single item from the agentic retrieval results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveResults" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveResultItem",
+            "traits" : {
+               "smithy.api#documentation" : "<p>A single retrieval result item.</p>"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of agentic retrieval result items.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceMetadata" : {
+         "members" : {
+            "identifier" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the retrieval source.</p>"
+               }
+            },
+            "retrievalType" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of retrieval source.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Metadata about a retrieval source.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceMetadataList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceMetadata",
+            "traits" : {
+               "smithy.api#documentation" : "<p>Metadata for a retrieval source.</p>"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of retrieval source metadata.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceRetriever" : {
+         "members" : {
+            "identifier" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the source retriever.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A source retriever that produced retrieval results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceRetrieverList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceRetriever",
+            "traits" : {
+               "smithy.api#documentation" : "<p>A source retriever.</p>"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of source retrievers.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveStatus" : {
+         "members" : {
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The step failed.</p>",
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The step is currently in progress.</p>",
+                  "smithy.api#enumValue" : "IN_PROGRESS"
+               }
+            },
+            "SUCCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The step completed successfully.</p>",
+                  "smithy.api#enumValue" : "SUCCEEDED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The status of an agentic retrieval step.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveStep" : {
+         "members" : {
+            "FULL_DOCUMENT_EXPANSION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The full document expansion phase.</p>",
+                  "smithy.api#enumValue" : "FullDocumentExpansion"
+               }
+            },
+            "PLANNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The planning phase of retrieval.</p>",
+                  "smithy.api#enumValue" : "Planning"
+               }
+            },
+            "RETRIEVAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retrieval phase where data is fetched.</p>",
+                  "smithy.api#enumValue" : "Retrieval"
+               }
+            },
+            "SPECULATIVE_RETRIEVAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A speculative retrieval phase for optimization.</p>",
+                  "smithy.api#enumValue" : "SpeculativeRetrieval"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The step in the agentic retrieval process.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveStream" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#BadGatewayException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#DependencyFailedException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveStreamRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveStreamResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves information from one or more knowledge bases using an agentic approach. Agentic retrieval uses a foundation model to intelligently decompose complex queries into sub-queries and iteratively retrieve relevant information from your knowledge bases. This approach improves retrieval accuracy for complex, multi-step questions that a single retrieval pass might not fully address.</p> <p>The operation returns results through a stream that includes retrieval results, trace events for visibility into the process, and a generated response synthesized from the results by default, which can be turned off.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/agenticRetrieveStream"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveStreamRequest" : {
+         "members" : {
+            "agenticRetrieveConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration settings for the agentic retrieval operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "generateResponse" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#default" : true,
+                  "smithy.api#documentation" : "<p>Whether to generate a response based on the retrieved results.</p>"
+               }
+            },
+            "messages" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveMessages",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of messages for the agentic retrieval conversation.</p>",
+                  "smithy.api#length" : {
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.bedrockagentruntime#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Opaque continuation token for paginated results.</p>"
+               }
+            },
+            "policyConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrievePolicyConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Policy configuration for guardrails and content filtering.</p>"
+               }
+            },
+            "retrievers" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrievers",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of retrievers to use for agentic retrieval.</p>",
+                  "smithy.api#length" : {
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "userContext" : {
+               "target" : "com.amazonaws.bedrockagentruntime#UserContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request structure for the agentic retrieve stream operation.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveStreamResource" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveStream"
+            }
+         ],
+         "type" : "resource"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveStreamResponse" : {
+         "members" : {
+            "stream" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveStreamResponseOutput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output stream containing retrieval results and trace events.</p>",
+                  "smithy.api#httpPayload" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for the agentic retrieve stream operation.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveStreamResponseOutput" : {
+         "members" : {
+            "accessDeniedException" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AccessDeniedException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Access to the resource was denied.</p>"
+               }
+            },
+            "badGatewayException" : {
+               "target" : "com.amazonaws.bedrockagentruntime#BadGatewayException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A bad gateway error occurred.</p>"
+               }
+            },
+            "conflictException" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ConflictException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A conflict occurred with the current state of the resource.</p>"
+               }
+            },
+            "dependencyFailedException" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DependencyFailedException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A dependency failed during the operation.</p>"
+               }
+            },
+            "internalServerException" : {
+               "target" : "com.amazonaws.bedrockagentruntime#InternalServerException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An internal server error occurred.</p>"
+               }
+            },
+            "resourceNotFoundException" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ResourceNotFoundException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The specified resource was not found.</p>"
+               }
+            },
+            "responseEvent" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveResponseEvent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A chunk of the generated answer. Emitted only when generateResponse is true.</p>"
+               }
+            },
+            "result" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveResultEvent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A retrieval result event containing the retrieved items.</p>"
+               }
+            },
+            "serviceQuotaExceededException" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ServiceQuotaExceededException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The service quota has been exceeded.</p>"
+               }
+            },
+            "throttlingException" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ThrottlingException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request was throttled.</p>"
+               }
+            },
+            "traceEvent" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveTraceEvent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A trace event providing visibility into the retrieval process.</p>"
+               }
+            },
+            "validationException" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ValidationException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request validation failed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The streaming output for agentic retrieval, containing results, traces, and errors.</p>",
+            "smithy.api#streaming" : {}
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveTraceEvent" : {
+         "members" : {
+            "attributes" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveTraceEventAttributes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The attributes describing the trace event details.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the trace event.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "timestamp" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the trace event occurred.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A trace event providing visibility into the agentic retrieval process.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveTraceEventAttributes" : {
+         "members" : {
+            "actions" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveActions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of actions taken during this step.</p>"
+               }
+            },
+            "failures" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveFailures",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Failures that occurred during this step.</p>"
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable message describing the trace event.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "retrievalMetadata" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceMetadataList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Metadata about the retrieval sources used.</p>"
+               }
+            },
+            "retrievalResponse" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveTraceResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retrieval results from this step.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the current step.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "step" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveStep",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current step in the retrieval process.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "warnings" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveWarnings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Warnings generated during this step.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Attributes describing the details of an agentic retrieval trace event.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveTraceResultItem" : {
+         "members" : {
+            "content" : {
+               "target" : "com.amazonaws.bedrockagentruntime#RetrievalContent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retrieved content.</p>"
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Metadata associated with the retrieved item.</p>"
+               }
+            },
+            "sourceRetriever" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveSourceRetriever",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source retriever that produced this result.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A result item from an agentic retrieval trace.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveTraceResults" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveTraceResultItem",
+            "traits" : {
+               "smithy.api#documentation" : "<p>A single trace result item.</p>"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of trace result items from agentic retrieval.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveType" : {
+         "members" : {
+            "BEDROCK_KNOWLEDGE_BASE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A Bedrock knowledge base retrieval source.</p>",
+                  "smithy.api#enumValue" : "BedrockKnowledgeBase"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of retrieval source.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveWarning" : {
+         "members" : {
+            "guardrail" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveGuardrailWarning",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A warning from a guardrail evaluation.</p>"
+               }
+            },
+            "message" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveWarningMessage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A general warning message.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A warning generated during agentic retrieval.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveWarningMessage" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The warning message text.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A general warning message from agentic retrieval.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrieveWarnings" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveWarning",
+            "traits" : {
+               "smithy.api#documentation" : "<p>A single warning.</p>"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of warnings generated during agentic retrieval.</p>",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetriever" : {
+         "members" : {
+            "configuration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#RetrieverConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for this retriever.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the retriever's purpose.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A retriever used in agentic retrieval.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#AgenticRetrievers" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#AgenticRetriever",
+            "traits" : {
+               "smithy.api#documentation" : "<p>A retriever configuration.</p>"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List of retrievers for agentic retrieval.</p>"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.bedrockagentruntime#AmazonBedrockAgentRunTimeService" : {
          "resources" : [
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveStreamResource"
+            },
             {
                "target" : "com.amazonaws.bedrockagentruntime#FlowExecutionResource"
             },
@@ -497,6 +1611,9 @@
             },
             {
                "target" : "com.amazonaws.bedrockagentruntime#GenerateQueryResource"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#GetDocumentContentResource"
             },
             {
                "target" : "com.amazonaws.bedrockagentruntime#InferenceResource"
@@ -539,7 +1656,16 @@
             "aws.auth#sigv4" : {
                "name" : "bedrock"
             },
-            "aws.protocols#restJson1" : {},
+            "aws.protocols#restJson1" : {
+               "eventStreamHttp" : [
+                  "h2",
+                  "http/1.1"
+               ],
+               "http" : [
+                  "h2",
+                  "http/1.1"
+               ]
+            },
             "smithy.api#documentation" : "<p>Contains APIs related to model invocation and querying of knowledge bases.</p>",
             "smithy.api#title" : "Agents for Amazon Bedrock Runtime",
             "smithy.rules#endpointBdd" : {
@@ -1640,6 +2766,36 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.bedrockagentruntime#BedrockFoundationModelConfiguration" : {
+         "members" : {
+            "modelConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#BedrockFoundationModelModelConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The model configuration containing the model ARN.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for a Bedrock foundation model.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#BedrockFoundationModelModelConfiguration" : {
+         "members" : {
+            "modelArn" : {
+               "target" : "com.amazonaws.bedrockagentruntime#BedrockModelArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Bedrock foundation model.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Model configuration for a Bedrock foundation model.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.bedrockagentruntime#BedrockModelArn" : {
          "traits" : {
             "smithy.api#length" : {
@@ -2505,6 +3661,15 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.bedrockagentruntime#DataSourceId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10
+            },
+            "smithy.api#pattern" : "^[0-9a-zA-Z]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.bedrockagentruntime#DateTimestamp" : {
          "traits" : {
             "smithy.api#documentation" : "Time Stamp.",
@@ -2683,6 +3848,33 @@
             "smithy.api#httpError" : 424
          },
          "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1825,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^\\P{C}*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentOutputFormat" : {
+         "members" : {
+            "EXTRACTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EXTRACTED"
+               }
+            },
+            "RAW" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RAW"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.bedrockagentruntime#EndSession" : {
          "errors" : [
@@ -3079,7 +4271,7 @@
             "value" : {
                "target" : "com.amazonaws.bedrockagentruntime#FilterValue",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The value to whcih to compare the value of the metadata attribute.</p>",
+                  "smithy.api#documentation" : "<p>The value to which to compare the value of the metadata attribute.</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -4502,6 +5694,61 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.bedrockagentruntime#FoundationModelConfiguration" : {
+         "members" : {
+            "bedrockFoundationModelConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#BedrockFoundationModelConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Bedrock foundation model configuration.</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.bedrockagentruntime#FoundationModelConfigurationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of foundation model configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for the foundation model.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#FoundationModelConfigurationType" : {
+         "members" : {
+            "BEDROCK_FOUNDATION_MODEL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BEDROCK_FOUNDATION_MODEL"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of foundation model configuration.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentruntime#FoundationModelType" : {
+         "members" : {
+            "CUSTOM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOM"
+               }
+            },
+            "MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANAGED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of foundation model.</p>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.bedrockagentruntime#Function" : {
          "traits" : {
             "smithy.api#sensitive" : {}
@@ -4997,6 +6244,118 @@
                "target" : "com.amazonaws.bedrockagentruntime#NextToken",
                "traits" : {
                   "smithy.api#documentation" : "<p>If the total number of results is greater than the maxItems value provided in the request, use this token when making another request in the <code>nextToken</code> field to return the next batch of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#GetDocumentContent" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bedrockagentruntime#GetDocumentContentRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bedrockagentruntime#GetDocumentContentResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents/{documentId}/content"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bedrockagentruntime#GetDocumentContentRequest" : {
+         "members" : {
+            "dataSourceId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DataSourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the data source that contains the document.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "documentId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the document to retrieve content for.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "knowledgeBaseId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#KnowledgeBaseIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the knowledge base that contains the document.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "outputFormat" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentOutputFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output format for the document content. <code>RAW</code> returns the original file. <code>EXTRACTED</code> returns parsed text as JSON. Defaults to <code>RAW</code>.</p>"
+               }
+            },
+            "userContext" : {
+               "target" : "com.amazonaws.bedrockagentruntime#UserContext"
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#GetDocumentContentResource" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#GetDocumentContent"
+            }
+         ],
+         "type" : "resource"
+      },
+      "com.amazonaws.bedrockagentruntime#GetDocumentContentResponse" : {
+         "members" : {
+            "documentContentLength" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The size of the document content in bytes available at the pre-signed URL.</p>"
+               }
+            },
+            "mimeType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The MIME type of the document content. For <code>RAW</code> format, this is the original file type (for example, <code>application/pdf</code>). For <code>EXTRACTED</code> format, this is always <code>application/json</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "presignedUrl" : {
+               "target" : "com.amazonaws.bedrockagentruntime#PresignedUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A pre-signed URL for downloading the document content. The URL expires after 5 minutes.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -7822,6 +9181,16 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.bedrockagentruntime#KnowledgeBaseIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 10
+            },
+            "smithy.api#pattern" : "^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]{10}$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.bedrockagentruntime#KnowledgeBaseLookupInput" : {
          "members" : {
             "knowledgeBaseId" : {
@@ -7920,11 +9289,16 @@
       },
       "com.amazonaws.bedrockagentruntime#KnowledgeBaseRetrievalConfiguration" : {
          "members" : {
+            "managedSearchConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ManagedSearchConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains configurations for managed search. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html\">Query configurations</a>.</p>"
+               }
+            },
             "vectorSearchConfiguration" : {
                "target" : "com.amazonaws.bedrockagentruntime#KnowledgeBaseVectorSearchConfiguration",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Contains details about how the results from the vector search should be returned. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html\">Query configurations</a>.</p>",
-                  "smithy.api#required" : {}
+                  "smithy.api#documentation" : "<p>Contains details about how the results from the vector search should be returned. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html\">Query configurations</a>.</p>"
                }
             }
          },
@@ -7940,6 +9314,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>Contains information about the content of the chunk.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "documentId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the document. Use with <code>GetDocumentContent</code> to retrieve the full document.</p>"
                }
             },
             "location" : {
@@ -8012,6 +9392,27 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Contains details about the resource being queried.</p> <p>This data type is used in the following API operations:</p> <ul> <li> <p> <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax\">Retrieve request</a> – in the <code>knowledgeBaseConfiguration</code> field</p> </li> <li> <p> <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax\">RetrieveAndGenerate request</a> – in the <code>knowledgeBaseConfiguration</code> field</p> </li> </ul>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#KnowledgeBaseRetrieverConfiguration" : {
+         "members" : {
+            "knowledgeBaseId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#KnowledgeBaseId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the knowledge base.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "retrievalOverrides" : {
+               "target" : "com.amazonaws.bedrockagentruntime#RetrievalOverrides",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Overrides for retrieval behavior such as filters and result limits.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for retrieving from a Bedrock knowledge base.</p>"
          },
          "type" : "structure"
       },
@@ -8630,6 +10031,126 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#ManagedSearchBedrockRerankingConfiguration" : {
+         "members" : {
+            "metadataConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#MetadataConfigurationForReranking",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metadata configuration for reranking.</p>"
+               }
+            },
+            "modelConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ManagedSearchBedrockRerankingModelConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The model configuration containing the model ARN for reranking.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "numberOfRerankedResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of results to return after reranking.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for a Bedrock reranking model used in managed search.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#ManagedSearchBedrockRerankingModelConfiguration" : {
+         "members" : {
+            "additionalModelRequestFields" : {
+               "target" : "com.amazonaws.bedrockagentruntime#AdditionalModelRequestFields",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional request fields to pass to the reranking model.</p>"
+               }
+            },
+            "modelArn" : {
+               "target" : "com.amazonaws.bedrockagentruntime#BedrockRerankingModelArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Bedrock reranking model.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Model configuration for a Bedrock reranking model used in managed search.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#ManagedSearchConfiguration" : {
+         "members" : {
+            "filter" : {
+               "target" : "com.amazonaws.bedrockagentruntime#RetrievalFilter"
+            },
+            "numberOfResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of results to retrieve.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "rerankingConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ManagedSearchRerankingConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains configurations for reranking the results retrieved from the managed search.</p>"
+               }
+            },
+            "rerankingModelType" : {
+               "target" : "com.amazonaws.bedrockagentruntime#RerankingModelType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of reranking model to use when reranking results retrieved from the managed search. Use <code>CUSTOM</code> to specify a model, <code>MANAGED</code> to use the service default, or <code>NONE</code> to disable reranking.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for managed search in a knowledge base. Managed search automatically determines the best search strategy based on your data store configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#ManagedSearchRerankingConfiguration" : {
+         "members" : {
+            "bedrockRerankingConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ManagedSearchBedrockRerankingConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Bedrock reranking model configuration for managed search.</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.bedrockagentruntime#ManagedSearchRerankingConfigurationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of reranking configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for the reranking model used in managed search.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#ManagedSearchRerankingConfigurationType" : {
+         "members" : {
+            "BEDROCK_RERANKING_MODEL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BEDROCK_RERANKING_MODEL"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of reranking configuration for managed search.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.bedrockagentruntime#MaxResults" : {
          "traits" : {
@@ -10304,6 +11825,12 @@
          },
          "type" : "union"
       },
+      "com.amazonaws.bedrockagentruntime#PresignedUrl" : {
+         "traits" : {
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
       "com.amazonaws.bedrockagentruntime#PromptConfiguration" : {
          "members" : {
             "additionalModelRequestFields" : {
@@ -10621,6 +12148,7 @@
                      "max" : 20000,
                      "min" : 1
                   },
+                  "smithy.api#pattern" : "^(?!\\s*$).+",
                   "smithy.api#required" : {}
                }
             },
@@ -11228,6 +12756,29 @@
          },
          "type" : "union"
       },
+      "com.amazonaws.bedrockagentruntime#RerankingModelType" : {
+         "members" : {
+            "CUSTOM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOM"
+               }
+            },
+            "MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANAGED"
+               }
+            },
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NONE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.bedrockagentruntime#ResourceDescription" : {
          "traits" : {
             "smithy.api#documentation" : "/ @documentation(\"Description of the using the resource.\")",
@@ -11378,6 +12929,33 @@
          },
          "type" : "union"
       },
+      "com.amazonaws.bedrockagentruntime#RetrievalContent" : {
+         "members" : {
+            "byteContent" : {
+               "target" : "smithy.api#Blob",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The binary content of the retrieved item.</p>"
+               }
+            },
+            "mimeType" : {
+               "target" : "com.amazonaws.bedrockagentruntime#MimeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The MIME type of the retrieved content.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "text" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The text content of the retrieved item.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The content retrieved from a knowledge source.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.bedrockagentruntime#RetrievalFilter" : {
          "members" : {
             "andAll" : {
@@ -11475,6 +13053,29 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#RetrievalOverrides" : {
+         "members" : {
+            "filter" : {
+               "target" : "com.amazonaws.bedrockagentruntime#RetrievalFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A filter to apply to the retrieval results.</p>"
+               }
+            },
+            "maxNumberOfResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>",
+                  "smithy.api#range" : {
+                     "min" : 1
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Overrides for retrieval behavior.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.bedrockagentruntime#RetrievalResultConfluenceLocation" : {
          "members" : {
@@ -11663,6 +13264,20 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.bedrockagentruntime#RetrievalResultGoogleDriveLocation" : {
+         "members" : {
+            "url" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Google Drive URL for the data source location.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Google Drive location of a retrieval result.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.bedrockagentruntime#RetrievalResultKendraDocumentLocation" : {
          "members" : {
             "uri" : {
@@ -11691,10 +13306,22 @@
                   "smithy.api#documentation" : "<p>Specifies the location of a document in a custom data source.</p>"
                }
             },
+            "googleDriveLocation" : {
+               "target" : "com.amazonaws.bedrockagentruntime#RetrievalResultGoogleDriveLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Google Drive data source location.</p>"
+               }
+            },
             "kendraDocumentLocation" : {
                "target" : "com.amazonaws.bedrockagentruntime#RetrievalResultKendraDocumentLocation",
                "traits" : {
                   "smithy.api#documentation" : "<p>The location of a document in Amazon Kendra.</p>"
+               }
+            },
+            "oneDriveLocation" : {
+               "target" : "com.amazonaws.bedrockagentruntime#RetrievalResultOneDriveLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Microsoft OneDrive data source location.</p>"
                }
             },
             "s3Location" : {
@@ -11755,10 +13382,22 @@
                   "smithy.api#enumValue" : "CUSTOM"
                }
             },
+            "GOOGLEDRIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GOOGLEDRIVE"
+               }
+            },
             "KENDRA" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "KENDRA"
+               }
+            },
+            "ONEDRIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ONEDRIVE"
                }
             },
             "S3" : {
@@ -11820,6 +13459,20 @@
       },
       "com.amazonaws.bedrockagentruntime#RetrievalResultMetadataValue" : {
          "type" : "document"
+      },
+      "com.amazonaws.bedrockagentruntime#RetrievalResultOneDriveLocation" : {
+         "members" : {
+            "url" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The OneDrive URL for the data source location.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Microsoft OneDrive location of a retrieval result.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.bedrockagentruntime#RetrievalResultS3Location" : {
          "members" : {
@@ -11980,7 +13633,7 @@
             "target" : "com.amazonaws.bedrockagentruntime#RetrieveAndGenerateResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html\">inference profile</a>. The response only cites sources that are relevant to the query.</p>",
+            "smithy.api#documentation" : "<p>Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html\">inference profile</a>. The response only cites sources that are relevant to the query.</p> <note> <p>This API cannot be used with managed knowledge bases. Use <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_AgenticRetrieveStream.html\">AgenticRetrieveStream</a> or <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html\">Retrieve</a> with managed knowledge bases.</p> </note>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -12093,6 +13746,9 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier of the session. When you first make a <code>RetrieveAndGenerate</code> request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the <code>sessionId</code> yourself.</p>"
                }
+            },
+            "userContext" : {
+               "target" : "com.amazonaws.bedrockagentruntime#UserContext"
             }
          },
          "traits" : {
@@ -12194,7 +13850,7 @@
             "target" : "com.amazonaws.bedrockagentruntime#RetrieveAndGenerateStreamResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.</p> <note> <p>The CLI doesn't support streaming operations in Amazon Bedrock, including <code>InvokeModelWithResponseStream</code>.</p> </note> <p>This operation requires permission for the <code> bedrock:RetrieveAndGenerate</code> action.</p>",
+            "smithy.api#documentation" : "<p>Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.</p> <note> <p>This API cannot be used with managed knowledge bases. Use <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_AgenticRetrieveStream.html\">AgenticRetrieveStream</a> or <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html\">Retrieve</a> with managed knowledge bases.</p> </note> <note> <p>The CLI doesn't support streaming operations in Amazon Bedrock, including <code>InvokeModelWithResponseStream</code>.</p> </note> <p>This operation requires permission for the <code> bedrock:RetrieveAndGenerate</code> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -12229,6 +13885,9 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier of the session. When you first make a <code>RetrieveAndGenerate</code> request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the <code>sessionId</code> yourself.</p>"
                }
+            },
+            "userContext" : {
+               "target" : "com.amazonaws.bedrockagentruntime#UserContext"
             }
          },
          "traits" : {
@@ -12375,7 +14034,7 @@
                }
             },
             "knowledgeBaseId" : {
-               "target" : "com.amazonaws.bedrockagentruntime#KnowledgeBaseId",
+               "target" : "com.amazonaws.bedrockagentruntime#KnowledgeBaseIdentifier",
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier of the knowledge base to query.</p>",
                   "smithy.api#httpLabel" : {},
@@ -12400,6 +14059,9 @@
                   "smithy.api#documentation" : "<p>Contains the query to send the knowledge base.</p>",
                   "smithy.api#required" : {}
                }
+            },
+            "userContext" : {
+               "target" : "com.amazonaws.bedrockagentruntime#UserContext"
             }
          },
          "traits" : {
@@ -12473,6 +14135,20 @@
             "target" : "com.amazonaws.bedrockagentruntime#RetrievedReference"
          },
          "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#RetrieverConfiguration" : {
+         "members" : {
+            "knowledgeBase" : {
+               "target" : "com.amazonaws.bedrockagentruntime#KnowledgeBaseRetrieverConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for a knowledge base retriever.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for a retriever, specified as a union of retriever types.</p>"
+         },
+         "type" : "union"
       },
       "com.amazonaws.bedrockagentruntime#ReturnControlInvocationResults" : {
          "member" : {
@@ -13967,6 +15643,22 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Contains information of the usage of the foundation model.</p>",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#UserContext" : {
+         "members" : {
+            "userId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user making the retrieval request.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about the user making the request. Use this to pass user identity information for access control filtering, so that retrieval results only include documents the user is authorized to access.</p>",
             "smithy.api#sensitive" : {}
          },
          "type" : "structure"
