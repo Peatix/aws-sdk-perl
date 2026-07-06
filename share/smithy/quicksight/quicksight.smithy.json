@@ -33384,6 +33384,42 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.quicksight#FileSource" : {
+         "members" : {
+            "DataSourceArn" : {
+               "target" : "com.amazonaws.quicksight#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) for the data source.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "InputColumns" : {
+               "target" : "com.amazonaws.quicksight#InputColumnList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The column schema of the file.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SheetIndex" : {
+               "target" : "com.amazonaws.quicksight#Integer",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The zero-based index of the sheet to use within the file. For files that contain\n            multiple sheets, this identifies which sheet to read. Files that contain a single sheet,\n            or that have no concept of sheets, use sheet 0.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UploadSettings" : {
+               "target" : "com.amazonaws.quicksight#UploadSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the format for the source file.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A physical table type that contains the schema and upload settings for a file-based data source.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.quicksight#FilledMapAggregatedFieldWells" : {
          "members" : {
             "Geospatial" : {
@@ -52217,6 +52253,12 @@
                   "smithy.api#documentation" : "<p>A physical table type built from the results of the custom SQL query.</p>"
                }
             },
+            "FileSource" : {
+               "target" : "com.amazonaws.quicksight#FileSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A physical table type for a file data source.</p>"
+               }
+            },
             "RelationalTable" : {
                "target" : "com.amazonaws.quicksight#RelationalTable",
                "traits" : {
@@ -52226,7 +52268,7 @@
             "S3Source" : {
                "target" : "com.amazonaws.quicksight#S3Source",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A physical table type for as S3 data source.</p>"
+                  "smithy.api#documentation" : "<p>A physical table type for an S3 data source.</p>"
                }
             },
             "SaaSTable" : {
@@ -64054,12 +64096,6 @@
                   "smithy.api#enumValue" : "ACTION_CONNECTOR"
                }
             },
-            "ARTIFACT" : {
-               "target" : "smithy.api#Unit",
-               "traits" : {
-                  "smithy.api#enumValue" : "ARTIFACT"
-               }
-            },
             "DASHBOARD" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -64076,12 +64112,6 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "KNOWLEDGE_BASE"
-               }
-            },
-            "SPACE" : {
-               "target" : "smithy.api#Unit",
-               "traits" : {
-                  "smithy.api#enumValue" : "SPACE"
                }
             },
             "TOPIC" : {
