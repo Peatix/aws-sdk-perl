@@ -3663,6 +3663,808 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.bedrockruntime#GuardrailChecksConfig" : {
+         "members" : {
+            "contentFilter" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content filter check configuration.</p>"
+               }
+            },
+            "promptAttack" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The prompt attack check configuration.</p>"
+               }
+            },
+            "sensitiveInformation" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sensitive information check configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for inline guardrail checks. Specify one or more check types to run against the messages.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksContentBlock" : {
+         "members" : {
+            "text" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksTextContent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The text content to evaluate.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A content block within a message to evaluate.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksContentBlockList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentBlock"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of content blocks within a message.</p>",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterCategory" : {
+         "members" : {
+            "HATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "HATE"
+               }
+            },
+            "INSULTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INSULTS"
+               }
+            },
+            "MISCONDUCT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MISCONDUCT"
+               }
+            },
+            "SEXUAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SEXUAL"
+               }
+            },
+            "VIOLENCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VIOLENCE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The category for content filter evaluation.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterCategoryConfig" : {
+         "members" : {
+            "category" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterCategory",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content filter category to evaluate.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for a single content filter category to evaluate.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterCategoryConfigList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterCategoryConfig"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of content filter category configurations.</p>",
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterConfig" : {
+         "members" : {
+            "categories" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterCategoryConfigList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content filter categories to evaluate.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for the content filter check, specifying which categories to evaluate.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterResult" : {
+         "members" : {
+            "results" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterResultList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The per-category content filter results.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The content filter check results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterResultEntry" : {
+         "members" : {
+            "category" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterCategory",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content filter category that was evaluated.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "severityScore" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The severity score for the category, ranging from 0.0 to 1.0. Higher values indicate greater severity.</p>",
+                  "smithy.api#range" : {
+                     "max" : 1,
+                     "min" : 0
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The evaluation result for a single content filter category.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterResultList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterResultEntry"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of content filter evaluation results.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterUsage" : {
+         "members" : {
+            "textUnits" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of text units consumed by the content filter check.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The text unit usage for the content filter check.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksMessage" : {
+         "members" : {
+            "content" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentBlockList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content blocks for the message.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "role" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksRole",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The role of the message sender.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A message to evaluate against guardrail checks, containing a role and content blocks.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksMessageList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockruntime#GuardrailChecksMessage"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of messages to evaluate.</p>",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackCategory" : {
+         "members" : {
+            "JAILBREAK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "JAILBREAK"
+               }
+            },
+            "PROMPT_INJECTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PROMPT_INJECTION"
+               }
+            },
+            "PROMPT_LEAKAGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PROMPT_LEAKAGE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The category for prompt attack evaluation.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackCategoryConfig" : {
+         "members" : {
+            "category" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackCategory",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The prompt attack category to evaluate.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for a single prompt attack category to evaluate.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackCategoryConfigList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackCategoryConfig"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of prompt attack category configurations.</p>",
+            "smithy.api#length" : {
+               "max" : 3,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackConfig" : {
+         "members" : {
+            "categories" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackCategoryConfigList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The prompt attack categories to evaluate.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for the prompt attack check, specifying which categories to evaluate.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackResult" : {
+         "members" : {
+            "results" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackResultList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The per-category prompt attack results.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The prompt attack check results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackResultEntry" : {
+         "members" : {
+            "category" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackCategory",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The prompt attack category that was evaluated.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "severityScore" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The severity score for the category, ranging from 0.0 to 1.0. Higher values indicate greater severity.</p>",
+                  "smithy.api#range" : {
+                     "max" : 1,
+                     "min" : 0
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The evaluation result for a single prompt attack category.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackResultList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackResultEntry"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of prompt attack evaluation results.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackUsage" : {
+         "members" : {
+            "textUnits" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of text units consumed by the prompt attack check.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The text unit usage for the prompt attack check.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksResults" : {
+         "members" : {
+            "contentFilter" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content filter check results.</p>"
+               }
+            },
+            "promptAttack" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The prompt attack check results.</p>"
+               }
+            },
+            "sensitiveInformation" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sensitive information check results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The results from the guardrail checks evaluation, organized by check type.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksRole" : {
+         "members" : {
+            "ASSISTANT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "assistant"
+               }
+            },
+            "SYSTEM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "system"
+               }
+            },
+            "USER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "user"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The role of the message sender in the conversation.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationConfig" : {
+         "members" : {
+            "entities" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationEntityConfigList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sensitive information entity types to detect.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for the sensitive information check, specifying which entity types to detect.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationEntityConfig" : {
+         "members" : {
+            "type" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationEntityType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The PII entity type to detect.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for a single sensitive information entity type to detect.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationEntityConfigList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationEntityConfig"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of sensitive information entity configurations.</p>",
+            "smithy.api#length" : {
+               "max" : 31,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationEntityType" : {
+         "members" : {
+            "ADDRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ADDRESS"
+               }
+            },
+            "AGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AGE"
+               }
+            },
+            "AWS_ACCESS_KEY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_ACCESS_KEY"
+               }
+            },
+            "AWS_SECRET_KEY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_SECRET_KEY"
+               }
+            },
+            "CA_HEALTH_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CA_HEALTH_NUMBER"
+               }
+            },
+            "CA_SOCIAL_INSURANCE_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CA_SOCIAL_INSURANCE_NUMBER"
+               }
+            },
+            "CREDIT_DEBIT_CARD_CVV" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREDIT_DEBIT_CARD_CVV"
+               }
+            },
+            "CREDIT_DEBIT_CARD_EXPIRY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREDIT_DEBIT_CARD_EXPIRY"
+               }
+            },
+            "CREDIT_DEBIT_CARD_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREDIT_DEBIT_CARD_NUMBER"
+               }
+            },
+            "DRIVER_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DRIVER_ID"
+               }
+            },
+            "EMAIL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EMAIL"
+               }
+            },
+            "INTERNATIONAL_BANK_ACCOUNT_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+               }
+            },
+            "IP_ADDRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IP_ADDRESS"
+               }
+            },
+            "LICENSE_PLATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LICENSE_PLATE"
+               }
+            },
+            "MAC_ADDRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MAC_ADDRESS"
+               }
+            },
+            "NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NAME"
+               }
+            },
+            "PASSWORD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASSWORD"
+               }
+            },
+            "PHONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PHONE"
+               }
+            },
+            "PIN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PIN"
+               }
+            },
+            "SWIFT_CODE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SWIFT_CODE"
+               }
+            },
+            "UK_NATIONAL_HEALTH_SERVICE_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+               }
+            },
+            "UK_NATIONAL_INSURANCE_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UK_NATIONAL_INSURANCE_NUMBER"
+               }
+            },
+            "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+               }
+            },
+            "URL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "URL"
+               }
+            },
+            "USERNAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "USERNAME"
+               }
+            },
+            "US_BANK_ACCOUNT_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "US_BANK_ACCOUNT_NUMBER"
+               }
+            },
+            "US_BANK_ROUTING_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "US_BANK_ROUTING_NUMBER"
+               }
+            },
+            "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+               }
+            },
+            "US_PASSPORT_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "US_PASSPORT_NUMBER"
+               }
+            },
+            "US_SOCIAL_SECURITY_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "US_SOCIAL_SECURITY_NUMBER"
+               }
+            },
+            "VEHICLE_IDENTIFICATION_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VEHICLE_IDENTIFICATION_NUMBER"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of personally identifiable information (PII) entity to detect.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationResult" : {
+         "members" : {
+            "results" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationResultList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The detected sensitive information entities.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "truncated" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the results were truncated because the number of detected entities exceeded the maximum limit.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The sensitive information check results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationResultEntry" : {
+         "members" : {
+            "beginOffset" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start character offset of the detected entity within the content block.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "confidenceScore" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The confidence score for the detection, ranging from 0.0 to 1.0. Higher values indicate greater confidence.</p>",
+                  "smithy.api#range" : {
+                     "max" : 1,
+                     "min" : 0
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "contentIndex" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The zero-based index of the content block within the message where the entity was detected.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "endOffset" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end character offset of the detected entity within the content block.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "messageIndex" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The zero-based index of the message in the input messages array where the entity was detected.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationEntityType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The PII entity type that was detected.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The detection result for a single sensitive information entity found in the evaluated messages.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationResultList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationResultEntry"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of sensitive information detection results.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationUsage" : {
+         "members" : {
+            "textUnits" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of text units consumed by the sensitive information check.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The text unit usage for the sensitive information check.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksTextContent" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The text content of a message content block. Minimum length of 1 character.</p>",
+            "smithy.api#length" : {
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockruntime#GuardrailChecksUsageResults" : {
+         "members" : {
+            "contentFilter" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksContentFilterUsage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The text unit usage for the content filter check.</p>"
+               }
+            },
+            "promptAttack" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksPromptAttackUsage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The text unit usage for the prompt attack check.</p>"
+               }
+            },
+            "sensitiveInformation" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksSensitiveInformationUsage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The text unit usage for the sensitive information check.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The text unit usage for the guardrail checks evaluation, organized by check type.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.bedrockruntime#GuardrailConfiguration" : {
          "members" : {
             "guardrailIdentifier" : {
@@ -4783,6 +5585,9 @@
          "operations" : [
             {
                "target" : "com.amazonaws.bedrockruntime#ApplyGuardrail"
+            },
+            {
+               "target" : "com.amazonaws.bedrockruntime#InvokeGuardrailChecks"
             }
          ],
          "type" : "resource"
@@ -5402,6 +6207,84 @@
             "smithy.api#pattern" : "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:async-invoke/[a-z0-9]{12}$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.bedrockruntime#InvokeGuardrailChecks" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bedrockruntime#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockruntime#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockruntime#ServiceUnavailableException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockruntime#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockruntime#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bedrockruntime#InvokeGuardrailChecksRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bedrockruntime#InvokeGuardrailChecksResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock returns per-check results with severity or confidence scores.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/guardrail-checks/invoke"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bedrockruntime#InvokeGuardrailChecksRequest" : {
+         "members" : {
+            "checks" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The inline check configurations that specify which guardrail checks to run against the messages.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "messages" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksMessageList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The messages to evaluate against the specified guardrail checks. Each message includes a role and one or more content blocks.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockruntime#InvokeGuardrailChecksResponse" : {
+         "members" : {
+            "results" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The per-check results containing findings from the guardrail evaluation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "usage" : {
+               "target" : "com.amazonaws.bedrockruntime#GuardrailChecksUsageResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The per-check text unit consumption for the guardrail evaluation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.bedrockruntime#InvokeModel" : {
          "errors" : [

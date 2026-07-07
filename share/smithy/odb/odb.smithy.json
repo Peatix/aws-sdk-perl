@@ -8233,22 +8233,6 @@
          },
          "type" : "resource"
       },
-      "com.amazonaws.odb#ExascaleVmClusterResource" : {
-         "identifiers" : {
-            "exascaleVmClusterId" : {
-               "target" : "com.amazonaws.odb#ResourceIdOrArn"
-            }
-         },
-         "traits" : {
-            "aws.iam#conditionKeys" : [
-               "aws:ResourceTag/${TagKey}"
-            ],
-            "aws.iam#iamResource" : {
-               "name" : "exascale-vm-cluster"
-            }
-         },
-         "type" : "resource"
-      },
       "com.amazonaws.odb#ExternalIdType" : {
          "members" : {
             "COMPARTMENT_OCID" : {
@@ -11177,12 +11161,6 @@
                      "exadbVmClusterId" : "resourceArn"
                   },
                   "resource" : "com.amazonaws.odb#ExadbVmClusterResource"
-               },
-               {
-                  "ids" : {
-                     "exascaleVmClusterId" : "resourceArn"
-                  },
-                  "resource" : "com.amazonaws.odb#ExascaleVmClusterResource"
                }
             ]
          },
@@ -11873,9 +11851,6 @@
             },
             {
                "target" : "com.amazonaws.odb#ExascaleDbStorageVaultResource"
-            },
-            {
-               "target" : "com.amazonaws.odb#ExascaleVmClusterResource"
             },
             {
                "target" : "com.amazonaws.odb#OdbNetworkResource"
@@ -15126,12 +15101,6 @@
                      "exadbVmClusterId" : "resourceArn"
                   },
                   "resource" : "com.amazonaws.odb#ExadbVmClusterResource"
-               },
-               {
-                  "ids" : {
-                     "exascaleVmClusterId" : "resourceArn"
-                  },
-                  "resource" : "com.amazonaws.odb#ExascaleVmClusterResource"
                }
             ]
          },
@@ -15293,12 +15262,6 @@
                      "exadbVmClusterId" : "resourceArn"
                   },
                   "resource" : "com.amazonaws.odb#ExadbVmClusterResource"
-               },
-               {
-                  "ids" : {
-                     "exascaleVmClusterId" : "resourceArn"
-                  },
-                  "resource" : "com.amazonaws.odb#ExascaleVmClusterResource"
                }
             ]
          },
