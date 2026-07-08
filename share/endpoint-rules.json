@@ -1,4 +1,12 @@
 {
+   "acm" : [
+      {
+         "uri" : "https://acm-acme.{region}.amazonaws.com"
+      },
+      {
+         "uri" : "https://acm.{region}.amazonaws.com"
+      }
+   ],
    "api.ecr" : [
       {
          "uri" : "https://api.ecr.{region}.amazonaws.com"
@@ -902,6 +910,27 @@
             "signatureVersion" : "sigv4a"
          },
          "uri" : "https://partnercentral-channel.global.amazonaws.com"
+      }
+   ],
+   "partnercentral-prm" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "properties" : {
+            "signatureVersion" : "sigv4a"
+         },
+         "uri" : "https://partnercentral-prm.us-gov.amazonaws.com"
+      },
+      {
+         "properties" : {
+            "signatureVersion" : "sigv4a"
+         },
+         "uri" : "https://partnercentral-prm.global.amazonaws.com"
       }
    ],
    "pinpoint" : [

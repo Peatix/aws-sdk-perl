@@ -555,6 +555,12 @@
                   "smithy.api#enumValue" : "NumericEquals"
                }
             },
+            "NUMERIC_EQUALS_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NumericEqualsIfExists"
+               }
+            },
             "NUMERIC_GREATER_THAN" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -565,6 +571,18 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "NumericGreaterThanEquals"
+               }
+            },
+            "NUMERIC_GREATER_THAN_EQUALS_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NumericGreaterThanEqualsIfExists"
+               }
+            },
+            "NUMERIC_GREATER_THAN_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NumericGreaterThanIfExists"
                }
             },
             "NUMERIC_LESS_THAN" : {
@@ -579,10 +597,28 @@
                   "smithy.api#enumValue" : "NumericLessThanEquals"
                }
             },
+            "NUMERIC_LESS_THAN_EQUALS_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NumericLessThanEqualsIfExists"
+               }
+            },
+            "NUMERIC_LESS_THAN_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NumericLessThanIfExists"
+               }
+            },
             "NUMERIC_NOT_EQUALS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "NumericNotEquals"
+               }
+            },
+            "NUMERIC_NOT_EQUALS_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NumericNotEqualsIfExists"
                }
             },
             "STRING_EQUALS" : {
@@ -591,10 +627,22 @@
                   "smithy.api#enumValue" : "StringEquals"
                }
             },
+            "STRING_EQUALS_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "StringEqualsIfExists"
+               }
+            },
             "STRING_EQUALS_IGNORE_CASE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "StringEqualsIgnoreCase"
+               }
+            },
+            "STRING_EQUALS_IGNORE_CASE_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "StringEqualsIgnoreCaseIfExists"
                }
             },
             "STRING_LIKE" : {
@@ -603,10 +651,22 @@
                   "smithy.api#enumValue" : "StringLike"
                }
             },
+            "STRING_LIKE_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "StringLikeIfExists"
+               }
+            },
             "STRING_NOT_EQUALS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "StringNotEquals"
+               }
+            },
+            "STRING_NOT_EQUALS_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "StringNotEqualsIfExists"
                }
             },
             "STRING_NOT_EQUALS_IGNORE_CASE" : {
@@ -615,10 +675,22 @@
                   "smithy.api#enumValue" : "StringNotEqualsIgnoreCase"
                }
             },
+            "STRING_NOT_EQUALS_IGNORE_CASE_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "StringNotEqualsIgnoreCaseIfExists"
+               }
+            },
             "STRING_NOT_LIKE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "StringNotLike"
+               }
+            },
+            "STRING_NOT_LIKE_IF_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "StringNotLikeIfExists"
                }
             }
          },
@@ -1967,7 +2039,7 @@
             "comparison" : {
                "target" : "com.amazonaws.computeoptimizerautomation#ComparisonOperator",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The comparison operator to use, such as equals, greater than, less than, etc.</p>"
+                  "smithy.api#documentation" : "<p>The comparison operator used to evaluate the attribute against the specified values.</p>"
                }
             },
             "values" : {
@@ -2653,7 +2725,7 @@
             "comparison" : {
                "target" : "com.amazonaws.computeoptimizerautomation#ComparisonOperator",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The comparison operator to use, such as equals, greater than, less than, etc.</p>"
+                  "smithy.api#documentation" : "<p>The comparison operator used to evaluate the attribute against the specified values.</p>"
                }
             },
             "values" : {
@@ -4171,7 +4243,7 @@
             "comparison" : {
                "target" : "com.amazonaws.computeoptimizerautomation#ComparisonOperator",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The comparison operator used to evaluate the tag criteria, such as equals, not equals, or contains.</p>"
+                  "smithy.api#documentation" : "<p>The comparison operator used to evaluate the attribute against the specified values.</p>"
                }
             },
             "key" : {
@@ -4654,7 +4726,7 @@
             "comparison" : {
                "target" : "com.amazonaws.computeoptimizerautomation#ComparisonOperator",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The comparison operator used to evaluate the string criteria, such as equals, not equals, or contains.</p>"
+                  "smithy.api#documentation" : "<p>The comparison operator used to evaluate the attribute against the specified values.</p>"
                }
             },
             "values" : {
