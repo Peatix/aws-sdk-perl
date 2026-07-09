@@ -675,6 +675,7 @@
                "requiredActions" : [
                   "iam:PassRole",
                   "logs:PutPipelineRule",
+                  "cloudwatch:PutPipelineRule",
                   "observabilityadmin:TagResource",
                   "observabilityadmin:ListTagsForResource",
                   "observabilityadmin:GetTelemetryPipeline"
@@ -1052,6 +1053,7 @@
             "aws.iam#iamAction" : {
                "requiredActions" : [
                   "logs:DeletePipelineRule",
+                  "cloudwatch:DeletePipelineRule",
                   "observabilityadmin:GetTelemetryPipeline"
                ]
             },
@@ -3074,6 +3076,12 @@
                   "smithy.api#enumValue" : "CONNECTION_LOGS"
                }
             },
+            "S3_SERVER_ACCESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "S3_SERVER_ACCESS_LOGS"
+               }
+            },
             "SECURITY_FINDING" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -4525,6 +4533,12 @@
                   "smithy.api#enumValue" : "AWS::Route53Resolver::ResolverEndpoint"
                }
             },
+            "AWS_S3_BUCKET" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS::S3::Bucket"
+               }
+            },
             "AWS_SECURITY_HUB" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -4670,6 +4684,25 @@
             "smithy.api#httpError" : 402
          },
          "type" : "structure"
+      },
+      "com.amazonaws.observabilityadmin#SignalType" : {
+         "members" : {
+            "LOG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Log signal type. The pipeline processes log records.</p>",
+                  "smithy.api#enumValue" : "LOG"
+               }
+            },
+            "METRIC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Metric signal type. The pipeline processes metric records.</p>",
+                  "smithy.api#enumValue" : "METRIC"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.observabilityadmin#SingleHeader" : {
          "members" : {
@@ -5864,6 +5897,13 @@
                   "smithy.api#documentation" : "<p>The sample records to process through the pipeline configuration for testing purposes.</p>",
                   "smithy.api#required" : {}
                }
+            },
+            "SignalType" : {
+               "target" : "com.amazonaws.observabilityadmin#SignalType",
+               "traits" : {
+                  "smithy.api#default" : "LOG",
+                  "smithy.api#documentation" : "<p>The type of telemetry signal to test. If not specified, defaults to log processing.</p>"
+               }
             }
          },
          "traits" : {
@@ -6055,6 +6095,7 @@
                   "iam:PassRole",
                   "logs:DeletePipelineRule",
                   "logs:PutPipelineRule",
+                  "cloudwatch:PutPipelineRule",
                   "observabilityadmin:GetTelemetryPipeline",
                   "observabilityadmin:ListTagsForResource",
                   "observabilityadmin:TagResource",

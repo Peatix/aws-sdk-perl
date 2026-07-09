@@ -143,7 +143,7 @@
             "ContactPhoneNumber" : {
                "target" : "com.amazonaws.outposts#ContactPhoneNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The phone number of the contact.</p>",
+                  "smithy.api#documentation" : "<p>The phone number of the contact, including the country code (for example,\n      <code>+12065550100</code>).</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -1255,7 +1255,7 @@
                "max" : 20,
                "min" : 1
             },
-            "smithy.api#pattern" : "^[\\S ]+$"
+            "smithy.api#pattern" : "^\\+[1-9][0-9]{1,18}$"
          },
          "type" : "string"
       },
@@ -1338,6 +1338,18 @@
                "target" : "com.amazonaws.outposts#PaymentTerm",
                "traits" : {
                   "smithy.api#documentation" : "<p>The payment terms.</p>"
+               }
+            },
+            "QuoteIdentifier" : {
+               "target" : "com.amazonaws.outposts#QuoteIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the quote to use for the order.</p>"
+               }
+            },
+            "QuoteOptionIdentifier" : {
+               "target" : "com.amazonaws.outposts#QuoteOptionIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the quote option to use for the order.</p>"
                }
             }
          },
@@ -1877,7 +1889,7 @@
             "QuoteIdentifier" : {
                "target" : "com.amazonaws.outposts#QuoteIdentifier",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The ID or ARN of the quote.</p>",
+                  "smithy.api#documentation" : "<p>The ID of the quote.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
                }
@@ -2838,7 +2850,7 @@
             "QuoteIdentifier" : {
                "target" : "com.amazonaws.outposts#QuoteIdentifier",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The ID or ARN of the quote.</p>",
+                  "smithy.api#documentation" : "<p>The ID of the quote.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
                }
@@ -4661,6 +4673,18 @@
                "target" : "com.amazonaws.outposts#PaymentTerm",
                "traits" : {
                   "smithy.api#documentation" : "<p>The payment term.</p>"
+               }
+            },
+            "QuoteIdentifier" : {
+               "target" : "com.amazonaws.outposts#QuoteIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the quote associated with the order.</p>"
+               }
+            },
+            "QuoteOptionIdentifier" : {
+               "target" : "com.amazonaws.outposts#QuoteOptionIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the quote option associated with the order.</p>"
                }
             },
             "Status" : {
@@ -8643,7 +8667,7 @@
             "QuoteIdentifier" : {
                "target" : "com.amazonaws.outposts#QuoteIdentifier",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The ID or ARN of the quote.</p>",
+                  "smithy.api#documentation" : "<p>The ID of the quote.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
                }
