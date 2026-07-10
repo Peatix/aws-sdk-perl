@@ -66,7 +66,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>User does not have sufficient access to perform this action.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 403
          },
@@ -102,6 +102,12 @@
                "target" : "com.amazonaws.ivs#AdConfigurationName",
                "traits" : {
                   "smithy.api#documentation" : "<p>Ad configuration name. Defaults to “”.</p>"
+               }
+            },
+            "postRollConfiguration" : {
+               "target" : "com.amazonaws.ivs#PostRollConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for the post-roll ad break to use for this ad configuration.</p>"
                }
             },
             "tags" : {
@@ -162,6 +168,12 @@
                "target" : "com.amazonaws.ivs#AdConfigurationName",
                "traits" : {
                   "smithy.api#documentation" : "<p>Ad configuration name. Defaults to “”.</p>"
+               }
+            },
+            "postRollConfiguration" : {
+               "target" : "com.amazonaws.ivs#PostRollConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for the post-roll ad break to use for this ad configuration.</p>"
                }
             },
             "tags" : {
@@ -1913,7 +1925,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>The stream is offline for the given channel ARN.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 404
          },
@@ -2116,7 +2128,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>Updating or deleting a resource can cause an inconsistent state.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 409
          },
@@ -2192,6 +2204,12 @@
                "target" : "com.amazonaws.ivs#AdConfigurationName",
                "traits" : {
                   "smithy.api#documentation" : "<p>Ad configuration name. Defaults to “”.</p>"
+               }
+            },
+            "postRollConfiguration" : {
+               "target" : "com.amazonaws.ivs#PostRollConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for the post-roll ad break to use for this ad configuration. Default: disabled (<code>enabled</code> set to false, <code>durationSeconds</code> set to 15).</p>"
                }
             },
             "tags" : {
@@ -3584,7 +3602,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>Unexpected error during processing of request.</p>",
             "smithy.api#error" : "server",
             "smithy.api#httpError" : 500
          },
@@ -4495,7 +4513,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>Your account is pending verification.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 403
          },
@@ -4746,6 +4764,29 @@
       },
       "com.amazonaws.ivs#PlaybackURL" : {
          "type" : "string"
+      },
+      "com.amazonaws.ivs#PostRollConfiguration" : {
+         "members" : {
+            "durationSeconds" : {
+               "target" : "com.amazonaws.ivs#AdDurationSeconds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Duration of the post-roll ad break, in seconds.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "enabled" : {
+               "target" : "com.amazonaws.ivs#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Whether the post-roll ad configuration is enabled.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for the post-roll ad break to use for this ad configuration.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.ivs#PutMetadata" : {
          "errors" : [
@@ -5121,7 +5162,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>Request references a resource which does not exist.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 404
          },
@@ -5218,7 +5259,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>Request would cause a service quota to be exceeded.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 402
          },
@@ -5290,7 +5331,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>The service is temporarily unavailable.</p>",
             "smithy.api#error" : "server",
             "smithy.api#httpError" : 503
          },
@@ -5918,7 +5959,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>The stream is temporarily unavailable.</p>",
             "smithy.api#error" : "server",
             "smithy.api#httpError" : 503
          },
@@ -6106,7 +6147,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>Request was denied due to request throttling.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 429
          },
@@ -6331,6 +6372,12 @@
                "target" : "com.amazonaws.ivs#AdConfigurationName",
                "traits" : {
                   "smithy.api#documentation" : "<p>Ad configuration name. The value does not need to be unique.</p>"
+               }
+            },
+            "postRollConfiguration" : {
+               "target" : "com.amazonaws.ivs#PostRollConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for the post-roll ad break to use for this ad configuration.</p>"
                }
             }
          },
@@ -6630,7 +6677,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p/>",
+            "smithy.api#documentation" : "<p>The input fails to satisfy the constraints specified by an Amazon Web Services service.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 400
          },

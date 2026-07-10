@@ -35,6 +35,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A parameter to configure deletion protection. Deletion protection prevents a user from\n         deleting a configuration profile or an environment if AppConfig has called either\n            <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html\">GetLatestConfiguration</a> or  for the\n         configuration profile or from the environment during the specified interval. The default\n         interval for <code>ProtectionPeriodInMinutes</code> is 60.</p>"
                }
+            },
+            "VendedMetrics" : {
+               "target" : "com.amazonaws.appconfig#VendedMetricsSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for vended metrics in the account.</p>"
+               }
             }
          },
          "type" : "structure"
@@ -222,6 +228,9 @@
                "target" : "com.amazonaws.appconfig#CreateEnvironment"
             },
             {
+               "target" : "com.amazonaws.appconfig#CreateExperimentDefinition"
+            },
+            {
                "target" : "com.amazonaws.appconfig#CreateExtension"
             },
             {
@@ -241,6 +250,9 @@
             },
             {
                "target" : "com.amazonaws.appconfig#DeleteEnvironment"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#DeleteExperimentDefinition"
             },
             {
                "target" : "com.amazonaws.appconfig#DeleteExtension"
@@ -273,6 +285,12 @@
                "target" : "com.amazonaws.appconfig#GetEnvironment"
             },
             {
+               "target" : "com.amazonaws.appconfig#GetExperimentDefinition"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#GetExperimentRun"
+            },
+            {
                "target" : "com.amazonaws.appconfig#GetExtension"
             },
             {
@@ -297,6 +315,15 @@
                "target" : "com.amazonaws.appconfig#ListEnvironments"
             },
             {
+               "target" : "com.amazonaws.appconfig#ListExperimentDefinitions"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ListExperimentRunEvents"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ListExperimentRuns"
+            },
+            {
                "target" : "com.amazonaws.appconfig#ListExtensionAssociations"
             },
             {
@@ -312,7 +339,13 @@
                "target" : "com.amazonaws.appconfig#StartDeployment"
             },
             {
+               "target" : "com.amazonaws.appconfig#StartExperimentRun"
+            },
+            {
                "target" : "com.amazonaws.appconfig#StopDeployment"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#StopExperimentRun"
             },
             {
                "target" : "com.amazonaws.appconfig#TagResource"
@@ -336,6 +369,12 @@
                "target" : "com.amazonaws.appconfig#UpdateEnvironment"
             },
             {
+               "target" : "com.amazonaws.appconfig#UpdateExperimentDefinition"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#UpdateExperimentRun"
+            },
+            {
                "target" : "com.amazonaws.appconfig#UpdateExtension"
             },
             {
@@ -357,7 +396,7 @@
                "name" : "appconfig"
             },
             "aws.protocols#restJson1" : {},
-            "smithy.api#documentation" : "<p>AppConfig feature flags and dynamic configurations help software builders\n         quickly and securely adjust application behavior in production environments without full\n         code deployments. AppConfig speeds up software release frequency, improves\n         application resiliency, and helps you address emergent issues more quickly. With feature\n         flags, you can gradually release new capabilities to users and measure the impact of those\n         changes before fully deploying the new capabilities to all users. With operational flags\n         and dynamic configurations, you can update block lists, allow lists, throttling limits,\n         logging verbosity, and perform other operational tuning to quickly respond to issues in\n         production environments.</p>\n         <note>\n            <p>AppConfig is a tool in Amazon Web Services Systems Manager.</p>\n         </note>\n         <p>Despite the fact that application configuration content can vary greatly from\n         application to application, AppConfig supports the following use cases, which\n         cover a broad spectrum of customer needs:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>Feature flags and toggles</b> - Safely release new\n               capabilities to your customers in a controlled environment. Instantly roll back\n               changes if you experience a problem.</p>\n            </li>\n            <li>\n               <p>\n                  <b>Application tuning</b> - Carefully introduce\n               application changes while testing the impact of those changes with users in\n               production environments.</p>\n            </li>\n            <li>\n               <p>\n                  <b>Allow list or block list</b> - Control access to\n               premium features or instantly block specific users without deploying new code.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <b>Centralized configuration storage</b> - Keep your\n               configuration data organized and consistent across all of your workloads. You can use\n                  AppConfig to deploy configuration data stored in the AppConfig\n               hosted configuration store, Secrets Manager, Systems Manager, Parameter\n               Store, or Amazon S3.</p>\n            </li>\n         </ul>\n         <p>\n            <b>How AppConfig works</b>\n         </p>\n         <p>This section provides a high-level description of how AppConfig works and how\n         you get started.</p>\n         <dl>\n            <dt>1. Identify configuration values in code you want to manage in the cloud</dt>\n            <dd>\n               <p>Before you start creating AppConfig artifacts, we recommend you\n                  identify configuration data in your code that you want to dynamically manage using\n                     AppConfig. Good examples include feature flags or toggles, allow and\n                  block lists, logging verbosity, service limits, and throttling rules, to name a\n                  few.</p>\n               <p>If your configuration data already exists in the cloud, you can take advantage\n                  of AppConfig validation, deployment, and extension features to further\n                  streamline configuration data management.</p>\n            </dd>\n            <dt>2. Create an application namespace</dt>\n            <dd>\n               <p>To create a namespace, you create an AppConfig artifact called an\n                  application. An application is simply an organizational construct like a\n                  folder.</p>\n            </dd>\n            <dt>3. Create environments</dt>\n            <dd>\n               <p>For each AppConfig application, you define one or more environments.\n                  An environment is a logical grouping of targets, such as applications in a\n                     <code>Beta</code> or <code>Production</code> environment, Lambda functions,\n                  or containers. You can also define environments for application subcomponents,\n                  such as the <code>Web</code>, <code>Mobile</code>, and\n                  <code>Back-end</code>.</p>\n               <p>You can configure Amazon CloudWatch alarms for each environment. The system monitors\n                  alarms during a configuration deployment. If an alarm is triggered, the system\n                  rolls back the configuration.</p>\n            </dd>\n            <dt>4. Create a configuration profile</dt>\n            <dd>\n               <p>A configuration profile includes, among other things, a URI that enables\n                     AppConfig to locate your configuration data in its stored location\n                  and a profile type. AppConfig supports two configuration profile types:\n                  feature flags and freeform configurations. Feature flag configuration profiles\n                  store their data in the AppConfig hosted configuration store and the URI\n                  is simply <code>hosted</code>. For freeform configuration profiles, you can store\n                  your data in the AppConfig hosted configuration store or any Amazon Web Services\n                  service that integrates with AppConfig, as described in <a href=\"http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-free-form-configurations-creating.html\">Creating\n                     a free form configuration profile</a> in the the <i>AppConfig User Guide</i>.</p>\n               <p>A configuration profile can also include optional validators to ensure your\n                  configuration data is syntactically and semantically correct. AppConfig\n                  performs a check using the validators when you start a deployment. If any errors\n                  are detected, the deployment rolls back to the previous configuration data.</p>\n            </dd>\n            <dt>5. Deploy configuration data</dt>\n            <dd>\n               <p>When you create a new deployment, you specify the following:</p>\n               <ul>\n                  <li>\n                     <p>An application ID</p>\n                  </li>\n                  <li>\n                     <p>A configuration profile ID</p>\n                  </li>\n                  <li>\n                     <p>A configuration version</p>\n                  </li>\n                  <li>\n                     <p>An environment ID where you want to deploy the configuration data</p>\n                  </li>\n                  <li>\n                     <p>A deployment strategy ID that defines how fast you want the changes to\n                        take effect</p>\n                  </li>\n               </ul>\n               <p>When you call the <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_StartDeployment.html\">StartDeployment</a> API action, AppConfig performs the following\n                  tasks:</p>\n               <ol>\n                  <li>\n                     <p>Retrieves the configuration data from the underlying data store by using\n                        the location URI in the configuration profile.</p>\n                  </li>\n                  <li>\n                     <p>Verifies the configuration data is syntactically and semantically correct\n                        by using the validators you specified when you created your configuration\n                        profile.</p>\n                  </li>\n                  <li>\n                     <p>Caches a copy of the data so it is ready to be retrieved by your\n                        application. This cached copy is called the <i>deployed\n                           data</i>.</p>\n                  </li>\n               </ol>\n            </dd>\n            <dt>6. Retrieve the configuration</dt>\n            <dd>\n               <p>You can configure AppConfig Agent as a local host and have the agent\n                  poll AppConfig for configuration updates. The agent calls the <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html\">StartConfigurationSession</a> and <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html\">GetLatestConfiguration</a> API actions and caches your configuration data\n                  locally. To retrieve the data, your application makes an HTTP call to the\n                  localhost server. AppConfig Agent supports several use cases, as\n                  described in <a href=\"http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-simplified-methods.html\">Simplified\n                     retrieval methods</a> in the the <i>AppConfig User\n                     Guide</i>.</p>\n               <p>If AppConfig Agent isn't supported for your use case, you can\n                  configure your application to poll AppConfig for configuration updates\n                  by directly calling the <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html\">StartConfigurationSession</a> and <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html\">GetLatestConfiguration</a> API actions. </p>\n            </dd>\n         </dl>\n         <p>This reference is intended to be used with the <a href=\"http://docs.aws.amazon.com/appconfig/latest/userguide/what-is-appconfig.html\">AppConfig User\n         Guide</a>.</p>",
+            "smithy.api#documentation" : "<p>AppConfig helps you safely change application behavior in production without redeploying code. Using feature flags and dynamic free-form configurations, you can control how your application runs in real time. This approach reduces risk, accelerates releases, and enables faster responses to issues. You can gradually roll out new features to specific users, monitor their impact, and expand availability with confidence. You can also update block lists, allow lists, throttling limits, and logging levels instantly, allowing you to mitigate issues and fine-tune performance without a deployment.</p>\n         <p>AppConfig supports a broad spectrum of use cases:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>Feature flags and toggles</b> – Gradually release new capabilities to targeted users, monitor impact, and instantly roll back changes if issues occur.</p>\n            </li>\n            <li>\n               <p>\n                  <b>Application tuning</b> – Introduce changes safely in production, measure their effects, and refine behavior without redeploying code.</p>\n            </li>\n            <li>\n               <p>\n                  <b>Allow list or block list</b> – Control access to features or restrict specific users in real time, without modifying application code. </p>\n            </li>\n            <li>\n               <p>\n                  <b>Centralized configuration storage</b> – Manage configuration data consistently across workloads. AppConfig can deploy configuration from the AppConfig hosted configuration store, Secrets Manager, Systems Manager, Systems Manager Parameter Store, or Amazon S3.</p>\n            </li>\n         </ul>\n         <p>\n            <b>How AppConfig works</b>\n         </p>\n         <p>This section provides a high-level description of how AppConfig works and how\n         you get started.</p>\n         <dl>\n            <dt>1. Identify configuration data to manage in AppConfig</dt>\n            <dd>\n               <p>Before creating a configuration profile, identify the configuration data in your code that you want to manage dynamically using AppConfig. Common examples include feature flags, allow and block lists, logging levels, service limits, and throttling rules. These values tend to change frequently and can cause issues if misconfigured.</p>\n               <p>If your configuration data already exists in cloud services such as Systems Manager Parameter Store or Amazon S3, you can use AppConfig to validate, deploy, and manage that data more effectively.</p>\n            </dd>\n            <dt>2. Create a configuration profile in AppConfig</dt>\n            <dd>\n               <p>A configuration profile defines how AppConfig locates and manages your configuration data. It includes a URI that points to the data source and a profile type.</p>\n               <p>AppConfig supports two profile types</p>\n               <ul>\n                  <li>\n                     <p>\n                        <b>Feature flags</b> – Enable controlled feature releases, gradual rollouts, and testing in production.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <b>Free-form configurations</b> – Store and retrieve configuration data from external sources and update it without redeploying code.</p>\n                  </li>\n               </ul>\n               <p>Both profile types help decouple configuration from code, support continuous delivery, and reduce deployment risk.</p>\n               <p>You can also add optional validators to ensure that configuration data is syntactically and semantically correct. During deployment, AppConfig evaluates these validators and automatically rolls back changes if validation fails.</p>\n               <p>Each configuration profile is associated with an application, which acts as a logical container for your configuration resources. For more information about creating a configuration profile, see <a href=\"http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-profile.html\">Creating a configuration profile in AppConfig</a> in the the <i>AppConfig User Guide</i>.</p>\n            </dd>\n            <dt>3. Deploy configuration data</dt>\n            <dd>\n               <p>When you start a deployment, AppConfig:</p>\n               <ol>\n                  <li>\n                     <p>Retrieves configuration data from the source defined in the configuration profile</p>\n                  </li>\n                  <li>\n                     <p>Validates the data using the configured validators</p>\n                  </li>\n                  <li>\n                     <p>Delivers the validated configuration to AppConfig Agent</p>\n                  </li>\n               </ol>\n               <p>The delivered configuration becomes the deployed version used by your application. For more information about deploying a configuration, see <a href=\"http://docs.aws.amazon.com/appconfig/latest/userguide/deploying-feature-flags.html\">Deploying feature flags and configuration data in AppConfig</a>.</p>\n            </dd>\n            <dt>4. Retrieve configuration data</dt>\n            <dd>\n               <p>Your application retrieves configuration data by calling a local endpoint exposed by AppConfig Agent, which caches the deployed configuration. Retrieving data is a metered event. AppConfig Agent supports a variety of use cases, as described in <a href=\"http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-agent-how-to-use.html\">How to use AppConfig Agent to retrieve configuration data</a>.</p>\n               <p>If the agent is not suitable for your use case, your application can retrieve configuration data directly from AppConfig by calling the <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html\">StartConfigurationSession</a> and <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html\">GetLatestConfiguration</a> API actions. </p>\n               <p>For more information about retrieving a configuration, see <a href=\"http://docs.aws.amazon.com/appconfig/latest/userguide/retrieving-feature-flags.html\">Retrieving feature flags and configuration data in AppConfig</a>.</p>\n            </dd>\n         </dl>\n         <p>This reference is intended to be used with the <a href=\"http://docs.aws.amazon.com/appconfig/latest/userguide/what-is-appconfig.html\">AppConfig User\n         Guide</a>.</p>",
             "smithy.api#title" : "Amazon AppConfig",
             "smithy.rules#endpointBdd" : {
                "conditions" : [
@@ -1629,6 +1668,74 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.appconfig#AttributeKey" : {
+         "traits" : {
+            "smithy.api#pattern" : "^(?!enabled$)[a-z][a-zA-Z0-9_-]{0,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appconfig#AttributeString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appconfig#AttributeValue" : {
+         "members" : {
+            "BooleanValue" : {
+               "target" : "com.amazonaws.appconfig#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A Boolean value for the attribute.</p>"
+               }
+            },
+            "NumberArray" : {
+               "target" : "com.amazonaws.appconfig#NumberList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of numeric values for the attribute.</p>"
+               }
+            },
+            "NumberValue" : {
+               "target" : "com.amazonaws.appconfig#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A numeric value for the attribute.</p>"
+               }
+            },
+            "StringArray" : {
+               "target" : "com.amazonaws.appconfig#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of string values for the attribute.</p>"
+               }
+            },
+            "StringValue" : {
+               "target" : "com.amazonaws.appconfig#AttributeString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A string value for the attribute.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A value for a feature flag attribute. Only one of the members can be set.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.appconfig#AttributeValueMap" : {
+         "key" : {
+            "target" : "com.amazonaws.appconfig#AttributeKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.appconfig#AttributeValue"
+         }
+      },
       "com.amazonaws.appconfig#BadRequestDetails" : {
          "members" : {
             "InvalidConfiguration" : {
@@ -1839,7 +1946,7 @@
       },
       "com.amazonaws.appconfig#ConfigurationProfileType" : {
          "traits" : {
-            "smithy.api#pattern" : "^[a-zA-Z\\.]+$"
+            "smithy.api#pattern" : "^[a-zA-Z0-9\\.\\-]+$"
          },
          "type" : "string"
       },
@@ -1962,7 +2069,7 @@
       "com.amazonaws.appconfig#CreateConfigurationProfileRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2059,7 +2166,7 @@
                "target" : "com.amazonaws.appconfig#MinutesBetween0And24Hours",
                "traits" : {
                   "smithy.api#default" : null,
-                  "smithy.api#documentation" : "<p>Total amount of time for a deployment to last.</p>",
+                  "smithy.api#documentation" : "<p>Total amount of time for a deployment to last.</p>\n         <note>\n            <p>AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see <a href=\"https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-agent-how-to-use.html#appconfig-entity-based-gradual-deployments\">Using AppConfig Agent for user-based or entity-based gradual deployments</a>\n            </p>\n         </note>",
                   "smithy.api#required" : {}
                }
             },
@@ -2148,7 +2255,7 @@
       "com.amazonaws.appconfig#CreateEnvironmentRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2178,6 +2285,129 @@
                "target" : "com.amazonaws.appconfig#TagMap",
                "traits" : {
                   "smithy.api#documentation" : "<p>Metadata to assign to the environment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which\n         you define.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#CreateExperimentDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ServiceQuotaExceededException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#CreateExperimentDefinitionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appconfig#ExperimentDefinition"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an experiment, including the target audience, feature flag, and treatment configurations.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/applications/{ApplicationIdentifier}/experimentdefinitions"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#CreateExperimentDefinitionRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "AudienceDescription" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the intended audience for the experiment.</p>"
+               }
+            },
+            "AudienceRule" : {
+               "target" : "com.amazonaws.appconfig#Rule",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A rule that defines which users are eligible to be assigned to treatments during the experiment.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ConfigurationProfileIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration profile ID or name that stores the feature flag.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Control" : {
+               "target" : "com.amazonaws.appconfig#TreatmentInput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The control treatment that represents the baseline experience for comparison.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "EnvironmentIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment ID or name where the experiment will run.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "FlagKey" : {
+               "target" : "com.amazonaws.appconfig#FlagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key of the existing feature flag to use with the experiment.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Hypothesis" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the goal or hypothesis the experiment is designed to validate.</p>"
+               }
+            },
+            "LaunchCriteria" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the conditions under which you would launch the winning treatment.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.appconfig#NameWithReservedAwsPrefix",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A name for the experiment definition.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.appconfig#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to assign to the experiment definition. Tags help organize and categorize your AppConfig resources.</p>"
+               }
+            },
+            "Treatments" : {
+               "target" : "com.amazonaws.appconfig#TreatmentInputList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of treatments to evaluate during the experiment. Each treatment defines a distinct variation compared to the control.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -2365,7 +2595,7 @@
             "target" : "com.amazonaws.appconfig#HostedConfigurationVersion"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a new configuration in the AppConfig hosted configuration store. If\n         you're creating a feature flag, we recommend you familiarize yourself with the JSON schema\n         for feature flag data. For more information, see <a href=\"https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile-feature-flags.html#appconfig-type-reference-feature-flags\">Type reference for AWS.AppConfig.FeatureFlags</a> in the\n            <i>AppConfig User Guide</i>.</p>",
+            "smithy.api#documentation" : "<p>Creates a new configuration in the AppConfig hosted configuration store. If\n         you're creating a feature flag, we recommend you familiarize yourself with the JSON schema\n         for feature flag data. For more information, see <a href=\"https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-type-reference-feature-flags.html\">Type reference for AWS.AppConfig.FeatureFlags</a> in the\n            <i>AppConfig User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 201,
                "method" : "POST",
@@ -2377,7 +2607,7 @@
       "com.amazonaws.appconfig#CreateHostedConfigurationVersionRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2385,7 +2615,7 @@
                }
             },
             "ConfigurationProfileId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#LongName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration profile ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2411,7 +2641,7 @@
             "Description" : {
                "target" : "com.amazonaws.appconfig#Description",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A description of the configuration.</p>",
+                  "smithy.api#documentation" : "<p>A description of the configuration.</p>\n         <note>\n            <p>Due to HTTP limitations, this field only supports ASCII characters.</p>\n         </note>",
                   "smithy.api#httpHeader" : "Description"
                }
             },
@@ -2467,7 +2697,7 @@
       "com.amazonaws.appconfig#DeleteApplicationRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the application to delete.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2514,7 +2744,7 @@
       "com.amazonaws.appconfig#DeleteConfigurationProfileRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID that includes the configuration profile you want to delete.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2522,7 +2752,7 @@
                }
             },
             "ConfigurationProfileId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#LongName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the configuration profile you want to delete.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2620,7 +2850,7 @@
       "com.amazonaws.appconfig#DeleteEnvironmentRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID that includes the environment that you want to delete.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2635,9 +2865,72 @@
                }
             },
             "EnvironmentId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the environment that you want to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#DeleteExperimentDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#DeleteExperimentDefinitionRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes an experiment definition. You can archive the definition to hide it from the active list while preserving it for future reference, or permanently delete it along with all associated run history.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#DeleteExperimentDefinitionRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "DeleteType" : {
+               "target" : "com.amazonaws.appconfig#DeleteType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of deletion to perform. Valid values include archive (hide but preserve) and permanent (delete permanently).</p>",
+                  "smithy.api#httpQuery" : "delete_type"
+               }
+            },
+            "ExperimentDefinitionIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID or name.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
                }
@@ -2775,7 +3068,7 @@
       "com.amazonaws.appconfig#DeleteHostedConfigurationVersionRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2783,7 +3076,7 @@
                }
             },
             "ConfigurationProfileId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#LongName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration profile ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2804,6 +3097,23 @@
             "smithy.api#input" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.appconfig#DeleteType" : {
+         "members" : {
+            "ARCHIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ARCHIVE"
+               }
+            },
+            "DESTROY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DESTROY"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.appconfig#DeletionProtectionCheck" : {
          "members" : {
@@ -3095,6 +3405,26 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.appconfig#DeploymentParameters" : {
+         "members" : {
+            "DynamicExtensionParameters" : {
+               "target" : "com.amazonaws.appconfig#DynamicParameterMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of extension parameters for the deployment.</p>"
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.appconfig#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to assign to the deployment.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The deployment parameters for an experiment run, including dynamic extension parameters and tags.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.appconfig#DeploymentState" : {
          "members" : {
             "BAKING" : {
@@ -3240,6 +3570,12 @@
                   "smithy.api#documentation" : "<p>The name of the configuration.</p>"
                }
             },
+            "ConfigurationProfileId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the configuration profile that was deployed.</p>"
+               }
+            },
             "ConfigurationVersion" : {
                "target" : "com.amazonaws.appconfig#Version",
                "traits" : {
@@ -3297,6 +3633,12 @@
                   "smithy.api#documentation" : "<p>The state of the deployment.</p>"
                }
             },
+            "Type" : {
+               "target" : "com.amazonaws.appconfig#DeploymentType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of deployment.</p>"
+               }
+            },
             "VersionLabel" : {
                "target" : "com.amazonaws.appconfig#VersionLabel",
                "traits" : {
@@ -3308,6 +3650,23 @@
             "smithy.api#documentation" : "<p>Information about the deployment.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.appconfig#DeploymentType" : {
+         "members" : {
+            "MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANAGED"
+               }
+            },
+            "USER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "USER"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.appconfig#Deployments" : {
          "members" : {
@@ -3335,6 +3694,12 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.appconfig#Double" : {
+         "traits" : {
+            "smithy.api#default" : 0
+         },
+         "type" : "double"
+      },
       "com.amazonaws.appconfig#DynamicParameterKey" : {
          "traits" : {
             "smithy.api#pattern" : "^([^#\\n]{1,96})#([^\\/#\\n]{1,64})$"
@@ -3356,6 +3721,15 @@
          "value" : {
             "target" : "com.amazonaws.appconfig#StringWithLengthBetween1And2048"
          }
+      },
+      "com.amazonaws.appconfig#EntityId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.appconfig#Environment" : {
          "members" : {
@@ -3453,6 +3827,613 @@
                   "smithy.api#documentation" : "<p>The token for the next set of items to return. Use this token to get the next set of\n         results.</p>"
                }
             }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ExperimentDefinition" : {
+         "members" : {
+            "ApplicationId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID.</p>"
+               }
+            },
+            "AudienceDescription" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the intended audience for the experiment.</p>"
+               }
+            },
+            "AudienceRule" : {
+               "target" : "com.amazonaws.appconfig#Rule",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The rule that defines which users are eligible to be assigned to treatments.</p>"
+               }
+            },
+            "ConfigurationProfileId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration profile ID associated with the experiment.</p>"
+               }
+            },
+            "Control" : {
+               "target" : "com.amazonaws.appconfig#Treatment",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The control treatment used as the baseline for comparison.</p>"
+               }
+            },
+            "CreatedAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the experiment definition was created, in ISO 8601 format.</p>"
+               }
+            },
+            "EnvironmentId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment ID where the experiment runs.</p>"
+               }
+            },
+            "FlagKey" : {
+               "target" : "com.amazonaws.appconfig#FlagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key of the feature flag used by the experiment.</p>"
+               }
+            },
+            "Hypothesis" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The hypothesis that the experiment is designed to validate.</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID.</p>"
+               }
+            },
+            "KmsKeyIdentifier" : {
+               "target" : "com.amazonaws.appconfig#KmsKeyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the KMS key used to encrypt experiment data.</p>"
+               }
+            },
+            "LaunchCriteria" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The conditions under which the winning treatment should be launched.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.appconfig#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the experiment definition.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.appconfig#ExperimentDefinitionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the experiment definition. Valid values: <code>ACTIVE</code>, <code>IDLE</code>, <code>ARCHIVED</code>.</p>"
+               }
+            },
+            "Treatments" : {
+               "target" : "com.amazonaws.appconfig#TreatmentList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of treatments defined for the experiment.</p>"
+               }
+            },
+            "UpdatedAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the experiment definition was last updated, in ISO 8601 format.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes an experiment definition, including the target audience, feature flag, treatments, and current status.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ExperimentDefinitionList" : {
+         "member" : {
+            "target" : "com.amazonaws.appconfig#ExperimentDefinitionSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appconfig#ExperimentDefinitionSnapshot" : {
+         "members" : {
+            "ApplicationId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID at the time the run was started.</p>"
+               }
+            },
+            "AudienceDescription" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The audience description at the time the run was started.</p>"
+               }
+            },
+            "AudienceRule" : {
+               "target" : "com.amazonaws.appconfig#Rule",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The audience rule at the time the run was started.</p>"
+               }
+            },
+            "ConfigurationProfileId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration profile ID at the time the run was started.</p>"
+               }
+            },
+            "Control" : {
+               "target" : "com.amazonaws.appconfig#Treatment",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The control treatment at the time the run was started.</p>"
+               }
+            },
+            "EnvironmentId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment ID at the time the run was started.</p>"
+               }
+            },
+            "FlagKey" : {
+               "target" : "com.amazonaws.appconfig#FlagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The feature flag key at the time the run was started.</p>"
+               }
+            },
+            "Hypothesis" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The hypothesis at the time the run was started.</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID.</p>"
+               }
+            },
+            "LaunchCriteria" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The launch criteria at the time the run was started.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.appconfig#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the experiment definition at the time the run was started.</p>"
+               }
+            },
+            "Treatments" : {
+               "target" : "com.amazonaws.appconfig#TreatmentList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The treatments at the time the run was started.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A snapshot of the experiment definition captured at the time an experiment run was started. This preserves the configuration that was active during the run.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ExperimentDefinitionStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "ARCHIVED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ARCHIVED"
+               }
+            },
+            "IDLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IDLE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appconfig#ExperimentDefinitionSummary" : {
+         "members" : {
+            "ApplicationId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID.</p>"
+               }
+            },
+            "ConfigurationProfileId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration profile ID associated with the experiment.</p>"
+               }
+            },
+            "CreatedAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the experiment definition was created, in ISO 8601 format.</p>"
+               }
+            },
+            "EnvironmentId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment ID where the experiment runs.</p>"
+               }
+            },
+            "FlagKey" : {
+               "target" : "com.amazonaws.appconfig#FlagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key of the feature flag used by the experiment.</p>"
+               }
+            },
+            "Hypothesis" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The hypothesis that the experiment is designed to validate.</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.appconfig#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the experiment definition.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.appconfig#ExperimentDefinitionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the experiment definition.</p>"
+               }
+            },
+            "UpdatedAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the experiment definition was last updated, in ISO 8601 format.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about an experiment definition.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ExperimentDefinitions" : {
+         "members" : {
+            "Items" : {
+               "target" : "com.amazonaws.appconfig#ExperimentDefinitionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of experiment definitions.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.appconfig#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to use for the next set of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for a list experiment definitions request.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ExperimentRun" : {
+         "members" : {
+            "ApplicationId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the experiment run.</p>"
+               }
+            },
+            "EndedAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the experiment run ended, in ISO 8601 format.</p>"
+               }
+            },
+            "ExperimentDefinitionId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID.</p>"
+               }
+            },
+            "ExperimentDefinitionSnapshot" : {
+               "target" : "com.amazonaws.appconfig#ExperimentDefinitionSnapshot",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A snapshot of the experiment definition at the time the run was started.</p>"
+               }
+            },
+            "ExposurePercentage" : {
+               "target" : "com.amazonaws.appconfig#NullablePercentage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The percentage of the target audience exposed to treatments.</p>"
+               }
+            },
+            "Result" : {
+               "target" : "com.amazonaws.appconfig#ExperimentRunResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The result of the experiment run, including the executive summary and launch decision rationale.</p>"
+               }
+            },
+            "Run" : {
+               "target" : "com.amazonaws.appconfig#Integer",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The experiment run number.</p>"
+               }
+            },
+            "StartedAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the experiment run started, in ISO 8601 format.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.appconfig#ExperimentRunStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the experiment run. Valid values: <code>RUNNING</code>, <code>DONE</code>.</p>"
+               }
+            },
+            "TreatmentOverrides" : {
+               "target" : "com.amazonaws.appconfig#TreatmentOverrides",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Treatment assignment overrides that assign specific entity IDs to treatments.</p>"
+               }
+            },
+            "UpdatedAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the experiment run was last updated, in ISO 8601 format.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes an experiment run, including its status, exposure settings, and treatment overrides.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ExperimentRunEvent" : {
+         "members" : {
+            "AssociatedDeployment" : {
+               "target" : "com.amazonaws.appconfig#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the deployment associated with this event.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the event.</p>"
+               }
+            },
+            "EventType" : {
+               "target" : "com.amazonaws.appconfig#ExperimentRunEventType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of event. Valid values: <code>RUN_STARTED</code>, <code>EXPOSURE_UPDATED</code>, <code>OVERRIDES_UPDATED</code>, <code>RUN_STOPPED</code>.</p>"
+               }
+            },
+            "ExposurePercentage" : {
+               "target" : "com.amazonaws.appconfig#NullablePercentage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The exposure percentage at the time of the event.</p>"
+               }
+            },
+            "OccurredAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the event occurred, in ISO 8601 format.</p>"
+               }
+            },
+            "TreatmentOverrides" : {
+               "target" : "com.amazonaws.appconfig#TreatmentOverrides",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The treatment overrides at the time of the event.</p>"
+               }
+            },
+            "TriggeredBy" : {
+               "target" : "com.amazonaws.appconfig#TriggeredBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The principal that triggered the event.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes an event that occurred during an experiment run.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ExperimentRunEventList" : {
+         "member" : {
+            "target" : "com.amazonaws.appconfig#ExperimentRunEvent"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appconfig#ExperimentRunEventType" : {
+         "members" : {
+            "EXPOSURE_UPDATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EXPOSURE_UPDATED"
+               }
+            },
+            "OVERRIDES_UPDATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OVERRIDES_UPDATED"
+               }
+            },
+            "RUN_STARTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RUN_STARTED"
+               }
+            },
+            "RUN_STOPPED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RUN_STOPPED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appconfig#ExperimentRunEvents" : {
+         "members" : {
+            "Items" : {
+               "target" : "com.amazonaws.appconfig#ExperimentRunEventList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of experiment run events.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.appconfig#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to use for the next set of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for a list experiment run events request.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ExperimentRunResult" : {
+         "members" : {
+            "ExecutiveSummary" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary of the experiment outcome and key findings.</p>"
+               }
+            },
+            "ReasonsNotToLaunch" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Evidence against launching the treatment.</p>"
+               }
+            },
+            "ReasonsToLaunch" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Evidence in favor of launching the winning treatment.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The result of an experiment run, including the executive summary and launch decision rationale.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ExperimentRunStatus" : {
+         "members" : {
+            "DONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DONE"
+               }
+            },
+            "RUNNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RUNNING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appconfig#ExperimentRunSummary" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the experiment run.</p>"
+               }
+            },
+            "EndedAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the experiment run ended, in ISO 8601 format.</p>"
+               }
+            },
+            "ExperimentDefinitionId" : {
+               "target" : "com.amazonaws.appconfig#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID.</p>"
+               }
+            },
+            "Run" : {
+               "target" : "com.amazonaws.appconfig#Integer",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The experiment run number.</p>"
+               }
+            },
+            "StartedAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the experiment run started, in ISO 8601 format.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.appconfig#ExperimentRunStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the experiment run.</p>"
+               }
+            },
+            "UpdatedAt" : {
+               "target" : "com.amazonaws.appconfig#Iso8601DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the experiment run was last updated, in ISO 8601 format.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about an experiment run.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ExperimentRunSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.appconfig#ExperimentRunSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appconfig#ExperimentRuns" : {
+         "members" : {
+            "Items" : {
+               "target" : "com.amazonaws.appconfig#ExperimentRunSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of experiment runs.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.appconfig#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to use for the next set of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for a list experiment runs request.</p>"
          },
          "type" : "structure"
       },
@@ -3663,6 +4644,34 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.appconfig#FlagKey" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-z][a-zA-Z0-9_-]{1,64}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appconfig#FlagValue" : {
+         "members" : {
+            "AttributeValues" : {
+               "target" : "com.amazonaws.appconfig#AttributeValueMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The attribute values associated with this flag value.</p>"
+               }
+            },
+            "Enabled" : {
+               "target" : "com.amazonaws.appconfig#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether the feature flag is enabled for this treatment.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The feature flag value configuration for a treatment, including the enabled state and attribute values.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.appconfig#Float" : {
          "traits" : {
             "smithy.api#default" : 0
@@ -3725,7 +4734,7 @@
       "com.amazonaws.appconfig#GetApplicationRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the application you want to get.</p>",
                   "smithy.api#httpLabel" : {},
@@ -3800,7 +4809,7 @@
       "com.amazonaws.appconfig#GetConfigurationProfileRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the application that includes the configuration profile you want to\n         get.</p>",
                   "smithy.api#httpLabel" : {},
@@ -3808,7 +4817,7 @@
                }
             },
             "ConfigurationProfileId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#LongName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the configuration profile that you want to get.</p>",
                   "smithy.api#httpLabel" : {},
@@ -3936,7 +4945,7 @@
       "com.amazonaws.appconfig#GetDeploymentRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the application that includes the deployment you want to get. </p>",
                   "smithy.api#httpLabel" : {},
@@ -3953,7 +4962,7 @@
                }
             },
             "EnvironmentId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the environment that includes the deployment you want to get. </p>",
                   "smithy.api#httpLabel" : {},
@@ -4078,7 +5087,7 @@
       "com.amazonaws.appconfig#GetEnvironmentRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the application that includes the environment you want to get.</p>",
                   "smithy.api#httpLabel" : {},
@@ -4086,9 +5095,123 @@
                }
             },
             "EnvironmentId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the environment that you want to get.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#GetExperimentDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#GetExperimentDefinitionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appconfig#ExperimentDefinition"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves information about an experiment definition.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#GetExperimentDefinitionRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ExperimentDefinitionIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#GetExperimentRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#GetExperimentRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appconfig#ExperimentRun"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves information about an experiment run, including its status, start time, and exposure settings.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#GetExperimentRunRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ExperimentDefinitionIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Run" : {
+               "target" : "com.amazonaws.appconfig#PositiveInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The run number to retrieve.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
                }
@@ -4226,7 +5349,7 @@
       "com.amazonaws.appconfig#GetHostedConfigurationVersionRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -4234,7 +5357,7 @@
                }
             },
             "ConfigurationProfileId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#LongName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration profile ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -4610,7 +5733,7 @@
       "com.amazonaws.appconfig#ListConfigurationProfilesRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -4734,7 +5857,7 @@
       "com.amazonaws.appconfig#ListDeploymentsRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -4742,7 +5865,7 @@
                }
             },
             "EnvironmentId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The environment ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -4806,7 +5929,7 @@
       "com.amazonaws.appconfig#ListEnvironmentsRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -4825,6 +5948,252 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A token to start the list. Use this token to get the next set of results.</p>",
                   "smithy.api#httpQuery" : "next_token"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ListExperimentDefinitions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#ListExperimentDefinitionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appconfig#ExperimentDefinitions"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the experiment definitions for an account. You can filter results by application, configuration profile, environment, or status.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/experimentdefinitions"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "Items",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#ListExperimentDefinitionsRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name to filter results.</p>",
+                  "smithy.api#httpQuery" : "application_identifier"
+               }
+            },
+            "ConfigurationProfileIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration profile ID or name to filter results.</p>",
+                  "smithy.api#httpQuery" : "configuration_profile_identifier"
+               }
+            },
+            "EnvironmentIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment ID or name to filter results.</p>",
+                  "smithy.api#httpQuery" : "environment_identifier"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.appconfig#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of items to return for this call.</p>",
+                  "smithy.api#httpQuery" : "max_results"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.appconfig#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to start the list from a previously truncated response.</p>",
+                  "smithy.api#httpQuery" : "next_token"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.appconfig#ExperimentDefinitionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A filter for the experiment definition status.</p>",
+                  "smithy.api#httpQuery" : "status"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ListExperimentRunEvents" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#ListExperimentRunEventsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appconfig#ExperimentRunEvents"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the events for a specified experiment run. Events provide a timeline of actions and state changes that occurred during the run.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/events"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "Items",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#ListExperimentRunEventsRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ExperimentDefinitionIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.appconfig#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of items to return.</p>",
+                  "smithy.api#httpQuery" : "max_results"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.appconfig#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to start the list from a previously truncated response.</p>",
+                  "smithy.api#httpQuery" : "next_token"
+               }
+            },
+            "Run" : {
+               "target" : "com.amazonaws.appconfig#PositiveInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The run number.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#ListExperimentRuns" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#ListExperimentRunsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appconfig#ExperimentRuns"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the experiment runs for a specified experiment definition. You can filter by status.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "Items",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#ListExperimentRunsRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ExperimentDefinitionIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.appconfig#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of items to return.</p>",
+                  "smithy.api#httpQuery" : "max_results"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.appconfig#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to start the list from a previously truncated response.</p>",
+                  "smithy.api#httpQuery" : "next_token"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.appconfig#ExperimentRunStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A filter for the experiment run status.</p>",
+                  "smithy.api#httpQuery" : "status"
                }
             }
          },
@@ -5005,7 +6374,7 @@
       "com.amazonaws.appconfig#ListHostedConfigurationVersionsRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -5013,7 +6382,7 @@
                }
             },
             "ConfigurationProfileId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#LongName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration profile ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -5161,6 +6530,12 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.appconfig#NameWithReservedAwsPrefix" : {
+         "traits" : {
+            "smithy.api#pattern" : "^(?!AWS\\.).{1,64}$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.appconfig#NextToken" : {
          "traits" : {
             "smithy.api#length" : {
@@ -5169,6 +6544,27 @@
             }
          },
          "type" : "string"
+      },
+      "com.amazonaws.appconfig#NullablePercentage" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 0
+            }
+         },
+         "type" : "float"
+      },
+      "com.amazonaws.appconfig#NumberList" : {
+         "member" : {
+            "target" : "com.amazonaws.appconfig#Double"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.appconfig#Parameter" : {
          "members" : {
@@ -5265,6 +6661,14 @@
          },
          "type" : "float"
       },
+      "com.amazonaws.appconfig#PositiveInteger" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
       "com.amazonaws.appconfig#QueryName" : {
          "traits" : {
             "smithy.api#length" : {
@@ -5328,6 +6732,15 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.appconfig#Rule" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 16384,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.appconfig#ServiceQuotaExceededException" : {
          "members" : {
             "Message" : {
@@ -5335,7 +6748,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The number of one more AppConfig resources exceeds the maximum allowed. Verify that your\n         environment doesn't exceed the following service quotas:</p>\n         <p>Applications: 100 max</p>\n         <p>Deployment strategies: 20 max</p>\n         <p>Configuration profiles: 100 max per application</p>\n         <p>Environments: 20 max per application</p>\n         <p>To resolve this issue, you can delete one or more resources and try again. Or, you can\n         request a quota increase. For more information about quotas and to request an increase, see\n            <a href=\"https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig\">Service quotas for AppConfig</a> in the Amazon Web Services General Reference.</p>",
+            "smithy.api#documentation" : "<p>The number of one more AppConfig resources exceeds the maximum allowed. Verify that your\n         environment doesn't exceed the following service quotas:</p>\n         <p>Applications: 100 max</p>\n         <p>To resolve this issue, you can delete one or more resources and try again. Or, you can\n         request a quota increase. For more information about quotas and to request an increase, see\n            <a href=\"https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig\">Service quotas for AppConfig</a> in the Amazon Web Services General Reference.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 402
          },
@@ -5363,7 +6776,7 @@
             "target" : "com.amazonaws.appconfig#Deployment"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Starts a deployment.</p>",
+            "smithy.api#documentation" : "<p>Starts a deployment.</p>\n         <note>\n            <p>AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see <a href=\"https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-agent-how-to-use.html#appconfig-entity-based-gradual-deployments\">Using AppConfig Agent for user-based or entity-based gradual deployments</a>\n            </p>\n         </note>",
             "smithy.api#http" : {
                "code" : 201,
                "method" : "POST",
@@ -5375,7 +6788,7 @@
       "com.amazonaws.appconfig#StartDeploymentRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -5383,7 +6796,7 @@
                }
             },
             "ConfigurationProfileId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#LongName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration profile ID.</p>",
                   "smithy.api#required" : {}
@@ -5416,7 +6829,7 @@
                }
             },
             "EnvironmentId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The environment ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -5429,10 +6842,102 @@
                   "smithy.api#documentation" : "<p>The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key. </p>"
                }
             },
+            "LatestDeploymentNumber" : {
+               "target" : "com.amazonaws.appconfig#Integer",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "<p>The number of the latest deployment. Use this value to ensure that the deployment starts from the expected state and to prevent conflicting updates.</p>"
+               }
+            },
             "Tags" : {
                "target" : "com.amazonaws.appconfig#TagMap",
                "traits" : {
                   "smithy.api#documentation" : "<p>Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which\n         you define.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#StartExperimentRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#StartExperimentRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appconfig#ExperimentRun"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experiment definition.</p>\n         <note>\n            <p>Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see <a href=\"https://aws.amazon.com/systems-manager/pricing/\">AppConfig pricing</a>.</p>\n         </note>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#StartExperimentRunRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "DeploymentParameters" : {
+               "target" : "com.amazonaws.appconfig#DeploymentParameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The deployment parameters for the experiment run, including a KMS key identifier for encryption.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of this experiment run.</p>"
+               }
+            },
+            "ExperimentDefinitionIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ExposurePercentage" : {
+               "target" : "com.amazonaws.appconfig#NullablePercentage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The percentage of the target audience to expose to treatments. Set to 0 to validate the experiment before exposing production users.</p>"
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.appconfig#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to assign to the experiment run.</p>"
+               }
+            },
+            "TreatmentOverrides" : {
+               "target" : "com.amazonaws.appconfig#TreatmentOverrides",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Treatment assignment overrides that assign specific entity IDs to treatments directly, bypassing random assignment.</p>"
                }
             }
          },
@@ -5480,7 +6985,7 @@
                }
             },
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -5497,7 +7002,7 @@
                }
             },
             "EnvironmentId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The environment ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -5510,8 +7015,95 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.appconfig#StopExperimentRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#StopExperimentRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appconfig#ExperimentRun"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag configuration.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/stop"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#StopExperimentRunRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "DeploymentParameters" : {
+               "target" : "com.amazonaws.appconfig#DeploymentParameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The deployment parameters for the stop operation.</p>"
+               }
+            },
+            "ExperimentDefinitionIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Result" : {
+               "target" : "com.amazonaws.appconfig#ExperimentRunResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The result of the experiment run, including an executive summary and reasons for or against launching.</p>"
+               }
+            },
+            "Run" : {
+               "target" : "com.amazonaws.appconfig#PositiveInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The run number to stop.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.appconfig#String" : {
          "type" : "string"
+      },
+      "com.amazonaws.appconfig#StringList" : {
+         "member" : {
+            "target" : "com.amazonaws.appconfig#AttributeString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.appconfig#StringWithLengthBetween0And32768" : {
          "traits" : {
@@ -5646,6 +7238,129 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.appconfig#Treatment" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the treatment.</p>"
+               }
+            },
+            "FlagValue" : {
+               "target" : "com.amazonaws.appconfig#FlagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The feature flag value served to users assigned to this treatment.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Key" : {
+               "target" : "com.amazonaws.appconfig#TreatmentKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique key that identifies this treatment.</p>"
+               }
+            },
+            "Weight" : {
+               "target" : "com.amazonaws.appconfig#Weight",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The traffic allocation weight for this treatment.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a treatment in an experiment, including its traffic allocation weight and feature flag value.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#TreatmentInput" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the treatment.</p>"
+               }
+            },
+            "FlagValue" : {
+               "target" : "com.amazonaws.appconfig#FlagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The feature flag value to serve to users assigned to this treatment.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Weight" : {
+               "target" : "com.amazonaws.appconfig#Weight",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The traffic allocation weight for this treatment.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Input structure for defining a treatment when creating or updating an experiment definition.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#TreatmentInputList" : {
+         "member" : {
+            "target" : "com.amazonaws.appconfig#TreatmentInput"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appconfig#TreatmentKey" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-zA-Z0-9]{1,8}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appconfig#TreatmentList" : {
+         "member" : {
+            "target" : "com.amazonaws.appconfig#Treatment"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appconfig#TreatmentOverrideMap" : {
+         "key" : {
+            "target" : "com.amazonaws.appconfig#EntityId"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.appconfig#TreatmentKey"
+         }
+      },
+      "com.amazonaws.appconfig#TreatmentOverrides" : {
+         "members" : {
+            "Inline" : {
+               "target" : "com.amazonaws.appconfig#TreatmentOverrideMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of entity IDs to treatment keys. Each entry assigns the specified entity to the specified treatment, bypassing random assignment.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Treatment assignment overrides that assign specific entity IDs to treatments, bypassing random assignment.</p>"
+         },
+         "type" : "union"
+      },
       "com.amazonaws.appconfig#TriggeredBy" : {
          "members" : {
             "APPCONFIG" : {
@@ -5759,6 +7474,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A parameter to configure deletion protection. Deletion protection prevents a user from\n         deleting a configuration profile or an environment if AppConfig has called either\n            <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html\">GetLatestConfiguration</a> or  for the\n         configuration profile or from the environment during the specified interval. The default\n         interval for <code>ProtectionPeriodInMinutes</code> is 60.</p>"
                }
+            },
+            "VendedMetrics" : {
+               "target" : "com.amazonaws.appconfig#VendedMetricsSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for vended metrics in the account.</p>"
+               }
             }
          },
          "traits" : {
@@ -5797,7 +7518,7 @@
       "com.amazonaws.appconfig#UpdateApplicationRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -5853,7 +7574,7 @@
       "com.amazonaws.appconfig#UpdateConfigurationProfileRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -5861,7 +7582,7 @@
                }
             },
             "ConfigurationProfileId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#LongName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the configuration profile.</p>",
                   "smithy.api#httpLabel" : {},
@@ -6011,7 +7732,7 @@
       "com.amazonaws.appconfig#UpdateEnvironmentRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -6025,7 +7746,7 @@
                }
             },
             "EnvironmentId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The environment ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -6042,6 +7763,184 @@
                "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the environment.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#UpdateExperimentDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#UpdateExperimentDefinitionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appconfig#ExperimentDefinition"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates an experiment definition. You can update treatments, the control, audience rules, and other properties. You cannot update an experiment definition while an experiment run is active.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#UpdateExperimentDefinitionRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "AudienceDescription" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An updated audience description.</p>"
+               }
+            },
+            "AudienceRule" : {
+               "target" : "com.amazonaws.appconfig#Rule",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An updated audience rule.</p>"
+               }
+            },
+            "Control" : {
+               "target" : "com.amazonaws.appconfig#TreatmentInput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An updated control treatment.</p>"
+               }
+            },
+            "ExperimentDefinitionIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Hypothesis" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An updated hypothesis.</p>"
+               }
+            },
+            "LaunchCriteria" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Updated launch criteria.</p>"
+               }
+            },
+            "Treatments" : {
+               "target" : "com.amazonaws.appconfig#TreatmentInputList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated list of treatments to evaluate during the experiment. Each treatment defines a distinct variation compared to the control.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appconfig#UpdateExperimentRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appconfig#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appconfig#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appconfig#UpdateExperimentRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appconfig#ExperimentRun"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates a running experiment. Use this operation to increase audience exposure, modify treatment assignment overrides, or update the description of an active experiment run. Audience exposure can only be increased, not decreased.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/update"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appconfig#UpdateExperimentRunRequest" : {
+         "members" : {
+            "ApplicationIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "DeploymentParameters" : {
+               "target" : "com.amazonaws.appconfig#DeploymentParameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated deployment parameters for the experiment run.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.appconfig#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An updated description for the experiment run.</p>"
+               }
+            },
+            "ExperimentDefinitionIdentifier" : {
+               "target" : "com.amazonaws.appconfig#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The experiment definition ID or name.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ExposurePercentage" : {
+               "target" : "com.amazonaws.appconfig#NullablePercentage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new exposure percentage. This value can only be increased from the current setting.</p>"
+               }
+            },
+            "Run" : {
+               "target" : "com.amazonaws.appconfig#PositiveInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The run number to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "TreatmentOverrides" : {
+               "target" : "com.amazonaws.appconfig#TreatmentOverrides",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated treatment assignment overrides that assign specific entity IDs to treatments, bypassing random assignment.</p>"
                }
             }
          },
@@ -6212,7 +8111,7 @@
       "com.amazonaws.appconfig#ValidateConfigurationRequest" : {
          "members" : {
             "ApplicationId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#Name",
                "traits" : {
                   "smithy.api#documentation" : "<p>The application ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -6220,7 +8119,7 @@
                }
             },
             "ConfigurationProfileId" : {
-               "target" : "com.amazonaws.appconfig#Id",
+               "target" : "com.amazonaws.appconfig#LongName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration profile ID.</p>",
                   "smithy.api#httpLabel" : {},
@@ -6304,6 +8203,21 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.appconfig#VendedMetricsSettings" : {
+         "members" : {
+            "Enabled" : {
+               "target" : "com.amazonaws.appconfig#Boolean",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "<p>Specifies whether vended metrics are enabled for the account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration settings for vended metrics in your AppConfig account.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.appconfig#Version" : {
          "traits" : {
             "smithy.api#length" : {
@@ -6322,6 +8236,15 @@
             "smithy.api#pattern" : "[^0-9]"
          },
          "type" : "string"
+      },
+      "com.amazonaws.appconfig#Weight" : {
+         "traits" : {
+            "smithy.api#default" : 0,
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "float"
       }
    },
    "smithy" : "2.0"

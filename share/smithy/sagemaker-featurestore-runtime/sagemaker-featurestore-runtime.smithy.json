@@ -47,10 +47,16 @@
                "target" : "com.amazonaws.sagemakerfeaturestoreruntime#BatchGetRecord"
             },
             {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecord"
+            },
+            {
                "target" : "com.amazonaws.sagemakerfeaturestoreruntime#DeleteRecord"
             },
             {
                "target" : "com.amazonaws.sagemakerfeaturestoreruntime#GetRecord"
+            },
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ListRecords"
             },
             {
                "target" : "com.amazonaws.sagemakerfeaturestoreruntime#PutRecord"
@@ -1073,6 +1079,180 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecord" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#AccessForbidden"
+            },
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#InternalFailure"
+            },
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ResourceNotFound"
+            },
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ServiceUnavailable"
+            },
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ValidationError"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Writes a batch of <code>Records</code> to one or more <code>FeatureGroup</code>s. Use\n         this API for bulk ingestion of records into the <code>OnlineStore</code> and\n            <code>OfflineStore</code>.</p>\n         <p>You can set the ingested records to expire at a given time to live (TTL) duration after\n         the record's event time by specifying the <code>TtlDuration</code> parameter. A request\n         level <code>TtlDuration</code> applies to all entries that do not specify their own\n            <code>TtlDuration</code>.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/BatchWriteRecord"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordEntries" : {
+         "member" : {
+            "target" : "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordEntry"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordEntry" : {
+         "members" : {
+            "FeatureGroupName" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#FeatureGroupNameOrArn",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The name or Amazon Resource Name (ARN) of the <code>FeatureGroup</code> to write the\n         record to.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Record" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#Record",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>List of FeatureValues to be inserted. This will be a full over-write.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TargetStores" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#TargetStores",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of stores to which you're adding the record. By default, Feature Store adds the\n         record to all of the stores that you're using for the\n            <code>FeatureGroup</code>.</p>"
+               }
+            },
+            "TtlDuration" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#TtlDuration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Time to live duration for this entry, where the record is hard deleted after the\n         expiration time is reached; <code>ExpiresAt</code> = <code>EventTime</code> +\n            <code>TtlDuration</code>. This overrides the request level\n         <code>TtlDuration</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An entry to write as part of a <code>BatchWriteRecord</code> request.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordError" : {
+         "members" : {
+            "Entry" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordEntry",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The entry that failed to be written.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ErrorCode" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ValueAsString",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The error code for the failed record write.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ErrorMessage" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#Message",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The error message for the failed record write.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The error that has occurred when attempting to write a record in a batch.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordErrors" : {
+         "member" : {
+            "target" : "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordError"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordRequest" : {
+         "members" : {
+            "Entries" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordEntries",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>A list of records to write. Each entry specifies the <code>FeatureGroup</code>, the\n         record data, and optionally target stores and a TTL duration.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TtlDuration" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#TtlDuration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Time to live duration applied to all entries in the batch that do not specify their own\n            <code>TtlDuration</code>; <code>ExpiresAt</code> = <code>EventTime</code> +\n            <code>TtlDuration</code>. For information on HardDelete, see the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html\">DeleteRecord</a> API in the Amazon SageMaker API Reference guide.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordResponse" : {
+         "members" : {
+            "Errors" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordErrors",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>A list of errors that occurred when writing records in the batch.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UnprocessedEntries" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#UnprocessedBatchWriteRecordEntries",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>A list of entries that were not processed. These entries can be retried.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#Boolean" : {
+         "type" : "boolean"
+      },
       "com.amazonaws.sagemakerfeaturestoreruntime#DeleteRecord" : {
          "errors" : [
             {
@@ -1095,7 +1275,7 @@
             "target" : "smithy.api#Unit"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Deletes a <code>Record</code> from a <code>FeatureGroup</code> in the\n            <code>OnlineStore</code>. Feature Store supports both <code>SoftDelete</code> and\n            <code>HardDelete</code>. For <code>SoftDelete</code> (default), feature columns are set\n         to <code>null</code> and the record is no longer retrievable by <code>GetRecord</code> or\n            <code>BatchGetRecord</code>. For <code>HardDelete</code>, the complete\n            <code>Record</code> is removed from the <code>OnlineStore</code>. In both cases, Feature\n         Store appends the deleted record marker to the <code>OfflineStore</code>. The deleted\n         record marker is a record with the same <code>RecordIdentifer</code> as the original, but\n         with <code>is_deleted</code> value set to <code>True</code>, <code>EventTime</code> set to\n         the delete input <code>EventTime</code>, and other feature values set to\n         <code>null</code>.</p>\n         <p>Note that the <code>EventTime</code> specified in <code>DeleteRecord</code> should be\n         set later than the <code>EventTime</code> of the existing record in the\n            <code>OnlineStore</code> for that <code>RecordIdentifer</code>. If it is not, the\n         deletion does not occur:</p>\n         <ul>\n            <li>\n               <p>For <code>SoftDelete</code>, the existing (not deleted) record remains in the\n                  <code>OnlineStore</code>, though the delete record marker is still written to the\n                  <code>OfflineStore</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>HardDelete</code> returns <code>EventTime</code>: <code>400\n                  ValidationException</code> to indicate that the delete operation failed. No delete\n               record marker is written to the <code>OfflineStore</code>.</p>\n            </li>\n         </ul>\n         <p>When a record is deleted from the <code>OnlineStore</code>, the deleted record marker is\n         appended to the <code>OfflineStore</code>. If you have the Iceberg table format enabled for\n         your <code>OfflineStore</code>, you can remove all history of a record from the\n            <code>OfflineStore</code> using Amazon Athena or Apache Spark. For information on how to\n         hard delete a record from the <code>OfflineStore</code> with the Iceberg table format\n         enabled, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-delete-records-offline-store.html#feature-store-delete-records-offline-store\">Delete records from the offline store</a>.</p>",
+            "smithy.api#documentation" : "<p>Deletes a <code>Record</code> from a <code>FeatureGroup</code> in the\n            <code>OnlineStore</code>. Feature Store supports both <code>SoftDelete</code> and\n            <code>HardDelete</code>. For <code>SoftDelete</code> (default), feature columns are set\n         to <code>null</code> and the record is no longer retrievable by <code>GetRecord</code> or\n            <code>BatchGetRecord</code>. For <code>HardDelete</code>, the complete\n            <code>Record</code> is removed from the <code>OnlineStore</code>. In both cases, Feature\n         Store appends the deleted record marker to the <code>OfflineStore</code>. The deleted\n         record marker is a record with the same <code>RecordIdentifer</code> as the original, but\n         with <code>is_deleted</code> value set to <code>True</code>, <code>EventTime</code> set to\n         the delete input <code>EventTime</code>, and other feature values set to\n         <code>null</code>.</p>\n         <p>Note that the <code>EventTime</code> specified in <code>DeleteRecord</code> should be\n         set later than the <code>EventTime</code> of the existing record in the\n            <code>OnlineStore</code> for that <code>RecordIdentifer</code>. If it is not, the\n         deletion does not occur:</p>\n         <ul>\n            <li>\n               <p>For <code>SoftDelete</code>, the existing (not deleted) record remains in the\n                  <code>OnlineStore</code>, though the delete record marker is still written to the\n                  <code>OfflineStore</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>HardDelete</code> returns <code>EventTime</code>: <code>400\n                  ValidationException</code> to indicate that the delete operation failed. No delete\n               record marker is written to the <code>OfflineStore</code>.</p>\n            </li>\n         </ul>\n         <p>When a record is deleted from the <code>OnlineStore</code>, the deleted record marker is\n         appended to the <code>OfflineStore</code>. If you have the Iceberg table format enabled for\n         your <code>OfflineStore</code>, you can remove all history of a record from the\n            <code>OfflineStore</code> using Amazon Athena or Apache Spark. For information on how to\n         hard delete a record from the <code>OfflineStore</code> with the Iceberg table format\n         enabled, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-delete-records.html#feature-store-delete-records-offline-store\">Delete records from the offline store</a>.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "DELETE",
@@ -1354,6 +1534,121 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.sagemakerfeaturestoreruntime#ListRecords" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#AccessForbidden"
+            },
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#InternalFailure"
+            },
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ResourceNotFound"
+            },
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ServiceUnavailable"
+            },
+            {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ValidationError"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ListRecordsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ListRecordsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the <code>RecordIdentifier</code> values of all records stored in a\n            <code>FeatureGroup</code>'s <code>OnlineStore</code>. This enables you to discover which\n         records exist without retrieving the full record data.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/FeatureGroup/{FeatureGroupName}/ListRecords"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "RecordIdentifiers",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#ListRecordsMaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#ListRecordsNextToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 8192,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#ListRecordsRequest" : {
+         "members" : {
+            "FeatureGroupName" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#FeatureGroupNameOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name or Amazon Resource Name (ARN) of the feature group to list records from.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "IncludeSoftDeletedRecords" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If set to <code>true</code>, the result includes records that have been soft\n         deleted.</p>"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ListRecordsMaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of record identifiers to return in a single page of results. For the <code>InMemory</code> tier, this value is a hint and not a strict requirement. The response may contain more or fewer results than the specified <code>MaxResults</code>.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ListRecordsNextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to resume pagination of <code>ListRecords</code> results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#ListRecordsResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ListRecordsNextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to resume pagination if the response includes more record identifiers than\n            <code>MaxResults</code>.</p>"
+               }
+            },
+            "RecordIdentifiers" : {
+               "target" : "com.amazonaws.sagemakerfeaturestoreruntime#RecordIdentifierList",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>A list of record identifier values for the records stored in the\n            <code>OnlineStore</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.sagemakerfeaturestoreruntime#Message" : {
          "traits" : {
             "smithy.api#length" : {
@@ -1438,6 +1733,12 @@
             "smithy.api#length" : {
                "min" : 1
             }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#RecordIdentifierList" : {
+         "member" : {
+            "target" : "com.amazonaws.sagemakerfeaturestoreruntime#ValueAsString"
          },
          "type" : "list"
       },
@@ -1574,6 +1875,17 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.sagemakerfeaturestoreruntime#UnprocessedBatchWriteRecordEntries" : {
+         "member" : {
+            "target" : "com.amazonaws.sagemakerfeaturestoreruntime#BatchWriteRecordEntry"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.sagemakerfeaturestoreruntime#UnprocessedIdentifiers" : {
          "member" : {
