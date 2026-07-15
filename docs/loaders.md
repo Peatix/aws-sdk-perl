@@ -52,6 +52,41 @@ Smithy file basenames do not always equal `lc(paws_class)`.
 map; `lc(class)` is the fallback for the ~217 cases where they
 already line up.
 
+A final dash-squash fallback in `_find_smithy_path` resolves
+newly-vendored multi-word services that have no `%PAWS_TO_SMITHY`
+entry. A Paws class name derived from an sdkId drops the spaces
+(`"Lambda Core"` → `LambdaCore`); the Smithy directory basename
+turns the same spaces into dashes and lowercases
+(`"Lambda Core"` → `lambda-core`). So `lc(class)` always equals the
+basename with its dashes removed, and the fallback matches on that
+invariant. This keeps the daily Smithy refresh green without a hand
+edit for every new dashed service (`LambdaCore` ↔ `lambda-core`,
+`PartnerCentralRevenueMeasurement` ↔
+`partnercentral-revenue-measurement`). It runs only after every
+explicit/`lc` candidate misses, so it can never override a
+`%PAWS_TO_SMITHY` mapping.
+
+## Unsupported-protocol services
+
+`all_known_services` skips any service whose only protocol trait is
+one the Smithy loader cannot materialise — currently
+`smithy.protocols#rpcv2Cbor` (RPC v2 CBOR), which has no wire-layer
+support. The supported set is
+`Paws::Model::Loader::Smithy->supported_protocol_traits` (the keys of
+`%SMITHY_PROTOCOL_TRAIT`), which is the single source of truth. Such a
+service cannot be constructed or built into a modular dist, so
+advertising it would only break the build; excluding it keeps the
+daily Smithy refresh green when AWS ships a CBOR-only service.
+`PartnerCentralRevenueMeasurement` is the first such service. Asking
+the resolver for one explicitly still loads the file but dies in the
+loader with `no supported protocol trait ... (found unsupported:
+smithy.protocols#rpcv2Cbor)`.
+
+NB: the inline replica of the `all_known_services` enumeration in
+`.github/workflows/refresh-source-deps.yml` (the
+`expected-service-count` release-floor baseline) applies the same
+protocol filter, so the baseline stays in step.
+
 The map covers:
 
 - 144 cosmetic separator differences (`ApiGateway` →
