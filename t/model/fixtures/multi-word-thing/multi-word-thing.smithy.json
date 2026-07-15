@@ -1,0 +1,43 @@
+{
+  "smithy": "2.0",
+  "shapes": {
+    "com.example.mwt#MultiWordThing": {
+      "type": "service",
+      "version": "2024-01-01",
+      "operations": [
+        {"target": "com.example.mwt#GetThing"}
+      ],
+      "traits": {
+        "aws.api#service": {
+          "sdkId": "Multi Word Thing",
+          "endpointPrefix": "multi-word-thing"
+        },
+        "aws.protocols#awsJson1_1": {}
+      }
+    },
+    "com.example.mwt#GetThing": {
+      "type": "operation",
+      "input":  {"target": "com.example.mwt#GetThingRequest"},
+      "output": {"target": "com.example.mwt#GetThingResponse"},
+      "traits": {
+        "smithy.api#http": {"method": "GET", "uri": "/things/{ThingId}"}
+      }
+    },
+    "com.example.mwt#ThingId": {"type": "string"},
+    "com.example.mwt#GetThingRequest": {
+      "type": "structure",
+      "members": {
+        "ThingId": {
+          "target": "com.example.mwt#ThingId",
+          "traits": {"smithy.api#required": {}, "smithy.api#httpLabel": {}}
+        }
+      }
+    },
+    "com.example.mwt#GetThingResponse": {
+      "type": "structure",
+      "members": {
+        "ThingId": {"target": "com.example.mwt#ThingId"}
+      }
+    }
+  }
+}
