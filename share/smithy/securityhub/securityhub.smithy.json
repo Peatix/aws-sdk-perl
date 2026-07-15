@@ -28,6 +28,80 @@
       ]
    },
    "shapes" : {
+      "com.amazonaws.securityhub#AIDetails" : {
+         "members" : {
+            "CanonicalId" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The canonical identifier for the AI resource, independent of where it is deployed. Multiple occurrences of the same resource on different hosts share the same <code>CanonicalId</code>. For model resources, the value follows the format <code>model/<purl></code>, such as <code>model/pkg:huggingface/meta-llama/llama-3-8b</code>. Present only on self-hosted AI resources.</p>"
+               }
+            },
+            "HostResourceGuid" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the host resource that hosts the self-hosted AI resource. Present only on self-hosted AI resources.</p>"
+               }
+            },
+            "HostResourceType" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The <code>ResourceType</code> of the host resource that hosts the self-hosted AI resource, such as <code>AWS::EC2::Instance</code>. Present only on self-hosted AI resources.</p>"
+               }
+            },
+            "SelfHostedAIAgentFrameworkResourceCount" : {
+               "target" : "com.amazonaws.securityhub#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>AgentFramework</code> detected on the host resource. Present only on host resources.</p>"
+               }
+            },
+            "SelfHostedAIAgentResourceCount" : {
+               "target" : "com.amazonaws.securityhub#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>Agent</code> detected on the host resource. Present only on host resources.</p>"
+               }
+            },
+            "SelfHostedAIAgentToolsAndIdentityResourceCount" : {
+               "target" : "com.amazonaws.securityhub#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>AgentToolsAndIdentity</code> detected on the host resource. Present only on host resources.</p>"
+               }
+            },
+            "SelfHostedAIDevelopmentResourceCount" : {
+               "target" : "com.amazonaws.securityhub#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>Development</code> detected on the host resource. Present only on host resources.</p>"
+               }
+            },
+            "SelfHostedAIExternalEndpointResourceCount" : {
+               "target" : "com.amazonaws.securityhub#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>ExternalEndpoint</code> detected on the host resource. Present only on host resources.</p>"
+               }
+            },
+            "SelfHostedAIModelResourceCount" : {
+               "target" : "com.amazonaws.securityhub#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>Model</code> detected on the host resource. Present only on host resources.</p>"
+               }
+            },
+            "SelfHostedAIModelServingResourceCount" : {
+               "target" : "com.amazonaws.securityhub#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of self-hosted AI resources of <code>ResourceSubCategory</code>\n            <code>ModelServing</code> detected on the host resource. Present only on host resources.</p>"
+               }
+            },
+            "SelfHostedTotalAIResourceCount" : {
+               "target" : "com.amazonaws.securityhub#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of all self-hosted AI resources detected on the host resource. Present only on host resources.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about self-hosted AI resources and their host resources. The fields that are present depend on the role of the resource.</p>\n         <p>On a self-hosted AI resource (a resource with a <code>SelfHosted::AI::</code> resource type, such as <code>SelfHosted::AI::Model</code> or <code>SelfHosted::AI::Agent</code>), the <code>HostResourceGuid</code> and <code>HostResourceType</code> fields link the resource to its host. The <code>CanonicalId</code> field identifies what the resource is, enabling aggregation of identical resources across multiple hosts.</p>\n         <p>On a host resource (such as an Amazon EC2 instance), the <code>SelfHostedAI*ResourceCount</code> fields contain the count for each <code>ResourceSubCategory</code> and the total count of self-hosted AI resources detected on the host.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#AcceptAdministratorInvitation" : {
          "errors" : [
             {
@@ -1256,10 +1330,28 @@
                   "smithy.api#documentation" : "<p>\n         The identifier for the given resource type. For Amazon Web Services resources that are identified by\n         Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs,\n         this is the identifier as defined by the Amazon Web Services service that created the resource.\n         For non-Amazon Web Services resources, this is a unique identifier that is associated with the\n         resource.\n      </p>\n         <p>\n   \t\tArray Members: Minimum number of 1 item. Maximum number of 100 items.\n   \t</p>"
                }
             },
+            "ResourceOwnerAccountId" : {
+               "target" : "com.amazonaws.securityhub#StringFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the account that owns the resource that the finding applies to, for example, Azure Subscription Id or Amazon Web Services Account Id</p>"
+               }
+            },
+            "ResourceOwnerOrgId" : {
+               "target" : "com.amazonaws.securityhub#StringFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the organization that owns the resource that the finding applies to, for example, Azure Tenant Id</p>"
+               }
+            },
             "ResourcePartition" : {
                "target" : "com.amazonaws.securityhub#StringFilterList",
                "traits" : {
                   "smithy.api#documentation" : "<p>\n         The partition in which the resource that the finding pertains to is located.\n         A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition.\n      </p>\n         <p>\n   \t\tArray Members: Minimum number of 1 item. Maximum number of 20 items.\n   \t</p>"
+               }
+            },
+            "ResourceProvider" : {
+               "target" : "com.amazonaws.securityhub#StringFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cloud provider that the resource belongs to. Valid values are <code>AWS</code> and <code>Azure</code>.</p>"
                }
             },
             "ResourceRegion" : {
@@ -19339,10 +19431,28 @@
                   "smithy.api#documentation" : "<p>The canonical identifier for the given resource type.</p>"
                }
             },
+            "ResourceOwnerAccountId" : {
+               "target" : "com.amazonaws.securityhub#StringFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the account that owns the resource that the finding applies to, for example, Azure Subscription Id or Amazon Web Services Account Id</p>"
+               }
+            },
+            "ResourceOwnerOrgId" : {
+               "target" : "com.amazonaws.securityhub#StringFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the organization that owns the resource that the finding applies to, for example, Azure Tenant Id</p>"
+               }
+            },
             "ResourcePartition" : {
                "target" : "com.amazonaws.securityhub#StringFilterList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The canonical Amazon Web Services partition name that the Region is assigned to.</p>"
+               }
+            },
+            "ResourceProvider" : {
+               "target" : "com.amazonaws.securityhub#StringFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cloud provider that the resource belongs to. Valid values are <code>AWS</code> and <code>Azure</code>.</p>"
                }
             },
             "ResourceRegion" : {
@@ -20999,6 +21109,134 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityhub#AzureDetail" : {
+         "members" : {
+            "AWSConfigConnectorArn" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The ARN of the multi-cloud configuration connector used to establish the connection to Azure.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "AzureRegions" : {
+               "target" : "com.amazonaws.securityhub#AzureRegionList",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The list of Azure regions being monitored.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ScopeConfiguration" : {
+               "target" : "com.amazonaws.securityhub#AzureScopeConfiguration",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The scope configuration that defines which Azure resources are monitored.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The detailed Azure configuration for a connector.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#AzureProviderConfiguration" : {
+         "members" : {
+            "AWSConfigConnectorArn" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The ARN of the multi-cloud configuration connector used to establish the connection to Azure.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "AzureRegions" : {
+               "target" : "com.amazonaws.securityhub#AzureRegionList",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The list of Azure regions to monitor.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ScopeConfiguration" : {
+               "target" : "com.amazonaws.securityhub#AzureScopeConfiguration",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The scope configuration that defines which Azure resources are monitored.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for connecting to an Azure environment.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#AzureRegionList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityhub#NonEmptyString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.securityhub#AzureResourceDetails" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details about an Azure resource that is related to a finding. This field is a JSON object that contains provider-specific resource details.</p>"
+         },
+         "type" : "document"
+      },
+      "com.amazonaws.securityhub#AzureScopeConfiguration" : {
+         "members" : {
+            "ScopeType" : {
+               "target" : "com.amazonaws.securityhub#ScopeType",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The type of scope. Valid values are <code>tenant</code> and <code>subscription</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ScopeValues" : {
+               "target" : "com.amazonaws.securityhub#ScopeValueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of scope values, such as subscription IDs, when the scope type is <code>subscription</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The scope configuration for an Azure connector, defining the tenant or subscription scope.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#AzureUpdateConfiguration" : {
+         "members" : {
+            "AzureRegions" : {
+               "target" : "com.amazonaws.securityhub#AzureRegionList",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The updated list of Azure regions to monitor.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ScopeConfiguration" : {
+               "target" : "com.amazonaws.securityhub#AzureScopeConfiguration",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The updated scope configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for updating an Azure connector's scope and regions.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#BatchDeleteAutomationRules" : {
          "errors" : [
             {
@@ -22254,6 +22492,23 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.securityhub#CloudProviderName" : {
+         "members" : {
+            "AWS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS"
+               }
+            },
+            "AZURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Azure"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.securityhub#CloudWatchLogsLogGroupArnConfigDetails" : {
          "members" : {
             "CloudWatchLogsLogGroupArn" : {
@@ -22736,6 +22991,12 @@
       },
       "com.amazonaws.securityhub#ConnectorProviderName" : {
          "members" : {
+            "AZURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AZURE"
+               }
+            },
             "JIRA_CLOUD" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -22759,6 +23020,12 @@
                   "smithy.api#enumValue" : "CONNECTED"
                }
             },
+            "DEGRADED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEGRADED"
+               }
+            },
             "FAILED_TO_CONNECT" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -22775,6 +23042,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "PENDING_CONFIGURATION"
+               }
+            },
+            "UNKNOWN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UNKNOWN"
                }
             }
          },
@@ -22808,6 +23081,18 @@
                "target" : "com.amazonaws.securityhub#NonEmptyString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The description of the connectorV2.</p>"
+               }
+            },
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#EnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status of the connector.</p>"
+               }
+            },
+            "EnablementStatusReason" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the current enablement status. Provides additional context when the connector is in a failed state.</p>"
                }
             },
             "Name" : {
@@ -23492,6 +23777,128 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityhub#CreateConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.securityhub#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InvalidAccessException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.securityhub#CreateConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.securityhub#CreateConnectorResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a connector to a third-party cloud provider in Security Hub CSPM. A connector establishes a connection between Security Hub CSPM and a third-party cloud provider, enabling Security Hub CSPM to ingest security findings and resource data from the connected environment.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/connectors"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.securityhub#CreateConnectorRequest" : {
+         "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.securityhub#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique identifier used to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the connector.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The name of the connector. Must be unique within the account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Provider" : {
+               "target" : "com.amazonaws.securityhub#CspmProviderConfiguration",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The configuration for the cloud provider to connect to. Currently supports Azure.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.securityhub#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to add to the connector resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#CreateConnectorResponse" : {
+         "members" : {
+            "ConnectorArn" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ConnectorId" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The unique identifier of the connector.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ConnectorStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmConnectorStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The connectivity status of the connector.</p>"
+               }
+            },
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmEnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status of the connector.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#CreateConnectorV2" : {
          "errors" : [
             {
@@ -23609,6 +24016,12 @@
                "target" : "com.amazonaws.securityhub#ConnectorStatus",
                "traits" : {
                   "smithy.api#documentation" : "<p>The current status of the connectorV2.</p>"
+               }
+            },
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#EnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status of the connector after creation.</p>"
                }
             }
          },
@@ -23972,6 +24385,250 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.securityhub#CspmConnectorProviderName" : {
+         "members" : {
+            "AZURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AZURE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name of the cloud provider for a CSPM connector.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.securityhub#CspmConnectorStatus" : {
+         "members" : {
+            "CONNECTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CONNECTED"
+               }
+            },
+            "DEGRADED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEGRADED"
+               }
+            },
+            "FAILED_TO_CONNECT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED_TO_CONNECT"
+               }
+            },
+            "UNKNOWN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UNKNOWN"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The connectivity status of a CSPM connector.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.securityhub#CspmConnectorSummary" : {
+         "members" : {
+            "ConnectorArn" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector.</p>"
+               }
+            },
+            "ConnectorId" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the connector.</p>"
+               }
+            },
+            "CreatedAt" : {
+               "target" : "com.amazonaws.securityhub#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ISO 8601 UTC timestamp indicating when the connector was created.</p>"
+               }
+            },
+            "CreatedBy" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The service principal that created the connector.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the connector.</p>"
+               }
+            },
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmEnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status of the connector.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the connector.</p>"
+               }
+            },
+            "ProviderSummary" : {
+               "target" : "com.amazonaws.securityhub#CspmProviderSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary of the cloud provider configuration for the connector.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of a CSPM connector.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#CspmConnectorSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityhub#CspmConnectorSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.securityhub#CspmEnablementStatus" : {
+         "members" : {
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            },
+            "PENDING_DELETION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_DELETION"
+               }
+            },
+            "PENDING_ENABLEMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_ENABLEMENT"
+               }
+            },
+            "PENDING_UPDATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_UPDATE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The enablement status of a CSPM connector. Indicates the lifecycle state of the connector resource.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.securityhub#CspmHealthCheck" : {
+         "members" : {
+            "ConnectorStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmConnectorStatus",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The connectivity status of the connector.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Issues" : {
+               "target" : "com.amazonaws.securityhub#HealthIssueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of health issues associated with the connector.</p>"
+               }
+            },
+            "LastCheckedAt" : {
+               "target" : "com.amazonaws.securityhub#Timestamp",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The ISO 8601 UTC timestamp indicating when the health status was last checked.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Message" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the reason for the current connector status.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the operational status and health of a CSPM connector.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#CspmProviderConfiguration" : {
+         "members" : {
+            "Azure" : {
+               "target" : "com.amazonaws.securityhub#AzureProviderConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Azure provider configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The cloud provider configuration for creating a connector. This is a union type that currently supports Azure.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.securityhub#CspmProviderDetail" : {
+         "members" : {
+            "Azure" : {
+               "target" : "com.amazonaws.securityhub#AzureDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Azure provider detail.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The detailed cloud provider configuration for a connector. This is a union type that currently supports Azure.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.securityhub#CspmProviderSummary" : {
+         "members" : {
+            "ConnectorStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmConnectorStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The connectivity status of the connector.</p>"
+               }
+            },
+            "ProviderConfiguration" : {
+               "target" : "com.amazonaws.securityhub#CspmProviderDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The provider configuration details.</p>"
+               }
+            },
+            "ProviderName" : {
+               "target" : "com.amazonaws.securityhub#CspmConnectorProviderName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the cloud provider.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of the cloud provider configuration for a connector.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#CspmProviderUpdateConfiguration" : {
+         "members" : {
+            "Azure" : {
+               "target" : "com.amazonaws.securityhub#AzureUpdateConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Azure update configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The cloud provider configuration for updating a connector. This is a union type that currently supports Azure.</p>"
+         },
+         "type" : "union"
       },
       "com.amazonaws.securityhub#CustomDataIdentifiersDetections" : {
          "members" : {
@@ -24494,6 +25151,76 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityhub#DeleteConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.securityhub#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InvalidAccessException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.securityhub#DeleteConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.securityhub#DeleteConnectorResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a CSPM connector. When you delete a connector, Security Hub CSPM stops ingesting findings and resource data from the connected cloud provider environment.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/connectors/{ConnectorId+}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.securityhub#DeleteConnectorRequest" : {
+         "members" : {
+            "ConnectorId" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the connector to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#DeleteConnectorResponse" : {
+         "members" : {
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmEnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status of the connector after the delete request.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#DeleteConnectorV2" : {
          "errors" : [
             {
@@ -24548,7 +25275,14 @@
          "type" : "structure"
       },
       "com.amazonaws.securityhub#DeleteConnectorV2Response" : {
-         "members" : {},
+         "members" : {
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#EnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status of the connector after deletion.</p>"
+               }
+            }
+         },
          "traits" : {
             "smithy.api#output" : {}
          },
@@ -25253,6 +25987,12 @@
       },
       "com.amazonaws.securityhub#DescribeSecurityHubV2Response" : {
          "members" : {
+            "Features" : {
+               "target" : "com.amazonaws.securityhub#Features",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of opt-in features and their current status and metadata for the account in the current Region.</p>"
+               }
+            },
             "HubV2Arn" : {
                "target" : "com.amazonaws.securityhub#NonEmptyString",
                "traits" : {
@@ -25260,7 +26000,7 @@
                }
             },
             "SubscribedAt" : {
-               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "target" : "com.amazonaws.securityhub#IsoString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The date and time when the service was enabled in the account.</p>"
                }
@@ -25406,6 +26146,13 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The token that is required for pagination. On your first call to the\n            <code>DescribeStandards</code> operation, set the value of this parameter to\n            <code>NULL</code>.</p>\n         <p>For subsequent calls to the operation, to continue listing data, set the value of this\n         parameter to the value returned from the previous response.</p>",
                   "smithy.api#httpQuery" : "NextToken"
+               }
+            },
+            "Providers" : {
+               "target" : "com.amazonaws.securityhub#StandardsProviders",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of cloud providers to filter the standards by. For example, specify <code>Azure</code> to return only standards that evaluate Azure resources.</p>",
+                  "smithy.api#httpQuery" : "Providers"
                }
             }
          },
@@ -25602,6 +26349,63 @@
          },
          "type" : "operation"
       },
+      "com.amazonaws.securityhub#DisableSecurityHubFeatureV2" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.securityhub#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.securityhub#DisableSecurityHubFeatureV2Request"
+         },
+         "output" : {
+            "target" : "com.amazonaws.securityhub#DisableSecurityHubFeatureV2Response"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Disables an opt-in feature for the calling account in the current Amazon Web Services Region. The operation is idempotent. If the feature is already disabled, no changes are made. You cannot disable a feature that is managed by an organization policy.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/hubv2/feature/{FeatureName}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.securityhub#DisableSecurityHubFeatureV2Request" : {
+         "members" : {
+            "FeatureName" : {
+               "target" : "com.amazonaws.securityhub#FeatureName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the feature to disable.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#DisableSecurityHubFeatureV2Response" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#DisableSecurityHubRequest" : {
          "members" : {},
          "traits" : {
@@ -25638,7 +26442,7 @@
             "target" : "com.amazonaws.securityhub#DisableSecurityHubV2Response"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region.</p>",
+            "smithy.api#documentation" : "<p>Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. Disabling the service also disables all opt-in features that are currently enabled in that Region.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "DELETE",
@@ -25825,6 +26629,23 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.securityhub#DiscoveryType" : {
+         "members" : {
+            "MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Managed"
+               }
+            },
+            "SELF_HOSTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SelfHosted"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.securityhub#DnsRequestAction" : {
          "members" : {
@@ -26055,6 +26876,63 @@
          },
          "type" : "operation"
       },
+      "com.amazonaws.securityhub#EnableSecurityHubFeatureV2" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.securityhub#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.securityhub#EnableSecurityHubFeatureV2Request"
+         },
+         "output" : {
+            "target" : "com.amazonaws.securityhub#EnableSecurityHubFeatureV2Response"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Enables an opt-in feature for the calling account in the current Amazon Web Services Region. The service must be enabled before you can enable a feature. The operation is idempotent. If the feature is already enabled, no changes are made. You cannot enable a feature that is managed by an organization policy.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/hubv2/feature/{FeatureName}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.securityhub#EnableSecurityHubFeatureV2Request" : {
+         "members" : {
+            "FeatureName" : {
+               "target" : "com.amazonaws.securityhub#FeatureName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the feature to enable.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#EnableSecurityHubFeatureV2Response" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#EnableSecurityHubRequest" : {
          "members" : {
             "ControlFindingGenerator" : {
@@ -26159,6 +27037,53 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.securityhub#EnablementStatus" : {
+         "members" : {
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            },
+            "FAILED_TO_DELETE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED_TO_DELETE"
+               }
+            },
+            "FAILED_TO_ENABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED_TO_ENABLE"
+               }
+            },
+            "FAILED_TO_UPDATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED_TO_UPDATE"
+               }
+            },
+            "PENDING_DELETION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_DELETION"
+               }
+            },
+            "PENDING_ENABLEMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_ENABLEMENT"
+               }
+            },
+            "PENDING_UPDATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_UPDATE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.securityhub#EnumConfigurationOptions" : {
          "members" : {
             "AllowedValues" : {
@@ -26218,6 +27143,78 @@
             "smithy.api#documentation" : "<p>Defines the settings and parameters required for integrating external security tools and services.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.securityhub#FeatureDetail" : {
+         "members" : {
+            "FeatureStatus" : {
+               "target" : "com.amazonaws.securityhub#FeatureStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current enablement status of the feature. Valid values: <code>ENABLED</code> | <code>DISABLED</code>.</p>"
+               }
+            },
+            "UpdatedAt" : {
+               "target" : "com.amazonaws.securityhub#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the feature status was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the status and metadata for an opt-in feature.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#FeatureName" : {
+         "members" : {
+            "NETWORK_SCANNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NETWORK_SCANNING"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name of an opt-in feature. Valid values: <code>NETWORK_SCANNING</code>.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.securityhub#FeatureNameKey" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name of a feature, used as a key in the features map.</p>"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.securityhub#FeatureStatus" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLED"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The enablement status of a feature. Valid values: <code>ENABLED</code> | <code>DISABLED</code>.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.securityhub#Features" : {
+         "key" : {
+            "target" : "com.amazonaws.securityhub#FeatureNameKey"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A map of feature names to their current detail, including enablement status and metadata.</p>"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.securityhub#FeatureDetail"
+         }
       },
       "com.amazonaws.securityhub#FieldMap" : {
          "key" : {
@@ -26587,6 +27584,30 @@
                "traits" : {
                   "smithy.api#enumValue" : "region"
                }
+            },
+            "RESOURCE_CLOUD_PROVIDERS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resource_cloud_providers"
+               }
+            },
+            "RESOURCE_OWNER_IDS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resource_owner_ids"
+               }
+            },
+            "RESOURCE_OWNER_ORGANIZATION_IDS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resource_owner_organization_ids"
+               }
+            },
+            "RESOURCE_REGIONS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resource_regions"
+               }
             }
          },
          "type" : "enum"
@@ -26596,7 +27617,7 @@
             "FieldName" : {
                "target" : "com.amazonaws.securityhub#FindingsTrendsStringField",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the findings field to filter on.</p>"
+                  "smithy.api#documentation" : "<p>The name of the findings field to filter on. You can specify one of the following fields.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>account_id</code> – The Amazon Web Services account ID associated with the finding.</p>\n            </li>\n            <li>\n               <p>\n                  <code>region</code> – The Amazon Web Services Region associated with the finding.</p>\n            </li>\n            <li>\n               <p>\n                  <code>finding_types</code> – The finding types associated with the finding.</p>\n            </li>\n            <li>\n               <p>\n                  <code>finding_status</code> – The status of the finding.</p>\n            </li>\n            <li>\n               <p>\n                  <code>finding_cve_ids</code> – The Common Vulnerabilities and Exposures (CVE) identifiers associated with the finding.</p>\n            </li>\n            <li>\n               <p>\n                  <code>finding_compliance_status</code> – The compliance status of the finding.</p>\n            </li>\n            <li>\n               <p>\n                  <code>finding_control_id</code> – The identifier of the security control associated with the finding.</p>\n            </li>\n            <li>\n               <p>\n                  <code>finding_class_name</code> – The finding class, such as <code>Compliance Finding</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>finding_provider</code> – The name of the product that generated the finding.</p>\n            </li>\n            <li>\n               <p>\n                  <code>finding_activity_name</code> – The activity name associated with the finding.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource_cloud_providers</code> – The cloud providers of the resources that the finding is associated with. Valid values are <code>AWS</code> and <code>Azure</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource_regions</code> – The Regions of the associated resources. For an Amazon Web Services resource, this is the Amazon Web Services Region. For an Azure resource, this is the Azure Region, such as <code>eastus</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource_owner_ids</code> – The identifiers of the accounts that own the associated resources. For an Amazon Web Services resource, this is the Amazon Web Services account ID. For an Azure resource, this is the Azure subscription ID.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource_owner_organization_ids</code> – The identifiers of the organizations that own the associated resources. For an Amazon Web Services resource, this is the Amazon Web Services organization ID. For an Azure resource, this is the Azure tenant ID.</p>\n            </li>\n         </ul>"
                }
             },
             "Filter" : {
@@ -27294,6 +28315,142 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityhub#GetConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.securityhub#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InvalidAccessException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.securityhub#GetConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.securityhub#GetConnectorResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves details for a CSPM connector based on the connector ID.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/connectors/{ConnectorId+}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.securityhub#GetConnectorRequest" : {
+         "members" : {
+            "ConnectorId" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the connector to retrieve.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#GetConnectorResponse" : {
+         "members" : {
+            "ConnectorArn" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector.</p>"
+               }
+            },
+            "ConnectorId" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The unique identifier of the connector.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "CreatedAt" : {
+               "target" : "com.amazonaws.securityhub#Timestamp",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The ISO 8601 UTC timestamp indicating when the connector was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "CreatedBy" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The service principal that created the connector.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the connector.</p>"
+               }
+            },
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmEnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status of the connector.</p>"
+               }
+            },
+            "Health" : {
+               "target" : "com.amazonaws.securityhub#CspmHealthCheck",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The health status of the connector, including connectivity status and last check time.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "LastUpdatedAt" : {
+               "target" : "com.amazonaws.securityhub#Timestamp",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The ISO 8601 UTC timestamp indicating when the connector was last updated.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The name of the connector.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ProviderDetail" : {
+               "target" : "com.amazonaws.securityhub#CspmProviderDetail",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The cloud provider configuration details for the connector.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#GetConnectorV2" : {
          "errors" : [
             {
@@ -27375,6 +28532,18 @@
                "target" : "com.amazonaws.securityhub#NonEmptyString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The description of the connectorV2.</p>"
+               }
+            },
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#EnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status of the connector.</p>"
+               }
+            },
+            "EnablementStatusReason" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the current enablement status. Provides additional context when the connector is in a failed state.</p>"
                }
             },
             "Health" : {
@@ -27470,6 +28639,12 @@
                "target" : "com.amazonaws.securityhub#NextToken",
                "traits" : {
                   "smithy.api#documentation" : "<p>The token that is required for pagination. On your first call to the\n            <code>GetEnabledStandards</code> operation, set the value of this parameter to\n            <code>NULL</code>.</p>\n         <p>For subsequent calls to the operation, to continue listing data, set the value of this\n         parameter to the value returned from the previous response.</p>"
+               }
+            },
+            "Providers" : {
+               "target" : "com.amazonaws.securityhub#StandardsProviders",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of cloud providers to filter the enabled standards by. For example, specify <code>Azure</code> to return only enabled standards that evaluate Azure resources.</p>"
                }
             },
             "StandardsSubscriptionArns" : {
@@ -28562,7 +29737,7 @@
             "target" : "com.amazonaws.securityhub#GetResourcesStatisticsV2Response"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Retrieves statistical information about Amazon Web Services resources and their associated security findings.</p>\n         <p>You can use the <code>Scopes</code> parameter to define the data boundary for the query. Currently, <code>Scopes</code> supports <code>AwsOrganizations</code>, which lets you aggregate resources from your entire organization or from specific organizational units. Only the delegated administrator account can use <code>Scopes</code>.</p>",
+            "smithy.api#documentation" : "<p>Retrieves statistical information about Amazon Web Services resources and their associated security findings.</p>\n         <p>You can use the <code>Scopes</code> parameter to define the data boundary for the query. Currently, <code>Scopes</code> supports <code>AwsOrganizations</code>, which lets you aggregate resources from your entire organization or from specific organizational units. Only the delegated administrator account can use <code>Scopes</code>.</p>\n         <p>If you set <code>GroupByField</code> to <code>ResourceSubCategory</code>, <code>ResourceInfo.AIDetails.HostResourceType</code>, or <code>ResourceInfo.AIDetails.CanonicalId</code>, you must include a <code>ResourceCategory</code> string filter with comparison set to <code>EQUALS</code> and value <code>AI/ML</code> in the corresponding <code>ResourceGroupByRule</code>.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -28764,7 +29939,7 @@
             "target" : "com.amazonaws.securityhub#GetResourcesV2Response"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a list of resources.</p>\n         <p>You can use the <code>Scopes</code> parameter to define the data boundary for the query. Currently, <code>Scopes</code> supports <code>AwsOrganizations</code>, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use <code>Scopes</code>.</p>\n         <p>You can use the <code>Filters</code> parameter to refine results based on resource attributes. You can use <code>Scopes</code> and <code>Filters</code> independently or together. When both are provided, <code>Scopes</code> narrows the data set first, and then <code>Filters</code> refines results within that scoped data set.</p>",
+            "smithy.api#documentation" : "<p>Returns a list of resources.</p>\n         <p>You can use the <code>Scopes</code> parameter to define the data boundary for the query. Currently, <code>Scopes</code> supports <code>AwsOrganizations</code>, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use <code>Scopes</code>.</p>\n         <p>You can use the <code>Filters</code> parameter to refine results based on resource attributes. You can use <code>Scopes</code> and <code>Filters</code> independently or together. When both are provided, <code>Scopes</code> narrows the data set first, and then <code>Filters</code> refines results within that scoped data set.</p>\n         <p>For AI/ML resources, the response includes the <code>ResourceSubCategory</code> field. For self-hosted AI resources and their host resources, the response also includes <code>ResourceInfo</code> with AI-specific details. Self-hosted AI resources use a <code>ResourceType</code> with the <code>SelfHosted::AI::</code> prefix, such as <code>SelfHosted::AI::Model</code>, <code>SelfHosted::AI::Agent</code>, <code>SelfHosted::AI::InferenceEndpoint</code>, and <code>SelfHosted::AI::ExternalEndpoint</code>.</p>\n         <p>If you filter by <code>ResourceSubCategory</code>, you must also include a <code>ResourceCategory</code> string filter with comparison set to <code>EQUALS</code> and value <code>AI/ML</code> in the same request.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -29032,6 +30207,48 @@
                   "smithy.api#enumValue" : "metadata.product.vendor_name"
                }
             },
+            "RESOURCES_CLOUD_PARTITION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.cloud_partition"
+               }
+            },
+            "RESOURCES_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.name"
+               }
+            },
+            "RESOURCES_OWNER_ACCOUNT_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.owner.account.name"
+               }
+            },
+            "RESOURCES_OWNER_ACCOUNT_UID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.owner.account.uid"
+               }
+            },
+            "RESOURCES_OWNER_ORG_UID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.owner.org.uid"
+               }
+            },
+            "RESOURCES_PROVIDER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.provider"
+               }
+            },
+            "RESOURCES_REGION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.region"
+               }
+            },
             "RESOURCES_TYPE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -29167,6 +30384,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "Issues" : {
+               "target" : "com.amazonaws.securityhub#HealthIssueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of health issues associated with the connector, including error codes and messages.</p>"
+               }
+            },
             "LastCheckedAt" : {
                "target" : "com.amazonaws.securityhub#Timestamp",
                "traits" : {
@@ -29186,6 +30409,86 @@
             "smithy.api#documentation" : "<p>Information about the operational status and health of a connectorV2.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.securityhub#HealthIssue" : {
+         "members" : {
+            "Code" : {
+               "target" : "com.amazonaws.securityhub#HealthIssueCode",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The error code that identifies the type of health issue.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Message" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>A human-readable message that describes the health issue.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents a specific health issue detected for a connector.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#HealthIssueCode" : {
+         "members" : {
+            "AUTHENTICATION_FAILURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AUTHENTICATION_FAILURE"
+               }
+            },
+            "DISCOVERY_FAILURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISCOVERY_FAILURE"
+               }
+            },
+            "NO_HEALTH_DATA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NO_HEALTH_DATA"
+               }
+            },
+            "RECORDING_FAILURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RECORDING_FAILURE"
+               }
+            },
+            "STREAM_AUTHORIZATION_FAILURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STREAM_AUTHORIZATION_FAILURE"
+               }
+            },
+            "STREAM_DISCONNECTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STREAM_DISCONNECTED"
+               }
+            },
+            "STREAM_LIMIT_EXCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STREAM_LIMIT_EXCEEDED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The error code for a connector health issue.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.securityhub#HealthIssueList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityhub#HealthIssue"
+         },
+         "type" : "list"
       },
       "com.amazonaws.securityhub#IcmpTypeCode" : {
          "members" : {
@@ -29778,6 +31081,9 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.securityhub#IsoString" : {
+         "type" : "string"
+      },
       "com.amazonaws.securityhub#JiraCloudDetail" : {
          "members" : {
             "AuthStatus" : {
@@ -30285,6 +31591,111 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityhub#ListConnectors" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.securityhub#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InvalidAccessException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.securityhub#ListConnectorsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.securityhub#ListConnectorsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the CSPM connectors and their metadata for the calling account.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/connectors"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.securityhub#ListConnectorsRequest" : {
+         "members" : {
+            "ConnectorStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmConnectorStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The connectivity status to filter connectors by.</p>",
+                  "smithy.api#httpQuery" : "ConnectorStatus"
+               }
+            },
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmEnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status to filter connectors by.</p>",
+                  "smithy.api#httpQuery" : "EnablementStatus"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.securityhub#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>",
+                  "smithy.api#httpQuery" : "MaxResults"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.securityhub#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token to request the next page of results.</p>",
+                  "smithy.api#httpQuery" : "NextToken"
+               }
+            },
+            "ProviderName" : {
+               "target" : "com.amazonaws.securityhub#CspmConnectorProviderName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the cloud provider to filter connectors by.</p>",
+                  "smithy.api#httpQuery" : "ProviderName"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#ListConnectorsResponse" : {
+         "members" : {
+            "Connectors" : {
+               "target" : "com.amazonaws.securityhub#CspmConnectorSummaryList",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>An array of connector summaries.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.securityhub#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token to use to request the next page of results. If there are no additional results, this value is null.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#ListConnectorsV2" : {
          "errors" : [
             {
@@ -30329,6 +31740,13 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The status for the connectorV2.</p>",
                   "smithy.api#httpQuery" : "ConnectorStatus"
+               }
+            },
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#EnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status to filter connectors by.</p>",
+                  "smithy.api#httpQuery" : "EnablementStatus"
                }
             },
             "MaxResults" : {
@@ -30846,6 +32264,13 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>\n         Optional pagination parameter.\n      </p>",
                   "smithy.api#httpQuery" : "NextToken"
+               }
+            },
+            "Providers" : {
+               "target" : "com.amazonaws.securityhub#SecurityControlsProviders",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of cloud providers to filter the security control definitions by. For example, specify <code>Azure</code> to return only controls that evaluate Azure resources.</p>",
+                  "smithy.api#httpQuery" : "Providers"
                }
             },
             "StandardsArn" : {
@@ -32605,6 +34030,36 @@
                   "smithy.api#enumValue" : "resources.image.uid"
                }
             },
+            "RESOURCES_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.name"
+               }
+            },
+            "RESOURCES_OWNER_ACCOUNT_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.owner.account.name"
+               }
+            },
+            "RESOURCES_OWNER_ACCOUNT_UID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.owner.account.uid"
+               }
+            },
+            "RESOURCES_OWNER_ORG_UID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.owner.org.uid"
+               }
+            },
+            "RESOURCES_PROVIDER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resources.provider"
+               }
+            },
             "RESOURCES_REGION" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -33000,6 +34455,24 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "aws-us-gov"
+               }
+            },
+            "AWS_US_ISO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "aws-us-iso"
+               }
+            },
+            "AWS_US_ISO_B" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "aws-us-iso-b"
+               }
+            },
+            "AZURE_CLOUD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AzureCloud"
                }
             }
          },
@@ -33397,6 +34870,12 @@
       },
       "com.amazonaws.securityhub#ProviderConfiguration" : {
          "members" : {
+            "Azure" : {
+               "target" : "com.amazonaws.securityhub#AzureProviderConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration settings required to establish a CSPM integration with Microsoft Azure.</p>"
+               }
+            },
             "JiraCloud" : {
                "target" : "com.amazonaws.securityhub#JiraCloudProviderConfiguration",
                "traits" : {
@@ -33417,6 +34896,12 @@
       },
       "com.amazonaws.securityhub#ProviderDetail" : {
          "members" : {
+            "Azure" : {
+               "target" : "com.amazonaws.securityhub#AzureDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about a Microsoft Azure CSPM integration.</p>"
+               }
+            },
             "JiraCloud" : {
                "target" : "com.amazonaws.securityhub#JiraCloudDetail",
                "traits" : {
@@ -33443,6 +34928,9 @@
                   "smithy.api#documentation" : "<p>The status for the connectorV2.</p>"
                }
             },
+            "ProviderConfiguration" : {
+               "target" : "com.amazonaws.securityhub#ProviderDetail"
+            },
             "ProviderName" : {
                "target" : "com.amazonaws.securityhub#ConnectorProviderName",
                "traits" : {
@@ -33457,6 +34945,12 @@
       },
       "com.amazonaws.securityhub#ProviderUpdateConfiguration" : {
          "members" : {
+            "Azure" : {
+               "target" : "com.amazonaws.securityhub#AzureUpdateConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The parameters required to update the configuration for a Microsoft Azure CSPM integration.</p>"
+               }
+            },
             "JiraCloud" : {
                "target" : "com.amazonaws.securityhub#JiraCloudUpdateConfiguration",
                "traits" : {
@@ -33837,10 +35331,22 @@
                   "smithy.api#required" : {}
                }
             },
+            "Owner" : {
+               "target" : "com.amazonaws.securityhub#ResourceOwner",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the account and organization that own the resource.</p>"
+               }
+            },
             "Partition" : {
                "target" : "com.amazonaws.securityhub#Partition",
                "traits" : {
                   "smithy.api#documentation" : "<p>The canonical Amazon Web Services partition name that the Region is assigned to.</p>"
+               }
+            },
+            "Provider" : {
+               "target" : "com.amazonaws.securityhub#CloudProviderName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cloud provider that the resource belongs to. Valid values are <code>AWS</code> and <code>Azure</code>.</p>"
                }
             },
             "Region" : {
@@ -33911,6 +35417,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "Identity"
+               }
+            },
+            "MESSAGING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Messaging"
                }
             },
             "NETWORK" : {
@@ -34525,6 +36037,12 @@
                   "smithy.api#documentation" : "<p>Information about the encryption configuration for X-Ray.</p>"
                }
             },
+            "AzureResource" : {
+               "target" : "com.amazonaws.securityhub#AzureResourceDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about an Azure resource that is related to a finding.</p>"
+               }
+            },
             "CodeRepository" : {
                "target" : "com.amazonaws.securityhub#CodeRepositoryDetails",
                "traits" : {
@@ -34601,10 +36119,34 @@
                   "smithy.api#enumValue" : "AccountId"
                }
             },
+            "ACCOUNT_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AccountName"
+               }
+            },
+            "CANONICAL_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.CanonicalId"
+               }
+            },
+            "DISCOVERY_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DiscoveryType"
+               }
+            },
             "FINDING_TYPE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "FindingsSummary.FindingType"
+               }
+            },
+            "HOST_RESOURCE_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.HostResourceType"
                }
             },
             "REGION" : {
@@ -34619,10 +36161,46 @@
                   "smithy.api#enumValue" : "ResourceCategory"
                }
             },
+            "RESOURCE_CLOUD_PARTITION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceCloudPartition"
+               }
+            },
             "RESOURCE_NAME" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ResourceName"
+               }
+            },
+            "RESOURCE_OWNER_ACCOUNT_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceOwnerAccountId"
+               }
+            },
+            "RESOURCE_OWNER_ORG_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceOwnerOrgId"
+               }
+            },
+            "RESOURCE_PROVIDER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceProvider"
+               }
+            },
+            "RESOURCE_REGION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceRegion"
+               }
+            },
+            "RESOURCE_SUB_CATEGORY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceSubCategory"
                }
             },
             "RESOURCE_TYPE" : {
@@ -34678,6 +36256,20 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityhub#ResourceInfo" : {
+         "members" : {
+            "AIDetails" : {
+               "target" : "com.amazonaws.securityhub#AIDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details that are specific to self-hosted AI resources and their host resources.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Additional details about a resource that are specific to its category. For AI/ML resources and their host resources, this structure contains <code>AIDetails</code>.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#ResourceList" : {
          "member" : {
             "target" : "com.amazonaws.securityhub#Resource"
@@ -34700,14 +36292,74 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityhub#ResourceOwner" : {
+         "members" : {
+            "Account" : {
+               "target" : "com.amazonaws.securityhub#ResourceOwnerAccount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the account that owns the resource, for example, an Azure Subscription or Amazon Web Services Account.</p>"
+               }
+            },
+            "Org" : {
+               "target" : "com.amazonaws.securityhub#ResourceOwnerOrg",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the organization that owns the resource, for example, an Azure Tenant.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the owner of a resource, including the account and organization that the resource belongs to.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#ResourceOwnerAccount" : {
+         "members" : {
+            "Id" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the account that owns the resource, for example, Azure Subscription Id or Amazon Web Services Account Id.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the account that owns a resource, for example, an Azure Subscription or Amazon Web Services Account.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#ResourceOwnerOrg" : {
+         "members" : {
+            "Id" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the organization that owns the resource, for example, Azure Tenant Id.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the organization that owns a resource, for example, an Azure Tenant.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#ResourceResult" : {
          "members" : {
             "AccountId" : {
                "target" : "com.amazonaws.securityhub#NonEmptyString",
                "traits" : {
                   "smithy.api#clientOptional" : {},
-                  "smithy.api#documentation" : "<p>The Amazon Web Services account that owns the resource.</p>",
+                  "smithy.api#documentation" : "<p>The Amazon Web Services account that recorded the resource data in Security Hub.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "AccountName" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Amazon Web Services account that's associated with the resource.</p>"
+               }
+            },
+            "DiscoveryType" : {
+               "target" : "com.amazonaws.securityhub#DiscoveryType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies how the resource was discovered. If the value is <code>Managed</code>, the resource is natively provided by a cloud service provider. If the value is <code>SelfHosted</code>, the resource is hosted on customer-managed infrastructure, such as a compute instance or container image.</p>"
                }
             },
             "FindingsSummary" : {
@@ -34720,7 +36372,7 @@
                "target" : "com.amazonaws.securityhub#NonEmptyString",
                "traits" : {
                   "smithy.api#clientOptional" : {},
-                  "smithy.api#documentation" : "<p>The Amazon Web Services Region where the resource is located.</p>",
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Region that recorded the resource data in Security Hub.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -34728,6 +36380,12 @@
                "target" : "com.amazonaws.securityhub#ResourceCategory",
                "traits" : {
                   "smithy.api#documentation" : "<p>The grouping where the resource belongs.</p>"
+               }
+            },
+            "ResourceCloudPartition" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cloud partition where the resource exists. For Amazon Web Services, valid values include <code>aws</code>, <code>aws-cn</code>, and <code>aws-us-gov</code>. This field isn't returned for cloud providers that don't use partitions.</p>"
                }
             },
             "ResourceConfig" : {
@@ -34766,10 +36424,46 @@
                   "smithy.api#required" : {}
                }
             },
+            "ResourceInfo" : {
+               "target" : "com.amazonaws.securityhub#ResourceInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional resource-type-specific details. For self-hosted AI resources and their host resources, contains an <code>AIDetails</code> structure.</p>"
+               }
+            },
             "ResourceName" : {
                "target" : "com.amazonaws.securityhub#NonEmptyString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the resource.</p>"
+               }
+            },
+            "ResourceOwnerAccountId" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the cloud account that owns the resource. For Amazon Web Services resources, this is the Amazon Web Services account ID. For Azure resources, this is the Azure subscription ID.</p>"
+               }
+            },
+            "ResourceOwnerOrgId" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the cloud organization that owns the resource. For Amazon Web Services resources, this is the Organizations ID. For Azure resources, this is the Azure tenant ID.</p>"
+               }
+            },
+            "ResourceProvider" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cloud provider where the resource exists. Valid values are <code>AWS</code> and <code>Azure</code>. This field is always included.</p>"
+               }
+            },
+            "ResourceRegion" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The native cloud region where the resource is located. For Amazon Web Services, this is an Amazon Web Services Region (for example, <code>us-east-1</code>). For Azure resources, this is the Azure region (for example, <code>westus2</code>). This field is always included.</p>"
+               }
+            },
+            "ResourceSubCategory" : {
+               "target" : "com.amazonaws.securityhub#ResourceSubCategory",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AI/ML sub-grouping of the resource. Present only when <code>ResourceCategory</code> is <code>AI/ML</code>.</p>"
                }
             },
             "ResourceTags" : {
@@ -34781,7 +36475,9 @@
             "ResourceType" : {
                "target" : "com.amazonaws.securityhub#NonEmptyString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of resource.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The type of resource.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -34859,6 +36555,77 @@
             "smithy.api#documentation" : "<p>A comprehensive distribution of security findings by severity level for Amazon Web Services resources.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.securityhub#ResourceSubCategory" : {
+         "members" : {
+            "AGENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Agent"
+               }
+            },
+            "AGENT_FRAMEWORK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AgentFramework"
+               }
+            },
+            "AGENT_TOOLS_AND_IDENTITY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AgentToolsAndIdentity"
+               }
+            },
+            "DEVELOPMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Development"
+               }
+            },
+            "EXTERNAL_ENDPOINT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ExternalEndpoint"
+               }
+            },
+            "KNOWLEDGE_AND_DATA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KnowledgeAndData"
+               }
+            },
+            "MODEL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Model"
+               }
+            },
+            "MODEL_SERVING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ModelServing"
+               }
+            },
+            "ORCHESTRATION_AND_PIPELINE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OrchestrationAndPipeline"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Other"
+               }
+            },
+            "SAFETY_AND_GUARDRAIL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SafetyAndGuardrail"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.securityhub#ResourceTag" : {
          "members" : {
@@ -35058,6 +36825,54 @@
       },
       "com.amazonaws.securityhub#ResourcesNumberField" : {
          "members" : {
+            "SELF_HOSTED_AI_AGENT_FRAMEWORK_RESOURCE_COUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount"
+               }
+            },
+            "SELF_HOSTED_AI_AGENT_RESOURCE_COUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount"
+               }
+            },
+            "SELF_HOSTED_AI_AGENT_TOOLS_AND_IDENTITY_RESOURCE_COUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount"
+               }
+            },
+            "SELF_HOSTED_AI_DEVELOPMENT_RESOURCE_COUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount"
+               }
+            },
+            "SELF_HOSTED_AI_EXTERNAL_ENDPOINT_RESOURCE_COUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount"
+               }
+            },
+            "SELF_HOSTED_AI_MODEL_RESOURCE_COUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount"
+               }
+            },
+            "SELF_HOSTED_AI_MODEL_SERVING_RESOURCE_COUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount"
+               }
+            },
+            "SELF_HOSTED_TOTAL_AI_RESOURCE_COUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount"
+               }
+            },
             "SEVERITY_CRITICAL" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -35146,10 +36961,40 @@
                   "smithy.api#enumValue" : "AccountId"
                }
             },
+            "ACCOUNT_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AccountName"
+               }
+            },
+            "CANONICAL_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.CanonicalId"
+               }
+            },
+            "DISCOVERY_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DiscoveryType"
+               }
+            },
             "FINDING_TYPE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "FindingsSummary.FindingType"
+               }
+            },
+            "HOST_RESOURCE_GUID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.HostResourceGuid"
+               }
+            },
+            "HOST_RESOURCE_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceInfo.AIDetails.HostResourceType"
                }
             },
             "PRODUCT_NAME" : {
@@ -35170,6 +37015,12 @@
                   "smithy.api#enumValue" : "ResourceCategory"
                }
             },
+            "RESOURCE_CLOUD_PARTITION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceCloudPartition"
+               }
+            },
             "RESOURCE_GUID" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -35186,6 +37037,36 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ResourceName"
+               }
+            },
+            "RESOURCE_OWNER_ACCOUNT_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceOwnerAccountId"
+               }
+            },
+            "RESOURCE_OWNER_ORG_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceOwnerOrgId"
+               }
+            },
+            "RESOURCE_PROVIDER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceProvider"
+               }
+            },
+            "RESOURCE_REGION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceRegion"
+               }
+            },
+            "RESOURCE_SUB_CATEGORY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceSubCategory"
                }
             },
             "RESOURCE_TYPE" : {
@@ -35322,6 +37203,30 @@
                   "smithy.api#enumValue" : "resource_category"
                }
             },
+            "RESOURCE_CLOUD_PROVIDER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resource_cloud_provider"
+               }
+            },
+            "RESOURCE_OWNER_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resource_owner_id"
+               }
+            },
+            "RESOURCE_OWNER_ORGANIZATION_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resource_owner_organization_id"
+               }
+            },
+            "RESOURCE_REGION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resource_region"
+               }
+            },
             "RESOURCE_TYPE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -35336,7 +37241,7 @@
             "FieldName" : {
                "target" : "com.amazonaws.securityhub#ResourcesTrendsStringField",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the resources field to filter on, such as resourceType, accountId, or region.</p>"
+                  "smithy.api#documentation" : "<p>The name of the resources field to filter on. You can specify one of the following fields.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>account_id</code> – The Amazon Web Services account ID that owns the resource.</p>\n            </li>\n            <li>\n               <p>\n                  <code>region</code> – The Amazon Web Services Region of the resource.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource_type</code> – The type of the resource.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource_category</code> – The category of the resource.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource_cloud_provider</code> – The cloud provider of the resource. Valid values are <code>AWS</code> and <code>Azure</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource_region</code> – The Region of the resource. For an Amazon Web Services resource, this is the Amazon Web Services Region. For an Azure resource, this is the Azure Region, such as <code>eastus</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource_owner_id</code> – The identifier of the account that owns the resource. For an Amazon Web Services resource, this is the Amazon Web Services account ID. For an Azure resource, this is the Azure subscription ID.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource_owner_organization_id</code> – The identifier of the organization that owns the resource. For an Amazon Web Services resource, this is the Amazon Web Services organization ID. For an Azure resource, this is the Azure tenant ID.</p>\n            </li>\n         </ul>"
                }
             },
             "Filter" : {
@@ -36052,6 +37957,38 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.securityhub#ScopeType" : {
+         "members" : {
+            "SUBSCRIPTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUBSCRIPTION"
+               }
+            },
+            "TENANT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TENANT"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of scope for an Azure connector. Valid values are <code>TENANT</code> (monitor all subscriptions in the tenant) and <code>SUBSCRIPTION</code> (monitor specific subscriptions).</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.securityhub#ScopeValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityhub#NonEmptyString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.securityhub#SecurityControl" : {
          "members" : {
             "Description" : {
@@ -36072,6 +38009,12 @@
                "target" : "com.amazonaws.securityhub#Parameters",
                "traits" : {
                   "smithy.api#documentation" : "<p>\n            An object that identifies the name of a control parameter, its current value, and whether it has been customized.\n        </p>"
+               }
+            },
+            "Provider" : {
+               "target" : "com.amazonaws.securityhub#SecurityControlsProvider",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cloud provider whose resources the security control evaluates. For example, <code>AWS</code> or <code>Azure</code>.</p>"
                }
             },
             "RemediationUrl" : {
@@ -36190,6 +38133,12 @@
                   "smithy.api#documentation" : "<p>\n            An object that provides a security control parameter name, description, and the options for customizing it. This\nobject is excluded for a control that doesn't support custom parameters.\n        </p>"
                }
             },
+            "Provider" : {
+               "target" : "com.amazonaws.securityhub#SecurityControlsProvider",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cloud provider whose resources the security control evaluates. For example, <code>AWS</code> or <code>Azure</code>.</p>"
+               }
+            },
             "RemediationUrl" : {
                "target" : "com.amazonaws.securityhub#NonEmptyString",
                "traits" : {
@@ -36303,6 +38252,29 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityhub#SecurityControlsProvider" : {
+         "members" : {
+            "AWS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS"
+               }
+            },
+            "Azure" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Azure"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.securityhub#SecurityControlsProviders" : {
+         "member" : {
+            "target" : "com.amazonaws.securityhub#SecurityControlsProvider"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.securityhub#SecurityGroups" : {
          "member" : {
             "target" : "com.amazonaws.securityhub#NonEmptyString"
@@ -36369,6 +38341,9 @@
                "target" : "com.amazonaws.securityhub#CreateConfigurationPolicy"
             },
             {
+               "target" : "com.amazonaws.securityhub#CreateConnector"
+            },
+            {
                "target" : "com.amazonaws.securityhub#CreateConnectorV2"
             },
             {
@@ -36397,6 +38372,9 @@
             },
             {
                "target" : "com.amazonaws.securityhub#DeleteConfigurationPolicy"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#DeleteConnector"
             },
             {
                "target" : "com.amazonaws.securityhub#DeleteConnectorV2"
@@ -36447,6 +38425,9 @@
                "target" : "com.amazonaws.securityhub#DisableSecurityHub"
             },
             {
+               "target" : "com.amazonaws.securityhub#DisableSecurityHubFeatureV2"
+            },
+            {
                "target" : "com.amazonaws.securityhub#DisableSecurityHubV2"
             },
             {
@@ -36468,6 +38449,9 @@
                "target" : "com.amazonaws.securityhub#EnableSecurityHub"
             },
             {
+               "target" : "com.amazonaws.securityhub#EnableSecurityHubFeatureV2"
+            },
+            {
                "target" : "com.amazonaws.securityhub#EnableSecurityHubV2"
             },
             {
@@ -36487,6 +38471,9 @@
             },
             {
                "target" : "com.amazonaws.securityhub#GetConfigurationPolicyAssociation"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#GetConnector"
             },
             {
                "target" : "com.amazonaws.securityhub#GetConnectorV2"
@@ -36561,6 +38548,9 @@
                "target" : "com.amazonaws.securityhub#ListConfigurationPolicyAssociations"
             },
             {
+               "target" : "com.amazonaws.securityhub#ListConnectors"
+            },
+            {
                "target" : "com.amazonaws.securityhub#ListConnectorsV2"
             },
             {
@@ -36613,6 +38603,9 @@
             },
             {
                "target" : "com.amazonaws.securityhub#UpdateConfigurationPolicy"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#UpdateConnector"
             },
             {
                "target" : "com.amazonaws.securityhub#UpdateConnectorV2"
@@ -38459,6 +40452,12 @@
                   "smithy.api#documentation" : "<p>The name of the standard.</p>"
                }
             },
+            "Provider" : {
+               "target" : "com.amazonaws.securityhub#StandardsProvider",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cloud provider whose resources the standard evaluates. For example, <code>AWS</code> or <code>Azure</code>.</p>"
+               }
+            },
             "StandardsArn" : {
                "target" : "com.amazonaws.securityhub#NonEmptyString",
                "traits" : {
@@ -38841,6 +40840,29 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityhub#StandardsProvider" : {
+         "members" : {
+            "AWS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS"
+               }
+            },
+            "Azure" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Azure"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.securityhub#StandardsProviders" : {
+         "member" : {
+            "target" : "com.amazonaws.securityhub#StandardsProvider"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.securityhub#StandardsStatus" : {
          "members" : {
             "DELETING" : {
@@ -38894,6 +40916,12 @@
       },
       "com.amazonaws.securityhub#StandardsSubscription" : {
          "members" : {
+            "Provider" : {
+               "target" : "com.amazonaws.securityhub#StandardsProvider",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cloud provider whose resources the standard evaluates. For example, <code>AWS</code> or <code>Azure</code>.</p>"
+               }
+            },
             "StandardsArn" : {
                "target" : "com.amazonaws.securityhub#NonEmptyString",
                "traits" : {
@@ -39261,6 +41289,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "NO_AVAILABLE_CONFIGURATION_RECORDER"
+               }
+            },
+            "NO_AVAILABLE_MULTICLOUD_CONNECTOR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NO_AVAILABLE_MULTICLOUD_CONNECTOR"
                }
             }
          },
@@ -40625,6 +42659,94 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityhub#UpdateConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.securityhub#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#InvalidAccessException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.securityhub#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.securityhub#UpdateConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.securityhub#UpdateConnectorResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates a CSPM connector's configuration, such as the scope or regions for the connected cloud provider.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/connectors/{ConnectorId+}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.securityhub#UpdateConnectorRequest" : {
+         "members" : {
+            "ConnectorId" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the connector to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.securityhub#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated description of the connector.</p>"
+               }
+            },
+            "Provider" : {
+               "target" : "com.amazonaws.securityhub#CspmProviderUpdateConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated cloud provider configuration for the connector.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityhub#UpdateConnectorResponse" : {
+         "members" : {
+            "ConnectorStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmConnectorStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The connectivity status of the connector after the update.</p>"
+               }
+            },
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#CspmEnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status of the connector after the update.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityhub#UpdateConnectorV2" : {
          "errors" : [
             {
@@ -40691,7 +42813,20 @@
          "type" : "structure"
       },
       "com.amazonaws.securityhub#UpdateConnectorV2Response" : {
-         "members" : {},
+         "members" : {
+            "ConnectorStatus" : {
+               "target" : "com.amazonaws.securityhub#ConnectorStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the connector after the update.</p>"
+               }
+            },
+            "EnablementStatus" : {
+               "target" : "com.amazonaws.securityhub#EnablementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The enablement status of the connector after the update.</p>"
+               }
+            }
+         },
          "traits" : {
             "smithy.api#output" : {}
          },

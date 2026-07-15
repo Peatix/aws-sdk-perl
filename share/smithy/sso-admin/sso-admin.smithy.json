@@ -4182,6 +4182,18 @@
                   "smithy.api#documentation" : "<p>The Amazon Web Services account ID number of the owner of the Identity Center instance.</p>"
                }
             },
+            "PrimaryRegion" : {
+               "target" : "com.amazonaws.ssoadmin#RegionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary Region where the IAM Identity Center instance was originally enabled. The primary Region cannot be removed.</p>"
+               }
+            },
+            "Regions" : {
+               "target" : "com.amazonaws.ssoadmin#RegionMetadataList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Regions enabled in the IAM Identity Center instance, including Regions with ACTIVE, ADDING, or REMOVING status.</p>"
+               }
+            },
             "Status" : {
                "target" : "com.amazonaws.ssoadmin#InstanceStatus",
                "traits" : {

@@ -1092,6 +1092,16 @@
          },
          "type" : "double"
       },
+      "com.amazonaws.connectcampaignsv2#BrowserId" : {
+         "traits" : {
+            "smithy.api#documentation" : "Browser Id for web notification event trigger",
+            "smithy.api#length" : {
+               "max" : 36,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.connectcampaignsv2#Campaign" : {
          "members" : {
             "arn" : {
@@ -1324,6 +1334,17 @@
             }
          },
          "type" : "double"
+      },
+      "com.amazonaws.connectcampaignsv2#ChannelContext" : {
+         "members" : {
+            "webNotificationContext" : {
+               "target" : "com.amazonaws.connectcampaignsv2#WebNotificationContext"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Additional metadata related to the event trigger context"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.connectcampaignsv2#ChannelSubtype" : {
          "traits" : {
@@ -2509,6 +2530,20 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connectcampaignsv2#EventTriggerContext" : {
+         "members" : {
+            "channelContext" : {
+               "target" : "com.amazonaws.connectcampaignsv2#ChannelContext"
+            },
+            "sourceEvent" : {
+               "target" : "com.amazonaws.connectcampaignsv2#SourceEvent"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Event trigger context data"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.connectcampaignsv2#EventType" : {
          "traits" : {
             "smithy.api#documentation" : "Enumeration of Customer Profiles event type",
@@ -2532,6 +2567,10 @@
                {
                   "name" : "CAMPAIGN_WHATS_APP",
                   "value" : "Campaign-WhatsApp"
+               },
+               {
+                  "name" : "CAMPAIGN_WEB_NOTIFICATION",
+                  "value" : "Campaign-WebNotification"
                }
             ]
          },
@@ -3839,6 +3878,9 @@
                   "smithy.api#required" : {}
                }
             },
+            "eventTriggerContext" : {
+               "target" : "com.amazonaws.connectcampaignsv2#EventTriggerContext"
+            },
             "expirationTime" : {
                "target" : "com.amazonaws.connectcampaignsv2#TimeStamp"
             },
@@ -4439,6 +4481,16 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connectcampaignsv2#SessionId" : {
+         "traits" : {
+            "smithy.api#documentation" : "Session Id for web notification event trigger",
+            "smithy.api#length" : {
+               "max" : 36,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.connectcampaignsv2#SmsChannelSubtypeConfig" : {
          "members" : {
             "capacity" : {
@@ -4532,6 +4584,15 @@
             "smithy.api#documentation" : "Source of the campaign"
          },
          "type" : "union"
+      },
+      "com.amazonaws.connectcampaignsv2#SourceEvent" : {
+         "traits" : {
+            "smithy.api#documentation" : "Source event object for event triggers",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.connectcampaignsv2#SourcePhoneNumber" : {
          "traits" : {
@@ -5657,6 +5718,20 @@
             "smithy.api#documentation" : "The input fails to satisfy the constraints specified by an AWS service.",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaignsv2#WebNotificationContext" : {
+         "members" : {
+            "browserId" : {
+               "target" : "com.amazonaws.connectcampaignsv2#BrowserId"
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.connectcampaignsv2#SessionId"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Context metadata for the web notification type channel"
          },
          "type" : "structure"
       },

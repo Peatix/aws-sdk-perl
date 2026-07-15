@@ -2390,6 +2390,20 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.iotwireless#DefaultSessionParametersMulticast" : {
+         "members" : {
+            "DlDr" : {
+               "target" : "com.amazonaws.iotwireless#DlDr"
+            },
+            "DlFreq" : {
+               "target" : "com.amazonaws.iotwireless#DlFreq"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The default session parameters for the multicast group.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.iotwireless#DeleteDestination" : {
          "errors" : [
             {
@@ -9719,6 +9733,12 @@
       },
       "com.amazonaws.iotwireless#LoRaWANMulticast" : {
          "members" : {
+            "DefaultSessionParameters" : {
+               "target" : "com.amazonaws.iotwireless#DefaultSessionParametersMulticast",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default session parameters for the multicast group.</p>"
+               }
+            },
             "DlClass" : {
                "target" : "com.amazonaws.iotwireless#DlClass"
             },
@@ -9736,6 +9756,12 @@
       },
       "com.amazonaws.iotwireless#LoRaWANMulticastGet" : {
          "members" : {
+            "DefaultSessionParameters" : {
+               "target" : "com.amazonaws.iotwireless#DefaultSessionParametersMulticast",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default session parameters for the multicast group.</p>"
+               }
+            },
             "DlClass" : {
                "target" : "com.amazonaws.iotwireless#DlClass"
             },

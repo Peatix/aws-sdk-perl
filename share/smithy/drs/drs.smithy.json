@@ -185,7 +185,7 @@
                "max" : 255,
                "min" : 0
             },
-            "smithy.api#pattern" : "^(us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|il)-([a-z]{2}-)?(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9][a-z]$"
+            "smithy.api#pattern" : "^(us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|mx|il)-([a-z]{2}-)?(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9][a-z]$"
          },
          "type" : "string"
       },
@@ -195,7 +195,7 @@
                "max" : 255,
                "min" : 0
             },
-            "smithy.api#pattern" : "^(us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|il)-([a-z]{2}-)?(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$"
+            "smithy.api#pattern" : "^(us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|mx|il)-([a-z]{2}-)?(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$"
          },
          "type" : "string"
       },
@@ -481,6 +481,12 @@
                "target" : "smithy.api#Boolean",
                "traits" : {
                   "smithy.api#documentation" : "<p>Whether we want to activate post-launch actions.</p>"
+               }
+            },
+            "recoveryMode" : {
+               "target" : "com.amazonaws.drs#RecoveryMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Recovery mode.</p>"
                }
             },
             "tags" : {
@@ -5067,6 +5073,12 @@
                   "smithy.api#documentation" : "<p>Whether we want to activate post-launch actions for the Source Server.</p>"
                }
             },
+            "recoveryMode" : {
+               "target" : "com.amazonaws.drs#RecoveryMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Recovery mode.</p>"
+               }
+            },
             "sourceServerID" : {
                "target" : "com.amazonaws.drs#SourceServerID",
                "traits" : {
@@ -5136,6 +5148,12 @@
                "target" : "smithy.api#Boolean",
                "traits" : {
                   "smithy.api#documentation" : "<p>Post-launch actions activated.</p>"
+               }
+            },
+            "recoveryMode" : {
+               "target" : "com.amazonaws.drs#RecoveryMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Recovery mode.</p>"
                }
             },
             "tags" : {
@@ -5785,8 +5803,8 @@
          },
          "traits" : {
             "smithy.api#length" : {
-               "max" : 10,
-               "min" : 1
+               "max" : 3,
+               "min" : 3
             }
          },
          "type" : "list"
@@ -6874,6 +6892,22 @@
             "smithy.api#documentation" : "<p>An object representing the Source Network recovery Lifecycle.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.drs#RecoveryMode" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Recovery mode to use during launch. <code>FAST</code> skips conversion to reduce recovery time. <code>OPTIMAL</code> runs full conversion for maximum compatibility.</p>",
+            "smithy.api#enum" : [
+               {
+                  "name" : "FAST",
+                  "value" : "FAST"
+               },
+               {
+                  "name" : "OPTIMAL",
+                  "value" : "OPTIMAL"
+               }
+            ]
+         },
+         "type" : "string"
       },
       "com.amazonaws.drs#RecoveryResult" : {
          "traits" : {
@@ -9302,6 +9336,12 @@
                   "smithy.api#documentation" : "<p>Whether we want to enable post-launch actions for the Source Server.</p>"
                }
             },
+            "recoveryMode" : {
+               "target" : "com.amazonaws.drs#RecoveryMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Recovery mode.</p>"
+               }
+            },
             "sourceServerID" : {
                "target" : "com.amazonaws.drs#SourceServerID",
                "traits" : {
@@ -9404,6 +9444,12 @@
                "target" : "smithy.api#Boolean",
                "traits" : {
                   "smithy.api#documentation" : "<p>Whether we want to activate post-launch actions.</p>"
+               }
+            },
+            "recoveryMode" : {
+               "target" : "com.amazonaws.drs#RecoveryMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Recovery mode.</p>"
                }
             },
             "targetInstanceTypeRightSizingMethod" : {
