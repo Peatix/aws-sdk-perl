@@ -51,10 +51,21 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "AWS credentials structure containing temporary access credentials\n\nThe scoped-down, 15 minute duration AWS credentials.\nScoping down will be based on CLI policy (CLI team needs to create it).\nSimilar to cloud shell implementation.",
+            "smithy.api#documentation" : "AWS credentials structure containing temporary access credentials\n\nScoped, temporary AWS credentials with a 15-minute duration.",
             "smithy.api#sensitive" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.signin#AccountId" : {
+         "traits" : {
+            "smithy.api#documentation" : "AWS account identifier",
+            "smithy.api#length" : {
+               "max" : 12,
+               "min" : 12
+            },
+            "smithy.api#pattern" : "^[0-9]{12}$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.signin#AuthorizationCode" : {
          "traits" : {
@@ -66,9 +77,23 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.signin#BearerTokenType" : {
+         "traits" : {
+            "smithy.api#documentation" : "Token type for access tokens. Always \"Bearer\" per OAuth 2.1.",
+            "smithy.api#pattern" : "^Bearer$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.signin#ClientCredentialsGrantType" : {
+         "traits" : {
+            "smithy.api#documentation" : "OAuth 2.0 grant type for client_credentials flow.",
+            "smithy.api#pattern" : "^client_credentials$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.signin#ClientId" : {
          "traits" : {
-            "smithy.api#documentation" : "Client identifier pattern for AWS Sign-In devtools clients\n\nThe ARN used by client as part of Sign-In onboarding. Expected values:\n- arn:aws:signin:::devtools/cross-device (for cross-device devtools login)\n- arn:aws:signin:::devtools/same-device (for same-device devtools login)\n\nThis will be finalized after consulting with UX as this is visible to end customer.",
+            "smithy.api#documentation" : "Client identifier pattern for AWS Sign-In devtools clients\n\nThe ARN used by client as part of Sign-In onboarding. Expected values:\n- arn:aws:signin:::devtools/cross-device (for cross-device devtools login)\n- arn:aws:signin:::devtools/same-device (for same-device devtools login)",
             "smithy.api#pattern" : "^arn:aws:signin:::devtools/(cross-device|same-device)$"
          },
          "type" : "string"
@@ -352,6 +377,109 @@
          },
          "traits" : {
             "smithy.api#documentation" : "Response body payload for CreateOAuth2Token operation\n\nThe response content depends on the grant_type from the request:\n- grant_type=authorization_code: Returns all fields including refresh_token and id_token\n- grant_type=refresh_token: Returns access_token, token_type, expires_in, refresh_token (no id_token)"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.signin#CreateOAuth2TokenWithIAM" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.signin#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.signin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.signin#TooManyRequestsError"
+            },
+            {
+               "target" : "com.amazonaws.signin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.signin#CreateOAuth2TokenWithIAMRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.signin#CreateOAuth2TokenWithIAMResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Exchange client credentials for an OAuth 2.0 access token scoped to a resource",
+               "name" : "CreateOAuth2Token"
+            },
+            "smithy.api#auth" : [
+               "aws.auth#sigv4"
+            ],
+            "smithy.api#documentation" : "Grants permission to exchange client credentials for an OAuth 2.0 access token\nscoped to a resource that can be used to access AWS services from applications",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/v1/token?x-amz-client-auth-method=iam"
+            },
+            "smithy.rules#staticContextParams" : {
+               "IsOAuthEndpoint" : {
+                  "value" : true
+               }
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.signin#CreateOAuth2TokenWithIAMRequest" : {
+         "members" : {
+            "grantType" : {
+               "target" : "com.amazonaws.signin#ClientCredentialsGrantType",
+               "traits" : {
+                  "smithy.api#documentation" : "OAuth 2.0 grant type. Must be \"client_credentials\".",
+                  "smithy.api#jsonName" : "grant_type",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resource" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The OAuth resource for which the access token is requested.\nExample: \"aws-mcp.amazonaws.com\".",
+                  "smithy.api#length" : {
+                     "max" : 2048,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Input structure for CreateOAuth2TokenWithIAM operation",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.signin#CreateOAuth2TokenWithIAMResponse" : {
+         "members" : {
+            "accessToken" : {
+               "target" : "com.amazonaws.signin#OAuthAccessToken",
+               "traits" : {
+                  "smithy.api#documentation" : "JWT access token containing principal identity, resource scope, and session metadata",
+                  "smithy.api#jsonName" : "access_token",
+                  "smithy.api#required" : {}
+               }
+            },
+            "expiresIn" : {
+               "target" : "com.amazonaws.signin#TokenExpiresIn",
+               "traits" : {
+                  "smithy.api#documentation" : "Token lifetime in seconds. Value is the minimum of session validity and 1 hour.",
+                  "smithy.api#jsonName" : "expires_in",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tokenType" : {
+               "target" : "com.amazonaws.signin#BearerTokenType",
+               "traits" : {
+                  "smithy.api#documentation" : "Always \"Bearer\" per OAuth 2.1 specification",
+                  "smithy.api#jsonName" : "token_type",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Output structure for CreateOAuth2TokenWithIAM operation\n\nContains the JWT access token, token type, and expiration per RFC 6749 §5.1.",
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -726,6 +854,199 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.signin#IntrospectOAuth2TokenWithIAM" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.signin#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.signin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.signin#TooManyRequestsError"
+            },
+            {
+               "target" : "com.amazonaws.signin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.signin#IntrospectOAuth2TokenWithIAMRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.signin#IntrospectOAuth2TokenWithIAMResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Inspect the metadata of an AWS Sign-In OAuth 2.0 access_token or refresh_token",
+               "name" : "IntrospectOAuth2Token"
+            },
+            "smithy.api#auth" : [
+               "aws.auth#sigv4"
+            ],
+            "smithy.api#documentation" : "Grants permission to inspect the metadata and state of an OAuth 2.0\naccess token or refresh token\n\nImplements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated\nendpoint. Inspects the metadata of an access_token or refresh_token issued\nby AWS Sign-In and returns the claims associated with it.\n\nInactive token semantics (RFC 7662 §2.2): when the supplied token is\nunknown, expired, revoked, malformed, or owned by a different account,\nthe response body is exactly { \"active\": false } with all other claims\nomitted.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/v1/introspect?x-amz-client-auth-method=iam"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.rules#staticContextParams" : {
+               "IsOAuthEndpoint" : {
+                  "value" : true
+               }
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.signin#IntrospectOAuth2TokenWithIAMRequest" : {
+         "members" : {
+            "token" : {
+               "target" : "com.amazonaws.signin#IntrospectionToken",
+               "traits" : {
+                  "smithy.api#documentation" : "The string value of the token to introspect.\nMay be either an access_token or a refresh_token issued by AWS Sign-In.",
+                  "smithy.api#jsonName" : "token",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tokenTypeHint" : {
+               "target" : "com.amazonaws.signin#TokenTypeHint",
+               "traits" : {
+                  "smithy.api#documentation" : "Optional hint about the type of the token submitted for introspection.\nThe server uses this hint to optimize lookup, but still falls back to\nthe other token type on miss. Allowed values: access_token, refresh_token.",
+                  "smithy.api#jsonName" : "token_type_hint"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Input structure for IntrospectOAuth2TokenWithIAM operation\n\nRFC 7662 §2.1 introspection request. Contains the token to inspect and an\noptional hint about the token's type.",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.signin#IntrospectOAuth2TokenWithIAMResponse" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.signin#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "12-digit AWS account ID of the token's subject principal.",
+                  "smithy.api#jsonName" : "account_id"
+               }
+            },
+            "active" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "Indicates whether the token is currently active. `true` only when the\ntoken is valid, has not expired, has not been revoked, and belongs to\nthe caller's account.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "aud" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Audience of the token: the OAuth resource the token is scoped to\n(for example, \"aws-mcp.amazonaws.com\"). Omitted for refresh tokens.",
+                  "smithy.api#jsonName" : "aud"
+               }
+            },
+            "clientId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Client identifier for the OAuth 2.0 client that requested the token.",
+                  "smithy.api#jsonName" : "client_id"
+               }
+            },
+            "exp" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "Token expiration time as a NumericDate (Unix epoch seconds).",
+                  "smithy.api#jsonName" : "exp"
+               }
+            },
+            "iat" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "Token issuance time as a NumericDate (Unix epoch seconds).",
+                  "smithy.api#jsonName" : "iat"
+               }
+            },
+            "iss" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Issuer of the token. Always \"signin.amazonaws.com\" for AWS Sign-In.",
+                  "smithy.api#jsonName" : "iss"
+               }
+            },
+            "jti" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Unique identifier for the token.",
+                  "smithy.api#jsonName" : "jti"
+               }
+            },
+            "nbf" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "Token \"not before\" time as a NumericDate (Unix epoch seconds).",
+                  "smithy.api#jsonName" : "nbf"
+               }
+            },
+            "resource" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The OAuth resource the token is scoped to during Human OAuth flow.\nOnly present for refresh token introspection.",
+                  "smithy.api#jsonName" : "resource"
+               }
+            },
+            "signinSession" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "AWS Sign-In session ARN bound to the token, of the form\narn:aws:signin:{region}:{account}:session/{uuid}.",
+                  "smithy.api#jsonName" : "signin_session"
+               }
+            },
+            "sub" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Subject of the token: the IAM principal ARN. For assumed-role sessions,\nthis is the session ARN (matches sts:GetCallerIdentity's `Arn` field),\ne.g. arn:aws:sts::123456789012:assumed-role/MyRole/session-name.",
+                  "smithy.api#jsonName" : "sub"
+               }
+            },
+            "tokenType" : {
+               "target" : "com.amazonaws.signin#IntrospectedTokenType",
+               "traits" : {
+                  "smithy.api#documentation" : "Indicates which kind of token was introspected.\nOne of \"access_token\" or \"refresh_token\".",
+                  "smithy.api#jsonName" : "token_type"
+               }
+            },
+            "userId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "User identifier matching sts:GetCallerIdentity's `UserId` field for the\ntoken's subject principal (e.g. \"AIDAEXAMPLE\" for an IAM user, or\n\"AROAEXAMPLE:session-name\" for an assumed role).",
+                  "smithy.api#jsonName" : "user_id"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Output structure for IntrospectOAuth2TokenWithIAM operation\n\nRFC 7662 §2.2 introspection response. Only `active` is required; all other\nclaims are omitted when the token is inactive.",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.signin#IntrospectedTokenType" : {
+         "traits" : {
+            "smithy.api#documentation" : "Introspection response token_type value. Indicates which kind of token\nwas inspected.",
+            "smithy.api#pattern" : "^(access_token|refresh_token)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.signin#IntrospectionToken" : {
+         "traits" : {
+            "smithy.api#documentation" : "Token string submitted for introspection. May be an AWS Sign-In\naccess_token (prefix \"ASOA\") or refresh_token (prefix \"ASOR\").",
+            "smithy.api#length" : {
+               "max" : 4096,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^ASO[AR][A-Za-z0-9+/=_\\-]+$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
       "com.amazonaws.signin#ListResourcePermissionStatements" : {
          "errors" : [
             {
@@ -898,6 +1219,17 @@
             "smithy.api#documentation" : "OAuth 2.0 error codes returned by the server\n\nStandard OAuth 2.0 error codes used in error responses to indicate\nthe specific type of error that occurred during token operations."
          },
          "type" : "enum"
+      },
+      "com.amazonaws.signin#OAuthAccessToken" : {
+         "traits" : {
+            "smithy.api#documentation" : "OAuth 2.0 access token (JWT) containing principal identity and resource scope.",
+            "smithy.api#length" : {
+               "max" : 4096,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
       },
       "com.amazonaws.signin#PermissionStatementSummaries" : {
          "member" : {
@@ -1257,6 +1589,86 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.signin#RevocationToken" : {
+         "traits" : {
+            "smithy.api#documentation" : "Refresh token string submitted for revocation. Must be an AWS Sign-In\nrefresh_token (prefix \"ASOR\").",
+            "smithy.api#length" : {
+               "max" : 4096,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^ASOR[A-Za-z0-9+/=_\\-]+$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.signin#RevokeOAuth2TokenWithIAM" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.signin#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.signin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.signin#TooManyRequestsError"
+            },
+            {
+               "target" : "com.amazonaws.signin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.signin#RevokeOAuth2TokenWithIAMRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.signin#RevokeOAuth2TokenWithIAMResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Revoke an AWS Sign-In OAuth 2.0 refresh_token and its associated token chain",
+               "name" : "RevokeOAuth2Token"
+            },
+            "smithy.api#auth" : [
+               "aws.auth#sigv4"
+            ],
+            "smithy.api#documentation" : "Grants permission to revoke an OAuth 2.0 refresh token and its associated refresh tokens\n\nRevokes a refresh_token issued by AWS Sign-In, invalidating the entire token\nchain so that the refresh_token can no longer be used to mint new access_tokens.\n\nIdempotency: revoking an already-revoked, expired, or otherwise invalid token\nstill returns 200 OK with an empty body. Only the refresh_token type is accepted.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/v1/revoke?x-amz-client-auth-method=iam"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.rules#staticContextParams" : {
+               "IsOAuthEndpoint" : {
+                  "value" : true
+               }
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.signin#RevokeOAuth2TokenWithIAMRequest" : {
+         "members" : {
+            "token" : {
+               "target" : "com.amazonaws.signin#RevocationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "The refresh_token to revoke. Must be a refresh_token issued by AWS\nSign-In (prefix \"ASOR\"); access_tokens are not accepted for revocation.",
+                  "smithy.api#jsonName" : "token",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Input structure for RevokeOAuth2TokenWithIAM operation\n\nRFC 7009 §2.1 revocation request. Contains the refresh_token to revoke.",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.signin#RevokeOAuth2TokenWithIAMResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "Output structure for RevokeOAuth2TokenWithIAM operation\n\nRFC 7009 §2.2 revocation response. The endpoint returns 200 OK with an\nempty body on success; there are no response fields.",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.signin#ServiceQuotaExceededException" : {
          "members" : {
             "error" : {
@@ -1287,6 +1699,9 @@
                "target" : "com.amazonaws.signin#CreateOAuth2Token"
             },
             {
+               "target" : "com.amazonaws.signin#CreateOAuth2TokenWithIAM"
+            },
+            {
                "target" : "com.amazonaws.signin#DeleteConsoleAuthorizationConfiguration"
             },
             {
@@ -1299,6 +1714,9 @@
                "target" : "com.amazonaws.signin#GetResourcePolicy"
             },
             {
+               "target" : "com.amazonaws.signin#IntrospectOAuth2TokenWithIAM"
+            },
+            {
                "target" : "com.amazonaws.signin#ListResourcePermissionStatements"
             },
             {
@@ -1306,6 +1724,9 @@
             },
             {
                "target" : "com.amazonaws.signin#PutResourcePermissionStatement"
+            },
+            {
+               "target" : "com.amazonaws.signin#RevokeOAuth2TokenWithIAM"
             }
          ],
          "traits" : {
@@ -1403,15 +1824,6 @@
                   {
                      "argv" : [
                         {
-                           "ref" : "UseDualStack"
-                        },
-                        true
-                     ],
-                     "fn" : "booleanEquals"
-                  },
-                  {
-                     "argv" : [
-                        {
                            "argv" : [
                               {
                                  "ref" : "PartitionResult"
@@ -1429,6 +1841,30 @@
                         {
                            "argv" : [
                               {
+                                 "ref" : "IsOAuthEndpoint"
+                              },
+                              false
+                           ],
+                           "fn" : "coalesce"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
                                  "ref" : "PartitionResult"
                               },
                               "name"
@@ -1438,21 +1874,6 @@
                         "aws-cn"
                      ],
                      "fn" : "stringEquals"
-                  },
-                  {
-                     "argv" : [
-                        {
-                           "argv" : [
-                              {
-                                 "ref" : "PartitionResult"
-                              },
-                              "supportsDualStack"
-                           ],
-                           "fn" : "getAttr"
-                        },
-                        true
-                     ],
-                     "fn" : "booleanEquals"
                   },
                   {
                      "argv" : [
@@ -1567,10 +1988,25 @@
                         "aws-eusc"
                      ],
                      "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
                   }
                ],
-               "nodeCount" : 33,
-               "nodes" : "/////wAAAAH/////AAAAAAAAAAQAAAADAAAAAgAAAB4F9eEZAAAAAQAAABgAAAAFAAAAAgAAAB4AAAAGAAAAAwAAAAcAAAAaAAAABAAAABIAAAAIAAAABQAAABEAAAAJAAAABgX14QQAAAAKAAAABwX14QUAAAALAAAACgX14QYAAAAMAAAADAX14QcAAAANAAAADQX14QgAAAAOAAAADgX14QkAAAAPAAAADwX14QoAAAAQAAAAEAX14QsF9eEOAAAACAX14RYF9eEXAAAABQAAABYAAAATAAAACQX14QwAAAAUAAAACgX14Q0AAAAVAAAACwX14RQF9eEVAAAACAAAABcF9eETAAAACwX14RIF9eETAAAAAgAAAB0AAAAZAAAAAwAAACAAAAAaAAAABAAAABsF9eEZAAAABQX14RkAAAAcAAAACQX14QwF9eEZAAAAAwAAACAAAAAeAAAABAX14Q8AAAAfAAAABQX14RAF9eERAAAABgX14QEAAAAhAAAABwX14QIF9eED",
+               "nodeCount" : 40,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAYAAAADAAAAAgAAACQAAAAEAAAABAAAAAUF9eEbAAAABgX14QQF9eEbAAAAAQAAAB0AAAAHAAAAAgAAACQAAAAIAAAAAwAAAAkAAAAfAAAABAAAABYAAAAKAAAABQAAABMAAAALAAAABwAAABUAAAAMAAAACAX14QcAAAANAAAACgX14QgAAAAOAAAADAX14QkAAAAPAAAADQX14QoAAAAQAAAADgX14QsAAAARAAAADwX14QwAAAASAAAAEAX14Q0F9eEQAAAABgX14QUAAAAUAAAABwAAABUF9eEGAAAAEQX14RgF9eEZAAAABgX14QQAAAAXAAAABwAAABsAAAAYAAAACQX14Q4AAAAZAAAACgX14Q8AAAAaAAAACwX14RYF9eEXAAAACwAAABwF9eEVAAAAEQX14RQF9eEVAAAAAgAAACMAAAAeAAAAAwAAACcAAAAfAAAABAAAACAF9eEbAAAABgX14QQAAAAhAAAABwX14RsAAAAiAAAACQX14Q4F9eEbAAAAAwAAACcAAAAkAAAABAAAACYAAAAlAAAABwX14RIF9eETAAAABgX14QQF9eERAAAABQX14QEAAAAoAAAACAX14QIF9eED",
                "parameters" : {
                   "Endpoint" : {
                      "builtIn" : "SDK::Endpoint",
@@ -1580,6 +2016,11 @@
                   },
                   "IsControlPlane" : {
                      "documentation" : "Indicates if the operation targets the control plane endpoint",
+                     "required" : false,
+                     "type" : "boolean"
+                  },
+                  "IsOAuthEndpoint" : {
+                     "documentation" : "Indicates if the operation targets the OAuth token endpoint",
                      "required" : false,
                      "type" : "boolean"
                   },
@@ -1653,6 +2094,28 @@
                            ]
                         },
                         "url" : "https://signin.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation.",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "signin",
+                                 "signingRegion" : "{Region}"
+                              }
+                           ]
+                        },
+                        "url" : "https://{Region}.oauth.signin.aws"
                      },
                      "type" : "endpoint"
                   },
@@ -1849,6 +2312,11 @@
                      "required" : false,
                      "type" : "boolean"
                   },
+                  "IsOAuthEndpoint" : {
+                     "documentation" : "Indicates if the operation targets the OAuth token endpoint",
+                     "required" : false,
+                     "type" : "boolean"
+                  },
                   "Region" : {
                      "builtIn" : "AWS::Region",
                      "documentation" : "The AWS region used to dispatch the request.",
@@ -1994,6 +2462,118 @@
                         }
                      ],
                      "type" : "tree"
+                  },
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "IsOAuthEndpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        },
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "IsOAuthEndpoint"
+                              },
+                              true
+                           ],
+                           "fn" : "booleanEquals"
+                        },
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "UseFIPS"
+                              },
+                              true
+                           ],
+                           "fn" : "booleanEquals"
+                        }
+                     ],
+                     "error" : "FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation.",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "IsOAuthEndpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        },
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "IsOAuthEndpoint"
+                              },
+                              true
+                           ],
+                           "fn" : "booleanEquals"
+                        },
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Region"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        },
+                        {
+                           "argv" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Endpoint"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "fn" : "not"
+                        },
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Region"
+                              }
+                           ],
+                           "assign" : "PartitionResult",
+                           "fn" : "aws.partition"
+                        },
+                        {
+                           "argv" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "PartitionResult"
+                                    },
+                                    "name"
+                                 ],
+                                 "fn" : "getAttr"
+                              },
+                              "aws"
+                           ],
+                           "fn" : "stringEquals"
+                        }
+                     ],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "signin",
+                                 "signingRegion" : "{Region}"
+                              }
+                           ]
+                        },
+                        "url" : "https://{Region}.oauth.signin.aws"
+                     },
+                     "type" : "endpoint"
                   },
                   {
                      "conditions" : [
@@ -3431,6 +4011,116 @@
                         "UseDualStack" : false,
                         "UseFIPS" : false
                      }
+                  },
+                  {
+                     "documentation" : "OAuth endpoint in us-east-1 (aws partition)",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingName" : "signin",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://us-east-1.oauth.signin.aws"
+                        }
+                     },
+                     "params" : {
+                        "IsOAuthEndpoint" : true,
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "OAuth endpoint in us-west-2 (aws partition)",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingName" : "signin",
+                                    "signingRegion" : "us-west-2"
+                                 }
+                              ]
+                           },
+                           "url" : "https://us-west-2.oauth.signin.aws"
+                        }
+                     },
+                     "params" : {
+                        "IsOAuthEndpoint" : true,
+                        "Region" : "us-west-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "OAuth endpoint with FIPS returns an error (no FIPS variant exists)",
+                     "expect" : {
+                        "error" : "FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation."
+                     },
+                     "params" : {
+                        "IsOAuthEndpoint" : true,
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "OAuth endpoint with FIPS returns an error in us-west-2 (aws partition)",
+                     "expect" : {
+                        "error" : "FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation."
+                     },
+                     "params" : {
+                        "IsOAuthEndpoint" : true,
+                        "Region" : "us-west-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "OAuth endpoint with FIPS returns an error in cn-north-1 (non-aws partition, error is partition-agnostic)",
+                     "expect" : {
+                        "error" : "FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation."
+                     },
+                     "params" : {
+                        "IsOAuthEndpoint" : true,
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "OAuth endpoint with FIPS returns an error even with a custom SDK endpoint override",
+                     "expect" : {
+                        "error" : "FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation."
+                     },
+                     "params" : {
+                        "Endpoint" : "https://custom.signin.example.com",
+                        "IsOAuthEndpoint" : true,
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "OAuth operation with custom SDK endpoint override",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://custom.signin.example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://custom.signin.example.com",
+                        "IsOAuthEndpoint" : true,
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
                   }
                ],
                "version" : "1.0"
@@ -3499,10 +4189,27 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.signin#TokenExpiresIn" : {
+         "traits" : {
+            "smithy.api#documentation" : "Token lifetime in seconds.\nValue is the minimum of session validity and 1 hour (3600 seconds).",
+            "smithy.api#range" : {
+               "max" : 3600,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
       "com.amazonaws.signin#TokenType" : {
          "traits" : {
             "smithy.api#documentation" : "Token type parameter indicating credential usage\n\nA parameter which indicates to the client how the token must be used.\nValue is \"aws_sigv4\" (instead of typical \"Bearer\" for other OAuth systems)\nto indicate that the client must de-serialize the token and use it to generate a signature.",
             "smithy.api#pattern" : "^aws_sigv4$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.signin#TokenTypeHint" : {
+         "traits" : {
+            "smithy.api#documentation" : "Optional RFC 7662 §2.1 token_type_hint value. One of:\n- \"access_token\"\n- \"refresh_token\"",
+            "smithy.api#pattern" : "^(access_token|refresh_token)$"
          },
          "type" : "string"
       },

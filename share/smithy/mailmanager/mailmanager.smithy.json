@@ -5767,6 +5767,7 @@
                "API Reference" : "https://w.amazon.com/bin/view/AWS/Border"
             },
             "smithy.api#title" : "MailManager",
+            "smithy.protocols#rpcv2Cbor" : {},
             "smithy.rules#endpointBdd" : {
                "conditions" : [
                   {

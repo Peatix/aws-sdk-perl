@@ -1761,6 +1761,13 @@
                   "smithy.api#required" : {}
                }
             },
+            "sessionIdleTimeoutInMinutes" : {
+               "target" : "com.amazonaws.emrcontainers#SessionIdleTimeoutInMinutes",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The idle timeout in minutes for the managed endpoint session.</p>"
+               }
+            },
             "tags" : {
                "target" : "com.amazonaws.emrcontainers#TagMap",
                "traits" : {
@@ -1972,6 +1979,12 @@
                "target" : "com.amazonaws.emrcontainers#ResourceIdString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the security configuration.</p>"
+               }
+            },
+            "sessionEnabled" : {
+               "target" : "com.amazonaws.emrcontainers#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the virtual cluster has session support enabled.</p>"
                }
             },
             "tags" : {
@@ -2549,7 +2562,7 @@
                }
             },
             "nodeLabel" : {
-               "target" : "com.amazonaws.emrcontainers#ResourceNameString",
+               "target" : "com.amazonaws.emrcontainers#NodeLabelString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The nodeLabel of the nodes where the resources of this virtual cluster can get scheduled. It requires relevant scaling and policy engine addons.</p>"
                }
@@ -2580,6 +2593,12 @@
                "target" : "com.amazonaws.emrcontainers#EndpointArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ARN of the endpoint.</p>"
+               }
+            },
+            "authProxyUrl" : {
+               "target" : "com.amazonaws.emrcontainers#UriString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The auth proxy URL of the endpoint.</p>"
                }
             },
             "certificateArn" : {
@@ -2929,6 +2948,12 @@
                "target" : "com.amazonaws.emrcontainers#Credentials",
                "traits" : {
                   "smithy.api#documentation" : "<p>The structure containing the session credentials.</p>"
+               }
+            },
+            "endpointCredentials" : {
+               "target" : "com.amazonaws.emrcontainers#Credentials",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The structure containing the session token being returned.</p>"
                }
             },
             "expiresAt" : {
@@ -4033,6 +4058,16 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.emrcontainers#NodeLabelString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.emrcontainers#ParametricCloudWatchMonitoringConfiguration" : {
          "members" : {
             "logGroupName" : {
@@ -4268,6 +4303,12 @@
       },
       "com.amazonaws.emrcontainers#S3MonitoringConfiguration" : {
          "members" : {
+            "encryptionKeyArn" : {
+               "target" : "com.amazonaws.emrcontainers#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon resource name (ARN) of the encryption key for logs.</p>"
+               }
+            },
             "logUri" : {
                "target" : "com.amazonaws.emrcontainers#UriString",
                "traits" : {
@@ -4406,6 +4447,12 @@
          "value" : {
             "target" : "com.amazonaws.emrcontainers#String1024"
          }
+      },
+      "com.amazonaws.emrcontainers#SessionIdleTimeoutInMinutes" : {
+         "traits" : {
+            "smithy.api#default" : 0
+         },
+         "type" : "integer"
       },
       "com.amazonaws.emrcontainers#SessionTagValue" : {
          "traits" : {
@@ -5006,6 +5053,12 @@
                "target" : "com.amazonaws.emrcontainers#ResourceIdString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the security configuration.</p>"
+               }
+            },
+            "sessionEnabled" : {
+               "target" : "com.amazonaws.emrcontainers#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the virtual cluster has session support enabled. </p>"
                }
             },
             "state" : {

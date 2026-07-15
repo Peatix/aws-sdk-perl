@@ -6431,6 +6431,122 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.customerprofiles#DiversityCapType" : {
+         "members" : {
+            "PERCENTAGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PERCENTAGE"
+               }
+            },
+            "VALUE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VALUE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.customerprofiles#DiversityCapValue" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 200,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.customerprofiles#DiversityColumn" : {
+         "members" : {
+            "CapType" : {
+               "target" : "com.amazonaws.customerprofiles#DiversityCapType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of diversity cap to apply. Valid values are <code>PERCENTAGE</code> (interpret <code>Target</code> as a percentage of returned items) and <code>VALUE</code> (interpret <code>Target</code> as an absolute count).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.customerprofiles#text",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the item catalog column on which to apply the diversity cap. The column must be defined in the recommender schema.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Target" : {
+               "target" : "com.amazonaws.customerprofiles#DiversityTargetExpression",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The diversity cap target. Either an integer literal (for example, <code>\"25\"</code>) or a placeholder expression of the form <code>$name</code> whose value is supplied at inference time through <code>GetProfileRecommendations</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines a diversity constraint for a single item column, specifying a cap type and a target value or placeholder that controls how many recommended items may share the same column value.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.customerprofiles#DiversityColumnsList" : {
+         "member" : {
+            "target" : "com.amazonaws.customerprofiles#DiversityColumn"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.customerprofiles#DiversityConfig" : {
+         "members" : {
+            "DiversityColumns" : {
+               "target" : "com.amazonaws.customerprofiles#DiversityColumnsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of up to two diversity columns. Each column defines a cap on the number or percentage of recommended items that share the same value for that column.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration that controls diversity of recommendation results by capping the representation of specified item columns.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.customerprofiles#DiversityPlaceholderName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z][a-zA-Z0-9_]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.customerprofiles#DiversityTargetExpression" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(\\d+|\\$[a-z_]+)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.customerprofiles#DiversityValuesMap" : {
+         "key" : {
+            "target" : "com.amazonaws.customerprofiles#DiversityPlaceholderName"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.customerprofiles#DiversityCapValue"
+         }
+      },
       "com.amazonaws.customerprofiles#DomainList" : {
          "member" : {
             "target" : "com.amazonaws.customerprofiles#ListDomainItem"
@@ -9562,6 +9678,12 @@
                   "smithy.api#documentation" : "<p>The contextual metadata used to provide dynamic runtime information to tailor recommendations.</p>"
                }
             },
+            "DiversityConfig" : {
+               "target" : "com.amazonaws.customerprofiles#RecommendationDiversityConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Runtime diversity configuration for this request. Enables diversity-aware recommendations and optionally supplies values for placeholder-based diversity caps configured on the recommender.</p>"
+               }
+            },
             "DomainName" : {
                "target" : "com.amazonaws.customerprofiles#name",
                "traits" : {
@@ -9826,6 +9948,12 @@
       },
       "com.amazonaws.customerprofiles#GetRecommenderResponse" : {
          "members" : {
+            "ActiveRecommenderVersionName" : {
+               "target" : "com.amazonaws.customerprofiles#RecommenderVersionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the recommender version currently serving recommendations. Omitted when no active recommender version is set.</p>"
+               }
+            },
             "CreatedAt" : {
                "target" : "com.amazonaws.customerprofiles#timestamp",
                "traits" : {
@@ -16613,6 +16741,27 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.customerprofiles#RecommendationDiversityConfig" : {
+         "members" : {
+            "Enabled" : {
+               "target" : "com.amazonaws.customerprofiles#optionalBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether diversity-aware recommendations are enabled for this request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Values" : {
+               "target" : "com.amazonaws.customerprofiles#DiversityValuesMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional map of placeholder name to integer cap value used to resolve <code>$name</code> placeholders defined in the recommender's <code>DiversityConfig</code> at inference time. Up to 2 entries are supported.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Runtime diversity configuration for a <code>GetProfileRecommendations</code> request.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.customerprofiles#Recommendations" : {
          "member" : {
             "target" : "com.amazonaws.customerprofiles#Recommendation"
@@ -16624,6 +16773,12 @@
       },
       "com.amazonaws.customerprofiles#RecommenderConfig" : {
          "members" : {
+            "DiversityConfig" : {
+               "target" : "com.amazonaws.customerprofiles#DiversityConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for diversity-aware recommendations. When set, the recommender applies diversity constraints defined per item column to reduce over-concentration of similar items in the results.</p>"
+               }
+            },
             "EventsConfig" : {
                "target" : "com.amazonaws.customerprofiles#EventsConfig",
                "traits" : {
@@ -17248,6 +17403,12 @@
                   "smithy.api#documentation" : "<p>The updated configuration settings applied to the recommender during this update.</p>"
                }
             },
+            "RecommenderVersionName" : {
+               "target" : "com.amazonaws.customerprofiles#RecommenderVersionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the recommender version associated with this update operation.</p>"
+               }
+            },
             "Status" : {
                "target" : "com.amazonaws.customerprofiles#RecommenderStatus",
                "traits" : {
@@ -17259,6 +17420,16 @@
             "smithy.api#documentation" : "<p>Contains information about an update operation performed on a recommender.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.customerprofiles#RecommenderVersionName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_-]+/\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}Z$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.customerprofiles#ResourceNotFoundException" : {
          "members" : {
@@ -19459,6 +19630,12 @@
                   "smithy.api#documentation" : "<p>A collection of performance metrics and statistics from the training process.</p>"
                }
             },
+            "RecommenderVersionName" : {
+               "target" : "com.amazonaws.customerprofiles#RecommenderVersionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the recommender version that produced these training metrics.</p>"
+               }
+            },
             "Time" : {
                "target" : "com.amazonaws.customerprofiles#timestamp",
                "traits" : {
@@ -20620,6 +20797,12 @@
                   "smithy.api#documentation" : "<p>The name of the recommender to update.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
+               }
+            },
+            "RecommenderVersionName" : {
+               "target" : "com.amazonaws.customerprofiles#RecommenderVersionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of a specific recommender version to activate as part of this update (for example, to roll back to a previously trained version).</p>"
                }
             }
          },
