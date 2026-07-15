@@ -40,6 +40,41 @@ subtest 'unknown service raises' => sub {
         'unknown service raises';
 };
 
+subtest 'multi-word service resolves without a PAWS_TO_SMITHY entry' => sub {
+    # Regression for the daily Smithy-refresh breakage: a newly-vendored
+    # multi-word service (e.g. LambdaCore <-> lambda-core) has no
+    # %PAWS_TO_SMITHY entry, and lc('MultiWordThing') ('multiwordthing')
+    # does not match the dashed directory basename ('multi-word-thing').
+    # The dash-squash fallback in _find_smithy_path must still resolve it.
+    ok !exists $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{MultiWordThing},
+       'MultiWordThing deliberately absent from the map (exercises fallback)';
+
+    my $r = make_resolver();
+    my ($ir, $loader) = $r->load_service('MultiWordThing');
+    is($loader,   'Smithy',          'resolver chose Smithy via fallback');
+    is($ir->name, 'MultiWordThing',  'IR built from dashed Smithy fixture');
+};
+
+subtest 'services with only an unsupported protocol are skipped' => sub {
+    # Regression for the daily Smithy-refresh breakage: a service whose
+    # only protocol trait is one the Smithy loader cannot materialise
+    # (e.g. smithy.protocols#rpcv2Cbor, as PartnerCentralRevenueMeasurement
+    # ships) must not appear in the advertised fleet, and asking for it
+    # explicitly must raise the loader's protocol error rather than
+    # producing an unconstructable service.
+    my $r = make_resolver();
+
+    my %known = map { $_ => 1 } $r->all_known_services;
+    ok $known{TinyService},
+       'a service on a supported protocol is enumerated';
+    ok !$known{CborOnlyThing},
+       'a CBOR-only service is excluded from all_known_services';
+
+    throws_ok { $r->load_service('CborOnlyThing') }
+        qr/no supported protocol trait.*rpcv2Cbor/s,
+        'explicit load of a CBOR-only service raises a pointed error';
+};
+
 subtest 'dropped service raises with deprecation reason' => sub {
     my $r = make_resolver();
     throws_ok { $r->load_service('OpsWorks') }
