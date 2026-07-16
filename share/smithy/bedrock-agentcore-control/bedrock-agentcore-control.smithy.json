@@ -18238,7 +18238,7 @@
       },
       "com.amazonaws.bedrockagentcorecontrol#HarnessEndpointArn" : {
          "traits" : {
-            "smithy.api#pattern" : "^arn:([^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:harness/[a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}/endpoint/[a-zA-Z][a-zA-Z0-9_]{0,47}$"
+            "smithy.api#pattern" : "^arn:([^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:harness/[a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}/harness-endpoint/[a-zA-Z][a-zA-Z0-9_]{0,47}$"
          },
          "type" : "string"
       },
@@ -18397,6 +18397,12 @@
       },
       "com.amazonaws.bedrockagentcorecontrol#HarnessGeminiModelConfig" : {
          "members" : {
+            "additionalParams" : {
+               "target" : "smithy.api#Document",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provider-specific parameters passed through to the Gemini model provider unchanged.</p>"
+               }
+            },
             "apiKeyArn" : {
                "target" : "com.amazonaws.bedrockagentcorecontrol#ApiKeyArn",
                "traits" : {
@@ -18904,6 +18910,7 @@
       "com.amazonaws.bedrockagentcorecontrol#HarnessSkillGitUrl" : {
          "traits" : {
             "smithy.api#length" : {
+               "max" : 16383,
                "min" : 8
             },
             "smithy.api#pattern" : "^https://[^#@]+$"
@@ -18913,6 +18920,7 @@
       "com.amazonaws.bedrockagentcorecontrol#HarnessSkillPath" : {
          "traits" : {
             "smithy.api#length" : {
+               "max" : 4096,
                "min" : 1
             }
          },
@@ -18936,6 +18944,7 @@
       "com.amazonaws.bedrockagentcorecontrol#HarnessSkillS3Uri" : {
          "traits" : {
             "smithy.api#length" : {
+               "max" : 16383,
                "min" : 5
             },
             "smithy.api#pattern" : "^s3://"
@@ -34482,6 +34491,9 @@
             },
             {
                "target" : "com.amazonaws.bedrockagentcorecontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#ServiceQuotaExceededException"
             },
             {
                "target" : "com.amazonaws.bedrockagentcorecontrol#ThrottlingException"
