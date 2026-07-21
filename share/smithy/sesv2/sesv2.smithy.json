@@ -2089,7 +2089,7 @@
             "target" : "com.amazonaws.sesv2#CreateMultiRegionEndpointResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a multi-region endpoint (global-endpoint).</p>\n         <p>The primary region is going to be the AWS-Region where the operation is executed.\n            The secondary region has to be provided in request's parameters.\n            From the data flow standpoint there is no difference between primary\n            and secondary regions - sending traffic will be split equally between the two.\n            The primary region is the region where the resource has been created and where it can be managed.\n        </p>",
+            "smithy.api#documentation" : "<p>Creates a multi-region endpoint (global-endpoint).</p>\n         <p>The primary region is going to be the AWS-Region where the operation is executed.\n            The secondary region has to be provided in request's parameters.\n            From the data flow standpoint there is no difference between primary\n            and secondary regions - sending traffic is divided between the two.\n            The primary region is the region where the resource has been created and where it can be managed.\n        </p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -4900,6 +4900,12 @@
                "target" : "com.amazonaws.sesv2#GeneralEnforcementStatus",
                "traits" : {
                   "smithy.api#documentation" : "<p>The reputation status of your Amazon SES account. The status can be one of the\n            following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>HEALTHY</code> – There are no reputation-related issues that\n                    currently impact your account.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PROBATION</code> – We've identified potential issues with your\n                    Amazon SES account. We're placing your account under review while you work on\n                    correcting these issues.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SHUTDOWN</code> – Your account's ability to send email is\n                    currently paused because of an issue with the email sent from your account. When\n                    you correct the issue, you can contact us and request that your account's\n                    ability to send email is resumed.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "PricingAttributes" : {
+               "target" : "com.amazonaws.sesv2#PricingAttributes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pricing attributes that apply to your Amazon SES account, including the currently active\n            pricing plan and any scheduled change.</p>"
                }
             },
             "ProductionAccessEnabled" : {
@@ -9888,6 +9894,58 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.sesv2#PricingAttributes" : {
+         "members" : {
+            "CurrentPlan" : {
+               "target" : "com.amazonaws.sesv2#PricingPlan",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pricing plan that is currently active on your Amazon SES account.</p>"
+               }
+            },
+            "NextPlan" : {
+               "target" : "com.amazonaws.sesv2#PricingPlan",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pricing plan that will become active at the start of the next billing cycle, if a\n            scheduled change has been requested. This field is empty when no scheduled change is\n            pending.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The pricing attributes that apply to your Amazon SES account, including the currently active\n            pricing plan and any scheduled change for the next billing cycle.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sesv2#PricingPlan" : {
+         "members" : {
+            "ENTERPRISE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENTERPRISE"
+               }
+            },
+            "ESSENTIALS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ESSENTIALS"
+               }
+            },
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NONE"
+               }
+            },
+            "PRO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRO"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Identifies an Amazon SES pricing plan. See\n            <code>PutAccountPricingAttributesRequest$Plan</code> for the list of supported values and\n            their meanings.</p>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.sesv2#PrimaryNameServer" : {
          "type" : "string"
       },
@@ -10033,6 +10091,58 @@
          "members" : {},
          "traits" : {
             "smithy.api#documentation" : "<p>An HTTP 200 response if the request succeeds, or an error message if the request\n            fails.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sesv2#PutAccountPricingAttributes" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.sesv2#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.sesv2#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.sesv2#TooManyRequestsException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.sesv2#PutAccountPricingAttributesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.sesv2#PutAccountPricingAttributesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Set the pricing plan for your Amazon SES account. Use this operation to choose a billing plan\n            that packages multiple Amazon SES features at a single rate.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/v2/email/account/pricing-attributes"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.sesv2#PutAccountPricingAttributesRequest" : {
+         "members" : {
+            "Plan" : {
+               "target" : "com.amazonaws.sesv2#PricingPlan",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pricing plan to apply to your Amazon SES account. Can be one of the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>NONE</code> – No pricing plan is applied; billing follows per-feature\n                    pricing.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ESSENTIALS</code> – Baseline Amazon SES capabilities and select premium\n                    features.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PRO</code> – Includes everything in <code>ESSENTIALS</code>, plus\n                    additional premium features for growing senders.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENTERPRISE</code> – Includes everything in <code>PRO</code>, plus\n                    features intended for large-scale senders.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A request to set the pricing plan for your Amazon SES account.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sesv2#PutAccountPricingAttributesResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>An HTTP 200 response if the request succeeds, or an error response if the request\n            fails.</p>",
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -12679,6 +12789,9 @@
             },
             {
                "target" : "com.amazonaws.sesv2#PutAccountDetails"
+            },
+            {
+               "target" : "com.amazonaws.sesv2#PutAccountPricingAttributes"
             },
             {
                "target" : "com.amazonaws.sesv2#PutAccountSendingAttributes"

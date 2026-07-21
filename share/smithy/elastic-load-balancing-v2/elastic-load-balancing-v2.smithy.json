@@ -8102,8 +8102,31 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.elasticloadbalancingv2#SourceIpAddressTypeEnum" : {
+         "members" : {
+            "IPV4" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ipv4"
+               }
+            },
+            "IPV6" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ipv6"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.elasticloadbalancingv2#SourceIpConditionConfig" : {
          "members" : {
+            "IpAddressType" : {
+               "target" : "com.amazonaws.elasticloadbalancingv2#SourceIpAddressTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IP address type for Network Load Balancers.</p>\n         <p>The valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ipv4</code> – IPv4 addresses only.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ipv6</code> – IPv6 addresses only.</p>\n            </li>\n         </ul>"
+               }
+            },
             "Values" : {
                "target" : "com.amazonaws.elasticloadbalancingv2#ListOfString",
                "traits" : {
