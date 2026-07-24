@@ -88,6 +88,7 @@
                "pageSize" : "maxResults"
             },
             "smithy.api#title" : "AWS Billing and Cost Management Pricing Calculator",
+            "smithy.protocols#rpcv2Cbor" : {},
             "smithy.rules#endpointBdd" : {
                "conditions" : [
                   {
