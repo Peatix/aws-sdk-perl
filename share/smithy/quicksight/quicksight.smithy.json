@@ -8186,6 +8186,12 @@
                   "smithy.api#documentation" : "<p>The ability to perform actions using HuggingFace connectors.</p>"
                }
             },
+            "InboundEmailTrigger" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, view, edit, delete, and run inbound email triggers for flows and automations.</p>"
+               }
+            },
             "IncludeContentInScheduledReportsEmail" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8300,6 +8306,12 @@
                   "smithy.api#documentation" : "<p>The ability to enable approvals for flow share.</p>"
                }
             },
+            "QuickEventTrigger" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, view, edit, delete, and run Quick event triggers for flows and automations.</p>"
+               }
+            },
             "RenameSharedFolders" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8364,6 +8376,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform Scenario-related actions.</p>"
+               }
+            },
+            "ScheduleTrigger" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, view, edit, delete, and run schedule triggers for flows and automations.</p>"
                }
             },
             "SelfUpgradeUserRole" : {
@@ -8726,6 +8744,12 @@
                   "smithy.api#documentation" : "<p>The ability to perform Topic-related actions.</p>"
                }
             },
+            "Trigger" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to manage trigger-related settings for flows and automations.</p>"
+               }
+            },
             "UseAgentWebSearch" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8780,6 +8804,12 @@
                   "smithy.api#documentation" : "<p>The ability to use Box Agent actions.</p>"
                }
             },
+            "UseBrowserExtension" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the browser extension for Chrome, Firefox, and Edge.</p>"
+               }
+            },
             "UseCanvaAgentAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8802,6 +8832,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use Atlassian Confluence Cloud actions.</p>"
+               }
+            },
+            "UseExcelAddInExtension" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the Microsoft Excel add-in.</p>"
                }
             },
             "UseFactSetAction" : {
@@ -8906,10 +8942,22 @@
                   "smithy.api#documentation" : "<p>The ability to use OpenAPI Specification actions.</p>"
                }
             },
+            "UseOutlookAddInExtension" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the Microsoft Outlook add-in.</p>"
+               }
+            },
             "UsePagerDutyAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use PagerDuty Advance actions.</p>"
+               }
+            },
+            "UsePowerpointAddInExtension" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the Microsoft PowerPoint add-in.</p>"
                }
             },
             "UseSAPBillOfMaterialAction" : {
@@ -8988,6 +9036,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use Textract actions.</p>"
+               }
+            },
+            "UseWordAddInExtension" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the Microsoft Word add-in.</p>"
                }
             },
             "UseZendeskAction" : {
@@ -62337,6 +62391,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ATHENA"
+               }
+            },
+            "GLUE_DATA_CATALOG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GLUE_DATA_CATALOG"
                }
             },
             "QBUSINESS" : {
