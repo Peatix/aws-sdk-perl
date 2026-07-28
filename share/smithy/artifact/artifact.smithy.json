@@ -1284,6 +1284,9 @@
             },
             {
                "target" : "com.amazonaws.artifact#ListComplianceInquiryQueries"
+            },
+            {
+               "target" : "com.amazonaws.artifact#PutComplianceInquiryFeedback"
             }
          ],
          "type" : "resource"
@@ -1369,7 +1372,7 @@
                }
             },
             "name" : {
-               "target" : "smithy.api#String",
+               "target" : "com.amazonaws.artifact#InquiryName",
                "traits" : {
                   "smithy.api#documentation" : "<p>Title of the inquiry.</p>",
                   "smithy.api#required" : {}
@@ -1622,6 +1625,63 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.artifact#FeedbackCommentAttribute" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1000,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9\\s.,;:!?'\\-()/@#&+=]+$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.artifact#FeedbackRating" : {
+         "members" : {
+            "THUMBS_DOWN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "THUMBS_DOWN"
+               }
+            },
+            "THUMBS_UP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "THUMBS_UP"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.artifact#FeedbackReasonCode" : {
+         "members" : {
+            "IRRELEVANT_RESPONSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IRRELEVANT_RESPONSE"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OTHER"
+               }
+            },
+            "PARTIAL_RESPONSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PARTIAL_RESPONSE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.artifact#FeedbackReasonCodeList" : {
+         "member" : {
+            "target" : "com.amazonaws.artifact#FeedbackReasonCode"
+         },
+         "type" : "list"
       },
       "com.amazonaws.artifact#FileSectionList" : {
          "member" : {
@@ -2163,6 +2223,12 @@
       "com.amazonaws.artifact#InquiryId" : {
          "traits" : {
             "smithy.api#pattern" : "^compliance-inquiry-[a-zA-Z0-9]{16}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.artifact#InquiryName" : {
+         "traits" : {
+            "smithy.api#sensitive" : {}
          },
          "type" : "string"
       },
@@ -2963,6 +3029,112 @@
          "members" : {
             "accountSettings" : {
                "target" : "com.amazonaws.artifact#AccountSettings"
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#PutComplianceInquiryFeedback" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.artifact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.artifact#PutComplianceInquiryFeedbackRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.artifact#PutComplianceInquiryFeedbackResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Submits feedback on a compliance inquiry response.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/v1/compliance-inquiry/putFeedback"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.artifact#PutComplianceInquiryFeedbackRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.artifact#IdempotentClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "comment" : {
+               "target" : "com.amazonaws.artifact#FeedbackCommentAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional comment for the feedback.</p>"
+               }
+            },
+            "complianceInquiryId" : {
+               "target" : "com.amazonaws.artifact#InquiryId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the compliance inquiry.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "queryIdentifier" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sequential identifier of the query to provide feedback on.</p>"
+               }
+            },
+            "rating" : {
+               "target" : "com.amazonaws.artifact#FeedbackRating",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reasonCodes" : {
+               "target" : "com.amazonaws.artifact#FeedbackReasonCodeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason codes that describe why you rated the response. Valid values are OTHER, PARTIAL_RESPONSE, and IRRELEVANT_RESPONSE.</p>"
+               }
+            },
+            "responseRevisionId" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The response revision ID. Use this value to prevent submitting feedback on a stale response.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#PutComplianceInquiryFeedbackResponse" : {
+         "members" : {
+            "submittedAt" : {
+               "target" : "com.amazonaws.artifact#TimestampAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the feedback was submitted.</p>",
+                  "smithy.api#required" : {}
+               }
             }
          },
          "traits" : {

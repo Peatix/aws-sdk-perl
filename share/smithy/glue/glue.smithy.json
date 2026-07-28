@@ -61,6 +61,9 @@
                "target" : "com.amazonaws.glue#BatchGetDataQualityResult"
             },
             {
+               "target" : "com.amazonaws.glue#BatchGetDataQualityRulesetEvaluationRun"
+            },
+            {
                "target" : "com.amazonaws.glue#BatchGetDevEndpoints"
             },
             {
@@ -4130,6 +4133,64 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.glue#BatchGetDataQualityRulesetEvaluationRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.glue#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.glue#InvalidInputException"
+            },
+            {
+               "target" : "com.amazonaws.glue#OperationTimeoutException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.glue#BatchGetDataQualityRulesetEvaluationRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.glue#BatchGetDataQualityRulesetEvaluationRunResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the details of multiple evaluation runs in a single request.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.glue#BatchGetDataQualityRulesetEvaluationRunRequest" : {
+         "members" : {
+            "RunIds" : {
+               "target" : "com.amazonaws.glue#DataQualityRulesetEvaluationRunIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of unique run identifiers for the evaluation runs to retrieve.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#BatchGetDataQualityRulesetEvaluationRunResponse" : {
+         "members" : {
+            "Runs" : {
+               "target" : "com.amazonaws.glue#DataQualityRulesetEvaluationRunsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of evaluation run details for the requested run IDs.</p>"
+               }
+            },
+            "RunsNotFound" : {
+               "target" : "com.amazonaws.glue#DataQualityRulesetEvaluationRunIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of run IDs that were not found.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.glue#BatchGetDevEndpoints" : {
          "errors" : [
             {
@@ -5102,6 +5163,12 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.glue#BinEdges" : {
+         "member" : {
+            "target" : "com.amazonaws.glue#GenericString"
+         },
+         "type" : "list"
       },
       "com.amazonaws.glue#BinaryColumnStatisticsData" : {
          "members" : {
@@ -6365,6 +6432,38 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Specifies a data store in the Glue Data Catalog.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#CatalogTableConfigOptions" : {
+         "members" : {
+            "CatalogId" : {
+               "target" : "com.amazonaws.glue#NameString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique identifier for the Glue Data Catalog.</p>"
+               }
+            },
+            "DatabaseName" : {
+               "target" : "com.amazonaws.glue#NameString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the database in the Glue Data Catalog.</p>"
+               }
+            },
+            "S3Location" : {
+               "target" : "com.amazonaws.glue#UriString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 location for storing the results.</p>"
+               }
+            },
+            "TableName" : {
+               "target" : "com.amazonaws.glue#NameString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the table in the Glue Data Catalog.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for a Glue Data Catalog table used to store data quality results.</p>"
          },
          "type" : "structure"
       },
@@ -10096,6 +10195,12 @@
       },
       "com.amazonaws.glue#ContinuousSync" : {
          "type" : "boolean"
+      },
+      "com.amazonaws.glue#Count" : {
+         "member" : {
+            "target" : "com.amazonaws.glue#NullableInteger"
+         },
+         "type" : "list"
       },
       "com.amazonaws.glue#Crawl" : {
          "members" : {
@@ -15050,6 +15155,12 @@
                   "smithy.api#documentation" : "<p>A description of the data quality analyzer.</p>"
                }
             },
+            "EvaluatedDistributions" : {
+               "target" : "com.amazonaws.glue#EvaluatedDistributionsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of distribution metrics associated with the evaluation of the analyzer.</p>"
+               }
+            },
             "EvaluatedMetrics" : {
                "target" : "com.amazonaws.glue#EvaluatedMetricsMap",
                "traits" : {
@@ -15143,10 +15254,46 @@
                   "smithy.api#documentation" : "<p>A custom prefix for the CloudWatch log group names. When specified, evaluation run logs are written to <code><CustomLogGroupPrefix>/error</code> and <code><CustomLogGroupPrefix>/output</code> instead of the default <code>/aws-glue/data-quality/error</code> and <code>/aws-glue/data-quality/output</code> log groups.</p>"
                }
             },
+            "DataQualityRuleResults" : {
+               "target" : "com.amazonaws.glue#DataQualityRuleResultsOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for writing rule results to a Glue Data Catalog table.</p>"
+               }
+            },
+            "ObservationMode" : {
+               "target" : "com.amazonaws.glue#ObservationMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The observation mode for the evaluation run. Specifies how anomaly detection bounds are calculated.</p>"
+               }
+            },
+            "ObservationResults" : {
+               "target" : "com.amazonaws.glue#ObservationResultsOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for writing observation results to a Glue Data Catalog table.</p>"
+               }
+            },
+            "ObservationScope" : {
+               "target" : "com.amazonaws.glue#ObservationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scope of the observation for the evaluation run. Specifies whether anomaly detection is enabled or disabled.</p>"
+               }
+            },
+            "ProfilingResults" : {
+               "target" : "com.amazonaws.glue#ProfilingResultsOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for writing profiling results to a Glue Data Catalog table.</p>"
+               }
+            },
             "ResultsS3Prefix" : {
                "target" : "com.amazonaws.glue#UriString",
                "traits" : {
                   "smithy.api#documentation" : "<p>Prefix for Amazon S3 to store results.</p>"
+               }
+            },
+            "RowLevelResults" : {
+               "target" : "com.amazonaws.glue#RowLevelResultsOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for writing row-level evaluation results to a Glue Data Catalog table.</p>"
                }
             }
          },
@@ -15509,8 +15656,28 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.glue#DataQualityRuleRecommendationRunAdditionalRunOptions" : {
+         "members" : {
+            "CustomLogGroupPrefix" : {
+               "target" : "com.amazonaws.glue#GenericString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A custom prefix for the CloudWatch log group names. When specified, recommendation run logs are written to <code><CustomLogGroupPrefix>/error</code> and <code><CustomLogGroupPrefix>/output</code> instead of the default <code>/aws-glue/data-quality/error</code> and <code>/aws-glue/data-quality/output</code> log groups.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Additional run options you can specify for a recommendation run.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.glue#DataQualityRuleRecommendationRunDescription" : {
          "members" : {
+            "CreatedRulesetName" : {
+               "target" : "com.amazonaws.glue#NameString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the ruleset that was created by the recommendation run.</p>"
+               }
+            },
             "DataSource" : {
                "target" : "com.amazonaws.glue#DataSource",
                "traits" : {
@@ -15676,6 +15843,119 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.glue#DataQualityRuleResultsOptions" : {
+         "members" : {
+            "CatalogTableConfig" : {
+               "target" : "com.amazonaws.glue#CatalogTableConfigOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Glue Data Catalog table configuration for storing the rule results.</p>"
+               }
+            },
+            "WriteDataQualityRuleResultsEnabled" : {
+               "target" : "com.amazonaws.glue#NullableBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Set to true to write data quality rule results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for writing data quality rule results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#DataQualityRulesetEvaluationRun" : {
+         "members" : {
+            "AdditionalDataSources" : {
+               "target" : "com.amazonaws.glue#DataSourceMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of reference strings to additional data sources you can specify for an evaluation run.</p>"
+               }
+            },
+            "AdditionalRunOptions" : {
+               "target" : "com.amazonaws.glue#DataQualityEvaluationRunAdditionalRunOptions"
+            },
+            "CompletedOn" : {
+               "target" : "com.amazonaws.glue#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when this run was completed.</p>"
+               }
+            },
+            "DataSource" : {
+               "target" : "com.amazonaws.glue#DataSource"
+            },
+            "ErrorString" : {
+               "target" : "com.amazonaws.glue#GenericString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error strings that are associated with the run.</p>"
+               }
+            },
+            "ExecutionTime" : {
+               "target" : "com.amazonaws.glue#ExecutionTime",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The amount of time (in seconds) that the run consumed resources.</p>"
+               }
+            },
+            "LastModifiedOn" : {
+               "target" : "com.amazonaws.glue#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A timestamp. The last point in time when this run was modified.</p>"
+               }
+            },
+            "NumberOfWorkers" : {
+               "target" : "com.amazonaws.glue#NullableInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of <code>G.1X</code> workers to be used in the run. The default is 5.</p>"
+               }
+            },
+            "ResultIds" : {
+               "target" : "com.amazonaws.glue#DataQualityResultIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of result IDs for the data quality results for the run.</p>"
+               }
+            },
+            "Role" : {
+               "target" : "com.amazonaws.glue#RoleString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An IAM role supplied to encrypt the results of the run.</p>"
+               }
+            },
+            "RulesetNames" : {
+               "target" : "com.amazonaws.glue#RulesetNames",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of ruleset names for the run.</p>"
+               }
+            },
+            "RunId" : {
+               "target" : "com.amazonaws.glue#HashString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique run identifier associated with this run.</p>"
+               }
+            },
+            "StartedOn" : {
+               "target" : "com.amazonaws.glue#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when this run started.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.glue#TaskStatusType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status for this run.</p>"
+               }
+            },
+            "Timeout" : {
+               "target" : "com.amazonaws.glue#Timeout",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters <code>TIMEOUT</code> status. The default is 2,880 minutes (48 hours).</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The details of a data quality ruleset evaluation run.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.glue#DataQualityRulesetEvaluationRunDescription" : {
          "members" : {
             "DataSource" : {
@@ -15741,9 +16021,27 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.glue#DataQualityRulesetEvaluationRunIdList" : {
+         "member" : {
+            "target" : "com.amazonaws.glue#HashString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.glue#DataQualityRulesetEvaluationRunList" : {
          "member" : {
             "target" : "com.amazonaws.glue#DataQualityRulesetEvaluationRunDescription"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.glue#DataQualityRulesetEvaluationRunsList" : {
+         "member" : {
+            "target" : "com.amazonaws.glue#DataQualityRulesetEvaluationRun"
          },
          "type" : "list"
       },
@@ -19738,6 +20036,52 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.glue#DistributionData" : {
+         "members" : {
+            "BinEdges" : {
+               "target" : "com.amazonaws.glue#BinEdges",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The bin edge values for the distribution.</p>"
+               }
+            },
+            "Count" : {
+               "target" : "com.amazonaws.glue#Count",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The frequency count for each bin in the distribution.</p>"
+               }
+            },
+            "DataType" : {
+               "target" : "com.amazonaws.glue#NameString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The data type of the column for the distribution.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The distribution data for a statistic.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#DistributionResultsOptions" : {
+         "members" : {
+            "CatalogTableConfig" : {
+               "target" : "com.amazonaws.glue#CatalogTableConfigOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Glue Data Catalog table configuration for storing the distribution results.</p>"
+               }
+            },
+            "WriteDistributionResultsEnabled" : {
+               "target" : "com.amazonaws.glue#NullableBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Set to true to write distribution results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for writing distribution results.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.glue#Double" : {
          "traits" : {
             "smithy.api#default" : 0
@@ -20474,6 +20818,18 @@
             "smithy.api#documentation" : "<p>Specifies your data quality evaluation criteria.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.glue#EvaluatedDistributionsMap" : {
+         "key" : {
+            "target" : "com.amazonaws.glue#NameString"
+         },
+         "traits" : {
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.glue#DistributionData"
+         }
       },
       "com.amazonaws.glue#EvaluatedMetricsMap" : {
          "key" : {
@@ -23814,6 +24170,12 @@
       },
       "com.amazonaws.glue#GetDataQualityRuleRecommendationRunResponse" : {
          "members" : {
+            "AdditionalRunOptions" : {
+               "target" : "com.amazonaws.glue#DataQualityRuleRecommendationRunAdditionalRunOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional run options you can specify for a recommendation run.</p>"
+               }
+            },
             "CompletedOn" : {
                "target" : "com.amazonaws.glue#Timestamp",
                "traits" : {
@@ -34395,6 +34757,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A paginated token to offset the results.</p>"
                }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.glue#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of key-value pair tags to filter recommendation runs.</p>"
+               }
             }
          },
          "traits" : {
@@ -38014,6 +38382,60 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.glue#ObservationConfiguration" : {
+         "members" : {
+            "ALL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALL"
+               }
+            },
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NONE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.glue#ObservationMode" : {
+         "members" : {
+            "FIXED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FIXED"
+               }
+            },
+            "SCHEDULED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SCHEDULED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.glue#ObservationResultsOptions" : {
+         "members" : {
+            "CatalogTableConfig" : {
+               "target" : "com.amazonaws.glue#CatalogTableConfigOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Glue Data Catalog table configuration for storing the observation results.</p>"
+               }
+            },
+            "WriteObservationResultsEnabled" : {
+               "target" : "com.amazonaws.glue#NullableBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Set to true to write observation results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for writing observation results.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.glue#OffsetConfiguration" : {
          "members" : {
             "LimitParameter" : {
@@ -39445,6 +39867,32 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Specifies the job and session values that an admin configures in an Glue usage profile.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#ProfilingResultsOptions" : {
+         "members" : {
+            "CatalogTableConfig" : {
+               "target" : "com.amazonaws.glue#CatalogTableConfigOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Glue Data Catalog table configuration for storing the profiling results.</p>"
+               }
+            },
+            "DistributionResults" : {
+               "target" : "com.amazonaws.glue#DistributionResultsOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for writing distribution results.</p>"
+               }
+            },
+            "WriteProfilingResultsEnabled" : {
+               "target" : "com.amazonaws.glue#NullableBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Set to true to write profiling results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for writing profiling results.</p>"
          },
          "type" : "structure"
       },
@@ -41728,6 +42176,29 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.glue#ResultTypeEnum" : {
+         "members" : {
+            "ALL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALL"
+               }
+            },
+            "FAILED_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED_ONLY"
+               }
+            },
+            "PASSED_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASSED_ONLY"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.glue#ResumeWorkflowRun" : {
          "errors" : [
             {
@@ -41875,6 +42346,32 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Specifies a route node that directs data to different output paths based on defined filtering conditions.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#RowLevelResultsOptions" : {
+         "members" : {
+            "CatalogTableConfig" : {
+               "target" : "com.amazonaws.glue#CatalogTableConfigOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Glue Data Catalog table configuration for storing the results.</p>"
+               }
+            },
+            "MaxRowsToWrite" : {
+               "target" : "com.amazonaws.glue#NullableInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of rows to write in the results.</p>"
+               }
+            },
+            "ResultType" : {
+               "target" : "com.amazonaws.glue#ResultTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The result type to include in the row-level results output.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for writing row-level evaluation results.</p>"
          },
          "type" : "structure"
       },
@@ -46110,6 +46607,12 @@
       },
       "com.amazonaws.glue#StartDataQualityRuleRecommendationRunRequest" : {
          "members" : {
+            "AdditionalRunOptions" : {
+               "target" : "com.amazonaws.glue#DataQualityRuleRecommendationRunAdditionalRunOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional run options you can specify for a recommendation run.</p>"
+               }
+            },
             "ClientToken" : {
                "target" : "com.amazonaws.glue#HashString",
                "traits" : {
@@ -47226,6 +47729,12 @@
                "target" : "com.amazonaws.glue#ColumnNameList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The list of columns referenced by the statistic.</p>"
+               }
+            },
+            "DistributionValue" : {
+               "target" : "com.amazonaws.glue#DistributionData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The distribution value for the statistic.</p>"
                }
             },
             "DoubleValue" : {
