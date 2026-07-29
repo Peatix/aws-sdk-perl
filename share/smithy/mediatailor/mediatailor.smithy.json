@@ -493,6 +493,64 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.mediatailor#AdsPersonalizationConcurrency" : {
+         "members" : {
+            "EnableVodVastParallelization" : {
+               "target" : "com.amazonaws.mediatailor#__boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables parallel processing of ad decision server requests in VOD workflows when the ADS returns VAST responses. The default is false.</p>"
+               }
+            },
+            "MaxConcurrentAdsRequests" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of simultaneous requests that MediaTailor makes to the ad decision server per manifest request. The default is 1.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The concurrency settings for ad decision server interactions during ad personalization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.mediatailor#AdsPersonalizationTimeouts" : {
+         "members" : {
+            "AdsRequestTimeoutMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum time, in milliseconds, that MediaTailor waits for a single ad decision server response during live or VOD playback. The default is 3000.</p>"
+               }
+            },
+            "LiveMaximumAdsPersonalizationTimeMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity for live manifests, including making requests, waiting for responses, and following VAST wrapper redirects. The default is 10000.</p>"
+               }
+            },
+            "PrefetchAdsRequestTimeoutMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum time, in milliseconds, that MediaTailor waits for a single ad decision server response during prefetch retrieval. If not set, the value of AdsRequestTimeoutMilliseconds is used.</p>"
+               }
+            },
+            "PrefetchMaximumAdsPersonalizationTimeMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity during prefetch retrieval, including making requests, waiting for responses, and following VAST wrapper redirects.</p>"
+               }
+            },
+            "VodMaximumAdsPersonalizationTimeMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity for VOD manifests, including making requests, waiting for responses, and following VAST wrapper redirects. The default is 10000.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The timeout settings for ad decision server interactions during ad personalization.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.mediatailor#Alert" : {
          "members" : {
             "AlertCode" : {
@@ -3028,7 +3086,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "-- Define Mixin --"
+            "smithy.api#documentation" : "<p>Defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. The <code>FunctionType</code> determines the function's runtime behavior. For more information about functions, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions.html\">Working with functions</a> in the <i>MediaTailor User Guide</i>.</p>"
          },
          "type" : "structure"
       },
@@ -3390,6 +3448,18 @@
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
                   "smithy.api#documentation" : "<p>The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.</p>"
+               }
+            },
+            "AdsPersonalizationConcurrency" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationConcurrency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.</p>"
+               }
+            },
+            "AdsPersonalizationTimeouts" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationTimeouts",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.</p>"
                }
             },
             "AvailSuppression" : {
@@ -3803,7 +3873,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "-- Function Configuration DataStructure"
+            "smithy.api#documentation" : "<p>The configuration for an <code>HTTP_REQUEST</code> function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions for the request. For more information, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-http-request.html\">HTTP_REQUEST</a> in the <i>MediaTailor User Guide</i>.</p>"
          },
          "type" : "structure"
       },
@@ -6083,6 +6153,18 @@
                   "smithy.api#documentation" : "<p>The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.</p>"
                }
             },
+            "AdsPersonalizationConcurrency" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationConcurrency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.</p>"
+               }
+            },
+            "AdsPersonalizationTimeouts" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationTimeouts",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.</p>"
+               }
+            },
             "AvailSuppression" : {
                "target" : "com.amazonaws.mediatailor#AvailSuppression",
                "traits" : {
@@ -6706,6 +6788,18 @@
                   "smithy.api#documentation" : "<p>The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.</p>"
                }
             },
+            "AdsPersonalizationConcurrency" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationConcurrency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.</p>"
+               }
+            },
+            "AdsPersonalizationTimeouts" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationTimeouts",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.</p>"
+               }
+            },
             "AvailSuppression" : {
                "target" : "com.amazonaws.mediatailor#AvailSuppression",
                "traits" : {
@@ -6820,6 +6914,18 @@
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
                   "smithy.api#documentation" : "<p>The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.</p>"
+               }
+            },
+            "AdsPersonalizationConcurrency" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationConcurrency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.</p>"
+               }
+            },
+            "AdsPersonalizationTimeouts" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationTimeouts",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.</p>"
                }
             },
             "AvailSuppression" : {
