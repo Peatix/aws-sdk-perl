@@ -3748,6 +3748,18 @@
                   "smithy.api#documentation" : "<p>Specifies the size of the in-memory Parquet cache in megabytes or percentage of total available memory.</p>\n         <p>Default: 20%</p>"
                }
             },
+            "pluginRepositorySecretArn" : {
+               "target" : "com.amazonaws.timestreaminfluxdb#PluginRepositorySecretArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Secrets Manager secret that holds your repository access token.</p>"
+               }
+            },
+            "pluginRepositoryUrl" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the URL of the repository that InfluxDB downloads plugins from.</p>"
+               }
+            },
             "preemptiveCacheAge" : {
                "target" : "com.amazonaws.timestreaminfluxdb#Duration",
                "traits" : {
@@ -4146,6 +4158,18 @@
                "target" : "com.amazonaws.timestreaminfluxdb#PercentOrAbsoluteLong",
                "traits" : {
                   "smithy.api#documentation" : "<p>Specifies the size of the in-memory Parquet cache in megabytes or percentage of total available memory.</p>\n         <p>Default: 20%</p>"
+               }
+            },
+            "pluginRepositorySecretArn" : {
+               "target" : "com.amazonaws.timestreaminfluxdb#PluginRepositorySecretArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Secrets Manager secret that holds your repository access token.</p>"
+               }
+            },
+            "pluginRepositoryUrl" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the URL of the repository that InfluxDB downloads plugins from.</p>"
                }
             },
             "preemptiveCacheAge" : {
@@ -4938,6 +4962,16 @@
             "smithy.api#documentation" : "<p>Percent or Absolute Long for InfluxDB parameters</p>"
          },
          "type" : "union"
+      },
+      "com.amazonaws.timestreaminfluxdb#PluginRepositorySecretArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:(aws|aws-cn|aws-us-gov):secretsmanager:[a-z0-9\\-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@\\-]+$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.timestreaminfluxdb#Port" : {
          "traits" : {

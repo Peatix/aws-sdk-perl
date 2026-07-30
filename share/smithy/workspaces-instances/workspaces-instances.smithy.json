@@ -302,6 +302,7 @@
                "max" : 64,
                "min" : 1
             },
+            "smithy.api#pattern" : "^[\\x20-\\x7E]+$",
             "smithy.api#sensitive" : {}
          },
          "type" : "string"
@@ -986,6 +987,7 @@
             "aws.protocols#awsJson1_0" : {},
             "smithy.api#documentation" : "<p>Amazon WorkSpaces Instances provides an API framework for managing virtual workspace environments across multiple AWS regions, enabling programmatic creation and configuration of desktop infrastructure.</p>",
             "smithy.api#title" : "Amazon Workspaces Instances",
+            "smithy.protocols#rpcv2Cbor" : {},
             "smithy.rules#endpointBdd" : {
                "conditions" : [
                   {
@@ -1967,6 +1969,10 @@
       },
       "com.amazonaws.workspacesinstances#InstanceType" : {
          "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
             "smithy.api#pattern" : "^([a-z0-9-]+)\\.([a-z0-9]+)$"
          },
          "type" : "string"

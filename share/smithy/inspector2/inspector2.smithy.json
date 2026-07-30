@@ -4313,12 +4313,6 @@
                   "smithy.api#required" : {}
                }
             },
-            "tags" : {
-               "target" : "com.amazonaws.inspector2#TagMap",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The tags associated with the code security integration.</p>"
-               }
-            },
             "type" : {
                "target" : "com.amazonaws.inspector2#IntegrationType",
                "traits" : {
@@ -4448,12 +4442,6 @@
                "target" : "com.amazonaws.inspector2#ScopeSettings",
                "traits" : {
                   "smithy.api#documentation" : "<p>The scope settings that define which repositories will be scanned. If the\n            <code>ScopeSetting</code> parameter is <code>ALL</code> the scan configuration applies\n         to all existing and future projects imported into Amazon Inspector.</p>"
-               }
-            },
-            "tags" : {
-               "target" : "com.amazonaws.inspector2#TagMap",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The tags associated with the scan configuration.</p>"
                }
             }
          },
@@ -5109,7 +5097,7 @@
                "max" : 128,
                "min" : 1
             },
-            "smithy.api#pattern" : "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$"
+            "smithy.api#pattern" : "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$"
          },
          "type" : "string"
       },
@@ -16180,7 +16168,7 @@
                "max" : 512,
                "min" : 1
             },
-            "smithy.api#pattern" : "^(?:/(?:\\.[-\\w]+|[-\\w]+(?:\\.[-\\w]+)?))+/?$"
+            "smithy.api#pattern" : "^(?:(?:/(?:\\.[-\\w]+|[-\\w]+(?:[. ][-\\w]+)*))+/?|[A-Za-z]:\\\\(?:[-\\w]+(?:[. ][-\\w]+)*\\\\)*[-\\w]+(?:[. ][-\\w]+)*)$"
          },
          "type" : "string"
       },

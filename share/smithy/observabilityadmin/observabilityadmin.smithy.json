@@ -3064,6 +3064,24 @@
                   "smithy.api#enumValue" : "ACCESS_LOGS"
                }
             },
+            "ALB_ACCESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALB_ACCESS_LOGS"
+               }
+            },
+            "ALB_CONNECTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALB_CONNECTION_LOGS"
+               }
+            },
+            "ALB_HEALTH_CHECK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALB_HEALTH_CHECK_LOGS"
+               }
+            },
             "APPLICATION" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -4471,6 +4489,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "AWS::BedrockAgentCore::WorkloadIdentity"
+               }
+            },
+            "AWS_BEDROCK_KNOWLEDGEBASE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS::Bedrock::KnowledgeBase"
                }
             },
             "AWS_CLOUDFRONT_DISTRIBUTION" : {
