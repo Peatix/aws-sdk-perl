@@ -3180,6 +3180,26 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.datazone#CommitHash" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.datazone#CommitMessage" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
       "com.amazonaws.datazone#CompletedAt" : {
          "type" : "timestamp"
       },
@@ -8023,6 +8043,12 @@
                   "smithy.api#documentation" : "<p>The error details if the notebook creation failed.</p>"
                }
             },
+            "gitMetadata" : {
+               "target" : "com.amazonaws.datazone#GitMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Git metadata associated with the notebook.</p>"
+               }
+            },
             "id" : {
                "target" : "com.amazonaws.datazone#NotebookId",
                "traits" : {
@@ -11263,6 +11289,9 @@
             },
             {
                "target" : "com.amazonaws.datazone#StartNotebookImport"
+            },
+            {
+               "target" : "com.amazonaws.datazone#StartNotebookSync"
             },
             {
                "target" : "com.amazonaws.datazone#TagResource"
@@ -16272,6 +16301,15 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.datazone#FileName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.datazone#Filter" : {
          "members" : {
             "attribute" : {
@@ -21017,6 +21055,12 @@
                   "smithy.api#documentation" : "<p>The error details if the notebook is in a failed state.</p>"
                }
             },
+            "gitMetadata" : {
+               "target" : "com.amazonaws.datazone#GitMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Git metadata associated with the notebook.</p>"
+               }
+            },
             "id" : {
                "target" : "com.amazonaws.datazone#NotebookId",
                "traits" : {
@@ -22664,6 +22708,90 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.datazone#GitBranch" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.datazone#GitConnectionId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 40,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.datazone#GitMetadata" : {
+         "members" : {
+            "branch" : {
+               "target" : "com.amazonaws.datazone#GitBranch",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Git branch.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "commitHash" : {
+               "target" : "com.amazonaws.datazone#CommitHash",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The commit hash in the Git repository.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "commitMessage" : {
+               "target" : "com.amazonaws.datazone#CommitMessage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The commit message associated with the Git commit.</p>"
+               }
+            },
+            "committedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the commit was made.</p>"
+               }
+            },
+            "connectionId" : {
+               "target" : "com.amazonaws.datazone#GitConnectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Git connection.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "fileName" : {
+               "target" : "com.amazonaws.datazone#FileName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the file in the Git repository.</p>"
+               }
+            },
+            "repository" : {
+               "target" : "com.amazonaws.datazone#GitRepository",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Git repository.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Git metadata for a notebook sync operation in Amazon SageMaker Unified Studio. Contains information about the Git repository, branch, and commit associated with the notebook.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#GitRepository" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
       },
       "com.amazonaws.datazone#GlobalParameterMap" : {
          "key" : {
@@ -30543,6 +30671,9 @@
             "error" : {
                "target" : "com.amazonaws.datazone#NotebookError"
             },
+            "gitMetadata" : {
+               "target" : "com.amazonaws.datazone#GitMetadata"
+            },
             "id" : {
                "target" : "com.amazonaws.datazone#NotebookId"
             },
@@ -31032,6 +31163,20 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The notebook is archived.</p>",
                   "smithy.api#enumValue" : "ARCHIVED"
+               }
+            },
+            "SYNC_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The notebook sync failed.</p>",
+                  "smithy.api#enumValue" : "SYNC_FAILED"
+               }
+            },
+            "SYNC_IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The notebook sync is in progress.</p>",
+                  "smithy.api#enumValue" : "SYNC_IN_PROGRESS"
                }
             }
          },
@@ -38097,6 +38242,176 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.datazone#StartNotebookSync" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.datazone#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.datazone#StartNotebookSyncInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.datazone#StartNotebookSyncOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Starts a notebook sync in Amazon SageMaker Unified Studio. This operation syncs a notebook from a Git repository into a project.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/v2/domains/{domainIdentifier}/notebook-syncs"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.datazone#StartNotebookSyncInput" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.datazone#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the notebook.</p>"
+               }
+            },
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which to sync the notebook.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "gitMetadata" : {
+               "target" : "com.amazonaws.datazone#GitMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Git metadata for the notebook sync, including repository, branch, and commit information.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the notebook. The name must be between 1 and 256 characters.</p>"
+               }
+            },
+            "notebookId" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of an existing notebook to sync. If not specified, a new notebook is created.</p>"
+               }
+            },
+            "owningProjectIdentifier" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that will own the synced notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sourceLocation" : {
+               "target" : "com.amazonaws.datazone#SourceLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source location of the notebook to sync. This specifies the Amazon Simple Storage Service URI of the notebook file.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#StartNotebookSyncOutput" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.datazone#CreatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook sync was started.</p>"
+               }
+            },
+            "createdBy" : {
+               "target" : "com.amazonaws.datazone#CreatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who started the notebook sync.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the synced notebook.</p>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>"
+               }
+            },
+            "gitMetadata" : {
+               "target" : "com.amazonaws.datazone#GitMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Git metadata associated with the synced notebook.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the synced notebook.</p>"
+               }
+            },
+            "notebookId" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the synced notebook.</p>"
+               }
+            },
+            "owningProjectId" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the synced notebook.</p>"
+               }
+            },
+            "sourceLocation" : {
+               "target" : "com.amazonaws.datazone#SourceLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source location from which the notebook was synced.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the notebook sync.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.datazone#Status" : {
          "members" : {
             "DISABLED" : {
@@ -42867,6 +43182,12 @@
                "target" : "com.amazonaws.datazone#NotebookError",
                "traits" : {
                   "smithy.api#documentation" : "<p>The error details if the notebook is in a failed state.</p>"
+               }
+            },
+            "gitMetadata" : {
+               "target" : "com.amazonaws.datazone#GitMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Git metadata associated with the notebook.</p>"
                }
             },
             "id" : {

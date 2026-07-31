@@ -8186,6 +8186,12 @@
                   "smithy.api#documentation" : "<p>The ability to perform actions using HuggingFace connectors.</p>"
                }
             },
+            "InboundEmailTrigger" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, view, edit, delete, and run inbound email triggers for flows and automations.</p>"
+               }
+            },
             "IncludeContentInScheduledReportsEmail" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8300,6 +8306,12 @@
                   "smithy.api#documentation" : "<p>The ability to enable approvals for flow share.</p>"
                }
             },
+            "QuickEventTrigger" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, view, edit, delete, and run Quick event triggers for flows and automations.</p>"
+               }
+            },
             "RenameSharedFolders" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8364,6 +8376,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform Scenario-related actions.</p>"
+               }
+            },
+            "ScheduleTrigger" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, view, edit, delete, and run schedule triggers for flows and automations.</p>"
                }
             },
             "SelfUpgradeUserRole" : {
@@ -8726,6 +8744,12 @@
                   "smithy.api#documentation" : "<p>The ability to perform Topic-related actions.</p>"
                }
             },
+            "Trigger" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to manage trigger-related settings for flows and automations.</p>"
+               }
+            },
             "UseAgentWebSearch" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8780,6 +8804,12 @@
                   "smithy.api#documentation" : "<p>The ability to use Box Agent actions.</p>"
                }
             },
+            "UseBrowserExtension" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the browser extension for Chrome, Firefox, and Edge.</p>"
+               }
+            },
             "UseCanvaAgentAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8802,6 +8832,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use Atlassian Confluence Cloud actions.</p>"
+               }
+            },
+            "UseExcelAddInExtension" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the Microsoft Excel add-in.</p>"
                }
             },
             "UseFactSetAction" : {
@@ -8906,10 +8942,22 @@
                   "smithy.api#documentation" : "<p>The ability to use OpenAPI Specification actions.</p>"
                }
             },
+            "UseOutlookAddInExtension" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the Microsoft Outlook add-in.</p>"
+               }
+            },
             "UsePagerDutyAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use PagerDuty Advance actions.</p>"
+               }
+            },
+            "UsePowerpointAddInExtension" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the Microsoft PowerPoint add-in.</p>"
                }
             },
             "UseSAPBillOfMaterialAction" : {
@@ -8990,6 +9038,12 @@
                   "smithy.api#documentation" : "<p>The ability to use Textract actions.</p>"
                }
             },
+            "UseWordAddInExtension" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the Microsoft Word add-in.</p>"
+               }
+            },
             "UseZendeskAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -9016,12 +9070,21 @@
       },
       "com.amazonaws.quicksight#CapabilityState" : {
          "members" : {
+            "ALLOW" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALLOW"
+               }
+            },
             "DENY" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "DENY"
                }
             }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The permission state of a capability in a custom permissions profile. Valid values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DENY</code> – Amazon Quick denies this capability for users assigned to the profile.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ALLOW</code> – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always <code>ALLOW</code>. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.</p>\n            </li>\n         </ul>"
          },
          "type" : "enum"
       },
@@ -12837,6 +12900,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the custom permissions profile that you want to create.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "Governance" : {
+               "target" : "com.amazonaws.quicksight#Governance",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The governance configuration for the custom permissions profile. When governance controls are defined for a category, any capabilities in that category not explicitly set to <code>ALLOW</code> in <code>Capabilities</code> are denied. Even newly added capabilities in the category are implicitly disabled when Amazon Quick releases them.</p>"
                }
             },
             "Tags" : {
@@ -16718,6 +16787,12 @@
                "target" : "com.amazonaws.quicksight#CustomPermissionsName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the custom permissions profile.</p>"
+               }
+            },
+            "Governance" : {
+               "target" : "com.amazonaws.quicksight#Governance",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The governance configuration for the custom permissions profile. When you enable governance for a category, Amazon Quick denies access to any current or new capability in that category unless you explicitly set that capability to <code>ALLOW</code> in <code>Capabilities</code>.</p>"
                }
             }
          },
@@ -21770,6 +21845,35 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.quicksight#DefaultCategoryEffect" : {
+         "members" : {
+            "DENY_BY_DEFAULT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DENY_BY_DEFAULT"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The default effect that Amazon Quick applies to capabilities in a governed category when you do not explicitly list those capabilities in <code>Capabilities</code>. Valid values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DENY_BY_DEFAULT</code> – Amazon Quick denies any capability access in the given category that the profile does not explicitly set to <code>ALLOW</code>.</p>\n            </li>\n         </ul>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.quicksight#DefaultCategoryEffectsMap" : {
+         "key" : {
+            "target" : "com.amazonaws.quicksight#GovernanceCategoryName"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.quicksight#DefaultCategoryEffect"
+         }
       },
       "com.amazonaws.quicksight#DefaultDateTimePickerControlOptions" : {
          "members" : {
@@ -38932,6 +39036,30 @@
             "smithy.api#documentation" : "<p>The connection parameters for a Google Drive data source. Provide these parameters in the <code>DataSourceParameters</code> object when you create or update a data source that uses Google Drive.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.quicksight#Governance" : {
+         "members" : {
+            "DefaultCategoryEffects" : {
+               "target" : "com.amazonaws.quicksight#DefaultCategoryEffectsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of <code>DefaultCategoryEffects</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the governance configuration for a custom permissions profile. When governance controls are defined for a category, any capabilities in that category not explicitly set to <code>ALLOW</code> in <code>Capabilities</code> are denied. Even newly added capabilities in the category are implicitly disabled when Amazon Quick releases them.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#GovernanceCategoryName" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name of a governance category. A governance category groups related capabilities so that you can apply a default effect to all capabilities in the category at once. Valid values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AI</code> – Capabilities related to Amazon Quick AI features.</p>\n            </li>\n         </ul>",
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.quicksight#GradientColor" : {
          "members" : {
@@ -62339,6 +62467,12 @@
                   "smithy.api#enumValue" : "ATHENA"
                }
             },
+            "GLUE_DATA_CATALOG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GLUE_DATA_CATALOG"
+               }
+            },
             "QBUSINESS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -73911,6 +74045,12 @@
                   "smithy.api#documentation" : "<p>The name of the custom permissions profile that you want to update.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
+               }
+            },
+            "Governance" : {
+               "target" : "com.amazonaws.quicksight#Governance",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The governance configuration for the custom permissions profile. The <code>UpdateCustomPermissions</code> operation replaces all existing <code>Capabilities</code> and <code>Governance</code> values. If you omit this parameter, Amazon Quick removes governance from the profile and the existing custom permission behavior applies.</p>"
                }
             }
          },

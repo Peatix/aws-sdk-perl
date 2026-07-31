@@ -976,6 +976,12 @@
                "traits" : {
                   "smithy.api#enumValue" : "DELETING"
                }
+            },
+            "UPDATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATING"
+               }
             }
          },
          "type" : "enum"
