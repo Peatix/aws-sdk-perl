@@ -978,6 +978,17 @@
          "uri" : "https://pinpoint.{region}.amazonaws.com"
       }
    ],
+   "pricingplanmanager" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "pricingplanmanager"
+            }
+         },
+         "uri" : "https://pricingplanmanager.us-east-1.api.aws"
+      }
+   ],
    "route53" : [
       {
          "properties" : {
