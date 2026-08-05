@@ -277,6 +277,18 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.partnercentralaccount#AssociatedPartnerList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationPartner"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of partner profile and account identifiers representing all partners associated under the primary partner.</p>",
+            "smithy.api#length" : {
+               "max" : 6
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.partnercentralaccount#AwsAccountId" : {
          "traits" : {
             "smithy.api#pattern" : "^[0-9]{12}$"
@@ -315,6 +327,18 @@
                   "smithy.api#enumValue" : "INCOMPATIBLE_LEGAL_NAME"
                }
             },
+            "INCOMPATIBLE_PRIMARY_PARTNER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INCOMPATIBLE_PRIMARY_PARTNER"
+               }
+            },
+            "INCOMPATIBLE_SUBSIDIARY_CONNECTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INCOMPATIBLE_SUBSIDIARY_CONNECTION"
+               }
+            },
             "INELIGIBLE_ACCOUNT_TIER" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -331,6 +355,30 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "INVALID_ACCOUNT_STATE"
+               }
+            },
+            "MISSING_ACTIVE_SUBSIDIARY_CONNECTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MISSING_ACTIVE_SUBSIDIARY_CONNECTION"
+               }
+            },
+            "QUALIFICATIONS_ASSOCIATION_EXISTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "QUALIFICATIONS_ASSOCIATION_EXISTS"
+               }
+            },
+            "QUALIFICATIONS_ASSOCIATION_LIMIT_EXCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "QUALIFICATIONS_ASSOCIATION_LIMIT_EXCEEDED"
+               }
+            },
+            "QUALIFICATIONS_ASSOCIATION_NOT_FOUND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "QUALIFICATIONS_ASSOCIATION_NOT_FOUND"
                }
             }
          },
@@ -968,6 +1016,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "INCOMPATIBLE_PROFILE_STATE"
+               }
+            },
+            "INCOMPATIBLE_QUALIFICATIONS_ASSOCIATION_TASK_STATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INCOMPATIBLE_QUALIFICATIONS_ASSOCIATION_TASK_STATE"
                }
             },
             "VERIFICATION_ALREADY_IN_PROGRESS" : {
@@ -2796,6 +2850,342 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.partnercentralaccount#GetQualificationsAssociationDetails" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralaccount#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralaccount#GetQualificationsAssociationDetailsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralaccount#GetQualificationsAssociationDetailsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns your current qualifications association status, the primary partner, and the full list of partners associated under the primary partner.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralaccount#GetQualificationsAssociationDetailsRequest" : {
+         "members" : {
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralaccount#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog in which to look up the qualifications association. Valid values: <code>AWS</code>, <code>Sandbox</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your partner identifier. You can provide either a partner ID (for example, <code>partner-abc123</code>) or a partner ARN. You must own this identifier.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#GetQualificationsAssociationDetailsResponse" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) that uniquely identifies your partner resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "AssociatedPartners" : {
+               "target" : "com.amazonaws.partnercentralaccount#AssociatedPartnerList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of all partner profile and account identifiers currently associated under the primary partner. This field is null when the status is <code>NOT_ASSOCIATED</code>.</p>"
+               }
+            },
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralaccount#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier echoed from the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your unique partner identifier in the AWS Partner Network.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PrimaryPartner" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationPartner",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary partner's profile and account identifiers. This field is null when the status is <code>NOT_ASSOCIATED</code>.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current qualifications association status. Valid values: <code>ASSOCIATED</code> (the partner is associated with a primary), <code>NOT_ASSOCIATED</code> (the partner has no active association).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UpdatedAt" : {
+               "target" : "com.amazonaws.partnercentralaccount#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the qualifications association was last updated, in ISO 8601 format. This field is null when the status is <code>NOT_ASSOCIATED</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#GetQualificationsAssociationTask" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralaccount#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralaccount#GetQualificationsAssociationTaskRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralaccount#GetQualificationsAssociationTaskResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the status and details of the most recent qualifications association task for your partner account. Use this operation to poll the progress of an association task initiated by <code>StartQualificationsAssociationTask</code>.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralaccount#GetQualificationsAssociationTaskRequest" : {
+         "members" : {
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralaccount#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog in which to look up the qualifications association task. Valid values: <code>AWS</code>, <code>Sandbox</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your partner identifier. You can provide either a partner ID (for example, <code>partner-abc123</code>) or a partner ARN. You must own this identifier.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#GetQualificationsAssociationTaskResponse" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) that uniquely identifies your partner resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralaccount#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier echoed from the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "EndedAt" : {
+               "target" : "com.amazonaws.partnercentralaccount#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the qualifications association task ended, in ISO 8601 format. This field is present only when the status is <code>SUCCEEDED</code>.</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your unique partner identifier in the AWS Partner Network.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PrimaryPartner" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationPartner",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary partner's profile and account identifiers that the task is associating qualifications with.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "StartedAt" : {
+               "target" : "com.amazonaws.partnercentralaccount#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the qualifications association task started, in ISO 8601 format.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationTaskStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the qualifications association task. Valid values: <code>IN_PROGRESS</code>, <code>SUCCEEDED</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TaskId" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationTaskId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the qualifications association task, in the format <code>pqatask-[a-z2-7]{13}</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#GetQualificationsDisassociationTask" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralaccount#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralaccount#GetQualificationsDisassociationTaskRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralaccount#GetQualificationsDisassociationTaskResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the status and details of the most recent qualifications disassociation task for your partner account. Use this operation to poll the progress of a disassociation task initiated by <code>StartQualificationsDisassociationTask</code>.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralaccount#GetQualificationsDisassociationTaskRequest" : {
+         "members" : {
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralaccount#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog in which to look up the qualifications disassociation task. Valid values: <code>AWS</code>, <code>Sandbox</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your partner identifier. You can provide either a partner ID (for example, <code>partner-abc123</code>) or a partner ARN. You must own this identifier.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#GetQualificationsDisassociationTaskResponse" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) that uniquely identifies your partner resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "AssociatedPartner" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationPartner",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary partner's profile and account identifiers that the task is disassociating qualifications from.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralaccount#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier echoed from the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "EndedAt" : {
+               "target" : "com.amazonaws.partnercentralaccount#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the qualifications disassociation task ended, in ISO 8601 format. This field is present only when the status is <code>SUCCEEDED</code>.</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your unique partner identifier in the AWS Partner Network.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "StartedAt" : {
+               "target" : "com.amazonaws.partnercentralaccount#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the qualifications disassociation task started, in ISO 8601 format.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsDisassociationTaskStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the qualifications disassociation task. Valid values: <code>IN_PROGRESS</code>, <code>SUCCEEDED</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TaskId" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsDisassociationTaskId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the qualifications disassociation task, in the format <code>pqdtask-[a-z2-7]{13}</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.partnercentralaccount#GetVerification" : {
          "errors" : [
             {
@@ -2886,6 +3276,28 @@
          },
          "traits" : {
             "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#Headquarters" : {
+         "members" : {
+            "CountryCode" : {
+               "target" : "com.amazonaws.partnercentralaccount#CountryCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ISO 3166-1 alpha-2 country code of the partner's headquarters. For example, <code>US</code>, <code>BR</code>, or <code>DE</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SubdivisionCode" : {
+               "target" : "com.amazonaws.partnercentralaccount#SubdivisionCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The subdivision portion of the ISO 3166-2 code for the partner's headquarters (for example, <code>SP</code> from <code>BR-SP</code>, <code>NSW</code> from <code>AU-NSW</code>, or <code>13</code> from <code>JP-13</code>).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the partner's headquarters location using International Organization for Standardization (ISO) 3166 country and subdivision codes.</p>"
          },
          "type" : "structure"
       },
@@ -3742,6 +4154,15 @@
                "target" : "com.amazonaws.partnercentralaccount#GetProfileVisibility"
             },
             {
+               "target" : "com.amazonaws.partnercentralaccount#GetQualificationsAssociationDetails"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#GetQualificationsAssociationTask"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#GetQualificationsDisassociationTask"
+            },
+            {
                "target" : "com.amazonaws.partnercentralaccount#PutAllianceLeadContact"
             },
             {
@@ -3749,6 +4170,12 @@
             },
             {
                "target" : "com.amazonaws.partnercentralaccount#StartProfileUpdateTask"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#StartQualificationsAssociationTask"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#StartQualificationsDisassociationTask"
             }
          ],
          "read" : {
@@ -4233,6 +4660,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The public display name for the partner organization.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "Headquarters" : {
+               "target" : "com.amazonaws.partnercentralaccount#Headquarters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ISO 3166 country and subdivision codes for the partner's headquarters location. If no headquarters location is set, this field is not included in the response.</p>"
                }
             },
             "IndustrySegments" : {
@@ -4734,6 +5167,108 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.partnercentralaccount#QualificationsAssociationPartner" : {
+         "members" : {
+            "AccountId" : {
+               "target" : "com.amazonaws.partnercentralaccount#AwsAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The 12-digit AWS account ID linked to the partner profile. Required in requests if <code>ProfileId</code> is not provided.</p>"
+               }
+            },
+            "ProfileId" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerProfileId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the partner profile, in the format <code>pprofile-*</code>. Required in requests if <code>AccountId</code> is not provided.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Identifies a partner in a qualifications association group. Contains the partner's profile identifier and AWS account identifier. In requests, provide at least one of <code>ProfileId</code> or <code>AccountId</code>. In responses, both fields are populated.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#QualificationsAssociationStatus" : {
+         "members" : {
+            "ASSOCIATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ASSOCIATED"
+               }
+            },
+            "NOT_ASSOCIATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NOT_ASSOCIATED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The current state of a partner qualifications association. Valid values: <code>ASSOCIATED</code> (the partner is associated with a primary), <code>NOT_ASSOCIATED</code> (the partner has no active association).</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralaccount#QualificationsAssociationTaskId" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The unique identifier for a qualifications association task, in the format <code>pqatask-[a-z2-7]{13}</code>.</p>",
+            "smithy.api#length" : {
+               "max" : 80,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^pqatask-[A-Za-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralaccount#QualificationsAssociationTaskStatus" : {
+         "members" : {
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IN_PROGRESS"
+               }
+            },
+            "SUCCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUCCEEDED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The current status of a qualifications association task. Valid values: <code>IN_PROGRESS</code> (task is running), <code>SUCCEEDED</code> (task completed successfully).</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralaccount#QualificationsDisassociationTaskId" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The unique identifier for a qualifications disassociation task, in the format <code>pqdtask-[a-z2-7]{13}</code>.</p>",
+            "smithy.api#length" : {
+               "max" : 80,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^pqdtask-[A-Za-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralaccount#QualificationsDisassociationTaskStatus" : {
+         "members" : {
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IN_PROGRESS"
+               }
+            },
+            "SUCCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUCCEEDED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The current status of a qualifications disassociation task. Valid values: <code>IN_PROGRESS</code> (task is running), <code>SUCCEEDED</code> (task completed successfully).</p>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.partnercentralaccount#RegistrantVerificationDetails" : {
          "members" : {},
          "traits" : {
@@ -5012,6 +5547,18 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "PARTNER_PROFILE_TASK_NOT_FOUND"
+               }
+            },
+            "QUALIFICATIONS_ASSOCIATION_TASK_NOT_FOUND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "QUALIFICATIONS_ASSOCIATION_TASK_NOT_FOUND"
+               }
+            },
+            "QUALIFICATIONS_DISASSOCIATION_TASK_NOT_FOUND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "QUALIFICATIONS_DISASSOCIATION_TASK_NOT_FOUND"
                }
             },
             "RECEIVER_PROFILE_NOT_FOUND" : {
@@ -5350,6 +5897,258 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.partnercentralaccount#StartQualificationsAssociationTask" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralaccount#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralaccount#StartQualificationsAssociationTaskRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralaccount#StartQualificationsAssociationTaskResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Initiates an asynchronous task to associate your partner qualifications with a primary account. You must be a subsidiary of the primary account with an active subsidiary connection. Use <code>GetQualificationsAssociationTask</code> to monitor task progress.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralaccount#StartQualificationsAssociationTaskRequest" : {
+         "members" : {
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralaccount#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog in which to perform the qualifications association. Valid values: <code>AWS</code>, <code>Sandbox</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ClientToken" : {
+               "target" : "com.amazonaws.partnercentralaccount#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your partner identifier. You can provide either a partner ID (for example, <code>partner-abc123</code>) or a partner ARN. You must own this identifier.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PrimaryPartner" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationPartner",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary (acquiring) partner's profile and account identifier to associate qualifications with. You must provide at least one of <code>ProfileId</code> or <code>AccountId</code>. You cannot specify yourself as the primary partner.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#StartQualificationsAssociationTaskResponse" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) that uniquely identifies your partner resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralaccount#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier echoed from the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your unique partner identifier in the AWS Partner Network.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PrimaryPartner" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationPartner",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resolved primary partner's profile and account identifiers, including both <code>ProfileId</code> and <code>AccountId</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "StartedAt" : {
+               "target" : "com.amazonaws.partnercentralaccount#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the qualifications association task started, in ISO 8601 format.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationTaskStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the qualifications association task. The initial value is <code>IN_PROGRESS</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TaskId" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationTaskId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the started qualifications association task, in the format <code>pqatask-[a-z2-7]{13}</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#StartQualificationsDisassociationTask" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralaccount#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralaccount#StartQualificationsDisassociationTaskRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralaccount#StartQualificationsDisassociationTaskResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Initiates an asynchronous task to disassociate your partner qualifications from a primary account. You must currently be associated and cannot disassociate if you are the primary partner. Use <code>GetQualificationsDisassociationTask</code> to monitor task progress.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralaccount#StartQualificationsDisassociationTaskRequest" : {
+         "members" : {
+            "AssociatedPartner" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationPartner",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary partner's profile and account identifier that you are currently associated with and will disassociate from. You must provide at least one of <code>ProfileId</code> or <code>AccountId</code>. The specified partner must match your current primary association.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralaccount#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog in which to perform the qualifications disassociation. Valid values: <code>AWS</code>, <code>Sandbox</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ClientToken" : {
+               "target" : "com.amazonaws.partnercentralaccount#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your partner identifier. You can provide either a partner ID (for example, <code>partner-abc123</code>) or a partner ARN. You must own this identifier.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#StartQualificationsDisassociationTaskResponse" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) that uniquely identifies your partner resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "AssociatedPartner" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsAssociationPartner",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resolved primary partner's profile and account identifiers that the task is disassociating qualifications from.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralaccount#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier echoed from the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.partnercentralaccount#PartnerId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your unique partner identifier in the AWS Partner Network.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "StartedAt" : {
+               "target" : "com.amazonaws.partnercentralaccount#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the qualifications disassociation task started, in ISO 8601 format.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsDisassociationTaskStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the qualifications disassociation task. The initial value is <code>IN_PROGRESS</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TaskId" : {
+               "target" : "com.amazonaws.partnercentralaccount#QualificationsDisassociationTaskId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the started qualifications disassociation task, in the format <code>pqdtask-[a-z2-7]{13}</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.partnercentralaccount#StartVerification" : {
          "errors" : [
             {
@@ -5451,6 +6250,16 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.partnercentralaccount#SubdivisionCode" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 3,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[A-Z0-9]{1,3}$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.partnercentralaccount#Tag" : {
          "members" : {
@@ -5624,6 +6433,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The updated display name for the partner profile.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "Headquarters" : {
+               "target" : "com.amazonaws.partnercentralaccount#Headquarters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ISO 3166 country and subdivision codes for the partner's headquarters location. If you omit this field, the service retains the existing headquarters value.</p>"
                }
             },
             "IndustrySegments" : {

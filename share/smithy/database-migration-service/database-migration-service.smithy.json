@@ -2082,7 +2082,7 @@
             "target" : "com.amazonaws.databasemigrationservice#CancelMetadataModelConversionResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Cancels a single metadata model conversion operation that was started with <code>StartMetadataModelConversion</code>.</p>"
+            "smithy.api#documentation" : "<p>Cancels a single metadata model conversion operation that was started with <code>StartMetadataModelConversion</code>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:CancelMetadataModelConversion</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -2111,7 +2111,10 @@
       "com.amazonaws.databasemigrationservice#CancelMetadataModelConversionResponse" : {
          "members" : {
             "Request" : {
-               "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequest"
+               "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metadata model conversion request.</p>\n         <note>\n            <p>DMS never populates the <code>ExportSqlDetails</code> field for this operation.</p>\n         </note>"
+               }
             }
          },
          "traits" : {
@@ -2138,7 +2141,7 @@
             "target" : "com.amazonaws.databasemigrationservice#CancelMetadataModelCreationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Cancels a single metadata model creation operation that was started with <code>StartMetadataModelCreation</code>.</p>"
+            "smithy.api#documentation" : "<p>Cancels a single metadata model creation operation that was started with <code>StartMetadataModelCreation</code>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:CancelMetadataModelCreation</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -2167,7 +2170,10 @@
       "com.amazonaws.databasemigrationservice#CancelMetadataModelCreationResponse" : {
          "members" : {
             "Request" : {
-               "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequest"
+               "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metadata model creation request.</p>\n         <note>\n            <p>DMS never populates the <code>ExportSqlDetails</code> field for this operation.</p>\n         </note>"
+               }
             }
          },
          "traits" : {
@@ -2833,7 +2839,7 @@
             "target" : "com.amazonaws.databasemigrationservice#CreateDataProviderResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a data provider using the provided settings. A data provider stores a data store\n         type and location information about your database. </p>"
+            "smithy.api#documentation" : "<p>Creates a data provider using the provided settings. A data provider stores a data store\n         type and location information about your database. </p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:CreateDataProvider</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -2854,7 +2860,7 @@
             "Engine" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of database engine for the data provider. Valid values include <code>\"aurora\"</code>, \n         <code>\"aurora-postgresql\"</code>, <code>\"mysql\"</code>, <code>\"oracle\"</code>, <code>\"postgres\"</code>, \n         <code>\"sqlserver\"</code>, <code>redshift</code>, <code>mariadb</code>, <code>mongodb</code>, <code>db2</code>, <code>db2-zos</code>, <code>docdb</code>, and <code>sybase</code>. A value of <code>\"aurora\"</code> represents Amazon Aurora MySQL-Compatible Edition.</p>",
+                  "smithy.api#documentation" : "<p>The type of database engine for the data provider.</p>\n         <p>Valid values: <code>aurora</code>, <code>aurora-postgresql</code>, <code>db2</code>,\n         <code>db2-zos</code>, <code>docdb</code>, <code>mariadb</code>, <code>mongodb</code>,\n         <code>mysql</code>, <code>oracle</code>, <code>postgres</code>, <code>redshift</code>,\n         <code>sqlserver</code>, and <code>sybase</code>. A value of <code>aurora</code> represents\n         Amazon Aurora MySQL-Compatible Edition.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -3414,7 +3420,7 @@
             "target" : "com.amazonaws.databasemigrationservice#CreateInstanceProfileResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates the instance profile using the specified parameters.</p>"
+            "smithy.api#documentation" : "<p>Creates the instance profile using the specified parameters.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:CreateInstanceProfile</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -3423,7 +3429,7 @@
             "AvailabilityZone" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Availability Zone where the instance profile will be created. The default\n         value is a random, system-chosen Availability Zone in the Amazon Web Services Region where your \n         data provider is created, for examplem <code>us-east-1d</code>.</p>"
+                  "smithy.api#documentation" : "<p>The Availability Zone where the instance profile will be created. The default\n         value is a random, system-chosen Availability Zone in the Amazon Web Services Region where your\n         data provider is created, for examplem <code>us-east-1d</code>.</p>"
                }
             },
             "Description" : {
@@ -3447,7 +3453,7 @@
             "NetworkType" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the network type for the instance profile. A value of <code>IPV4</code> \n         represents an instance profile with IPv4 network type and only supports IPv4 addressing. \n         A value of <code>IPV6</code> represents an instance profile with IPv6 network type \n         and only supports IPv6 addressing. A value of <code>DUAL</code> represents an instance \n         profile with dual network type that supports IPv4 and IPv6 addressing.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the network type for the instance profile. A value of <code>IPV4</code>\n         represents an instance profile with IPv4 network type and only supports IPv4 addressing.\n         A value of <code>IPV6</code> represents an instance profile with IPv6 network type\n         and only supports IPv6 addressing. A value of <code>DUAL</code> represents an instance\n         profile with dual network type that supports IPv4 and IPv6 addressing.</p>"
                }
             },
             "PubliclyAccessible" : {
@@ -3525,7 +3531,7 @@
             "target" : "com.amazonaws.databasemigrationservice#CreateMigrationProjectResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates the migration project using the specified parameters.</p>\n         <p>You can run this action only after you create an instance profile and data providers\n         using <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateInstanceProfile.html\">CreateInstanceProfile</a> and <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateDataProvider.html\">CreateDataProvider</a>.</p>"
+            "smithy.api#documentation" : "<p>Creates the migration project using the specified parameters.</p>\n         <p>You can run this action only after you create an instance profile and data providers\n         using <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateInstanceProfile.html\">CreateInstanceProfile</a> and <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateDataProvider.html\">CreateDataProvider</a>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:CreateMigrationProject</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -3579,7 +3585,7 @@
             "TransformationRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The settings in JSON format for migration rules. Migration rules make it possible for you to change \n         the object names according to the rules that you specify. For example, you can change an object name \n         to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.</p>"
+                  "smithy.api#documentation" : "<p>A JSON string that specifies the transformation rules for the migration project.\n         Transformation rules let you customize how DMS Schema Conversion converts your source\n         database objects, including renaming, adding prefixes or suffixes, and changing data types.\n         For the transformation rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-transformation-rules.html\">Transformation rules in DMS\n            Schema Conversion</a>.</p>\n         <note>\n            <p>Homogeneous data migrations do not support transformation rules.</p>\n         </note>"
                }
             }
          },
@@ -4388,7 +4394,7 @@
             "Engine" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of database engine for the data provider. Valid values include <code>\"aurora\"</code>, \n         <code>\"aurora-postgresql\"</code>, <code>\"mysql\"</code>, <code>\"oracle\"</code>, <code>\"postgres\"</code>, \n         <code>\"sqlserver\"</code>, <code>redshift</code>, <code>mariadb</code>, <code>mongodb</code>, <code>db2</code>, <code>db2-zos</code>, <code>docdb</code>, and <code>sybase</code>. A value of <code>\"aurora\"</code> represents Amazon Aurora MySQL-Compatible Edition.</p>"
+                  "smithy.api#documentation" : "<p>The type of database engine for the data provider.</p>\n         <p>Valid values: <code>aurora</code>, <code>aurora-postgresql</code>, <code>db2</code>,\n         <code>db2-zos</code>, <code>docdb</code>, <code>mariadb</code>, <code>mongodb</code>,\n         <code>mysql</code>, <code>oracle</code>, <code>postgres</code>, <code>redshift</code>,\n         <code>sqlserver</code>, and <code>sybase</code>. A value of <code>aurora</code> represents\n         Amazon Aurora MySQL-Compatible Edition.</p>"
                }
             },
             "Settings" : {
@@ -4974,7 +4980,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DeleteDataProviderResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Deletes the specified data provider.</p>\n         <note>\n            <p>All migration projects associated with the data provider must be deleted or modified\n            before you can delete the data provider.</p>\n         </note>"
+            "smithy.api#documentation" : "<p>Deletes the specified data provider.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:DeleteDataProvider</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>\n         <note>\n            <p>All migration projects associated with the data provider must be deleted or modified\n            before you can delete the data provider.</p>\n         </note>"
          },
          "type" : "operation"
       },
@@ -5209,7 +5215,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DeleteInstanceProfileResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Deletes the specified instance profile.</p>\n         <note>\n            <p>All migration projects associated with the instance profile must be deleted or\n            modified before you can delete the instance profile.</p>\n         </note>"
+            "smithy.api#documentation" : "<p>Deletes the specified instance profile.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:DeleteInstanceProfile</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>\n         <note>\n            <p>All migration projects associated with the instance profile must be deleted or\n            modified before you can delete the instance profile.</p>\n         </note>"
          },
          "type" : "operation"
       },
@@ -5264,7 +5270,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DeleteMigrationProjectResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Deletes the specified migration project.</p>\n         <note>\n            <p>The migration project must be closed before you can delete it.</p>\n         </note>"
+            "smithy.api#documentation" : "<p>Deletes the specified migration project.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:DeleteMigrationProject</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>\n         <note>\n            <p>The migration project must be closed before you can delete it.</p>\n         </note>"
          },
          "type" : "operation"
       },
@@ -5880,7 +5886,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeConversionConfigurationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns configuration parameters for a schema conversion project.</p>"
+            "smithy.api#documentation" : "<p>Returns configuration parameters for a schema conversion project.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:DescribeConversionConfiguration</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -5904,7 +5910,7 @@
             "ConversionConfiguration" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The configuration parameters for the schema conversion project.</p>"
+                  "smithy.api#documentation" : "<p>A JSON string that contains the schema conversion settings for the migration project.\n         For the format and available settings, see\n         <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/schema-conversion-settings.html\">Specifying schema conversion\n            settings for migration projects</a>.</p>"
                }
             },
             "MigrationProjectIdentifier" : {
@@ -6025,7 +6031,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeDataProvidersResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a paginated list of data providers for your account in the current\n         region.</p>",
+            "smithy.api#documentation" : "<p>Returns a paginated list of data providers for your account in the current\n         region.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:ListDataProviders</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "outputToken" : "Marker",
@@ -6039,7 +6045,7 @@
             "Filters" : {
                "target" : "com.amazonaws.databasemigrationservice#FilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters applied to the data providers described in the form of key-value pairs.</p>\n         <p>Valid filter names and values: data-provider-identifier, data provider arn or name</p>"
+                  "smithy.api#documentation" : "<p>The filters to apply to the data providers.</p>\n         <p>The following filter names are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>data-provider-identifier</code> – The data provider name or ARN.</p>\n            </li>\n         </ul>"
                }
             },
             "Marker" : {
@@ -6616,7 +6622,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeExtensionPackAssociationsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a paginated list of extension pack associations for the specified migration\n         project. An extension pack is an add-on module that emulates functions present in a source\n         database that are required when converting objects to the target database.</p>",
+            "smithy.api#documentation" : "<p>Returns a paginated list of extension pack installation requests for a migration\n         project, initiated by\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartExtensionPackAssociation.html\">StartExtensionPackAssociation</a>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:ListExtensionPacks</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "outputToken" : "Marker",
@@ -6658,25 +6664,25 @@
             "Filters" : {
                "target" : "com.amazonaws.databasemigrationservice#FilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters applied to the extension pack associations described in the form of key-value pairs.</p>"
+                  "smithy.api#documentation" : "<p>The filters to apply to the extension pack installation requests.</p>\n         <p>The following filter names are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>request-id</code> – The request identifier.</p>\n            </li>\n            <li>\n               <p>\n                  <code>status</code> – The request status. Valid values: <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>, <code>FAILED</code>.</p>\n            </li>\n         </ul>"
                }
             },
             "Marker" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results. \n         If this parameter is specified, the response includes only records beyond the marker, up to the \n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available. \n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page, \n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results.\n         If this parameter is specified, the response includes only records beyond the marker, up to the\n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available.\n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page,\n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
                }
             },
             "MaxRecords" : {
                "target" : "com.amazonaws.databasemigrationservice#IntegerOptional",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response. If more records exist than \n         the specified <code>MaxRecords</code> value, DMS includes a pagination token  \n         in the response so that you can retrieve the remaining results.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response. If more records exist than\n         the specified <code>MaxRecords</code> value, DMS includes a pagination token\n         in the response so that you can retrieve the remaining results.</p>"
                }
             },
             "MigrationProjectIdentifier" : {
                "target" : "com.amazonaws.databasemigrationservice#MigrationProjectIdentifier",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name or Amazon Resource Name (ARN) for the migration project.</p>",
+                  "smithy.api#documentation" : "<p>The migration project name or Amazon Resource Name (ARN).</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -6697,7 +6703,7 @@
             "Requests" : {
                "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequestList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A paginated list of extension pack associations for the specified migration project.</p>"
+                  "smithy.api#documentation" : "<p>A paginated list of extension pack installation requests.</p>\n         <note>\n            <p>DMS never populates the <code>ExportSqlDetails</code> field for this operation.</p>\n         </note>"
                }
             }
          },
@@ -7059,7 +7065,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeInstanceProfilesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a paginated list of instance profiles for your account in the current\n         region.</p>",
+            "smithy.api#documentation" : "<p>Returns a paginated list of instance profiles for your account in the current\n         region.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:ListInstanceProfiles</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "outputToken" : "Marker",
@@ -7073,13 +7079,13 @@
             "Filters" : {
                "target" : "com.amazonaws.databasemigrationservice#FilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters applied to the instance profiles described in the form of key-value pairs.</p>\n         <p>Valid filter names and values: instance-profile-identifier, instance profile arn or name</p>"
+                  "smithy.api#documentation" : "<p>The filters to apply to the instance profiles.</p>\n         <p>The following filter names are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>instance-profile-identifier</code> – The instance profile name or ARN.</p>\n            </li>\n         </ul>"
                }
             },
             "Marker" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results. \n         If this parameter is specified, the response includes only records beyond the marker, up to the \n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available. \n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page, \n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results.\n         If this parameter is specified, the response includes only records beyond the marker, up to the\n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available.\n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page,\n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
                }
             },
             "MaxRecords" : {
@@ -7130,7 +7136,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeMetadataModelResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.</p>"
+            "smithy.api#documentation" : "<p>Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:DescribeMetadataModel</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -7147,7 +7153,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeMetadataModelAssessmentsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model assessments for your account in the current\n         region.</p>",
+            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model assessment requests for a migration\n         project, initiated by\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelAssessment.html\">StartMetadataModelAssessment</a>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:ListMetadataModelAssessments</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "outputToken" : "Marker",
@@ -7189,25 +7195,25 @@
             "Filters" : {
                "target" : "com.amazonaws.databasemigrationservice#FilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters applied to the metadata model assessments described in the form of key-value pairs.</p>"
+                  "smithy.api#documentation" : "<p>The filters to apply to the metadata model assessment requests.</p>\n         <p>The following filter names are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>request-id</code> – The request identifier.</p>\n            </li>\n            <li>\n               <p>\n                  <code>status</code> – The request status. Valid values: <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>, <code>FAILED</code>.</p>\n            </li>\n         </ul>"
                }
             },
             "Marker" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results. \n         If this parameter is specified, the response includes only records beyond the marker, up to the \n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available. \n            The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page, \n            make the call again using the returned token and keeping all other arguments unchanged.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results.\n         If this parameter is specified, the response includes only records beyond the marker, up to the\n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available.\n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page,\n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
                }
             },
             "MaxRecords" : {
                "target" : "com.amazonaws.databasemigrationservice#IntegerOptional",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response. If more records exist than \n         the specified <code>MaxRecords</code> value, DMS includes a pagination token  \n         in the response so that you can retrieve the remaining results.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response. If more records exist than\n         the specified <code>MaxRecords</code> value, DMS includes a pagination token\n         in the response so that you can retrieve the remaining results.</p>"
                }
             },
             "MigrationProjectIdentifier" : {
                "target" : "com.amazonaws.databasemigrationservice#MigrationProjectIdentifier",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name or Amazon Resource Name (ARN) of the migration project.</p>",
+                  "smithy.api#documentation" : "<p>The migration project name or Amazon Resource Name (ARN).</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -7228,7 +7234,7 @@
             "Requests" : {
                "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequestList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A paginated list of metadata model assessments for the specified migration project.</p>"
+                  "smithy.api#documentation" : "<p>A paginated list of metadata model assessment requests.</p>\n         <note>\n            <p>DMS never populates the <code>ExportSqlDetails</code> field for this operation.</p>\n         </note>"
                }
             }
          },
@@ -7253,7 +7259,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeMetadataModelChildrenResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets a list of child metadata models for the specified metadata model in the database hierarchy.</p>",
+            "smithy.api#documentation" : "<p>Gets a list of child metadata models for the specified metadata model in the database hierarchy.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:DescribeMetadataModelChildren</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "items" : "MetadataModelChildren",
@@ -7294,7 +7300,7 @@
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The JSON string that specifies which metadata model's children to retrieve. Only one selection rule with \"rule-action\": \"explicit\" can be provided. For more information, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html\">Selection Rules</a> in the DMS User Guide.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that identifies the metadata model whose children to retrieve. For the selection rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Accepts source or target selection rules depending on the <code>Origin</code> parameter. The <code>server-name</code> in the object locator must match the corresponding data provider.</p>\n            </li>\n            <li>\n               <p>Supports only <code>explicit</code> rule actions.</p>\n            </li>\n            <li>\n               <p>Exactly one rule is allowed.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -7337,7 +7343,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeMetadataModelConversionsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model conversions for a migration project.</p>",
+            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model conversion requests for a migration\n         project, initiated by\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelConversion.html\">StartMetadataModelConversion</a>.</p>\n         <p>To cancel a queued or in-progress request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelConversion.html\">CancelMetadataModelConversion</a>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:ListMetadataModelConversions</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "outputToken" : "Marker",
@@ -7405,7 +7411,7 @@
             "Filters" : {
                "target" : "com.amazonaws.databasemigrationservice#FilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters applied to the metadata model conversions described in the form of key-value pairs.</p>"
+                  "smithy.api#documentation" : "<p>The filters to apply to the metadata model conversion requests.</p>\n         <p>The following filter names are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>request-id</code> – The request identifier.</p>\n            </li>\n            <li>\n               <p>\n                  <code>status</code> – The request status. Valid values: <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>, <code>FAILED</code>, <code>CANCELING</code>, <code>CANCELED</code>.</p>\n            </li>\n         </ul>"
                }
             },
             "Marker" : {
@@ -7444,7 +7450,7 @@
             "Requests" : {
                "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequestList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A paginated list of metadata model conversions.</p>"
+                  "smithy.api#documentation" : "<p>A paginated list of metadata model conversion requests.</p>\n         <note>\n            <p>DMS never populates the <code>ExportSqlDetails</code> field for this operation.</p>\n         </note>"
                }
             }
          },
@@ -7469,7 +7475,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeMetadataModelCreationsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model creation requests for a migration project.</p>",
+            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model creation requests for a migration\n         project, initiated by\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelCreation.html\">StartMetadataModelCreation</a>.</p>\n         <p>To cancel a queued or in-progress request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelCreation.html\">CancelMetadataModelCreation</a>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:DescribeMetadataModelCreations</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "items" : "Requests",
@@ -7538,19 +7544,19 @@
             "Filters" : {
                "target" : "com.amazonaws.databasemigrationservice#FilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters applied to the metadata model creation requests described in the form of key-value pairs. The supported filters are request-id and status.</p>"
+                  "smithy.api#documentation" : "<p>The filters to apply to the metadata model creation requests.</p>\n         <p>The following filter names are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>request-id</code> – The request identifier.</p>\n            </li>\n            <li>\n               <p>\n                  <code>status</code> – The request status. Valid values: <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>, <code>FAILED</code>, <code>CANCELING</code>, <code>CANCELED</code>.</p>\n            </li>\n         </ul>"
                }
             },
             "Marker" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned by a previous response, there are more metadata model creation requests available.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results.\n         If this parameter is specified, the response includes only records beyond the marker, up to the\n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available.\n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page,\n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
                }
             },
             "MaxRecords" : {
                "target" : "com.amazonaws.databasemigrationservice#IntegerOptional",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The maximum number of metadata model creation requests to include in the response. If more requests exist than the specified MaxRecords value, a pagination token is provided in the response so that you can retrieve the remaining results.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response. If more records exist than\n         the specified <code>MaxRecords</code> value, DMS includes a pagination token\n         in the response so that you can retrieve the remaining results.</p>"
                }
             },
             "MigrationProjectIdentifier" : {
@@ -7571,13 +7577,13 @@
             "Marker" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned, there are more metadata model creation requests available.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results.\n         If this parameter is specified, the response includes only records beyond the marker, up to the\n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available.\n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page,\n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
                }
             },
             "Requests" : {
                "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequestList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A list of metadata model creation requests. The ExportSqlDetails field will never be populated for the DescribeMetadataModelCreations operation.</p>"
+                  "smithy.api#documentation" : "<p>A paginated list of metadata model creation requests.</p>\n         <note>\n            <p>DMS never populates the <code>ExportSqlDetails</code> field for this operation.</p>\n         </note>"
                }
             }
          },
@@ -7599,7 +7605,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeMetadataModelExportsAsScriptResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model exports.</p>",
+            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model export requests for a migration\n         project, initiated by\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportAsScript.html\">StartMetadataModelExportAsScript</a>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:ListMetadataModelExports</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "outputToken" : "Marker",
@@ -7641,19 +7647,19 @@
             "Filters" : {
                "target" : "com.amazonaws.databasemigrationservice#FilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters applied to the metadata model exports described in the form of key-value pairs.</p>"
+                  "smithy.api#documentation" : "<p>The filters to apply to the metadata model export requests.</p>\n         <p>The following filter names are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>request-id</code> – The request identifier.</p>\n            </li>\n            <li>\n               <p>\n                  <code>status</code> – The request status. Valid values: <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>, <code>FAILED</code>.</p>\n            </li>\n         </ul>"
                }
             },
             "Marker" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results. \n         If this parameter is specified, the response includes only records beyond the marker, up to the \n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available. \n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page, \n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results.\n         If this parameter is specified, the response includes only records beyond the marker, up to the\n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available.\n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page,\n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
                }
             },
             "MaxRecords" : {
                "target" : "com.amazonaws.databasemigrationservice#IntegerOptional",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response. If more records exist than \n         the specified <code>MaxRecords</code> value, DMS includes a pagination token  \n         in the response so that you can retrieve the remaining results.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response. If more records exist than\n         the specified <code>MaxRecords</code> value, DMS includes a pagination token\n         in the response so that you can retrieve the remaining results.</p>"
                }
             },
             "MigrationProjectIdentifier" : {
@@ -7680,7 +7686,7 @@
             "Requests" : {
                "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequestList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A paginated list of metadata model exports.</p>"
+                  "smithy.api#documentation" : "<p>A paginated list of metadata model export requests.</p>"
                }
             }
          },
@@ -7702,7 +7708,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeMetadataModelExportsToTargetResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model exports.</p>",
+            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model export requests for a migration\n         project, initiated by\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportToTarget.html\">StartMetadataModelExportToTarget</a>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:ListMetadataModelExports</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "outputToken" : "Marker",
@@ -7744,19 +7750,19 @@
             "Filters" : {
                "target" : "com.amazonaws.databasemigrationservice#FilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters applied to the metadata model exports described in the form of key-value pairs.</p>"
+                  "smithy.api#documentation" : "<p>The filters to apply to the metadata model export requests.</p>\n         <p>The following filter names are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>request-id</code> – The request identifier.</p>\n            </li>\n            <li>\n               <p>\n                  <code>status</code> – The request status. Valid values: <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>, <code>FAILED</code>.</p>\n            </li>\n         </ul>"
                }
             },
             "Marker" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results. \n         If this parameter is specified, the response includes only records beyond the marker, up to the \n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available. \n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page, \n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results.\n         If this parameter is specified, the response includes only records beyond the marker, up to the\n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available.\n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page,\n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
                }
             },
             "MaxRecords" : {
                "target" : "com.amazonaws.databasemigrationservice#IntegerOptional",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response. If more records exist than \n         the specified <code>MaxRecords</code> value, DMS includes a pagination token  \n         in the response so that you can retrieve the remaining results.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response. If more records exist than\n         the specified <code>MaxRecords</code> value, DMS includes a pagination token\n         in the response so that you can retrieve the remaining results.</p>"
                }
             },
             "MigrationProjectIdentifier" : {
@@ -7783,7 +7789,7 @@
             "Requests" : {
                "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequestList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A paginated list of metadata model exports.</p>"
+                  "smithy.api#documentation" : "<p>A paginated list of metadata model export requests.</p>\n         <note>\n            <p>DMS never populates the <code>ExportSqlDetails</code> field for this operation.</p>\n         </note>"
                }
             }
          },
@@ -7805,7 +7811,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeMetadataModelImportsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model imports.</p>",
+            "smithy.api#documentation" : "<p>Returns a paginated list of metadata model import requests for a migration\n         project, initiated by\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html\">StartMetadataModelImport</a>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:DescribeMetadataModelImports</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "outputToken" : "Marker",
@@ -7847,19 +7853,19 @@
             "Filters" : {
                "target" : "com.amazonaws.databasemigrationservice#FilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters applied to the metadata model imports described in the form of key-value pairs.</p>"
+                  "smithy.api#documentation" : "<p>The filters to apply to the metadata model import requests.</p>\n         <p>The following filter names are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>request-id</code> – The request identifier.</p>\n            </li>\n            <li>\n               <p>\n                  <code>status</code> – The request status. Valid values: <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>, <code>FAILED</code>.</p>\n            </li>\n         </ul>"
                }
             },
             "Marker" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results. \n         If this parameter is specified, the response includes only records beyond the marker, up to the \n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available. \n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page, \n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the unique pagination token that makes it possible to display the next page of results.\n         If this parameter is specified, the response includes only records beyond the marker, up to the\n         value specified by <code>MaxRecords</code>.</p>\n         <p>If <code>Marker</code> is returned by a previous response, there are more results available.\n         The value of <code>Marker</code> is a unique pagination token for each page. To retrieve the next page,\n         make the call again using the returned token and keeping all other arguments unchanged.</p>"
                }
             },
             "MaxRecords" : {
                "target" : "com.amazonaws.databasemigrationservice#IntegerOptional",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A paginated list of metadata model imports.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response. If more records exist than\n         the specified <code>MaxRecords</code> value, DMS includes a pagination token\n         in the response so that you can retrieve the remaining results.</p>"
                }
             },
             "MigrationProjectIdentifier" : {
@@ -7886,7 +7892,7 @@
             "Requests" : {
                "target" : "com.amazonaws.databasemigrationservice#SchemaConversionRequestList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A paginated list of metadata model imports.</p>"
+                  "smithy.api#documentation" : "<p>A paginated list of metadata model import requests.</p>\n         <note>\n            <p>DMS never populates the <code>ExportSqlDetails</code> field for this operation.</p>\n         </note>"
                }
             }
          },
@@ -7914,7 +7920,7 @@
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The JSON string that specifies which metadata model to retrieve. Only one selection rule with \"rule-action\": \"explicit\" can be provided. For more information, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html\">Selection Rules</a> in the DMS User Guide.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that identifies the metadata model to retrieve. For the selection rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Accepts source or target selection rules depending on the <code>Origin</code> parameter. The <code>server-name</code> in the object locator must match the corresponding data provider.</p>\n            </li>\n            <li>\n               <p>Supports only <code>explicit</code> rule actions.</p>\n            </li>\n            <li>\n               <p>Exactly one rule is allowed.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -7975,7 +7981,7 @@
             "target" : "com.amazonaws.databasemigrationservice#DescribeMigrationProjectsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a paginated list of migration projects for your account in the current\n         region.</p>",
+            "smithy.api#documentation" : "<p>Returns a paginated list of migration projects for your account in the current\n         region.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:ListMigrationProjects</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>",
             "smithy.api#paginated" : {
                "inputToken" : "Marker",
                "outputToken" : "Marker",
@@ -7989,7 +7995,7 @@
             "Filters" : {
                "target" : "com.amazonaws.databasemigrationservice#FilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters applied to the migration projects described in the form of key-value pairs.</p>\n         <p>Valid filter names and values:</p>\n         <ul>\n            <li>\n               <p>instance-profile-identifier, instance profile arn or name</p>\n            </li>\n            <li>\n               <p>data-provider-identifier, data provider arn or name</p>\n            </li>\n            <li>\n               <p>migration-project-identifier, migration project arn or name</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>The filters to apply to the migration projects.</p>\n         <p>The following filter names are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>migration-project-identifier</code> – The migration project name or ARN.</p>\n            </li>\n            <li>\n               <p>\n                  <code>instance-profile-identifier</code> – The instance profile name or ARN.</p>\n            </li>\n            <li>\n               <p>\n                  <code>data-provider-identifier</code> – The source or target data provider name or ARN.</p>\n            </li>\n            <li>\n               <p>\n                  <code>source-data-provider-identifier</code> – The source data provider name or ARN.</p>\n            </li>\n            <li>\n               <p>\n                  <code>target-data-provider-identifier</code> – The target data provider name or ARN.</p>\n            </li>\n         </ul>"
                }
             },
             "Marker" : {
@@ -9783,7 +9789,7 @@
             "ExtractDocId" : {
                "target" : "com.amazonaws.databasemigrationservice#BooleanOptional",
                "traits" : {
-                  "smithy.api#documentation" : "<p> Specifies the document ID. Use this setting when <code>NestingLevel</code> is set to\n            <code>\"none\"</code>. </p>\n         <p>Default value is <code>\"false\"</code>. </p>"
+                  "smithy.api#documentation" : "<p>Specifies whether the document ID is added to the target table. Use this setting when\n           <code>NestingLevel</code> is set to <code>\"none\"</code>.\n       </p>\n         <p>Set <code>ExtractDocId</code> to <code>true</code> when using\n           <a href=\"https://www.mongodb.com/docs/manual/reference/method/Session.startTransaction/#mongodb-method-Session.startTransaction\">multi-document transactions</a>\n           with CDC.\n       </p>\n         <p>Default value is <code>false</code>.</p>"
                }
             },
             "KmsKeyId" : {
@@ -10553,7 +10559,7 @@
             "target" : "com.amazonaws.databasemigrationservice#ExportMetadataModelAssessmentResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can\n         save your assessment report as a comma-separated value (CSV) or a PDF file. </p>"
+            "smithy.api#documentation" : "<p>Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can\n         save your assessment report as a comma-separated value (CSV) or a PDF file. </p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:ExportMetadataModelAssessment</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -10581,7 +10587,7 @@
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A value that specifies the database objects to assess.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that identifies the metadata models to export a conversion assessment report for. For the selection rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Accepts only source selection rules, where <code>server-name</code> in the object locator matches the source data provider.</p>\n            </li>\n            <li>\n               <p>Supports only <code>explicit</code> rule actions.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -10636,18 +10642,18 @@
             "ObjectURL" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The URL for the object containing the exported metadata model assessment.</p>"
+                  "smithy.api#documentation" : "<p>The URL of the Amazon S3 object that contains the ZIP archive with exported DDL scripts.</p>"
                }
             },
             "S3ObjectKey" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon S3 object key for the object containing the exported metadata model assessment.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon S3 URI of the object that contains the ZIP archive with exported DDL scripts.</p>"
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Provides information about a metadata model assessment exported to SQL.</p>"
+            "smithy.api#documentation" : "<p>The Amazon S3 location of the ZIP archive that contains the exported data definition language (DDL) scripts.</p>"
          },
          "type" : "structure"
       },
@@ -10890,7 +10896,7 @@
             "target" : "com.amazonaws.databasemigrationservice#GetTargetSelectionRulesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Converts source selection rules into their target counterparts for schema conversion operations.</p>"
+            "smithy.api#documentation" : "<p>Converts source selection rules into their target counterparts for schema conversion operations.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:GetTargetSelectionRules</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -10906,7 +10912,7 @@
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The JSON string representing the source selection rules for conversion. Selection rules must contain only supported metadata model types. For more information, see Selection Rules in the DMS User Guide.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that contains the source selection rules to convert into their target counterparts. For the selection rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Accepts only source selection rules, where <code>server-name</code> in the object locator matches the source data provider.</p>\n            </li>\n            <li>\n               <p>Supports only <code>explicit</code> rule actions.</p>\n            </li>\n            <li>\n               <p>Does not support <code>category-name</code> in the object locator.</p>\n            </li>\n            <li>\n               <p>Up to 10 rules are allowed.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -11260,13 +11266,13 @@
             "KmsKeyArn" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the KMS key that is used to encrypt \n         the connection parameters for the instance profile.</p>\n         <p>If you don't specify a value for the <code>KmsKeyArn</code> parameter, then\n         DMS uses an Amazon Web Services owned encryption key to encrypt your resources.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the KMS key that is used to encrypt\n         the connection parameters for the instance profile.</p>\n         <p>If you don't specify a value for the <code>KmsKeyArn</code> parameter, then\n         DMS uses an Amazon Web Services owned encryption key to encrypt your resources.</p>"
                }
             },
             "NetworkType" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the network type for the instance profile. A value of <code>IPV4</code> \n         represents an instance profile with IPv4 network type and only supports IPv4 addressing. \n         A value of <code>IPV6</code> represents an instance profile with IPv6 network type \n         and only supports IPv6 addressing. A value of <code>DUAL</code> represents an instance \n         profile with dual network type that supports IPv4 and IPv6 addressing.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the network type for the instance profile. A value of <code>IPV4</code>\n         represents an instance profile with IPv4 network type and only supports IPv4 addressing.\n         A value of <code>IPV6</code> represents an instance profile with IPv6 network type\n         and only supports IPv6 addressing. A value of <code>DUAL</code> represents an instance\n         profile with dual network type that supports IPv4 and IPv6 addressing.</p>"
                }
             },
             "PubliclyAccessible" : {
@@ -11284,7 +11290,7 @@
             "VpcSecurityGroups" : {
                "target" : "com.amazonaws.databasemigrationservice#StringList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The VPC security groups that are used with the instance profile. \n         The VPC security group must work with the VPC containing the instance profile.</p>"
+                  "smithy.api#documentation" : "<p>The VPC security groups that are used with the instance profile.\n         The VPC security group must work with the VPC containing the instance profile.</p>"
                }
             }
          },
@@ -12030,12 +12036,12 @@
             "StatementProperties" : {
                "target" : "com.amazonaws.databasemigrationservice#StatementProperties",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The properties of the statement.</p>"
+                  "smithy.api#documentation" : "<p>The properties of the SQL statement.</p>"
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The properties of metadata model in JSON format. This object is a Union. Only one member of this object can be specified or returned.</p>"
+            "smithy.api#documentation" : "<p>The properties of the metadata model.</p>"
          },
          "type" : "union"
       },
@@ -12050,7 +12056,7 @@
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The JSON string representing metadata model location.</p>"
+                  "smithy.api#documentation" : "<p>A JSON string that identifies this metadata model in the metadata tree. For the selection rule format, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>You can pass this value as the <code>SelectionRules</code> parameter to any operation that accepts selection rules, such as <code>DescribeMetadataModel</code>, <code>StartMetadataModelConversion</code>, and others.</p>\n            </li>\n         </ul>"
                }
             }
          },
@@ -12290,7 +12296,7 @@
             "TransformationRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The settings in JSON format for migration rules. Migration rules make it possible for you to change \n         the object names according to the rules that you specify. For example, you can change an object name \n         to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.</p>"
+                  "smithy.api#documentation" : "<p>The transformation rules for the migration project in JSON format.\n         Transformation rules let you customize how DMS Schema Conversion converts your source\n         database objects, including renaming, adding prefixes or suffixes, and changing data types.\n         For the transformation rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-transformation-rules.html\">Transformation rules in DMS\n            Schema Conversion</a>.</p>\n         <note>\n            <p>Homogeneous data migrations do not support transformation rules.</p>\n         </note>"
                }
             }
          },
@@ -12356,7 +12362,7 @@
             "target" : "com.amazonaws.databasemigrationservice#ModifyConversionConfigurationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Modifies the specified schema conversion configuration using the provided parameters. </p>"
+            "smithy.api#documentation" : "<p>Modifies the specified schema conversion configuration using the provided parameters. </p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:UpdateConversionConfiguration</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -12365,7 +12371,7 @@
             "ConversionConfiguration" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The new conversion configuration.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that contains the schema conversion settings to update.\n         For the format and available settings, see\n         <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/schema-conversion-settings.html\">Specifying schema conversion\n            settings for migration projects</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Include only the sections and keys to change. The operation merges supplied\n            values with the existing configuration.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -12518,7 +12524,7 @@
             "target" : "com.amazonaws.databasemigrationservice#ModifyDataProviderResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Modifies the specified data provider using the provided settings.</p>\n         <note>\n            <p>You must remove the data provider from all migration projects before you can modify\n            it.</p>\n         </note>"
+            "smithy.api#documentation" : "<p>Modifies the specified data provider using the provided settings.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:UpdateDataProvider</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>\n         <note>\n            <p>You must remove the data provider from all migration projects before you can modify\n            it.</p>\n         </note>"
          },
          "type" : "operation"
       },
@@ -12546,7 +12552,7 @@
             "Engine" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of database engine for the data provider. Valid values include <code>\"aurora\"</code>, \n         <code>\"aurora-postgresql\"</code>, <code>\"mysql\"</code>, <code>\"oracle\"</code>, <code>\"postgres\"</code>, \n         <code>\"sqlserver\"</code>, <code>redshift</code>, <code>mariadb</code>, <code>mongodb</code>, <code>db2</code>, <code>db2-zos</code>, <code>docdb</code>, and <code>sybase</code>. A value of <code>\"aurora\"</code> represents Amazon Aurora MySQL-Compatible Edition.</p>"
+                  "smithy.api#documentation" : "<p>The type of database engine for the data provider.</p>\n         <p>Valid values: <code>aurora</code>, <code>aurora-postgresql</code>, <code>db2</code>,\n         <code>db2-zos</code>, <code>docdb</code>, <code>mariadb</code>, <code>mongodb</code>,\n         <code>mysql</code>, <code>oracle</code>, <code>postgres</code>, <code>redshift</code>,\n         <code>sqlserver</code>, and <code>sybase</code>. A value of <code>aurora</code> represents\n         Amazon Aurora MySQL-Compatible Edition.</p>"
                }
             },
             "ExactSettings" : {
@@ -12972,7 +12978,7 @@
             "target" : "com.amazonaws.databasemigrationservice#ModifyInstanceProfileResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Modifies the specified instance profile using the provided parameters.</p>\n         <note>\n            <p>All migration projects associated with the instance profile must be deleted or\n            modified before you can modify the instance profile.</p>\n         </note>"
+            "smithy.api#documentation" : "<p>Modifies the specified instance profile using the provided parameters.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:UpdateInstanceProfile</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>\n         <note>\n            <p>All migration projects associated with the instance profile must be deleted or\n            modified before you can modify the instance profile.</p>\n         </note>"
          },
          "type" : "operation"
       },
@@ -13012,7 +13018,7 @@
             "NetworkType" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the network type for the instance profile. A value of <code>IPV4</code> \n         represents an instance profile with IPv4 network type and only supports IPv4 addressing. \n         A value of <code>IPV6</code> represents an instance profile with IPv6 network type \n         and only supports IPv6 addressing. A value of <code>DUAL</code> represents an instance \n         profile with dual network type that supports IPv4 and IPv6 addressing.</p>"
+                  "smithy.api#documentation" : "<p>Specifies the network type for the instance profile. A value of <code>IPV4</code>\n         represents an instance profile with IPv4 network type and only supports IPv4 addressing.\n         A value of <code>IPV6</code> represents an instance profile with IPv6 network type\n         and only supports IPv6 addressing. A value of <code>DUAL</code> represents an instance\n         profile with dual network type that supports IPv4 and IPv6 addressing.</p>"
                }
             },
             "PubliclyAccessible" : {
@@ -13081,7 +13087,7 @@
             "target" : "com.amazonaws.databasemigrationservice#ModifyMigrationProjectResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Modifies the specified migration project using the provided parameters.</p>\n         <note>\n            <p>The migration project must be closed before you can modify it.</p>\n         </note>"
+            "smithy.api#documentation" : "<p>Modifies the specified migration project using the provided parameters.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:UpdateMigrationProject</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>\n         <note>\n            <p>The migration project must be closed before you can modify it.</p>\n         </note>"
          },
          "type" : "operation"
       },
@@ -13133,7 +13139,7 @@
             "TransformationRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The settings in JSON format for migration rules. Migration rules make it possible for you to change \n         the object names according to the rules that you specify. For example, you can change an object name \n         to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.</p>"
+                  "smithy.api#documentation" : "<p>A JSON string that specifies the transformation rules for the migration project.\n         Transformation rules let you customize how DMS Schema Conversion converts your source\n         database objects, including renaming, adding prefixes or suffixes, and changing data types.\n         For the transformation rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-transformation-rules.html\">Transformation rules in DMS\n            Schema Conversion</a>.</p>\n         <note>\n            <p>Homogeneous data migrations do not support transformation rules.</p>\n         </note>"
                }
             }
          },
@@ -13678,7 +13684,7 @@
             "ExtractDocId" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p> Specifies the document ID. Use this setting when <code>NestingLevel</code> is set to\n            <code>\"none\"</code>. </p>\n         <p>Default value is <code>\"false\"</code>. </p>"
+                  "smithy.api#documentation" : "<p>Specifies whether the document ID is added to the target table. Use this setting when\n           <code>NestingLevel</code> is set to <code>\"none\"</code>.\n       </p>\n         <p>Set <code>ExtractDocId</code> to <code>\"true\"</code> when using\n           <a href=\"https://www.mongodb.com/docs/manual/reference/method/Session.startTransaction/#mongodb-method-Session.startTransaction\">multi-document transactions</a>\n           with CDC.\n       </p>\n         <p>Default value is <code>\"false\"</code>.</p>"
                }
             },
             "KmsKeyId" : {
@@ -14076,7 +14082,7 @@
             "AsmServer" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The address of your Oracle Automatic Storage Management (ASM) server. You can set \n         this value from the <code>asm_server</code> value. You set <code>asm_server</code> as part \n         of the extra connection attribute string to access an Oracle server with Binary Reader that \n         uses ASM. For more information, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration\">Configuration for change data capture (CDC) on an Oracle source database</a>.</p>"
+                  "smithy.api#documentation" : "<p>The address of your Oracle Automatic Storage Management (ASM) server. You can set\n         this value from the <code>asm_server</code> value. You set <code>asm_server</code> as part\n         of the extra connection attribute string to access an Oracle server with Binary Reader that\n         uses ASM. For more information, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration\">Configuration for change data capture (CDC) on an Oracle source database</a>.</p>"
                }
             },
             "CertificateArn" : {
@@ -14112,7 +14118,7 @@
             "SecretsManagerOracleAsmAccessRoleArn" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The ARN of the IAM role that provides access to the secret in Secrets Manager \n         that contains the Oracle ASM connection details.</p>"
+                  "smithy.api#documentation" : "<p>The ARN of the IAM role that provides access to the secret in Secrets Manager\n         that contains the Oracle ASM connection details.</p>"
                }
             },
             "SecretsManagerOracleAsmSecretId" : {
@@ -14124,7 +14130,7 @@
             "SecretsManagerSecurityDbEncryptionAccessRoleArn" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The ARN of the IAM role that provides access to the secret in Secrets Manager \n         that contains the TDE password.</p>"
+                  "smithy.api#documentation" : "<p>The ARN of the IAM role that provides access to the secret in Secrets Manager\n         that contains the TDE password.</p>"
                }
             },
             "SecretsManagerSecurityDbEncryptionSecretId" : {
@@ -14142,7 +14148,7 @@
             "SslMode" : {
                "target" : "com.amazonaws.databasemigrationservice#DmsSslModeValue",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The SSL mode used to connect to the Oracle data provider. \n         The default value is <code>none</code>.</p>"
+                  "smithy.api#documentation" : "<p>The SSL mode used to connect to the Oracle data provider.\n         The default value is <code>none</code>.</p>"
                }
             }
          },
@@ -14348,7 +14354,7 @@
             "SecurityDbEncryption" : {
                "target" : "com.amazonaws.databasemigrationservice#SecretString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>For an Oracle source endpoint, the transparent data encryption (TDE) password required\n         by AWM DMS to access Oracle redo logs encrypted by TDE using Binary Reader. It is also the\n               <code>\n               <i>TDE_Password</i>\n            </code> part of the comma-separated value you\n         set to the <code>Password</code> request parameter when you create the endpoint. The\n            <code>SecurityDbEncryptian</code> setting is related to this\n            <code>SecurityDbEncryptionName</code> setting. For more information, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption\"> Supported encryption methods for using Oracle as a source for\n            DMS </a> in the <i>Database Migration Service User Guide</i>. </p>"
+                  "smithy.api#documentation" : "<p>For an Oracle source endpoint, the transparent data encryption (TDE) password required\n         by DMS to access Oracle redo logs encrypted by TDE using Binary Reader. It is also the\n               <code>\n               <i>TDE_Password</i>\n            </code> part of the comma-separated value you\n         set to the <code>Password</code> request parameter when you create the endpoint. The\n            <code>SecurityDbEncryption</code> setting is related to this\n            <code>SecurityDbEncryptionName</code> setting. For more information, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption\"> Supported encryption methods for using Oracle as a source for\n            DMS </a> in the <i>Database Migration Service User Guide</i>. </p>"
                }
             },
             "SecurityDbEncryptionName" : {
@@ -14934,7 +14940,7 @@
             "EndpointType" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of the data provider. This parameter can store one of the following values: \n         <code>\"SOURCE\"</code> or <code>\"TARGET\"</code>.</p>"
+                  "smithy.api#documentation" : "<p>The type of the data provider. This parameter can store one of the following values:\n         <code>\"SOURCE\"</code> or <code>\"TARGET\"</code>.</p>"
                }
             },
             "Name" : {
@@ -14972,7 +14978,7 @@
             "ProgressStep" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The step of the schema conversion operation. This parameter can store one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>IN_PROGRESS</code> – The operation is running.</p>\n            </li>\n            <li>\n               <p>\n                  <code>LOADING_METADATA</code> – Loads metadata from the source database.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COUNTING_OBJECTS</code> – Determines the number of objects involved \n            in the operation.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ANALYZING</code> – Analyzes the source database objects.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONVERTING</code> – Converts the source database objects to a format compatible \n            with the target database.</p>\n            </li>\n            <li>\n               <p>\n                  <code>APPLYING</code> – Applies the converted code to the target database.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FINISHED</code> – The operation completed successfully.</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>The step of the schema conversion operation. This parameter can store one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>IN_PROGRESS</code> – The operation is running.</p>\n            </li>\n            <li>\n               <p>\n                  <code>LOADING_METADATA</code> – Loads metadata from the source database.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COUNTING_OBJECTS</code> – Determines the number of objects involved\n            in the operation.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ANALYZING</code> – Analyzes the source database objects.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONVERTING</code> – Converts the source database objects to a format compatible\n            with the target database.</p>\n            </li>\n            <li>\n               <p>\n                  <code>APPLYING</code> – Applies the converted code to the target database.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FINISHED</code> – The operation completed successfully.</p>\n            </li>\n         </ul>"
                }
             },
             "TotalObjects" : {
@@ -17614,7 +17620,10 @@
                "target" : "com.amazonaws.databasemigrationservice#ErrorDetails"
             },
             "ExportSqlDetails" : {
-               "target" : "com.amazonaws.databasemigrationservice#ExportSqlDetails"
+               "target" : "com.amazonaws.databasemigrationservice#ExportSqlDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 location of the ZIP archive that contains the exported data definition language (DDL) scripts.</p>\n         <note>\n            <p>DMS populates this field only for the <code>DescribeMetadataModelExportsAsScript</code> operation.</p>\n         </note>"
+               }
             },
             "MigrationProjectArn" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
@@ -17634,7 +17643,7 @@
             "Status" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The schema conversion action status.</p>"
+                  "smithy.api#documentation" : "<p>The schema conversion operation status. Possible values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>RECEIVED</code> – The operation is received but not yet queued for processing.</p>\n            </li>\n            <li>\n               <p>\n                  <code>IN_PROGRESS</code> – The operation is queued or actively running.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUCCESS</code> – The operation completed successfully.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED</code> – The operation did not complete.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CANCELING</code> – The operation is being canceled. The operation might still succeed or fail before cancellation takes effect.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CANCELED</code> – The operation was canceled before completion.</p>\n            </li>\n         </ul>"
                }
             }
          },
@@ -17975,7 +17984,7 @@
             "target" : "com.amazonaws.databasemigrationservice#StartExtensionPackAssociationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Applies the extension pack to your target database. An extension pack is an add-on\n         module that emulates functions present in a source database that are required when\n         converting objects to the target database. </p>"
+            "smithy.api#documentation" : "<p>Queues the installation of the extension pack on your target database. If other\n         requests created by <code>Start*</code> operations are already in the migration project's\n         queue, the installation begins after they complete.</p>\n         <p>This operation requires a non-virtual target data provider.</p>\n         <p>If the extension pack already exists, the operation reinstalls it. To ensure\n         compatibility, reconvert your database objects if the version has changed since your last\n         conversion. For more information, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/extension-pack.html\">Using extension packs in DMS Schema Conversion</a>.</p>\n         <p>To check the status of the request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeExtensionPackAssociations.html\">DescribeExtensionPackAssociations</a> using the returned\n         <code>RequestIdentifier</code> as a filter.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:AssociateExtensionPack</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -17999,7 +18008,7 @@
             "RequestIdentifier" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier for the request operation.</p>"
+                  "smithy.api#documentation" : "<p>The identifier for the installation request.</p>"
                }
             }
          },
@@ -18042,7 +18051,7 @@
             "target" : "com.amazonaws.databasemigrationservice#StartMetadataModelAssessmentResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a database migration assessment report by assessing the migration complexity for\n         your source database. A database migration assessment report summarizes all of the schema\n         conversion tasks. It also details the action items for database objects that can't be\n         converted to the database engine of your target database instance. </p>"
+            "smithy.api#documentation" : "<p>Queues an assessment of the selected source metadata models (database objects such as\n         tables, views, and procedures) to evaluate conversion complexity to the target database\n         format. If other requests created by <code>Start*</code> operations are already in the\n         migration project's queue, the assessment begins after they complete.</p>\n         <p>The assessment request loads metadata models that are not yet in the metadata tree, but\n         does not reload metadata models that are already present. If your source database has\n         changed since the metadata was loaded, refresh the affected metadata models with\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html\">StartMetadataModelImport</a> before calling this operation.</p>\n         <p>To check the status of the assessment request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelAssessments.html\">DescribeMetadataModelAssessments</a> using the returned\n         <code>RequestIdentifier</code> as a filter.</p>\n         <p>To export the conversion assessment report after the request completes successfully,\n         call <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_ExportMetadataModelAssessment.html\">ExportMetadataModelAssessment</a>.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:StartMetadataModelAssessment</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -18058,7 +18067,7 @@
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A value that specifies the database objects to assess.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that identifies the metadata models to assess. For the selection rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Accepts only source selection rules, where <code>server-name</code> in the object locator matches the source data provider.</p>\n            </li>\n            <li>\n               <p>Supports <code>explicit</code>, <code>include</code>, and <code>exclude</code> rule actions.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -18073,7 +18082,7 @@
             "RequestIdentifier" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier for the assessment operation.</p>"
+                  "smithy.api#documentation" : "<p>The identifier for the assessment request.</p>"
                }
             }
          },
@@ -18116,7 +18125,7 @@
             "target" : "com.amazonaws.databasemigrationservice#StartMetadataModelConversionResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Converts your source database objects to a format compatible with the target database. </p>"
+            "smithy.api#documentation" : "<p>Queues a conversion of the selected source metadata models (database objects such as\n         tables, views, and procedures) to the target database format. If other requests created\n         by <code>Start*</code> operations are already in the migration project's queue, the\n         conversion begins after they complete.</p>\n         <p>The conversion request loads metadata models that are not yet in the metadata tree, but\n         does not reload metadata models that are already present. If your source database has\n         changed since the metadata was loaded, refresh the affected metadata models with\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html\">StartMetadataModelImport</a> before calling this operation.</p>\n         <note>\n            <p>If converted objects already exist in the target metadata tree, the conversion\n            overwrites them, including any manual edits.</p>\n         </note>\n         <p>To check the status of the conversion request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelConversions.html\">DescribeMetadataModelConversions</a> using the returned\n         <code>RequestIdentifier</code> as a filter.</p>\n         <p>To cancel a queued or in-progress request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelConversion.html\">CancelMetadataModelConversion</a> with the returned\n         <code>RequestIdentifier</code>.</p>\n         <p>After the conversion completes successfully:</p>\n         <ul>\n            <li>\n               <p>To export a post-conversion assessment report, call\n            <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_ExportMetadataModelAssessment.html\">ExportMetadataModelAssessment</a>.</p>\n            </li>\n            <li>\n               <p>To retrieve converted code, use any of the following\n            options:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModel.html\">DescribeMetadataModel</a> and\n                  <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelChildren.html\">DescribeMetadataModelChildren</a> – navigate the target metadata\n                  tree and retrieve converted definitions.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportAsScript.html\">StartMetadataModelExportAsScript</a> – export as data definition\n                  language (DDL) scripts to your Amazon S3 bucket.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportToTarget.html\">StartMetadataModelExportToTarget</a> – apply directly to your\n                  target database.</p>\n                  </li>\n               </ul>\n            </li>\n         </ul>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:StartMetadataModelConversion</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -18132,7 +18141,7 @@
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A value that specifies the database objects to convert.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that identifies the metadata models to convert. For the selection rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Accepts only source selection rules, where <code>server-name</code> in the object locator matches the source data provider.</p>\n            </li>\n            <li>\n               <p>Supports <code>explicit</code>, <code>include</code>, and <code>exclude</code> rule actions.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -18147,7 +18156,7 @@
             "RequestIdentifier" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier for the conversion operation.</p>"
+                  "smithy.api#documentation" : "<p>The identifier for the conversion request.</p>"
                }
             }
          },
@@ -18178,7 +18187,7 @@
             "target" : "com.amazonaws.databasemigrationservice#StartMetadataModelCreationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates source metadata model of the given type with the specified properties for schema conversion operations.</p>\n         <note>\n            <p>This action supports only these directions: from SQL Server to Aurora PostgreSQL, or from SQL Server to RDS for PostgreSQL.</p>\n         </note>"
+            "smithy.api#documentation" : "<p>Queues the creation of a metadata model in the source metadata tree. If other requests\n         created by <code>Start*</code> operations are already in the migration project's queue, the\n         creation begins after they complete.</p>\n         <note>\n            <p>This operation supports only Microsoft SQL Server to Aurora PostgreSQL and\n         Microsoft SQL Server to Amazon RDS for PostgreSQL conversion paths.</p>\n         </note>\n         <p>To check the status of the creation request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelCreations.html\">DescribeMetadataModelCreations</a> using the returned\n         <code>RequestIdentifier</code> as a filter.</p>\n         <p>To cancel a queued or in-progress request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelCreation.html\">CancelMetadataModelCreation</a> with the returned\n         <code>RequestIdentifier</code>.</p>\n         <important>\n            <p>Calling\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html\">StartMetadataModelImport</a> with <code>Refresh</code> deletes metadata models\n         created by this operation.</p>\n         </important>\n         <p>After the creation completes successfully:</p>\n         <ul>\n            <li>\n               <p>To evaluate conversion complexity, call\n            <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelAssessment.html\">StartMetadataModelAssessment</a>.</p>\n            </li>\n            <li>\n               <p>To convert to the target database format, call\n            <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelConversion.html\">StartMetadataModelConversion</a>.</p>\n            </li>\n         </ul>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:StartMetadataModelCreation</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -18187,7 +18196,7 @@
             "MetadataModelName" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the metadata model.</p>",
+                  "smithy.api#documentation" : "<p>The name for the metadata model to use in subsequent operations.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -18201,14 +18210,14 @@
             "Properties" : {
                "target" : "com.amazonaws.databasemigrationservice#MetadataModelProperties",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The properties of metadata model in JSON format. This object is a Union. Only one member of this object can be specified or returned.</p>",
+                  "smithy.api#documentation" : "<p>The properties of the metadata model.</p>",
                   "smithy.api#required" : {}
                }
             },
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The JSON string that specifies the location where the metadata model will be created. Selection rules must specify a single schema. For more information, see Selection Rules in the DMS User Guide.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that identifies the source schema for the metadata model. For the\n         selection rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema\n            Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Accepts only source selection rules, where <code>server-name</code> in the\n            object locator matches the source data provider.</p>\n            </li>\n            <li>\n               <p>Supports only <code>explicit</code> rule actions.</p>\n            </li>\n            <li>\n               <p>Exactly one rule is allowed.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -18223,7 +18232,7 @@
             "RequestIdentifier" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier for the metadata model creation operation.</p>"
+                  "smithy.api#documentation" : "<p>The identifier for the creation request.</p>"
                }
             }
          },
@@ -18266,7 +18275,7 @@
             "target" : "com.amazonaws.databasemigrationservice#StartMetadataModelExportAsScriptResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3\n         bucket.</p>"
+            "smithy.api#documentation" : "<p>Queues an export of metadata models (database objects such as tables, views, and\n         procedures) as a data definition language (DDL) script. The script is stored as a ZIP\n         archive in the Amazon S3 bucket associated with the migration project. If other requests\n         created by <code>Start*</code> operations are already in the migration project's queue,\n         the export begins after they complete.</p>\n         <p>When exporting from the target metadata tree, the export applies only to metadata\n         models created by conversion. Metadata models imported from the database are\n         skipped.</p>\n         <p>To check the status of the export request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelExportsAsScript.html\">DescribeMetadataModelExportsAsScript</a> using the returned\n         <code>RequestIdentifier</code> as a filter.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:StartMetadataModelExportAsScripts</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -18275,7 +18284,7 @@
             "FileName" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the model file to create in the Amazon S3 bucket.</p>"
+                  "smithy.api#documentation" : "<p>The name for the exported file. When you omit this parameter, the service generates\n         a name from the data provider engine name and an export timestamp.</p>"
                }
             },
             "MigrationProjectIdentifier" : {
@@ -18288,14 +18297,14 @@
             "Origin" : {
                "target" : "com.amazonaws.databasemigrationservice#OriginTypeValue",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Whether to export the metadata model from the source or the target.</p>",
+                  "smithy.api#documentation" : "<p>Specifies the metadata tree to export from.</p>",
                   "smithy.api#required" : {}
                }
             },
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A value that specifies the database objects to export.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that identifies the metadata models to export as a SQL script. For the selection rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Accepts source or target selection rules depending on the <code>Origin</code> parameter. The <code>server-name</code> in the object locator must match the corresponding data provider.</p>\n            </li>\n            <li>\n               <p>Supports <code>explicit</code>, <code>include</code>, and <code>exclude</code> rule actions.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -18310,7 +18319,7 @@
             "RequestIdentifier" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier for the export operation.</p>"
+                  "smithy.api#documentation" : "<p>The identifier for the export request.</p>"
                }
             }
          },
@@ -18353,7 +18362,7 @@
             "target" : "com.amazonaws.databasemigrationservice#StartMetadataModelExportToTargetResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Applies converted database objects to your target database. </p>"
+            "smithy.api#documentation" : "<p>Queues an export of the selected converted metadata models (database objects such as\n         tables, views, and procedures) to your target database. If other requests created by\n         <code>Start*</code> operations are already in the migration project's queue, the export\n         begins after they complete.</p>\n         <p>This operation requires a non-virtual target data provider.</p>\n         <p>The export applies only metadata models created by conversion. Metadata models\n         imported from the database are skipped.</p>\n         <note>\n            <p>If objects with the same name already exist on the target database, the export\n            overwrites them.</p>\n         </note>\n         <p>The operation installs the extension pack on the target database. For more\n         information, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/extension-pack.html\">Using extension packs in DMS Schema Conversion</a>.</p>\n         <p>To check the status of the export request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelExportsToTarget.html\">DescribeMetadataModelExportsToTarget</a> using the returned\n         <code>RequestIdentifier</code> as a filter.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:StartMetadataModelExportToTarget</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -18369,13 +18378,13 @@
             "OverwriteExtensionPack" : {
                "target" : "com.amazonaws.databasemigrationservice#BooleanOptional",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Whether to overwrite the migration project extension pack. An extension pack is an add-on module \n         that emulates functions present in a source database that are required when converting objects \n         to the target database.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether to overwrite the extension pack if one already exists on the\n         target database. The default value is <code>true</code>.</p>"
                }
             },
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A value that specifies the database objects to export.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that identifies the metadata models to export to the target database. For the selection rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Accepts only target selection rules, where <code>server-name</code> in the object locator matches the target data provider.</p>\n            </li>\n            <li>\n               <p>Supports <code>explicit</code>, <code>include</code>, and <code>exclude</code> rule actions.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -18390,7 +18399,7 @@
             "RequestIdentifier" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier for the export operation.</p>"
+                  "smithy.api#documentation" : "<p>The identifier for the export request.</p>"
                }
             }
          },
@@ -18433,7 +18442,7 @@
             "target" : "com.amazonaws.databasemigrationservice#StartMetadataModelImportResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Loads the metadata for all the dependent database objects of the parent object.</p>\n         <p>This operation uses your project's Amazon S3 bucket as a metadata cache to improve\n         performance.</p>"
+            "smithy.api#documentation" : "<p>Queues an import of metadata models (database objects such as tables, views, and\n         procedures) from your data provider into the metadata tree. If other requests created\n         by <code>Start*</code> operations are already in the migration project's queue, the\n         import begins after they complete.</p>\n         <p>To check the status of the import request, call\n         <a href=\"https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelImports.html\">DescribeMetadataModelImports</a> using the returned\n         <code>RequestIdentifier</code> as a filter.</p>\n         <p>\n            <b>Required permissions:</b>\n            <code>dms:StartMetadataModelImport</code>. For more information, see\n         <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html\">Actions, resources, and condition keys for Database Migration Service</a>.</p>"
          },
          "type" : "operation"
       },
@@ -18449,7 +18458,7 @@
             "Origin" : {
                "target" : "com.amazonaws.databasemigrationservice#OriginTypeValue",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Whether to load metadata to the source or target database.</p>",
+                  "smithy.api#documentation" : "<p>Specifies the metadata tree to import into.</p>\n         <note>\n            <p>You cannot import from a virtual target data provider.</p>\n         </note>",
                   "smithy.api#required" : {}
                }
             },
@@ -18457,13 +18466,13 @@
                "target" : "com.amazonaws.databasemigrationservice#Boolean",
                "traits" : {
                   "smithy.api#default" : false,
-                  "smithy.api#documentation" : "<p>If <code>true</code>, DMS loads metadata for the specified objects from the source database.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether to refresh the selected metadata models from the data\n         provider.</p>\n         <p>When <code>true</code>, the import reloads the selected metadata models with\n         current definitions and removes their existing subtree.</p>\n         <p>When <code>false</code> (default), the import loads the full subtree that has not\n         yet been loaded into the metadata tree.</p>"
                }
             },
             "SelectionRules" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A value that specifies the database objects to import.</p>",
+                  "smithy.api#documentation" : "<p>A JSON string that identifies the metadata models to import from the data provider. For the selection rule format and examples, see <a href=\"https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html\">Selection rules in DMS Schema Conversion</a>.</p>\n         <p>Usage:</p>\n         <ul>\n            <li>\n               <p>Accepts source or target selection rules depending on the <code>Origin</code> parameter. The <code>server-name</code> in the object locator must match the corresponding data provider.</p>\n            </li>\n            <li>\n               <p>Supports <code>explicit</code>, <code>include</code>, and <code>exclude</code> rule actions.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -18478,7 +18487,7 @@
             "RequestIdentifier" : {
                "target" : "com.amazonaws.databasemigrationservice#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier for the import operation.</p>"
+                  "smithy.api#documentation" : "<p>The identifier for the import request.</p>"
                }
             }
          },
@@ -18970,7 +18979,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The properties of the statement for metadata model creation.</p>"
+            "smithy.api#documentation" : "<p>The properties of the SQL statement.</p>"
          },
          "type" : "structure"
       },
@@ -19296,7 +19305,7 @@
             "SslMode" : {
                "target" : "com.amazonaws.databasemigrationservice#DmsSslModeValue",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The SSL mode used to connect to the SAP ASE data provider. \n         The default value is <code>none</code>.</p>"
+                  "smithy.api#documentation" : "<p>The SSL mode used to connect to the SAP ASE data provider.\n         The default value is <code>none</code>.</p>"
                }
             }
          },
