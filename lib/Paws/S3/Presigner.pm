@@ -90,7 +90,7 @@ sub presign {
         $base_url = "https://${host}";
     }
 
-    my $canonical_path = _encode_key($key, defined $endpoint);
+    my $canonical_path = _encode_key($key);
     if (defined $endpoint) {
         $canonical_path = "/${bucket}${canonical_path}";
     }
@@ -156,7 +156,7 @@ sub presign {
 }
 
 sub _encode_key {
-    my ($key, $is_path_style) = @_;
+    my ($key) = @_;
     my @segments = split m{/}, $key, -1;
     my $encoded = join '/', map {
         uri_escape_utf8($_, q[^A-Za-z0-9\-_.~])
