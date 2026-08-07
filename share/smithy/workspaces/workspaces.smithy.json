@@ -1380,6 +1380,16 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.workspaces#ClientExperiencePolicy" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[A-Z_0-9]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.workspaces#ClientLocale" : {
          "traits" : {
             "smithy.api#length" : {
@@ -1402,6 +1412,12 @@
       },
       "com.amazonaws.workspaces#ClientProperties" : {
          "members" : {
+            "ClientExperiencePolicy" : {
+               "target" : "com.amazonaws.workspaces#ClientExperiencePolicy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client experience policy that determines which client experience the user sees.\n         Administrators can set this policy to control the client experience for users in a directory.\n         Valid values include <code>FORCE_CLASSIC</code>, <code>FORCE_UI_2026</code>,\n         and <code>USER_CHOICE</code>.</p>"
+               }
+            },
             "LogUploadEnabled" : {
                "target" : "com.amazonaws.workspaces#LogUploadEnum",
                "traits" : {
@@ -2742,7 +2758,7 @@
             "target" : "com.amazonaws.workspaces#CreateWorkspacesPoolResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a pool of WorkSpaces.</p>"
+            "smithy.api#documentation" : "<note>\n            <p>End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,\nyou will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see\n<a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html\">Amazon WorkSpaces Pools end of support</a>.\n </p>\n         </note>\n         <p>Creates a pool of WorkSpaces.</p>"
          },
          "type" : "operation"
       },
@@ -5405,7 +5421,7 @@
             "target" : "com.amazonaws.workspaces#DescribeWorkspacesPoolSessionsResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Retrieves a list that describes the streaming sessions for a specified pool.</p>"
+            "smithy.api#documentation" : "<note>\n            <p>End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,\nyou will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see\n<a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html\">Amazon WorkSpaces Pools end of support</a>.\n </p>\n         </note>\n         <p>Retrieves a list that describes the streaming sessions for a specified pool.</p>"
          },
          "type" : "operation"
       },
@@ -5481,7 +5497,7 @@
             "target" : "com.amazonaws.workspaces#DescribeWorkspacesPoolsResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Describes the specified WorkSpaces Pools.</p>"
+            "smithy.api#documentation" : "<note>\n            <p>End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,\nyou will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see\n<a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html\">Amazon WorkSpaces Pools end of support</a>.\n </p>\n         </note>\n         <p>Describes the specified WorkSpaces Pools.</p>"
          },
          "type" : "operation"
       },
@@ -9481,7 +9497,7 @@
             "target" : "com.amazonaws.workspaces#StartWorkspacesPoolResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Starts the specified pool.</p>\n         <p>You cannot start a pool unless it has a running mode of \n         <code>AutoStop</code> and a state of <code>STOPPED</code>.</p>"
+            "smithy.api#documentation" : "<note>\n            <p>End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,\nyou will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see\n<a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html\">Amazon WorkSpaces Pools end of support</a>.\n </p>\n         </note>\n         <p>Starts the specified pool.</p>\n         <p>You cannot start a pool unless it has a running mode of \n         <code>AutoStop</code> and a state of <code>STOPPED</code>.</p>"
          },
          "type" : "operation"
       },
@@ -9599,7 +9615,7 @@
             "target" : "com.amazonaws.workspaces#StopWorkspacesPoolResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Stops the specified pool.</p>\n         <p>You cannot stop a WorkSpace pool unless it has a running mode of <code>AutoStop</code> \n         and a state of <code>AVAILABLE</code>, <code>IMPAIRED</code>, <code>UNHEALTHY</code>, or <code>ERROR</code>.</p>"
+            "smithy.api#documentation" : "<note>\n            <p>End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,\nyou will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see\n<a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html\">Amazon WorkSpaces Pools end of support</a>.\n </p>\n         </note>\n         <p>Stops the specified pool.</p>\n         <p>You cannot stop a WorkSpace pool unless it has a running mode of <code>AutoStop</code> \n         and a state of <code>AVAILABLE</code>, <code>IMPAIRED</code>, <code>UNHEALTHY</code>, or <code>ERROR</code>.</p>"
          },
          "type" : "operation"
       },
@@ -9944,7 +9960,7 @@
             "target" : "com.amazonaws.workspaces#TerminateWorkspacesPoolResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Terminates the specified pool.</p>"
+            "smithy.api#documentation" : "<note>\n            <p>End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,\nyou will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see\n<a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html\">Amazon WorkSpaces Pools end of support</a>.\n </p>\n         </note>\n         <p>Terminates the specified pool.</p>"
          },
          "type" : "operation"
       },
@@ -9995,7 +10011,7 @@
             "target" : "com.amazonaws.workspaces#TerminateWorkspacesPoolSessionResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Terminates the pool session.</p>"
+            "smithy.api#documentation" : "<note>\n            <p>End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,\nyou will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see\n<a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html\">Amazon WorkSpaces Pools end of support</a>.\n </p>\n         </note>\n         <p>Terminates the pool session.</p>"
          },
          "type" : "operation"
       },
@@ -10471,7 +10487,7 @@
             "target" : "com.amazonaws.workspaces#UpdateWorkspacesPoolResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates the specified pool.</p>"
+            "smithy.api#documentation" : "<note>\n            <p>End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,\nyou will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see\n<a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html\">Amazon WorkSpaces Pools end of support</a>.\n </p>\n         </note>\n         <p>Updates the specified pool.</p>"
          },
          "type" : "operation"
       },

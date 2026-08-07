@@ -9049,6 +9049,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The task's ID.</p>"
                }
+            },
+            "uuid" : {
+               "target" : "com.amazonaws.omics#TaskUuid",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The universally unique identifier (UUID) for the workflow task.</p>"
+               }
             }
          },
          "traits" : {
@@ -20067,6 +20073,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The task's ID.</p>"
                }
+            },
+            "uuid" : {
+               "target" : "com.amazonaws.omics#TaskUuid",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The universally unique identifier (UUID) for the workflow task.</p>"
+               }
             }
          },
          "traits" : {
@@ -20169,6 +20181,16 @@
             "smithy.api#timestampFormat" : "date-time"
          },
          "type" : "timestamp"
+      },
+      "com.amazonaws.omics#TaskUuid" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.omics#ThrottlingException" : {
          "members" : {

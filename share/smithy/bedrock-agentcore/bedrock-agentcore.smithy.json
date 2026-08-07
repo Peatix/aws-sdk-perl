@@ -479,6 +479,9 @@
                "target" : "com.amazonaws.bedrockagentcore#BrowserSessionResource"
             },
             {
+               "target" : "com.amazonaws.bedrockagentcore#CapacityProviderResource"
+            },
+            {
                "target" : "com.amazonaws.bedrockagentcore#CodeInterpreterSessionResource"
             },
             {
@@ -2423,6 +2426,80 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.bedrockagentcore#CapacityProviderArn" : {
+         "traits" : {
+            "aws.api#arnReference" : {
+               "type" : "AWS::BedrockAgentCore::CapacityProvider"
+            },
+            "smithy.api#pattern" : "^arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:capacity-provider/[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#CapacityProviderId" : {
+         "traits" : {
+            "smithy.api#documentation" : "Capacity provider identifier. Pattern matches MiskiModel definition.",
+            "smithy.api#length" : {
+               "max" : 59,
+               "min" : 12
+            },
+            "smithy.api#pattern" : "^[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#CapacityProviderResource" : {
+         "identifiers" : {
+            "capacityProviderId" : {
+               "target" : "com.amazonaws.bedrockagentcore#CapacityProviderId"
+            }
+         },
+         "operations" : [
+            {
+               "target" : "com.amazonaws.bedrockagentcore#DeleteCapacityProviderSession"
+            }
+         ],
+         "type" : "resource"
+      },
+      "com.amazonaws.bedrockagentcore#CapacityProviderSessionStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Active"
+               }
+            },
+            "DELETED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Deleted"
+               }
+            },
+            "DELETING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Deleting"
+               }
+            },
+            "DEPROVISIONING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Deprovisioning"
+               }
+            },
+            "PROVISIONING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Provisioning"
+               }
+            },
+            "STOPPED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Stopped"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.bedrockagentcore#Certificate" : {
          "members" : {
             "location" : {
@@ -4213,6 +4290,94 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.bedrockagentcore#DeleteCapacityProviderSession" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bedrockagentcore#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentcore#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentcore#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentcore#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentcore#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bedrockagentcore#DeleteCapacityProviderSessionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bedrockagentcore#DeleteCapacityProviderSessionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identifier and the session ID. After you delete a session, you cannot restart it.</p>",
+            "smithy.api#http" : {
+               "code" : 202,
+               "method" : "DELETE",
+               "uri" : "/capacity-providers/{capacityProviderId}/sessions/{sessionId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bedrockagentcore#DeleteCapacityProviderSessionRequest" : {
+         "members" : {
+            "capacityProviderId" : {
+               "target" : "com.amazonaws.bedrockagentcore#CapacityProviderId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the capacity provider associated with the session.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.bedrockagentcore#SessionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the capacity provider session to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#DeleteCapacityProviderSessionResponse" : {
+         "members" : {
+            "capacityProviderArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#CapacityProviderArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the capacity provider associated with the deleted session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.bedrockagentcore#SessionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the deleted capacity provider session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.bedrockagentcore#CapacityProviderSessionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the capacity provider session. When the status is <code>Deleting</code>, the session is being deleted and is not available. When the status is <code>Deleted</code>, the session is no longer available.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.bedrockagentcore#DeleteEvent" : {
          "errors" : [
             {
@@ -4738,6 +4903,54 @@
             "smithy.api#httpError" : 409
          },
          "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#EfsAccessPointArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128
+            },
+            "smithy.api#pattern" : "^arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:access-point/fsap-[0-9a-f]{8,40}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#EfsConfiguration" : {
+         "members" : {
+            "accessPointArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#EfsAccessPointArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon Elastic File System (Amazon EFS) access point to mount.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "fileSystemArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#EfsFileSystemArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon Elastic File System (Amazon EFS) file system that owns the access point.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "mountPath" : {
+               "target" : "com.amazonaws.bedrockagentcore#MountPath",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The absolute path within the session at which the access point is mounted, for example <code>/mnt/efs</code>. Each mount path must be unique across all file system configurations in the session.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for mounting an Amazon Elastic File System (Amazon EFS) access point that you own into a session.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#EfsFileSystemArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an Amazon Elastic File System (Amazon EFS) file system. The access points you specify must belong to this file system.</p>",
+            "smithy.api#length" : {
+               "max" : 256
+            },
+            "smithy.api#pattern" : "^arn:aws[-a-z]*:elasticfilesystem:[a-z0-9-]+:[0-9]{12}:file-system/fs-[0-9a-f]{8,40}$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.bedrockagentcore#Email" : {
          "traits" : {
@@ -6608,6 +6821,12 @@
                   "smithy.api#documentation" : "<p>The list of browser extensions that are configured in the browser session.</p>"
                }
             },
+            "filesystemConfigurations" : {
+               "target" : "com.amazonaws.bedrockagentcore#ToolsFileSystemConfigurations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The file system configurations for the browser session. Each entry describes an access point and its mount path.</p>"
+               }
+            },
             "lastUpdatedAt" : {
                "target" : "com.amazonaws.bedrockagentcore#DateTimestamp",
                "traits" : {
@@ -6751,6 +6970,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The time at which the code interpreter session was created.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "filesystemConfigurations" : {
+               "target" : "com.amazonaws.bedrockagentcore#ToolsFileSystemConfigurations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The file system configurations for the code interpreter session. Each entry describes an access point and its mount path.</p>"
                }
             },
             "name" : {
@@ -8191,6 +8416,12 @@
                   "smithy.api#documentation" : "<p>A tool result delta.</p>"
                }
             },
+            "toolResultMetadata" : {
+               "target" : "com.amazonaws.bedrockagentcore#HarnessToolResultMetadataBlockDelta",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A tool result metadata delta.</p>"
+               }
+            },
             "toolUse" : {
                "target" : "com.amazonaws.bedrockagentcore#HarnessToolUseBlockDelta",
                "traits" : {
@@ -8339,6 +8570,12 @@
       },
       "com.amazonaws.bedrockagentcore#HarnessGeminiModelConfig" : {
          "members" : {
+            "additionalParams" : {
+               "target" : "smithy.api#Document",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provider-specific parameters passed through to the Gemini model provider unchanged.</p>"
+               }
+            },
             "apiKeyArn" : {
                "target" : "com.amazonaws.bedrockagentcore#ApiKeyArn",
                "traits" : {
@@ -8857,6 +9094,7 @@
       "com.amazonaws.bedrockagentcore#HarnessSkillGitUrl" : {
          "traits" : {
             "smithy.api#length" : {
+               "max" : 16383,
                "min" : 8
             },
             "smithy.api#pattern" : "^https://[^#@]+$"
@@ -8866,6 +9104,7 @@
       "com.amazonaws.bedrockagentcore#HarnessSkillPath" : {
          "traits" : {
             "smithy.api#length" : {
+               "max" : 4096,
                "min" : 1
             }
          },
@@ -8889,6 +9128,7 @@
       "com.amazonaws.bedrockagentcore#HarnessSkillS3Uri" : {
          "traits" : {
             "smithy.api#length" : {
+               "max" : 16383,
                "min" : 5
             },
             "smithy.api#pattern" : "^s3://"
@@ -9262,6 +9502,21 @@
             "target" : "com.amazonaws.bedrockagentcore#HarnessToolResultContentBlock"
          },
          "type" : "list"
+      },
+      "com.amazonaws.bedrockagentcore#HarnessToolResultMetadataBlockDelta" : {
+         "members" : {
+            "metadata" : {
+               "target" : "com.amazonaws.bedrockagentcore#SensitiveText",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The partial JSON-string fragment of the tool result metadata.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Delta payload for a tool result metadata.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.bedrockagentcore#HarnessToolType" : {
          "members" : {
@@ -10271,6 +10526,20 @@
                   "smithy.api#httpHeader" : "Content-Type"
                }
             },
+            "mcpMethod" : {
+               "target" : "com.amazonaws.bedrockagentcore#StringType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The MCP method being invoked. For example, <code>tools/call</code>, <code>resources/read</code>, or <code>prompts/get</code>.</p>",
+                  "smithy.api#httpHeader" : "Mcp-Method"
+               }
+            },
+            "mcpName" : {
+               "target" : "com.amazonaws.bedrockagentcore#StringType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the MCP resource, tool, or prompt being accessed. The value depends on the method:</p> <ul> <li> <p> <code>tools/call</code> – The tool name.</p> </li> <li> <p> <code>resources/read</code> – The resource URI.</p> </li> <li> <p> <code>prompts/get</code> – The prompt name.</p> </li> </ul>",
+                  "smithy.api#httpHeader" : "Mcp-Name"
+               }
+            },
             "mcpProtocolVersion" : {
                "target" : "com.amazonaws.bedrockagentcore#StringType",
                "traits" : {
@@ -10702,6 +10971,17 @@
                   "smithy.api#documentation" : "<p>The tools that the agent is allowed to use for this invocation. If specified, overrides the harness default.</p>"
                }
             },
+            "baggage" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>W3C Baggage header for user-defined context propagation. Format: key1=value1,key2=value2</p>",
+                  "smithy.api#httpHeader" : "baggage",
+                  "smithy.api#length" : {
+                     "max" : 8192,
+                     "min" : 0
+                  }
+               }
+            },
             "harnessArn" : {
                "target" : "com.amazonaws.bedrockagentcore#HarnessArn",
                "traits" : {
@@ -10783,6 +11063,39 @@
                "target" : "com.amazonaws.bedrockagentcore#HarnessTools",
                "traits" : {
                   "smithy.api#documentation" : "<p>The tools available to the agent for this invocation. If specified, overrides the harness default.</p>"
+               }
+            },
+            "traceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Trace ID for maintaining observability through the operation.</p>",
+                  "smithy.api#httpHeader" : "X-Amzn-Trace-Id",
+                  "smithy.api#length" : {
+                     "max" : 1024,
+                     "min" : 0
+                  }
+               }
+            },
+            "traceParent" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>W3C trace context parent header containing version, trace ID, parent span ID, and trace flags.</p>",
+                  "smithy.api#httpHeader" : "traceparent",
+                  "smithy.api#length" : {
+                     "max" : 1024,
+                     "min" : 0
+                  }
+               }
+            },
+            "traceState" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>W3C trace context state header for vendor-specific trace information.</p>",
+                  "smithy.api#httpHeader" : "tracestate",
+                  "smithy.api#length" : {
+                     "max" : 512,
+                     "min" : 0
+                  }
                }
             }
          },
@@ -13158,6 +13471,16 @@
          "type" : "string"
       },
       "com.amazonaws.bedrockagentcore#ModelId" : {
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#MountPath" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 6
+            },
+            "smithy.api#pattern" : "^/mnt/[a-zA-Z0-9._-]+/?$"
+         },
          "type" : "string"
       },
       "com.amazonaws.bedrockagentcore#MouseButton" : {
@@ -15638,6 +15961,54 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.bedrockagentcore#S3FilesAccessPointArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256
+            },
+            "smithy.api#pattern" : "^arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#S3FilesConfiguration" : {
+         "members" : {
+            "accessPointArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#S3FilesAccessPointArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon Simple Storage Service (Amazon S3) Files access point to mount.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "fileSystemArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#S3FilesFileSystemArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon Simple Storage Service (Amazon S3) Files file system that owns the access point.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "mountPath" : {
+               "target" : "com.amazonaws.bedrockagentcore#MountPath",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The absolute path within the session at which the access point is mounted, for example <code>/mnt/s3data</code>. Each mount path must be unique across all file system configurations in the session.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for mounting an Amazon Simple Storage Service (Amazon S3) Files access point that you own into a session.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#S3FilesFileSystemArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an Amazon Simple Storage Service (Amazon S3) Files file system. The access points you specify must belong to this file system.</p>",
+            "smithy.api#length" : {
+               "max" : 256
+            },
+            "smithy.api#pattern" : "^arn:aws[-a-z]*:s3files:[a-z0-9-]+:[0-9]{12}:file-system/fs-[0-9a-f]{17,40}$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.bedrockagentcore#S3Location" : {
          "members" : {
             "bucket" : {
@@ -16677,6 +17048,12 @@
                   "smithy.api#documentation" : "<p>A list of browser extensions to load into the browser session.</p>"
                }
             },
+            "filesystemConfigurations" : {
+               "target" : "com.amazonaws.bedrockagentcore#ToolsFileSystemConfigurations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The file system configurations to mount into the browser session. Use these configurations to mount your own Amazon Simple Storage Service (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access points. Your session can then read and write your data. If you don't specify this field, no additional file systems are mounted.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.bedrockagentcore#Name",
                "traits" : {
@@ -16833,6 +17210,12 @@
                   "smithy.api#documentation" : "<p>The unique identifier of the code interpreter to use for this session. This identifier specifies which code interpreter environment to initialize for the session.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
+               }
+            },
+            "filesystemConfigurations" : {
+               "target" : "com.amazonaws.bedrockagentcore#ToolsFileSystemConfigurations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The file system configurations to mount into the code interpreter session. Use these configurations to mount your own Amazon Simple Storage Service (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access points. Your session can then read and write your data. If you don't specify this field, no additional file systems are mounted.</p>"
                }
             },
             "name" : {
@@ -18538,6 +18921,39 @@
             "smithy.api#documentation" : "<p> The MCP tools definition with a protocol version and inline content. The <code>protocolVersion</code> identifies the MCP protocol version that the tools conform to. This differs from <code>schemaVersion</code> in the server definition, which identifies the server configuration schema format.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#ToolsFileSystemConfiguration" : {
+         "members" : {
+            "efsConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentcore#EfsConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for mounting your own Amazon Elastic File System (Amazon EFS) access point into the session.</p>"
+               }
+            },
+            "s3FilesConfiguration" : {
+               "target" : "com.amazonaws.bedrockagentcore#S3FilesConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for mounting your own Amazon Simple Storage Service (Amazon S3) Files access point into the session.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies a file system to mount into the session by providing exactly one of the following:</p> <ul> <li> <p> <code>s3FilesConfiguration</code> - Mounts an Amazon Simple Storage Service (Amazon S3) Files access point.</p> </li> <li> <p> <code>efsConfiguration</code> - Mounts an Amazon Elastic File System (Amazon EFS) access point.</p> </li> </ul>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.bedrockagentcore#ToolsFileSystemConfigurations" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#ToolsFileSystemConfiguration"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The file system configurations to mount into the session. Each configuration maps an access point to a path inside the session. You can specify up to 4 configurations. The maximum is 2 Amazon Simple Storage Service (Amazon S3) Files access points and 2 Amazon Elastic File System (Amazon EFS) access points.</p>",
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.bedrockagentcore#TopK" : {
          "traits" : {

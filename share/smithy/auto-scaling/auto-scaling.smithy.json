@@ -849,6 +849,12 @@
                   "smithy.api#documentation" : "<p>Indicates whether newly launched EC2 instances are protected from termination when scaling in for the Auto Scaling group.</p>\n         <p>\n            For more information about preventing instances from terminating on scale in, see\n            <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html\">Use instance scale-in protection</a>\n            in the <i>Amazon EC2 Auto Scaling User Guide</i>.\n        </p>"
                }
             },
+            "Operator" : {
+               "target" : "com.amazonaws.autoscaling#Operator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The entity that manages the Auto Scaling group, if applicable. When set, only the designated\n            operator can make changes to the group configuration.</p>"
+               }
+            },
             "PlacementGroup" : {
                "target" : "com.amazonaws.autoscaling#XmlStringMaxLen255",
                "traits" : {
@@ -2496,7 +2502,7 @@
             "CapacityDistributionStrategy" : {
                "target" : "com.amazonaws.autoscaling#CapacityDistributionStrategy",
                "traits" : {
-                  "smithy.api#documentation" : "<p>\n            If launches fail in an Availability Zone, the following strategies are available. The default is <code>balanced-best-effort</code>. </p>\n         <ul>\n            <li>\n               <p>\n                  <code>balanced-only</code> - If launches fail in an Availability Zone, Auto Scaling will continue to attempt to launch in the unhealthy zone to preserve a balanced distribution.</p>\n            </li>\n            <li>\n               <p>\n                  <code>balanced-best-effort</code> - If launches fail in an Availability Zone, Auto Scaling will attempt to launch in another healthy Availability Zone instead.</p>\n            </li>\n            <li>\n               <p>\n                  <code>reservations-then-balanced</code> - Auto Scaling will first attempt to launch into your Capacity Reservations, and then balance any remaining capacity across the healthy Availability Zones.</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>\n            If launches fail in an Availability Zone, the following strategies are available. The default is <code>balanced-best-effort</code>. </p>\n         <ul>\n            <li>\n               <p>\n                  <code>balanced-only</code> - If launches fail in an Availability Zone, Auto Scaling will continue to attempt to launch in the unhealthy zone to preserve a balanced distribution.</p>\n            </li>\n            <li>\n               <p>\n                  <code>balanced-best-effort</code> - If launches fail in an Availability Zone, Auto Scaling will attempt to launch in another healthy Availability Zone instead.</p>\n            </li>\n            <li>\n               <p>\n                  <code>reservations-then-balanced</code> - Auto Scaling will first attempt to launch into your Capacity Reservations, and then balance any remaining capacity across healthy Availability Zones.</p>\n            </li>\n         </ul>"
                }
             }
          },
@@ -3366,6 +3372,12 @@
                "target" : "com.amazonaws.autoscaling#InstanceProtected",
                "traits" : {
                   "smithy.api#documentation" : "<p>Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling\n            when scaling in. For more information about preventing instances from terminating on\n            scale in, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html\">Use\n                instance scale-in protection</a> in the\n            <i>Amazon EC2 Auto Scaling User Guide</i>.</p>"
+               }
+            },
+            "Operator" : {
+               "target" : "com.amazonaws.autoscaling#Operator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The entity that manages the Auto Scaling group. If you specify this parameter, Amazon EC2 Auto Scaling\n            passes the operator identity to EC2 for instance launches and only allows the\n            designated operator to make changes to the Auto Scaling group. All mutating API calls from\n            non-operator callers are rejected with an <code>AccessDenied</code> exception.</p>"
                }
             },
             "PlacementGroup" : {
@@ -7665,6 +7677,15 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.autoscaling#ManagerIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.autoscaling#MaxGroupPreparedCapacity" : {
          "traits" : {
             "smithy.api#range" : {
@@ -8164,6 +8185,22 @@
       },
       "com.amazonaws.autoscaling#OnDemandPercentageAboveBaseCapacity" : {
          "type" : "integer"
+      },
+      "com.amazonaws.autoscaling#Operator" : {
+         "members" : {
+            "Principal" : {
+               "target" : "com.amazonaws.autoscaling#ManagerIdentifier",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The service principal that is authorized to manage the Auto Scaling group. When an operator is\n            specified, only the designated operator service principal can make mutating changes to\n            the Auto Scaling group.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the entity that manages an Auto Scaling group.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.autoscaling#Overrides" : {
          "member" : {

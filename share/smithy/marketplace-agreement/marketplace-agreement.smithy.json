@@ -1241,6 +1241,12 @@
                   "smithy.api#documentation" : "<p>Defines the list of text agreements proposed to the acceptors. An example is the end user license agreement (EULA).</p>"
                }
             },
+            "netPaymentTerm" : {
+               "target" : "com.amazonaws.marketplaceagreement#NetPaymentTerm",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Defines the net payment due period for the agreement, specifying when payment is due after an invoice is issued.</p>"
+               }
+            },
             "paymentScheduleTerm" : {
                "target" : "com.amazonaws.marketplaceagreement#PaymentScheduleTerm",
                "traits" : {
@@ -4841,6 +4847,32 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.marketplaceagreement#NetPaymentTerm" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.marketplaceagreement#TermId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the term.</p>"
+               }
+            },
+            "paymentDuePeriod" : {
+               "target" : "com.amazonaws.marketplaceagreement#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The duration after an invoice is issued within which the payment is due. The duration is represented in the ISO 8601 format (for example, <code>P30D</code> for 30 days or <code>P60D</code> for 60 days).</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.marketplaceagreement#UnversionedTermType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of the term being updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the net payment due period for the agreement, specifying when payment is due after an invoice is issued.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.marketplaceagreement#NextToken" : {
          "traits" : {
