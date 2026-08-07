@@ -68,7 +68,12 @@ sub presign {
     my $now        = $args{_now}       // time;
     my $endpoint   = $args{endpoint};
     my $extra_query_params = $args{query_params} // {};
-    my $signed_headers     = $args{headers}      // {};
+    croak 'query_params must be a hashref'
+        unless ref($extra_query_params) eq 'HASH';
+
+    my $signed_headers     = $args{headers} // {};
+    croak 'headers must be a hashref'
+        unless ref($signed_headers) eq 'HASH';
 
     my $creds = $credentials->refresh;
 
