@@ -1,0 +1,4418 @@
+{
+   "shapes" : {
+      "com.amazonaws.agentregistrycontrol#A2aAgentCardDescriptor" : {
+         "members" : {
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The A2A agent card content, serialized as descriptor payload data.</p>"
+               }
+            },
+            "dataSchemaVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DataSchemaVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schema version of the descriptor payload.</p>"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The optional source configuration used to synchronize the A2A agent card descriptor content.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Descriptor that defines the content of an A2A (Agent-to-Agent) agent card registry record. The content is validated against the A2A protocol schema.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.agentregistrycontrol#NonBlankString"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The caller is not authorized to perform the requested action.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#AgentRegistryControl" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#UntagResource"
+            }
+         ],
+         "resources" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordResource"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryResource"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "agent-registry",
+               "cloudTrailEventSource" : "agent-registry.amazonaws.com",
+               "endpointPrefix" : "agent-registry-control",
+               "sdkId" : "Agent Registry Control"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "agent-registry"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#cors" : {
+               "additionalAllowedHeaders" : [
+                  "*",
+                  "content-type",
+                  "x-amz-content-sha256",
+                  "x-amz-user-agent",
+                  "x-amzn-platform-id",
+                  "x-amzn-trace-id"
+               ],
+               "additionalExposedHeaders" : [
+                  "x-amzn-errortype",
+                  "x-amzn-requestid",
+                  "x-amzn-trace-id"
+               ],
+               "maxAge" : 86400
+            },
+            "smithy.api#documentation" : "<p>AWS Agent Registry is a managed catalog for publishing and discovering resources such as MCP servers, agents, and agent skills. Agent Registry Control is its control-plane API: use it to create and manage registries and the records they contain, configure discovery and authorization, govern record approval and curation workflows, and manage automatic detection of resources. Data-plane search and MCP invocation operations are provided by the companion Agent Registry API.</p>",
+            "smithy.api#title" : "Agent Registry Control",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  }
+               ],
+               "nodeCount" : 3,
+               "nodes" : "/////wAAAAH/////AAAAAAX14QEAAAADAAAAAQX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send requests.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region of the service.",
+                     "required" : false,
+                     "type" : "string"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://agent-registry-control.{Region}.api.aws"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "documentation" : "Region is required to resolve an endpoint.",
+                     "error" : "Unable to resolve an Agent Registry Control endpoint: Region was not set and no explicit Endpoint override was provided.",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send requests.",
+                     "required" : false,
+                     "type" : "String"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region of the service.",
+                     "required" : false,
+                     "type" : "String"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "documentation" : "Explicit endpoint override wins.",
+                     "endpoint" : {
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Region"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "documentation" : "Region-based production endpoint.",
+                     "endpoint" : {
+                        "url" : "https://agent-registry-control.{Region}.api.aws"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "documentation" : "Region is required to resolve an endpoint.",
+                     "error" : "Unable to resolve an Agent Registry Control endpoint: Region was not set and no explicit Endpoint override was provided.",
+                     "type" : "error"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "Region us-west-2 -> region-based prod host.",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://agent-registry-control.us-west-2.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-west-2"
+                     }
+                  },
+                  {
+                     "documentation" : "Region us-east-1 -> region-based prod host.",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://agent-registry-control.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1"
+                     }
+                  },
+                  {
+                     "documentation" : "Endpoint override wins over region.",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://custom.example.aws.dev"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://custom.example.aws.dev",
+                        "Region" : "us-west-2"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2025-12-01"
+      },
+      "com.amazonaws.agentregistrycontrol#AgentSkillsAdditionalData" : {
+         "members" : {
+            "skillMd" : {
+               "target" : "com.amazonaws.agentregistrycontrol#AgentSkillsMdDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The markdown skill content associated with an agent skills definition.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Additional data associated with an agent skills definition descriptor.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#AgentSkillsDefinitionDescriptor" : {
+         "members" : {
+            "additionalData" : {
+               "target" : "com.amazonaws.agentregistrycontrol#AgentSkillsAdditionalData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional data associated with the agent skills definition descriptor.</p>"
+               }
+            },
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The agent skills definition content, serialized as descriptor payload data.</p>"
+               }
+            },
+            "dataSchemaVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DataSchemaVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schema version of the descriptor payload.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Descriptor that defines an agent skills registry record and its associated content.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#AgentSkillsMdDescriptor" : {
+         "members" : {
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The agent skills markdown content, serialized as descriptor payload data.</p>"
+               }
+            },
+            "dataSchemaVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DataSchemaVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schema version of the descriptor payload.</p>"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The optional source configuration used to synchronize the agent skills markdown content.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Markdown-format descriptor containing an agent skills document.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#AllowedAudience" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>An audience value that an inbound JWT must contain to be authorized.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#AllowedAudienceList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#AllowedAudience"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The list of audience values accepted during JWT validation.</p>",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#AllowedClient" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A client identifier that an inbound JWT must be issued to in order to be authorized.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#AllowedClientsList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#AllowedClient"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The list of client identifiers accepted during JWT validation.</p>",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#AllowedScopeType" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A scope value that an inbound JWT must carry to be authorized.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\x21\\x23-\\x5B\\x5D-\\x7E]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#AllowedScopesType" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#AllowedScopeType"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The list of scopes accepted during JWT validation.</p>",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#ApprovalConfiguration" : {
+         "members" : {
+            "autoApprovalRules" : {
+               "target" : "com.amazonaws.agentregistrycontrol#AutoApprovalRuleList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The rules that determine which registry records are automatically approved on submission. When omitted or empty, submitted records require manual review.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for the registry's record approval workflow. Controls whether records submitted for approval require manual review before they become approved and discoverable, or are auto-approved. When no auto-approval rules are configured, submitted records require manual review.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#AuthorizerConfiguration" : {
+         "members" : {
+            "customJWTAuthorizer" : {
+               "target" : "com.amazonaws.agentregistrycontrol#CustomJWTAuthorizerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for a custom JWT authorizer.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The authorizer configuration for a registry. Exactly one member is set.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.agentregistrycontrol#AuthorizingClaimMatchValueType" : {
+         "members" : {
+            "claimMatchOperator" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ClaimMatchOperatorType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The operator used to compare the claim value against the expected value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "claimMatchValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ClaimMatchValueType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The expected value or values that the claim is compared against.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The value and match operator used to authorize a claim during JWT validation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#AutoApprovalRule" : {
+         "members" : {
+            "APPROVE_ALL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "APPROVE_ALL"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#AutoApprovalRuleList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#AutoApprovalRule"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#ClaimMatchOperatorType" : {
+         "members" : {
+            "CONTAINS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CONTAINS"
+               }
+            },
+            "CONTAINS_ANY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CONTAINS_ANY"
+               }
+            },
+            "EQUALS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EQUALS"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The operator used to compare a claim value against the expected value during JWT validation.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#ClaimMatchValueType" : {
+         "members" : {
+            "matchValueString" : {
+               "target" : "com.amazonaws.agentregistrycontrol#MatchValueString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A single string value to match the claim against.</p>"
+               }
+            },
+            "matchValueStringList" : {
+               "target" : "com.amazonaws.agentregistrycontrol#MatchValueStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of string values to match the claim against.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The expected value used to match a claim. Exactly one member is set.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.agentregistrycontrol#ClientToken" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Client specified token used for idempotency checks</p>",
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 33
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.agentregistrycontrol#NonBlankString"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request conflicts with the current state of the resource.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#CreateRegistry" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#CreateRegistryRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#CreateRegistryResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new registry, a catalog that organizes registry records and defines their discovery authorization and record approval behavior. Creation is asynchronous: the registry begins in the CREATING status and becomes usable once it reaches READY.</p>",
+            "smithy.api#http" : {
+               "code" : 202,
+               "method" : "POST",
+               "uri" : "/registries"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#CreateRegistryRecord" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#CreateRegistryRecordRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#CreateRegistryRecordResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a registry record within a registry. A registry record describes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. Creation is asynchronous: the record is returned with the CREATING status while it is processed.</p>",
+            "smithy.api#http" : {
+               "code" : 202,
+               "method" : "POST",
+               "uri" : "/registries/{registryId}/records"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#CreateRegistryRecordRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Client token for idempotency</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the registry record</p>"
+               }
+            },
+            "descriptors" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Descriptors",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The typed descriptor content for the registry record</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The human-readable display name of the registry record</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the registry record</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordType" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the registry record, which determines the descriptor format</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the registry record</p>"
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry in which to create the record (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.agentregistrycontrol#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Tags to associate with the registry record</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "resource" : "com.amazonaws.agentregistrycontrol#RegistryResource"
+               }
+            ]
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#CreateRegistryRecordResponse" : {
+         "members" : {
+            "recordArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the created registry record</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the registry record, set to CREATING while the asynchronous workflow is in progress</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for creating a registry record</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#CreateRegistryRequest" : {
+         "members" : {
+            "approvalConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ApprovalConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Approval configuration for registry records</p>"
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Client token for idempotency</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the registry</p>"
+               }
+            },
+            "discoveryConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DiscoveryConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Discovery configuration for the registry</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.agentregistrycontrol#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Tags to associate with the registry</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request structure for creating a registry</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#CreateRegistryResponse" : {
+         "members" : {
+            "registryArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the created registry</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for creating a registry</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#CredentialProviderArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:.*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#CustomClaimValidationType" : {
+         "members" : {
+            "authorizingClaimMatchValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#AuthorizingClaimMatchValueType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value and match operator used to authorize the claim.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "inboundTokenClaimName" : {
+               "target" : "com.amazonaws.agentregistrycontrol#InboundTokenClaimNameType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the claim in the inbound token to validate.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "inboundTokenClaimValueType" : {
+               "target" : "com.amazonaws.agentregistrycontrol#InboundTokenClaimValueType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value type of the claim in the inbound token, either a string or an array of strings.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A validation rule applied to a single claim of an inbound JWT.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#CustomClaimValidationsType" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#CustomClaimValidationType"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The list of custom claim validations applied to an inbound JWT.</p>",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#CustomDescriptor" : {
+         "members" : {
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorData"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Custom descriptor for user-defined content</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#CustomJWTAuthorizerConfiguration" : {
+         "members" : {
+            "allowedAudience" : {
+               "target" : "com.amazonaws.agentregistrycontrol#AllowedAudienceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The audience values accepted during JWT validation. A token is rejected if none of its audience claims match.</p>"
+               }
+            },
+            "allowedClients" : {
+               "target" : "com.amazonaws.agentregistrycontrol#AllowedClientsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client identifiers accepted during JWT validation. A token is rejected if it was not issued to one of these clients.</p>"
+               }
+            },
+            "allowedScopes" : {
+               "target" : "com.amazonaws.agentregistrycontrol#AllowedScopesType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scopes accepted during JWT validation. A token is rejected if it does not carry one of these scopes.</p>"
+               }
+            },
+            "customClaims" : {
+               "target" : "com.amazonaws.agentregistrycontrol#CustomClaimValidationsType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional custom claim validations applied to the inbound JWT.</p>"
+               }
+            },
+            "discoveryUrl" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DiscoveryUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The OpenID Connect discovery URL used to retrieve the identity provider's metadata and signing keys.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "privateEndpoint" : {
+               "target" : "com.amazonaws.agentregistrycontrol#PrivateEndpoint",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The private endpoint used to reach the identity provider's discovery URL over a private network path.</p>"
+               }
+            },
+            "privateEndpointOverrides" : {
+               "target" : "com.amazonaws.agentregistrycontrol#PrivateEndpointOverrides",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Per-domain private endpoint overrides that route specific identity provider domains through distinct private endpoints.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for a custom JWT authorizer that validates inbound bearer tokens against an OpenID Connect identity provider.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#CustomParameterMap" : {
+         "key" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "smithy.api#String"
+         }
+      },
+      "com.amazonaws.agentregistrycontrol#DataSchemaVersion" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Version of the descriptor type schema</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#DateTimestamp" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Timestamp in ISO 8601 date-time format</p>",
+            "smithy.api#timestampFormat" : "date-time"
+         },
+         "type" : "timestamp"
+      },
+      "com.amazonaws.agentregistrycontrol#DeleteRegistry" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#DeleteRegistryRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#DeleteRegistryResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a registry. Deletion is asynchronous: the registry transitions to the DELETING status and is removed along with its registry records.</p>",
+            "smithy.api#http" : {
+               "code" : 202,
+               "method" : "DELETE",
+               "uri" : "/registries/{registryId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#DeleteRegistryRecord" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#DeleteRegistryRecordRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#DeleteRegistryRecordResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a registry record</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/registries/{registryId}/records/{recordId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#DeleteRegistryRecordRequest" : {
+         "members" : {
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry record to delete (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry containing the record (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "resource" : "com.amazonaws.agentregistrycontrol#RegistryResource"
+               }
+            ]
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#DeleteRegistryRecordResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for deleting a registry record</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#DeleteRegistryRequest" : {
+         "members" : {
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry to delete (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#suppress" : [
+                     "MemberShouldReferenceResource"
+                  ]
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request structure for deleting a registry</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#DeleteRegistryResponse" : {
+         "members" : {
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Current status of the registry, set to DELETING when deletion is initiated</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for deleting a registry</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#Description" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Description of the Resource</p>",
+            "smithy.api#length" : {
+               "max" : 4096,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#DescriptorData" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Descriptor payload data</p>",
+            "smithy.api#length" : {
+               "max" : 102400,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#DescriptorSource" : {
+         "members" : {
+            "fromUrl" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorSourceFromUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>URL-based descriptor source, populated when descriptor content is synchronized from a URL.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The source configuration that defines where descriptor content is retrieved from.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#DescriptorSourceFromUrl" : {
+         "members" : {
+            "credentialProviderConfigurations" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordCredentialProviderConfigurationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The credential providers used to authenticate when fetching descriptor content from the source URL.</p>"
+               }
+            },
+            "url" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorSourceUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL from which the descriptor content is retrieved.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>URL-based descriptor source configuration, with credential provider configurations for authenticated URL retrieval.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#DescriptorSourceUrl" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>URL source for descriptor content</p>",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^https://.*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#Descriptors" : {
+         "members" : {
+            "a2aAgentCard" : {
+               "target" : "com.amazonaws.agentregistrycontrol#A2aAgentCardDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The A2A agent card descriptor, populated when the record type is AGENT.</p>"
+               }
+            },
+            "agentSkillsDefinition" : {
+               "target" : "com.amazonaws.agentregistrycontrol#AgentSkillsDefinitionDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The agent skills definition descriptor, populated when the record type is SKILL.</p>"
+               }
+            },
+            "custom" : {
+               "target" : "com.amazonaws.agentregistrycontrol#CustomDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The custom descriptor, populated when the record type is CUSTOM.</p>"
+               }
+            },
+            "mcpServer" : {
+               "target" : "com.amazonaws.agentregistrycontrol#McpServerDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The MCP server descriptor, populated when the record type is MCP.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The typed set of descriptors for a registry record. Exactly one descriptor field is populated based on the record type.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#DiscoveryConfiguration" : {
+         "members" : {
+            "authorizerConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#AuthorizerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authorizer configuration for the registry. Required when authorizerType is CUSTOM_JWT.</p>"
+               }
+            },
+            "authorizerType" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryAuthorizerType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of authorizer that controls how consumers access the registry's search and MCP invoke operations.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Discovery configuration for the registry. Controls how consumers are authorized to search the registry and invoke its MCP endpoint.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#DiscoveryUrl" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The OpenID Connect discovery URL, ending in /.well-known/openid-configuration, used to retrieve the identity provider's metadata and signing keys.</p>",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^.+/\\.well-known/openid-configuration$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#EndpointIpAddressType" : {
+         "members" : {
+            "IPV4" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IPV4"
+               }
+            },
+            "IPV6" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IPV6"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The IP address type used by a private endpoint.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#FilterValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single filter value. Constrained by length only; the accepted set of values is filter-specific and validated server-side so enum-style values such as READY or AWS_IAM are accepted.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#FilterValues" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#FilterValue"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The values supplied for a single filter.</p>",
+            "smithy.api#length" : {
+               "max" : 1,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#GetRegistry" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#GetRegistryRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#GetRegistryResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets a registry by identifier (ARN or ID)</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/registries/{registryId}"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {
+                        "errorId" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+                     }
+                  },
+                  "id" : "GetRegistryFailure",
+                  "params" : {
+                     "registryId" : "000000000000"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ],
+            "smithy.waiters#waitable" : {
+               "RegistryReady" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "READY",
+                              "path" : "status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "CREATE_FAILED",
+                              "path" : "status"
+                           }
+                        },
+                        "state" : "failure"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "UPDATE_FAILED",
+                              "path" : "status"
+                           }
+                        },
+                        "state" : "failure"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "DELETE_FAILED",
+                              "path" : "status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "minDelay" : 30
+               }
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#GetRegistryRecord" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#GetRegistryRecordRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#GetRegistryRecordResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the details of a registry record</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/registries/{registryId}/records/{recordId}"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.waiters#waitable" : {
+               "RegistryRecordApproved" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "APPROVED",
+                              "path" : "status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "REJECTED",
+                              "path" : "status"
+                           }
+                        },
+                        "state" : "failure"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "CREATE_FAILED",
+                              "path" : "status"
+                           }
+                        },
+                        "state" : "failure"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "UPDATE_FAILED",
+                              "path" : "status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "minDelay" : 30
+               }
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#GetRegistryRecordRequest" : {
+         "members" : {
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry record to retrieve (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry containing the record (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "resource" : "com.amazonaws.agentregistrycontrol#RegistryResource"
+               }
+            ]
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#GetRegistryRecordResponse" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry record was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the registry record.</p>"
+               }
+            },
+            "descriptors" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Descriptors",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The typed descriptors that define the content of the registry record.</p>"
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The human-readable display name of the registry record.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the registry record. Names are unique within a registry.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The &amp;ARN; of the registry record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the registry record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordType" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the registry record, such as MCP, AGENT, SKILL, or CUSTOM.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version identifier of the registry record.</p>"
+               }
+            },
+            "registryArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The &amp;ARN; of the parent registry that owns the record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle status of the registry record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the current status. Typically populated when the status indicates a failure state.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry record was last updated.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for retrieving a registry record</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#GetRegistryRequest" : {
+         "members" : {
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry to retrieve (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#suppress" : [
+                     "MemberShouldReferenceResource"
+                  ]
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request structure for getting a registry</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#GetRegistryResponse" : {
+         "members" : {
+            "approvalConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ApprovalConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Approval configuration for registry records</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry was created</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the registry</p>"
+               }
+            },
+            "discoveryConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DiscoveryConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Discovery configuration for the registry</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Current status of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the current status. Typically populated when the status indicates a failure state.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry was last updated</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for getting a registry</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#IamRoleArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#IamSigningRegion" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-z0-9-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#IamSigningServiceName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#InboundTokenClaimNameType" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name of a claim in an inbound JWT.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[A-Za-z0-9_.-:]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#InboundTokenClaimValueType" : {
+         "members" : {
+            "STRING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STRING"
+               }
+            },
+            "STRING_ARRAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STRING_ARRAY"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The value type of a claim in an inbound JWT.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.agentregistrycontrol#NonBlankString"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request failed due to an unexpected internal error; the caller may retry.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ListRegistries" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#ListRegistriesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#ListRegistriesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the registries in the caller's account and Region, with optional filtering by status and discovery authorizer type</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/registries-list"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "registries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "ListRegistriesSuccess",
+                  "params" : {},
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#ListRegistriesRequest" : {
+         "members" : {
+            "filters" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters to apply to the registry list</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.agentregistrycontrol#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum number of results to return</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.agentregistrycontrol#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for pagination</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request structure for listing registries</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ListRegistriesResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.agentregistrycontrol#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for next page of results</p>"
+               }
+            },
+            "registries" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistrySummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of registry summaries</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for listing registries</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ListRegistryRecords" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#ListRegistryRecordsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#ListRegistryRecordsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the registry records within a registry, with optional filtering by name, status, and record type</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/registries/{registryId}/records-list"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "registryRecords",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#ListRegistryRecordsRequest" : {
+         "members" : {
+            "filters" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters to apply to the registry record list</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.agentregistrycontrol#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum number of records to return</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.agentregistrycontrol#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for pagination</p>"
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry to list records from (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "resource" : "com.amazonaws.agentregistrycontrol#RegistryResource"
+               }
+            ]
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ListRegistryRecordsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.agentregistrycontrol#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for next page of results</p>"
+               }
+            },
+            "registryRecords" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of registry record summaries</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for listing registry records</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "List the tags on a resource",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/tags/{resourceArn+}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#ListTagsForResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceArn",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ListTagsForResourceResponse" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceTagsMap"
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ManagedVpcResource" : {
+         "members" : {
+            "endpointIpAddressType" : {
+               "target" : "com.amazonaws.agentregistrycontrol#EndpointIpAddressType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IP address type used by the private endpoint, either IPV4 or IPV6.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "routingDomain" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RoutingDomain",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The routing domain used to resolve traffic through the private endpoint.</p>"
+               }
+            },
+            "securityGroupIds" : {
+               "target" : "com.amazonaws.agentregistrycontrol#SecurityGroupIds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifiers of the security groups associated with the private endpoint network interfaces.</p>"
+               }
+            },
+            "subnetIds" : {
+               "target" : "com.amazonaws.agentregistrycontrol#SubnetIds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifiers of the subnets in which the private endpoint network interfaces are placed.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.agentregistrycontrol#TagsMap"
+            },
+            "vpcIdentifier" : {
+               "target" : "com.amazonaws.agentregistrycontrol#VpcIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the VPC in which the private endpoint is provisioned.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A service-managed private endpoint provisioned within a customer VPC.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#MatchValueString" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single value used to match a claim during JWT validation.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[A-Za-z0-9_.:/-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#MatchValueStringList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#MatchValueString"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of values used to match a claim during JWT validation.</p>",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#MaxResults" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Maximum number of items to be listed</p>",
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.agentregistrycontrol#McpServerAdditionalData" : {
+         "members" : {
+            "tools" : {
+               "target" : "com.amazonaws.agentregistrycontrol#McpToolsDescriptor"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Additional data for an MCP server descriptor</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#McpServerDescriptor" : {
+         "members" : {
+            "additionalData" : {
+               "target" : "com.amazonaws.agentregistrycontrol#McpServerAdditionalData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional data associated with the MCP server descriptor, such as tool definitions.</p>"
+               }
+            },
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The MCP server descriptor content, serialized as descriptor payload data.</p>"
+               }
+            },
+            "dataSchemaVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DataSchemaVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schema version of the descriptor payload.</p>"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The optional source configuration used to synchronize the MCP server descriptor content.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Descriptor that defines the content of an MCP (Model Context Protocol) server registry record, including the server definition and its tool definitions. The content is validated against the MCP protocol schema.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#McpToolsDescriptor" : {
+         "members" : {
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorData"
+            },
+            "dataSchemaVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DataSchemaVersion"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>MCP tools descriptor containing tool definitions</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#NextToken" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Opaque continuation token of previous paginated response</p>",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^\\S*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#NonBlankString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\s\\S]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#PrivateEndpoint" : {
+         "members" : {
+            "managedVpcResource" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ManagedVpcResource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A private endpoint backed by a service-managed VPC resource.</p>"
+               }
+            },
+            "selfManagedLatticeResource" : {
+               "target" : "com.amazonaws.agentregistrycontrol#SelfManagedLatticeResource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A private endpoint backed by a self-managed VPC Lattice resource configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A private network endpoint used to reach a resource over a private path. Exactly one member is set.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.agentregistrycontrol#PrivateEndpointOverride" : {
+         "members" : {
+            "domain" : {
+               "target" : "com.amazonaws.agentregistrycontrol#PrivateEndpointOverrideDomain",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The domain name to which this private endpoint override applies.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "privateEndpoint" : {
+               "target" : "com.amazonaws.agentregistrycontrol#PrivateEndpoint",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The private endpoint used to reach the specified domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A mapping of a domain to the private endpoint used to reach it.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#PrivateEndpointOverrideDomain" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A domain name for which a specific private endpoint override applies.</p>",
+            "smithy.api#length" : {
+               "max" : 253,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#PrivateEndpointOverrides" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#PrivateEndpointOverride"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The list of per-domain private endpoint overrides.</p>",
+            "smithy.api#length" : {
+               "max" : 5
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#RecordIdentifier" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Record identifier that accepts either ARN or ID format</p>",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#RecordType" : {
+         "members" : {
+            "AGENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AGENT"
+               }
+            },
+            "CUSTOM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOM"
+               }
+            },
+            "MCP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MCP"
+               }
+            },
+            "SKILL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SKILL"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Record type enum for registry record classification</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryArn" : {
+         "traits" : {
+            "aws.api#arnReference" : {
+               "type" : "AWS::AgentRegistry::Registry"
+            },
+            "smithy.api#documentation" : "<p>Registry Amazon Resource Name</p>",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 46
+            },
+            "smithy.api#pattern" : "^arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryAuthorizerType" : {
+         "members" : {
+            "AWS_IAM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_IAM"
+               }
+            },
+            "CUSTOM_JWT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOM_JWT"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryFilter" : {
+         "members" : {
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryFilterName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The attribute to filter on</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "values" : {
+               "target" : "com.amazonaws.agentregistrycontrol#FilterValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The values to match for the attribute</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single filter applied to a ListRegistries request.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#RegistryFilter"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryFilterName" : {
+         "members" : {
+            "DISCOVERY_CONFIGURATION_AUTHORIZER_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "discoveryConfiguration.authorizerType"
+               }
+            },
+            "STATUS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "status"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryId" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Registry unique identifier - 12-character alphanumeric string</p>",
+            "smithy.api#length" : {
+               "max" : 16,
+               "min" : 12
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9]{12,16}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryIdentifier" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Registry identifier that accepts either ARN or ID format</p>",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryName" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Registry name with validation pattern</p>",
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9][a-zA-Z0-9_\\-\\.\\/]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Registry Record Amazon Resource Name</p>",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}/record/[a-zA-Z0-9]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordCredentialProviderConfiguration" : {
+         "members" : {
+            "credentialProvider" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordCredentialProviderUnion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The credential provider details corresponding to the specified credential provider type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "credentialProviderType" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordCredentialProviderType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of credential provider.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A credential provider configuration that specifies how to authenticate when fetching descriptor content from a registry record's source URL.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordCredentialProviderConfigurationList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordCredentialProviderConfiguration"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordCredentialProviderType" : {
+         "members" : {
+            "IAM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IAM"
+               }
+            },
+            "OAUTH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OAUTH"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordCredentialProviderUnion" : {
+         "members" : {
+            "iamCredentialProvider" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordIamCredentialProvider",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IAM role credential provider details.</p>"
+               }
+            },
+            "oauthCredentialProvider" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordOAuthCredentialProvider",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The OAuth 2.0 credential provider details.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The credential provider details for a registry record. Exactly one member is populated, matching the configured credential provider type.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordDisplayName" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Display name for a registry record</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordFilter" : {
+         "members" : {
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordFilterName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The attribute to filter on</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "values" : {
+               "target" : "com.amazonaws.agentregistrycontrol#FilterValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The values to match for the attribute</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single filter applied to a ListRegistryRecords request.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordFilter"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordFilterName" : {
+         "members" : {
+            "NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "name"
+               }
+            },
+            "RECORD_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "recordType"
+               }
+            },
+            "STATUS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "status"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordIamCredentialProvider" : {
+         "members" : {
+            "region" : {
+               "target" : "com.amazonaws.agentregistrycontrol#IamSigningRegion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Region to use for request signing. If not specified, the Region is derived from the source URL hostname, falling back to the Region of the registry.</p>"
+               }
+            },
+            "roleArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#IamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The &amp;ARN; of the IAM role to assume for request signing.</p>"
+               }
+            },
+            "service" : {
+               "target" : "com.amazonaws.agentregistrycontrol#IamSigningServiceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The service name to use for request signing, such as execute-api.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for an IAM role credential provider that signs requests to a registry record's source with AWS Signature Version 4 (SigV4).</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordId" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Registry Record unique identifier - 12-character alphanumeric string</p>",
+            "smithy.api#length" : {
+               "max" : 12,
+               "min" : 12
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordName" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Registry Record name</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9][a-zA-Z0-9_\\-\\.\\/]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordOAuthCredentialProvider" : {
+         "members" : {
+            "customParameters" : {
+               "target" : "com.amazonaws.agentregistrycontrol#CustomParameterMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional parameters to include in the OAuth 2.0 token request.</p>"
+               }
+            },
+            "grantType" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordOAuthGrantType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The OAuth 2.0 grant type used to obtain access tokens.</p>"
+               }
+            },
+            "providerArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#CredentialProviderArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The &amp;ARN; of the OAuth 2.0 credential provider resource in Amazon Bedrock AgentCore Identity.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "scopes" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ScopeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The OAuth 2.0 scopes to request when obtaining access tokens.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for an OAuth 2.0 credential provider that authenticates requests to a registry record's source.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordOAuthGrantType" : {
+         "members" : {
+            "CLIENT_CREDENTIALS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CLIENT_CREDENTIALS"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordResource" : {
+         "create" : {
+            "target" : "com.amazonaws.agentregistrycontrol#CreateRegistryRecord"
+         },
+         "delete" : {
+            "target" : "com.amazonaws.agentregistrycontrol#DeleteRegistryRecord"
+         },
+         "identifiers" : {
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordIdentifier"
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.agentregistrycontrol#ListRegistryRecords"
+         },
+         "operations" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#SubmitRegistryRecordForApproval"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdateRegistryRecordStatus"
+            }
+         ],
+         "read" : {
+            "target" : "com.amazonaws.agentregistrycontrol#GetRegistryRecord"
+         },
+         "type" : "resource",
+         "update" : {
+            "target" : "com.amazonaws.agentregistrycontrol#UpdateRegistryRecord"
+         }
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordStatus" : {
+         "members" : {
+            "APPROVED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "APPROVED"
+               }
+            },
+            "CREATE_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATE_FAILED"
+               }
+            },
+            "CREATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATING"
+               }
+            },
+            "DEPRECATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEPRECATED"
+               }
+            },
+            "DRAFT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DRAFT"
+               }
+            },
+            "PENDING_APPROVAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_APPROVAL"
+               }
+            },
+            "REJECTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REJECTED"
+               }
+            },
+            "UPDATE_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATE_FAILED"
+               }
+            },
+            "UPDATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATING"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Registry record status</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordSummary" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry record was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the registry record.</p>"
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The human-readable display name of the registry record.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the registry record. Names are unique within a registry.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The &amp;ARN; of the registry record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the registry record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordType" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the registry record, such as MCP, AGENT, SKILL, or CUSTOM.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version identifier of the registry record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The &amp;ARN; of the parent registry that owns the record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle status of the registry record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry record was last updated.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of a registry record returned by list operations. Contains identifying and lifecycle fields but omits descriptor content.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryRecordVersion" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Version of the registry record</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9.-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryResource" : {
+         "create" : {
+            "target" : "com.amazonaws.agentregistrycontrol#CreateRegistry"
+         },
+         "delete" : {
+            "target" : "com.amazonaws.agentregistrycontrol#DeleteRegistry"
+         },
+         "identifiers" : {
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.agentregistrycontrol#ListRegistries"
+         },
+         "read" : {
+            "target" : "com.amazonaws.agentregistrycontrol#GetRegistry"
+         },
+         "type" : "resource",
+         "update" : {
+            "target" : "com.amazonaws.agentregistrycontrol#UpdateRegistry"
+         }
+      },
+      "com.amazonaws.agentregistrycontrol#RegistryStatus" : {
+         "members" : {
+            "CREATE_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATE_FAILED"
+               }
+            },
+            "CREATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATING"
+               }
+            },
+            "DELETE_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETE_FAILED"
+               }
+            },
+            "DELETING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETING"
+               }
+            },
+            "READY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "READY"
+               }
+            },
+            "UPDATE_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATE_FAILED"
+               }
+            },
+            "UPDATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistrySummary" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry was created</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Registry description</p>"
+               }
+            },
+            "discoveryConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DiscoveryConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Discovery configuration for the registry</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Registry name</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Registry Amazon Resource Name</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique registry identifier</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Current status of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the current status. Typically populated when the status indicates a failure state.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry was last updated</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Registry summary for list operations</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#RegistrySummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#RegistrySummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#ResourceArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "ARN of a taggable Agent Registry resource.",
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#ResourceConfigurationIdentifier" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of a VPC Lattice resource configuration, specified as a resource configuration ID or ARN.</p>",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.agentregistrycontrol#NonBlankString"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The requested resource was not found.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ResourceTagsMap" : {
+         "key" : {
+            "target" : "com.amazonaws.agentregistrycontrol#TagKey"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A map of tag keys to tag values returned by read operations (may be empty).",
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.agentregistrycontrol#TagValue"
+         }
+      },
+      "com.amazonaws.agentregistrycontrol#RoutingDomain" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The routing domain used to resolve traffic through a private endpoint.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 3
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#ScopeList" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#SecurityGroupIdentifier" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of a security group.</p>",
+            "smithy.api#length" : {
+               "max" : 48,
+               "min" : 10
+            },
+            "smithy.api#pattern" : "^sg-(([0-9a-z]{8})|([0-9a-z]{17}))$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#SecurityGroupIds" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#SecurityGroupIdentifier"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The list of security group identifiers associated with a private endpoint.</p>",
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#SelfManagedLatticeResource" : {
+         "members" : {
+            "resourceConfigurationIdentifier" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceConfigurationIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the VPC Lattice resource configuration, specified as a resource configuration ID or ARN.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A self-managed private endpoint backed by a VPC Lattice resource configuration. Exactly one member is set.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.agentregistrycontrol#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.agentregistrycontrol#NonBlankString"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request would exceed a service quota.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#SubmitRegistryRecordForApproval" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#SubmitRegistryRecordForApprovalRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#SubmitRegistryRecordForApprovalResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Submits a DRAFT registry record for approval, moving it into the registry's approval workflow. Depending on the registry's approval configuration, the record is either auto-approved or set to PENDING_APPROVAL for a curator to approve or reject.</p>",
+            "smithy.api#http" : {
+               "code" : 202,
+               "method" : "POST",
+               "uri" : "/registries/{registryId}/records/{recordId}/submit-for-approval"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#SubmitRegistryRecordForApprovalRequest" : {
+         "members" : {
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry record to submit for approval (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry containing the record (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "resource" : "com.amazonaws.agentregistrycontrol#RegistryResource"
+               }
+            ]
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#SubmitRegistryRecordForApprovalResponse" : {
+         "members" : {
+            "recordArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the registry record</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the registry record</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resulting status of the registry record</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the record was last updated</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for submitting a registry record for approval</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#SubnetId" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>Subnet identifier</p>",
+            "smithy.api#length" : {
+               "max" : 24,
+               "min" : 15
+            },
+            "smithy.api#pattern" : "^subnet-[0-9a-zA-Z]{8,17}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#SubnetIds" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#SubnetId"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The list of subnet identifiers in which the private endpoint network interfaces are placed.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#TagKey" : {
+         "traits" : {
+            "smithy.api#documentation" : "Key of a tag.",
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9\\s._:/=+@-]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#TagKey"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of tag keys.",
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#TagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Tag a resource with key-value pairs",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "POST",
+               "uri" : "/tags/{resourceArn+}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#TagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceArn",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.agentregistrycontrol#TagsMap",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#TagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#TagValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "Value of a tag.",
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9\\s._:/=+@-]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentregistrycontrol#TagsMap" : {
+         "key" : {
+            "target" : "com.amazonaws.agentregistrycontrol#TagKey"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A map of tag keys to tag values.",
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.agentregistrycontrol#TagValue"
+         }
+      },
+      "com.amazonaws.agentregistrycontrol#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.agentregistrycontrol#NonBlankString"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request was denied due to request throttling; the caller may retry after a delay.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#UntagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Remove tags from a resource by key",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/tags/{resourceArn+}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#UntagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceArn",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tagKeys" : {
+               "target" : "com.amazonaws.agentregistrycontrol#TagKeyList",
+               "traits" : {
+                  "smithy.api#httpQuery" : "tagKeys",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UntagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdateRegistry" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#UpdateRegistryRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#UpdateRegistryResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates an existing registry. This operation uses PATCH semantics: specify only the fields you want to change, and omit the rest to leave them unchanged. Updates are applied asynchronously and the registry transitions to the UPDATING status while they are processed.</p>",
+            "smithy.api#http" : {
+               "code" : 202,
+               "method" : "PATCH",
+               "uri" : "/registries/{registryId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdateRegistryRecord" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#UpdateRegistryRecordRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#UpdateRegistryRecordResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates a registry record. The update is asynchronous: the record is returned with the UPDATING status while it is processed. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged.</p>",
+            "smithy.api#http" : {
+               "code" : 202,
+               "method" : "PATCH",
+               "uri" : "/registries/{registryId}/records/{recordId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdateRegistryRecordRequest" : {
+         "members" : {
+            "description" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated description of the registry record. Omit to leave the description unchanged; provide an empty wrapper to unset it.</p>"
+               }
+            },
+            "descriptors" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptors",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated typed descriptor content for the registry record. Omit to leave the descriptors unchanged.</p>"
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated display name of the registry record. Omit to leave the display name unchanged; provide an empty wrapper to unset it.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated name of the registry record. Omit to leave the name unchanged.</p>"
+               }
+            },
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry record to update (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordType" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated type of the registry record. Omit to leave the record type unchanged.</p>"
+               }
+            },
+            "recordVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated version of the registry record. Omit to leave the version unchanged.</p>"
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry containing the record (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "triggerSynchronization" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether to trigger synchronization of the record's descriptor content from its source</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "resource" : "com.amazonaws.agentregistrycontrol#RegistryResource"
+               }
+            ]
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdateRegistryRecordResponse" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry record was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the registry record.</p>"
+               }
+            },
+            "descriptors" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Descriptors",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The typed descriptors that define the content of the registry record.</p>"
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The human-readable display name of the registry record.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the registry record. Names are unique within a registry.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The &amp;ARN; of the registry record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the registry record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordType" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the registry record, such as MCP, AGENT, SKILL, or CUSTOM.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version identifier of the registry record.</p>"
+               }
+            },
+            "registryArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The &amp;ARN; of the parent registry that owns the record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle status of the registry record.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the current status. Typically populated when the status indicates a failure state.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry record was last updated.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for updating a registry record</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdateRegistryRecordStatus" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentregistrycontrol#UpdateRegistryRecordStatusRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentregistrycontrol#UpdateRegistryRecordStatusResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the status of a registry record as part of the registry's curation workflow, for example to approve or reject a record that is pending approval, or to deprecate an approved record so that it is no longer discoverable</p>",
+            "smithy.api#http" : {
+               "code" : 202,
+               "method" : "PATCH",
+               "uri" : "/registries/{registryId}/records/{recordId}/status"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdateRegistryRecordStatusRequest" : {
+         "members" : {
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RecordIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry record to update the status of (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry containing the record (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The target status for the registry record</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the status change, for example why the record was approved, rejected, or deprecated</p>",
+                  "smithy.api#length" : {
+                     "max" : 255,
+                     "min" : 0
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "resource" : "com.amazonaws.agentregistrycontrol#RegistryResource"
+               }
+            ]
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdateRegistryRecordStatusResponse" : {
+         "members" : {
+            "recordArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the registry record</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the registry record</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resulting status of the registry record</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the status change</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the record was last updated</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for updating a registry record status</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdateRegistryRequest" : {
+         "members" : {
+            "approvalConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedApprovalConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated approval configuration. The change applies only to records that move to PENDING_APPROVAL after the update; records already in PENDING_APPROVAL are unaffected.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated description of the registry</p>"
+               }
+            },
+            "discoveryConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDiscoveryConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated discovery configuration. Changing the discovery authorization can break existing consumers that rely on the previous authorization type.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated name of the registry</p>"
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the registry to update (ARN or ID)</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#suppress" : [
+                     "MemberShouldReferenceResource"
+                  ]
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request structure for updating a registry</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdateRegistryResponse" : {
+         "members" : {
+            "approvalConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ApprovalConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Approval configuration for registry records</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry was created</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the registry</p>"
+               }
+            },
+            "discoveryConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DiscoveryConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Discovery configuration for the registry</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryArn" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "registryId" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Current status of the registry</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the current status. Typically populated when the status indicates a failure state.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the registry was last updated</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response structure for updating a registry</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedA2aAgentCardDescriptor" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedA2aAgentCardDescriptorFields",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The A2A agent card descriptor patch wrapper. Omit to leave the descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedA2aAgentCardDescriptorFields" : {
+         "members" : {
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data field.</p>"
+               }
+            },
+            "dataSchemaVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDataSchemaVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data schema version field.</p>"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptorSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's source field.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The set of A2A agent card descriptor fields that can be individually updated.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsAdditionalData" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsAdditionalDataFields",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The agent skills additional-data patch wrapper. Omit to leave the additional data unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsAdditionalDataFields" : {
+         "members" : {
+            "skillMd" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsMdDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the agent skills markdown descriptor field.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The set of agent skills additional-data fields that can be individually updated.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsDefinitionDescriptor" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsDefinitionDescriptorFields",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The agent skills definition descriptor patch wrapper. Omit to leave the descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsDefinitionDescriptorFields" : {
+         "members" : {
+            "additionalData" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsAdditionalData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's additional data field.</p>"
+               }
+            },
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data field.</p>"
+               }
+            },
+            "dataSchemaVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDataSchemaVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data schema version field.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The set of agent skills definition descriptor fields that can be individually updated.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsMdDescriptor" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsMdDescriptorFields",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The agent skills markdown descriptor patch wrapper. Omit to leave the descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsMdDescriptorFields" : {
+         "members" : {
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data field.</p>"
+               }
+            },
+            "dataSchemaVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDataSchemaVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data schema version field.</p>"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptorSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's source field.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The set of agent skills markdown descriptor fields that can be individually updated.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedApprovalConfiguration" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ApprovalConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A wrapper for updating the approval configuration of a registry. Include this wrapper to replace the approval configuration with the specified value; omit it to leave the approval configuration unchanged.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedAuthorizerConfiguration" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#AuthorizerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new authorizer configuration to set. Omit to leave the existing configuration unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Wrapper for updating an optional authorizer configuration with PATCH semantics.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedCustomDescriptor" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedCustomDescriptorFields",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The custom descriptor patch wrapper. Omit to leave the descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedCustomDescriptorFields" : {
+         "members" : {
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data field.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The set of custom descriptor fields that can be individually updated.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedDataSchemaVersion" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DataSchemaVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Leaf patch wrapper for a descriptor's data schema version. Omit to leave unchanged; supply an empty object to unset; supply optionalValue to set.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedDescription" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#Description"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Wrapper for updating an optional Description field with PATCH semantics</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedDescriptorData" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Leaf patch wrapper for descriptor data. Omit to leave unchanged; supply an empty object to unset; supply optionalValue to set.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedDescriptorSource" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#DescriptorSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Leaf patch wrapper for a descriptor's source configuration. Omit to leave unchanged; supply an empty object to unset; supply optionalValue to set.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedDescriptors" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptorsFields",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The top-level descriptors patch wrapper used in UpdateRegistryRecord. Omit to leave the current descriptors unchanged; supply an empty object to clear them; supply optionalValue to apply a per-field patch.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedDescriptorsFields" : {
+         "members" : {
+            "a2aAgentCard" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedA2aAgentCardDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the A2A agent card descriptor.</p>"
+               }
+            },
+            "agentSkillsDefinition" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedAgentSkillsDefinitionDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the agent skills definition descriptor.</p>"
+               }
+            },
+            "custom" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedCustomDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the custom descriptor.</p>"
+               }
+            },
+            "mcpServer" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedMcpServerDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the MCP server descriptor.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The patchable descriptor fields applied during an UpdateRegistryRecord call. Each field is independently patchable.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedDiscoveryConfiguration" : {
+         "members" : {
+            "authorizerConfiguration" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedAuthorizerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Authorization configuration for the registry, with PATCH semantics</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The discovery configuration fields to update on a registry. Omit this structure to leave the discovery configuration unchanged.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedDisplayName" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#RegistryRecordDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Leaf patch wrapper for a registry record's display name. Omit to leave unchanged; supply an empty object to unset; supply optionalValue to set.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedMcpServerAdditionalData" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedMcpServerAdditionalDataFields",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The MCP server additional-data patch wrapper. Omit to leave the additional data unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedMcpServerAdditionalDataFields" : {
+         "members" : {
+            "tools" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedMcpToolsDescriptor",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the MCP tools descriptor field.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The set of MCP server additional-data fields that can be individually updated.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedMcpServerDescriptor" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedMcpServerDescriptorFields",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The MCP server descriptor patch wrapper. Omit to leave the descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedMcpServerDescriptorFields" : {
+         "members" : {
+            "additionalData" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedMcpServerAdditionalData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's additional data field.</p>"
+               }
+            },
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data field.</p>"
+               }
+            },
+            "dataSchemaVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDataSchemaVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data schema version field.</p>"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptorSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's source field.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The set of MCP server descriptor fields that can be individually updated.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedMcpToolsDescriptor" : {
+         "members" : {
+            "optionalValue" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedMcpToolsDescriptorFields",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to set for this field. Omit the wrapper to leave the field unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The MCP tools descriptor patch wrapper. Omit to leave the tools descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#UpdatedMcpToolsDescriptorFields" : {
+         "members" : {
+            "data" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDescriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data field.</p>"
+               }
+            },
+            "dataSchemaVersion" : {
+               "target" : "com.amazonaws.agentregistrycontrol#UpdatedDataSchemaVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The patch for the descriptor's data schema version field.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The set of MCP tools descriptor fields that can be individually updated.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ValidationException" : {
+         "members" : {
+            "fieldList" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationExceptionFieldList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of input fields that failed validation.</p>"
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "reason" : {
+               "target" : "com.amazonaws.agentregistrycontrol#ValidationExceptionReason",
+               "traits" : {
+                  "smithy.api#addedDefault" : {},
+                  "smithy.api#default" : "FieldValidationFailed",
+                  "smithy.api#documentation" : "<p>The reason the request failed validation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request failed validation of one or more input fields.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ValidationExceptionField" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of why the field failed validation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the field that failed validation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a single input field that failed validation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentregistrycontrol#ValidationExceptionFieldList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentregistrycontrol#ValidationExceptionField"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentregistrycontrol#ValidationExceptionReason" : {
+         "members" : {
+            "CANNOT_PARSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CannotParse"
+               }
+            },
+            "FIELD_VALIDATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FieldValidationFailed"
+               }
+            },
+            "IDEMPOTENT_PARAMETER_MISMATCH_EXCEPTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IdempotentParameterMismatchException"
+               }
+            },
+            "RESOURCE_CONFLICT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ResourceConflict"
+               }
+            },
+            "ROOT_EVENT_IN_OTHER_SESSION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EventInOtherSession"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentregistrycontrol#VpcIdentifier" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of a VPC.</p>",
+            "smithy.api#length" : {
+               "max" : 48,
+               "min" : 10
+            },
+            "smithy.api#pattern" : "^vpc-(([0-9a-z]{8})|([0-9a-z]{17}))$"
+         },
+         "type" : "string"
+      }
+   },
+   "smithy" : "2.0"
+}

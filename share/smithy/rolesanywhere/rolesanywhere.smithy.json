@@ -2915,7 +2915,7 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The PEM-encoded data for the certificate anchor. Included for trust anchors of type <code>CERTIFICATE_BUNDLE</code>. </p>",
                   "smithy.api#length" : {
-                     "max" : 16000,
+                     "max" : 204800,
                      "min" : 1
                   }
                }

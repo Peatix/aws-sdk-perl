@@ -7,6 +7,16 @@
          "uri" : "https://acm.{region}.amazonaws.com"
       }
    ],
+   "agent-registry" : [
+      {
+         "uri" : "https://agent-registry.{region}.api.aws"
+      }
+   ],
+   "agent-registry-control" : [
+      {
+         "uri" : "https://agent-registry-control.{region}.api.aws"
+      }
+   ],
    "api.ecr" : [
       {
          "uri" : "https://api.ecr.{region}.amazonaws.com"
@@ -433,6 +443,9 @@
          "uri" : "http://localhost:8000"
       },
       {
+         "uri" : "https://search-dynamodb.{region}.amazonaws.com"
+      },
+      {
          "uri" : "https://dynamodb.{region}.amazonaws.com"
       }
    ],
@@ -621,6 +634,14 @@
    ],
    "iam" : [
       {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1"
+            }
+         },
+         "uri" : "https://iam.amazonaws.com"
+      },
+      {
          "constraints" : [
             [
                "region",
@@ -724,14 +745,6 @@
             }
          },
          "uri" : "https://iam.eusc-de-east-1.amazonaws.eu"
-      },
-      {
-         "properties" : {
-            "credentialScope" : {
-               "region" : "us-east-1"
-            }
-         },
-         "uri" : "https://iam.amazonaws.com"
       }
    ],
    "mediaconvert" : [
@@ -976,6 +989,17 @@
             ]
          ],
          "uri" : "https://pinpoint.{region}.amazonaws.com"
+      }
+   ],
+   "pricingplanmanager" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "pricingplanmanager"
+            }
+         },
+         "uri" : "https://pricingplanmanager.us-east-1.api.aws"
       }
    ],
    "route53" : [
