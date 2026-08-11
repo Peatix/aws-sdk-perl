@@ -11384,6 +11384,12 @@
                   "smithy.api#enumValue" : "ACCELERATED_COMPUTE"
                }
             },
+            "AGENT_CONNECTIVITY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AGENT_CONNECTIVITY"
+               }
+            },
             "CONTAINER_RUNTIME" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -20386,6 +20392,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "EssentialContainerExited"
+               }
+            },
+            "INFRASTRUCTURE_HEALTH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "InfrastructureHealth"
                }
             },
             "SERVICE_SCHEDULER_INITIATED" : {

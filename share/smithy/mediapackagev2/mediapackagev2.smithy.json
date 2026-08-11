@@ -337,6 +337,12 @@
                   "smithy.api#documentation" : "<p>The date and time the channel was modified.</p>",
                   "smithy.api#required" : {}
                }
+            },
+            "OutputLockingMode" : {
+               "target" : "com.amazonaws.mediapackagev2#OutputLockingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output locking mode configured for the channel.</p> <p>The allowed values are:</p> <ul> <li> <p> <code>EPOCH_LOCKED</code> - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.</p> </li> <li> <p> <code>NON_EPOCH_LOCKED</code> - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.</p> </li> </ul>"
+               }
             }
          },
          "traits" : {
@@ -752,6 +758,12 @@
                   "smithy.api#documentation" : "<p>The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when <code>InputType</code> is <code>CMAF</code>.</p>"
                }
             },
+            "OutputLockingMode" : {
+               "target" : "com.amazonaws.mediapackagev2#OutputLockingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output locking mode for the channel. This setting is only valid when <code>InputType</code> is <code>CMAF</code>. This value is immutable after channel creation. If you don't specify a value, the default is <code>EPOCH_LOCKED</code>.</p> <p>The allowed values are:</p> <ul> <li> <p> <code>EPOCH_LOCKED</code> - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time. This mode supports cross-region synchronization and failover.</p> </li> <li> <p> <code>NON_EPOCH_LOCKED</code> - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0. This mode does not support cross-region synchronization or failover.</p> </li> </ul>"
+               }
+            },
             "Tags" : {
                "target" : "com.amazonaws.mediapackagev2#TagMap",
                "traits" : {
@@ -835,6 +847,12 @@
                "target" : "com.amazonaws.mediapackagev2#OutputHeaderConfiguration",
                "traits" : {
                   "smithy.api#documentation" : "<p>The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when <code>InputType</code> is <code>CMAF</code>.</p>"
+               }
+            },
+            "OutputLockingMode" : {
+               "target" : "com.amazonaws.mediapackagev2#OutputLockingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output locking mode configured for the channel.</p> <p>The allowed values are:</p> <ul> <li> <p> <code>EPOCH_LOCKED</code> - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.</p> </li> <li> <p> <code>NON_EPOCH_LOCKED</code> - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.</p> </li> </ul>"
                }
             },
             "Tags" : {
@@ -1548,6 +1566,12 @@
                   }
                }
             },
+            "StreamNameOutputMode" : {
+               "target" : "com.amazonaws.mediapackagev2#StreamNameOutputMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output mode for stream names in egress manifests. This setting is valid only when the associated channel's <code>InputType</code> is <code>HLS</code>. You can't change the stream name output mode after you create the endpoint.</p> <p> <code>INDEX</code> uses numeric indices for stream names (for example, 1, 2, 3). <code>PASSTHROUGH_NAME</code> uses the stream names from the input manifest. If you don't specify a value, the default is <code>INDEX</code>.</p>"
+               }
+            },
             "Tags" : {
                "target" : "com.amazonaws.mediapackagev2#TagMap",
                "traits" : {
@@ -1672,6 +1696,12 @@
                "target" : "smithy.api#Integer",
                "traits" : {
                   "smithy.api#documentation" : "<p>The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.</p>"
+               }
+            },
+            "StreamNameOutputMode" : {
+               "target" : "com.amazonaws.mediapackagev2#StreamNameOutputMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output mode for stream names in egress manifests for this origin endpoint.</p>"
                }
             },
             "Tags" : {
@@ -3147,6 +3177,12 @@
                   "smithy.api#documentation" : "<p>The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when <code>InputType</code> is <code>CMAF</code>.</p>"
                }
             },
+            "OutputLockingMode" : {
+               "target" : "com.amazonaws.mediapackagev2#OutputLockingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output locking mode configured for the channel.</p> <p>The allowed values are:</p> <ul> <li> <p> <code>EPOCH_LOCKED</code> - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.</p> </li> <li> <p> <code>NON_EPOCH_LOCKED</code> - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.</p> </li> </ul>"
+               }
+            },
             "ResetAt" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
@@ -4013,6 +4049,12 @@
                "target" : "smithy.api#Integer",
                "traits" : {
                   "smithy.api#documentation" : "<p>The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.</p>"
+               }
+            },
+            "StreamNameOutputMode" : {
+               "target" : "com.amazonaws.mediapackagev2#StreamNameOutputMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output mode for stream names in egress manifests for this origin endpoint.</p>"
                }
             },
             "Tags" : {
@@ -5135,6 +5177,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "StreamNameOutputMode" : {
+               "target" : "com.amazonaws.mediapackagev2#StreamNameOutputMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output mode for stream names in egress manifests for this origin endpoint.</p>"
+               }
+            },
             "UriSeparator" : {
                "target" : "com.amazonaws.mediapackagev2#UriSeparator",
                "traits" : {
@@ -5250,6 +5298,40 @@
             "smithy.api#documentation" : "<p>The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.mediapackagev2#OutputLockingMode" : {
+         "members" : {
+            "EPOCH_LOCKED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EPOCH_LOCKED"
+               }
+            },
+            "NON_EPOCH_LOCKED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NON_EPOCH_LOCKED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.mediapackagev2#OutputTimestampMode" : {
+         "members" : {
+            "PASSTHROUGH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASSTHROUGH"
+               }
+            },
+            "REBASED_TO_CHANNEL_START" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REBASED_TO_CHANNEL_START"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.mediapackagev2#PolicyText" : {
          "traits" : {
@@ -6092,6 +6174,12 @@
                   "smithy.api#documentation" : "<p>When selected, the stream set includes an additional I-frame only stream, along with the other tracks. If false, this extra stream is not included. MediaPackage generates an I-frame only stream from the first rendition in the manifest. The service inserts EXT-I-FRAMES-ONLY tags in the output manifest, and then generates and includes an I-frames only playlist in the stream. This playlist permits player functionality like fast forward and rewind.</p>"
                }
             },
+            "OutputTimestampMode" : {
+               "target" : "com.amazonaws.mediapackagev2#OutputTimestampMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output timestamp mode for the origin endpoint's segments. This setting is only configurable on channels with <code>OutputLockingMode</code> set to <code>NON_EPOCH_LOCKED</code>. This value is immutable after endpoint creation. If you don't specify a value, the default is <code>PASSTHROUGH</code>.</p> <p>The allowed values are:</p> <ul> <li> <p> <code>PASSTHROUGH</code> - Output PTS (Presentation Timestamp) values pass through unchanged from the input.</p> </li> <li> <p> <code>REBASED_TO_CHANNEL_START</code> - Output PTS is rebased relative to the channel start time.</p> </li> </ul>"
+               }
+            },
             "Scte" : {
                "target" : "com.amazonaws.mediapackagev2#Scte",
                "traits" : {
@@ -6241,6 +6329,23 @@
             "smithy.api#documentation" : "<p>To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.mediapackagev2#StreamNameOutputMode" : {
+         "members" : {
+            "INDEX" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INDEX"
+               }
+            },
+            "PASSTHROUGH_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASSTHROUGH_NAME"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.mediapackagev2#TagArn" : {
          "type" : "string"
@@ -6691,6 +6796,12 @@
                   "smithy.api#documentation" : "<p>The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when <code>InputType</code> is <code>CMAF</code>.</p>"
                }
             },
+            "OutputLockingMode" : {
+               "target" : "com.amazonaws.mediapackagev2#OutputLockingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output locking mode configured for the channel. This value is immutable after channel creation.</p> <p>The allowed values are:</p> <ul> <li> <p> <code>EPOCH_LOCKED</code> - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.</p> </li> <li> <p> <code>NON_EPOCH_LOCKED</code> - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.</p> </li> </ul>"
+               }
+            },
             "Tags" : {
                "target" : "com.amazonaws.mediapackagev2#TagMap",
                "traits" : {
@@ -6844,6 +6955,12 @@
                   }
                }
             },
+            "StreamNameOutputMode" : {
+               "target" : "com.amazonaws.mediapackagev2#StreamNameOutputMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output mode for stream names in egress manifests. If you provide a value, it must match the current value. You can't change the stream name output mode after you create the endpoint.</p>"
+               }
+            },
             "UriSeparator" : {
                "target" : "com.amazonaws.mediapackagev2#UriSeparator",
                "traits" : {
@@ -6961,6 +7078,12 @@
                "target" : "smithy.api#Integer",
                "traits" : {
                   "smithy.api#documentation" : "<p>The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.</p>"
+               }
+            },
+            "StreamNameOutputMode" : {
+               "target" : "com.amazonaws.mediapackagev2#StreamNameOutputMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output mode for stream names in egress manifests for this origin endpoint.</p>"
                }
             },
             "Tags" : {
@@ -7439,6 +7562,12 @@
                   "smithy.api#enumValue" : "NONE_MODE_WITH_TIMING_SOURCE"
                }
             },
+            "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION"
+               }
+            },
             "NUM_MANIFESTS_HIGH" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -7469,10 +7598,34 @@
                   "smithy.api#enumValue" : "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
                }
             },
+            "ONLY_CMAF_INPUT_TYPE_ALLOW_OUTPUT_LOCKING_MODE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ONLY_CMAF_INPUT_TYPE_ALLOW_OUTPUT_LOCKING_MODE"
+               }
+            },
             "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
+               }
+            },
+            "ONLY_HLS_INPUT_TYPE_ALLOW_STREAM_NAME_OUTPUT_MODE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ONLY_HLS_INPUT_TYPE_ALLOW_STREAM_NAME_OUTPUT_MODE"
+               }
+            },
+            "ONLY_NON_EPOCH_LOCKED_ALLOW_OUTPUT_TIMESTAMP_MODE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ONLY_NON_EPOCH_LOCKED_ALLOW_OUTPUT_TIMESTAMP_MODE"
+               }
+            },
+            "OUTPUT_TIMESTAMP_MODE_IMMUTABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OUTPUT_TIMESTAMP_MODE_IMMUTABLE"
                }
             },
             "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES" : {
@@ -7545,6 +7698,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "START_TAG_TIME_OFFSET_INVALID"
+               }
+            },
+            "STREAM_NAME_OUTPUT_MODE_IMMUTABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STREAM_NAME_OUTPUT_MODE_IMMUTABLE"
                }
             },
             "TIMING_SOURCE_MISSING" : {

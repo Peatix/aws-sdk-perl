@@ -4059,16 +4059,6 @@
                   "smithy.api#documentation" : "<p>The type of gateway. Valid values are <code>EXTERNAL</code> or <code>INTERNAL</code>.</p>"
                }
             },
-            "inboundLinksCount" : {
-               "target" : "smithy.api#Integer",
-               "traits" : {
-                  "smithy.api#deprecated" : {
-                     "message" : "Use linksRequestedCount instead",
-                     "since" : "2026-05-11"
-                  },
-                  "smithy.api#documentation" : "<p>Deprecated. Use 'linksRequestedCount' instead.</p>"
-               }
-            },
             "linksRequestedCount" : {
                "target" : "smithy.api#Integer",
                "traits" : {
