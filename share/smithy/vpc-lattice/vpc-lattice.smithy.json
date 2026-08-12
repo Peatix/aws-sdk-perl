@@ -1738,6 +1738,12 @@
                   "smithy.api#documentation" : "<p>The custom domain name of the service.</p>"
                }
             },
+            "idleTimeoutSeconds" : {
+               "target" : "com.amazonaws.vpclattice#IdleTimeoutSeconds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of time, in seconds, that a connection can remain idle (no data sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds. If you don't specify a value, the default is 60 seconds. This setting does not change the maximum connection duration of 10 minutes; connections are still closed when they reach that limit.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.vpclattice#ServiceName",
                "traits" : {
@@ -1790,6 +1796,12 @@
                "target" : "com.amazonaws.vpclattice#ServiceId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the service.</p>"
+               }
+            },
+            "idleTimeoutSeconds" : {
+               "target" : "com.amazonaws.vpclattice#IdleTimeoutSeconds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of time, in seconds, that a connection can remain idle before VPC Lattice closes it.</p>"
                }
             },
             "name" : {
@@ -3935,7 +3947,7 @@
             "managedBy" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS service that manages the resource gateway.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Web Services service that manages the resource gateway.</p>"
                }
             },
             "name" : {
@@ -3959,7 +3971,7 @@
             "serviceManaged" : {
                "target" : "smithy.api#Boolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Indicates whether the resource gateway is managed by an AWS service.</p>"
+                  "smithy.api#documentation" : "<p>Indicates whether the resource gateway is managed by an Amazon Web Services service.</p>"
                }
             },
             "status" : {
@@ -4838,6 +4850,12 @@
                   "smithy.api#documentation" : "<p>The ID of the service.</p>"
                }
             },
+            "idleTimeoutSeconds" : {
+               "target" : "com.amazonaws.vpclattice#IdleTimeoutSeconds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of time, in seconds, that a connection can remain idle before VPC Lattice closes it.</p>"
+               }
+            },
             "lastUpdatedAt" : {
                "target" : "com.amazonaws.vpclattice#Timestamp",
                "traits" : {
@@ -5260,6 +5278,15 @@
             "smithy.api#range" : {
                "max" : 599,
                "min" : 100
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.vpclattice#IdleTimeoutSeconds" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 600,
+               "min" : 60
             }
          },
          "type" : "integer"
@@ -11909,6 +11936,12 @@
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the certificate.</p>"
                }
             },
+            "idleTimeoutSeconds" : {
+               "target" : "com.amazonaws.vpclattice#IdleTimeoutSeconds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of time, in seconds, that a connection can remain idle (no data sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds. If you don't specify a value, the default is 60 seconds. This setting does not change the maximum connection duration of 10 minutes; connections are still closed when they reach that limit.</p>"
+               }
+            },
             "serviceIdentifier" : {
                "target" : "com.amazonaws.vpclattice#ServiceIdentifier",
                "traits" : {
@@ -11950,6 +11983,12 @@
                "target" : "com.amazonaws.vpclattice#ServiceId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the service.</p>"
+               }
+            },
+            "idleTimeoutSeconds" : {
+               "target" : "com.amazonaws.vpclattice#IdleTimeoutSeconds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of time, in seconds, that a connection can remain idle before VPC Lattice closes it.</p>"
                }
             },
             "name" : {

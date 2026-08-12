@@ -11,6 +11,10 @@ package Paws::Model::Loader::Resolver;
 # (`api-gateway`, `eventbridge`, `database-migration-service`). The
 # %PAWS_TO_SMITHY table below is the authoritative map; lc(class)
 # is the fallback for the majority of cases where the names line up.
+# A final dash-squash fallback in _find_smithy_path resolves
+# newly-vendored multi-word services (LambdaCore -> lambda-core)
+# without needing a %PAWS_TO_SMITHY entry, so the daily Smithy
+# refresh does not break the build every time AWS adds a service.
 #
 # Build pipeline: all_known_services() derives the service fleet
 # dynamically from the smithy directories + sdkId traits, with
@@ -187,6 +191,40 @@ sub _find_smithy_path {
             return $candidate if -r $candidate;
         }
     }
+
+    # Fallback for newly-vendored multi-word services that have no
+    # %PAWS_TO_SMITHY entry yet. all_known_services() derives the Paws
+    # class name from the sdkId trait by removing its spaces
+    # ("Lambda Core" -> "LambdaCore"); the Smithy directory basename is
+    # the same sdkId with spaces turned into dashes and lowercased
+    # ("Lambda Core" -> "lambda-core"). So for any sdkId-derived name,
+    # lc($service_name) equals the directory basename with its dashes
+    # removed. Match on that invariant so the daily Smithy refresh does
+    # not need a hand-maintained table entry for every new dashed
+    # service (LambdaCore <-> lambda-core,
+    # PartnerCentralRevenueMeasurement <-> partnercentral-revenue-measurement).
+    #
+    # Only runs after all explicit/lc candidates miss, so it can never
+    # override a %PAWS_TO_SMITHY mapping (e.g. the substantive renames
+    # such as DMS -> database-migration-service resolve above and never
+    # reach here).
+    my $target = lc $service_name;
+    for my $base (@{ $self->smithy_search_paths }) {
+        next if !-d $base;
+        opendir(my $dh, $base) or next;
+        my @entries = sort readdir $dh;
+        closedir $dh;
+        for my $entry (@entries) {
+            next if $entry =~ /^\./;
+            next if index($entry, '-') < 0;
+            (my $squashed = $entry) =~ s/-//g;
+            next if lc($squashed) ne $target;
+            my $candidate =
+                File::Spec->catfile($base, $entry, "$entry.smithy.json");
+            return $candidate if -r $candidate;
+        }
+    }
+
     return undef;
 }
 
@@ -511,6 +549,16 @@ our %PAWS_NAME_OVERRIDES = (
 # sorted list. New services added upstream are automatically included
 # when their Smithy IR is vendored — no manual list maintenance.
 #
+# Services whose only protocol trait is one the Smithy loader cannot
+# materialise (e.g. smithy.protocols#rpcv2Cbor) are skipped: they
+# cannot be constructed or built into a modular dist, so advertising
+# them would only break the build. This keeps the daily Smithy refresh
+# green when AWS ships a service on an unsupported protocol. The check
+# is driven by Paws::Model::Loader::Smithy->supported_protocol_traits
+# so the loader stays the single source of truth. NB: the inline
+# replica of this logic in .github/workflows/refresh-source-deps.yml
+# (expected-service-count baseline) must apply the same filter.
+#
 # Requires JSON::PP (core since Perl 5.14) to parse sdkId from
 # service models not covered by %PAWS_NAME_OVERRIDES.
 sub all_known_services {
@@ -528,11 +576,19 @@ sub all_known_services {
             my $ir_file = File::Spec->catfile($dir, "$entry.smithy.json");
             next if !-r $ir_file;
 
+            my $json = _decode_smithy_json($ir_file);
+            next if !$json;
+
+            my $svc_shape = _service_shape($json);
+            next if !$svc_shape;
+
+            next if !_has_supported_protocol($svc_shape);
+
             my $paws_name;
             if (exists $PAWS_NAME_OVERRIDES{$entry}) {
                 $paws_name = $PAWS_NAME_OVERRIDES{$entry};
             } else {
-                $paws_name = _sdkid_to_paws_name($ir_file);
+                $paws_name = _sdkid_to_paws_name($svc_shape);
                 next if !defined $paws_name;
             }
 
@@ -544,29 +600,45 @@ sub all_known_services {
     return sort @out;
 }
 
-sub _sdkid_to_paws_name {
+sub _decode_smithy_json {
     my ($ir_file) = @_;
     open my $fh, '<', $ir_file or return undef;
     local $/;
     my $json = eval { JSON::PP::decode_json(<$fh>) };
     close $fh;
-    return undef if !$json;
+    return $json;
+}
 
+sub _service_shape {
+    my ($json) = @_;
     for my $key (keys %{ $json->{shapes} || {} }) {
         my $shape = $json->{shapes}{$key};
-        next if ($shape->{type} || '') ne 'service';
-        my $traits = $shape->{traits} || {};
-        my $svc_trait = $traits->{'aws.api#service'};
-        next if !$svc_trait || ref($svc_trait) ne 'HASH';
-        my $sdk_id = $svc_trait->{sdkId};
-        return undef if !defined $sdk_id || $sdk_id eq '';
-
-        my $name = $sdk_id;
-        $name =~ s/\s+//g;
-        $name = ucfirst($name) if $name =~ /^[a-z]/;
-        return $name;
+        return $shape if ($shape->{type} || '') eq 'service';
     }
     return undef;
+}
+
+sub _has_supported_protocol {
+    my ($svc_shape) = @_;
+    my $traits = $svc_shape->{traits} || {};
+    for my $tid (Paws::Model::Loader::Smithy->supported_protocol_traits) {
+        return 1 if exists $traits->{$tid};
+    }
+    return 0;
+}
+
+sub _sdkid_to_paws_name {
+    my ($svc_shape) = @_;
+    my $traits = $svc_shape->{traits} || {};
+    my $svc_trait = $traits->{'aws.api#service'};
+    return undef if !$svc_trait || ref($svc_trait) ne 'HASH';
+    my $sdk_id = $svc_trait->{sdkId};
+    return undef if !defined $sdk_id || $sdk_id eq '';
+
+    my $name = $sdk_id;
+    $name =~ s/\s+//g;
+    $name = ucfirst($name) if $name =~ /^[a-z]/;
+    return $name;
 }
 
 1;

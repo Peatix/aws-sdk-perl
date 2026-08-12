@@ -5377,7 +5377,7 @@
       "com.amazonaws.amplify#OauthToken" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 1000,
+               "max" : 4096,
                "min" : 0
             },
             "smithy.api#pattern" : "^(?s)",

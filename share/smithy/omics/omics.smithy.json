@@ -3797,6 +3797,12 @@
                   "smithy.api#documentation" : "<p>AWS tags to associate with each workflow run. Merged with per-run <code>runTags</code>; run-specific values take precedence when keys overlap.</p>"
                }
             },
+            "scratchStorageMode" : {
+               "target" : "com.amazonaws.omics#ScratchStorageMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.</p>"
+               }
+            },
             "storageCapacity" : {
                "target" : "smithy.api#Integer",
                "traits" : {
@@ -8634,6 +8640,12 @@
                   "smithy.api#documentation" : "<p>The destination for workflow outputs.</p>"
                }
             },
+            "scratchStorageMode" : {
+               "target" : "com.amazonaws.omics#ScratchStorageMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If absent, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.</p>"
+               }
+            },
             "startTime" : {
                "target" : "com.amazonaws.omics#RunTimestamp",
                "traits" : {
@@ -9036,6 +9048,12 @@
                "target" : "com.amazonaws.omics#TaskId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The task's ID.</p>"
+               }
+            },
+            "uuid" : {
+               "target" : "com.amazonaws.omics#TaskUuid",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The universally unique identifier (UUID) for the workflow task.</p>"
                }
             }
          },
@@ -17108,6 +17126,12 @@
                   "smithy.api#documentation" : "<p>The run's workflow ID.</p>"
                }
             },
+            "workflowName" : {
+               "target" : "com.amazonaws.omics#WorkflowName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow.</p>"
+               }
+            },
             "workflowVersionName" : {
                "target" : "com.amazonaws.omics#WorkflowVersionName",
                "traits" : {
@@ -17593,6 +17617,25 @@
                   "value" : "BOOLEAN"
                }
             ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.omics#ScratchStorageMode" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "name" : "LOCAL",
+                  "value" : "LOCAL"
+               },
+               {
+                  "name" : "SHARED",
+                  "value" : "SHARED"
+               }
+            ],
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            }
          },
          "type" : "string"
       },
@@ -19268,6 +19311,12 @@
                   "smithy.api#documentation" : "<p>The ID of a run to duplicate.</p>"
                }
             },
+            "scratchStorageMode" : {
+               "target" : "com.amazonaws.omics#ScratchStorageMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.</p>"
+               }
+            },
             "storageCapacity" : {
                "target" : "smithy.api#Integer",
                "traits" : {
@@ -20024,6 +20073,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The task's ID.</p>"
                }
+            },
+            "uuid" : {
+               "target" : "com.amazonaws.omics#TaskUuid",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The universally unique identifier (UUID) for the workflow task.</p>"
+               }
             }
          },
          "traits" : {
@@ -20126,6 +20181,16 @@
             "smithy.api#timestampFormat" : "date-time"
          },
          "type" : "timestamp"
+      },
+      "com.amazonaws.omics#TaskUuid" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.omics#ThrottlingException" : {
          "members" : {

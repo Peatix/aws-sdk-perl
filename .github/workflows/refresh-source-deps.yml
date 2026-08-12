@@ -139,9 +139,14 @@ jobs:
           set -eu
           count=$(perl -MJSON::PP -MFile::Spec -e '
             # Replicate Resolver::all_known_services logic without Moose.
-            # Read %PAWS_NAME_OVERRIDES and %PAWS_DROPPED_SERVICES from source.
+            # Read %PAWS_NAME_OVERRIDES and %PAWS_DROPPED_SERVICES from
+            # source, plus the loader-supported protocol trait IDs from
+            # %Paws::Model::Loader::Smithy::SMITHY_PROTOCOL_TRAIT, so this
+            # baseline matches all_known_services (which skips services on
+            # a protocol the loader cannot materialise, e.g. rpcv2Cbor).
             my %overrides;
             my %dropped;
+            my %supported_protocol;
             open my $src, "<", "lib/Paws/Model/Loader/Resolver.pm" or die $!;
             my $content = do { local $/; <$src> };
             close $src;
@@ -155,6 +160,15 @@ jobs:
               my $b = $1;
               while ($b =~ /(\w+)\s*=>\s*\047/g) { $dropped{$1} = 1; }
             }
+            open my $lsrc, "<", "lib/Paws/Model/Loader/Smithy.pm" or die $!;
+            my $lcontent = do { local $/; <$lsrc> };
+            close $lsrc;
+            if ($lcontent =~ /%SMITHY_PROTOCOL_TRAIT\s*=\s*\((.*?)\);/ms) {
+              my $b = $1;
+              while ($b =~ /\047(aws\.protocols#\w+)\047\s*=>/g) {
+                $supported_protocol{$1} = 1;
+              }
+            }
             my $base = "share/smithy";
             opendir(my $dh, $base) or die $!;
             my $count = 0;
@@ -164,25 +178,27 @@ jobs:
               next if !-d $dir;
               my $ir = File::Spec->catfile($dir, "$entry.smithy.json");
               next if !-r $ir;
-              my $name;
-              if (exists $overrides{$entry}) {
-                $name = $overrides{$entry};
-              } else {
-                open my $fh, "<", $ir or next;
-                my $j = eval { JSON::PP::decode_json(do { local $/; <$fh> }) };
-                close $fh;
-                next if !$j;
-                for my $k (keys %{$j->{shapes}||{}}) {
-                  my $s = $j->{shapes}{$k};
-                  next if ($s->{type}||"") ne "service";
-                  my $t = $s->{traits}{"aws.api#service"};
-                  next if !$t || ref($t) ne "HASH";
+              open my $fh, "<", $ir or next;
+              my $j = eval { JSON::PP::decode_json(do { local $/; <$fh> }) };
+              close $fh;
+              next if !$j;
+              my ($svc_traits, $name);
+              for my $k (keys %{$j->{shapes}||{}}) {
+                my $s = $j->{shapes}{$k};
+                next if ($s->{type}||"") ne "service";
+                $svc_traits = $s->{traits} || {};
+                my $t = $svc_traits->{"aws.api#service"};
+                if ($t && ref($t) eq "HASH") {
                   $name = $t->{sdkId} // "";
                   $name =~ s/\s+//g;
                   $name = ucfirst($name) if $name =~ /^[a-z]/;
-                  last;
                 }
+                last;
               }
+              next if !$svc_traits;
+              # Skip services with no loader-supported protocol trait.
+              next unless grep { exists $svc_traits->{$_} } keys %supported_protocol;
+              $name = $overrides{$entry} if exists $overrides{$entry};
               next if !$name || $name eq "";
               next if exists $dropped{$name};
               $count++;

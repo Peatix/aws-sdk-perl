@@ -61,6 +61,16 @@ my @SMITHY_PROTOCOL_PRIORITY = (
     'aws.protocols#awsQuery',
 );
 
+# The set of Smithy protocol-trait IDs this loader can materialise into
+# an IR. Newer AWS protocols the wire layer does not implement yet
+# (notably smithy.protocols#rpcv2Cbor) are deliberately absent, so a
+# service that declares only such a protocol cannot be loaded. The
+# build pipeline (Paws::Model::Loader::Resolver->all_known_services)
+# consults this to keep such services out of the advertised fleet.
+sub supported_protocol_traits {
+    return keys %SMITHY_PROTOCOL_TRAIT;
+}
+
 # Public entry. Pass either a path to the .smithy.json file or a
 # hashref { ast => $path }.
 sub load {
@@ -106,8 +116,11 @@ sub _build_service {
             last;
         }
     }
-    croak "Smithy AST: no recognised protocol trait on service $svc_id\n"
-        if !defined $protocol;
+    if (!defined $protocol) {
+        my @present = grep { m{^(?:aws|smithy)\.protocols#} } sort keys %$svc_traits;
+        croak "Smithy AST: no supported protocol trait on service $svc_id"
+            . (@present ? " (found unsupported: @present)" : "") . "\n";
+    }
 
     # Stash the protocol for _build_member: body wire-key resolution is
     # protocol-dependent (jsonName for JSON, xmlName for XML/query).

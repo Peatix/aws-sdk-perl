@@ -313,6 +313,15 @@
                "target" : "com.amazonaws.wafv2#GetRegexPatternSet"
             },
             {
+               "target" : "com.amazonaws.wafv2#GetRevenueStatistics"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#GetRevenueStatisticsSummary"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#GetRevenueStatisticsTimeSeries"
+            },
+            {
                "target" : "com.amazonaws.wafv2#GetRuleGroup"
             },
             {
@@ -356,6 +365,9 @@
             },
             {
                "target" : "com.amazonaws.wafv2#ListRuleGroups"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#ListSettlementRecords"
             },
             {
                "target" : "com.amazonaws.wafv2#ListTagsForResource"
@@ -1840,6 +1852,12 @@
                "traits" : {
                   "smithy.api#enumValue" : "EXCLUDED_AS_COUNT"
                }
+            },
+            "MONETIZE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MONETIZE"
+               }
             }
          },
          "type" : "enum"
@@ -2027,7 +2045,7 @@
             "ResourceArn" : {
                "target" : "com.amazonaws.wafv2#ResourceArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource to associate with the web ACL. </p>\n         <p>The ARN must be in one of the following formats:</p>\n         <ul>\n            <li>\n               <p>For an Application Load Balancer: <code>arn:<i>partition</i>:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon API Gateway REST API: <code>arn:<i>partition</i>:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an AppSync GraphQL API: <code>arn:<i>partition</i>:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Cognito user pool: <code>arn:<i>partition</i>:cognito-idp:<i>region</i>:<i>account-id</i>:userpool/<i>user-pool-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an App Runner service: <code>arn:<i>partition</i>:apprunner:<i>region</i>:<i>account-id</i>:service/<i>apprunner-service-name</i>/<i>apprunner-service-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Web Services Verified Access instance: <code>arn:<i>partition</i>:ec2:<i>region</i>:<i>account-id</i>:verified-access-instance/<i>instance-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amplify application: <code>arn:<i>partition</i>:amplify:<i>region</i>:<i>account-id</i>:apps/<i>app-id</i>\n                  </code>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource to associate with the web ACL. </p>\n         <p>The ARN must be in one of the following formats:</p>\n         <ul>\n            <li>\n               <p>For an Application Load Balancer: <code>arn:<i>partition</i>:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon API Gateway REST API: <code>arn:<i>partition</i>:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an AppSync GraphQL API: <code>arn:<i>partition</i>:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Cognito user pool: <code>arn:<i>partition</i>:cognito-idp:<i>region</i>:<i>account-id</i>:userpool/<i>user-pool-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an App Runner service: <code>arn:<i>partition</i>:apprunner:<i>region</i>:<i>account-id</i>:service/<i>apprunner-service-name</i>/<i>apprunner-service-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Web Services Verified Access instance: <code>arn:<i>partition</i>:ec2:<i>region</i>:<i>account-id</i>:verified-access-instance/<i>instance-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amplify application: <code>arn:<i>partition</i>:amplify:<i>region</i>:<i>account-id</i>:apps/<i>app-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Bedrock AgentCore Gateway: <code>arn:<i>partition</i>:bedrock-agentcore:<i>region</i>:<i>account-id</i>:gateway/<i>gateway-id</i>\n                  </code>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -2053,6 +2071,12 @@
       },
       "com.amazonaws.wafv2#AssociatedResourceType" : {
          "members" : {
+            "AGENTCORE_GATEWAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AGENTCORE_GATEWAY"
+               }
+            },
             "API_GATEWAY" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -2144,6 +2168,35 @@
             "smithy.api#documentation" : "<p>Specifies that WAF should block the request and optionally defines additional\n         custom handling for the response to the web request.</p>\n         <p>This is used in the context of other settings, for example to specify values for <a>RuleAction</a> and web ACL <a>DefaultAction</a>. </p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.wafv2#BlockchainChain" : {
+         "members" : {
+            "BASE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BASE"
+               }
+            },
+            "BASE_SEPOLIA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BASE_SEPOLIA"
+               }
+            },
+            "SOLANA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SOLANA"
+               }
+            },
+            "SOLANA_DEVNET" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SOLANA_DEVNET"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.wafv2#Body" : {
          "members" : {
@@ -2239,6 +2292,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The area within the portion of the web request that you want WAF to search for\n            <code>SearchString</code>. Valid values include the following:</p>\n         <p>\n            <b>CONTAINS</b>\n         </p>\n         <p>The specified part of the web request must include the value of\n            <code>SearchString</code>, but the location doesn't matter.</p>\n         <p>\n            <b>CONTAINS_WORD</b>\n         </p>\n         <p>The specified part of the web request must include the value of\n            <code>SearchString</code>, and <code>SearchString</code> must contain only alphanumeric\n         characters or underscore (A-Z, a-z, 0-9, or _). In addition, <code>SearchString</code> must\n         be a word, which means that both of the following are true:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>SearchString</code> is at the beginning of the specified part of the web\n               request or is preceded by a character other than an alphanumeric character or\n               underscore (_). Examples include the value of a header and\n               <code>;BadBot</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SearchString</code> is at the end of the specified part of the web request or\n               is followed by a character other than an alphanumeric character or underscore (_),\n               for example, <code>BadBot;</code> and <code>-BadBot;</code>.</p>\n            </li>\n         </ul>\n         <p>\n            <b>EXACTLY</b>\n         </p>\n         <p>The value of the specified part of the web request must exactly match the value of\n            <code>SearchString</code>.</p>\n         <p>\n            <b>STARTS_WITH</b>\n         </p>\n         <p>The value of <code>SearchString</code> must appear at the beginning of the specified\n         part of the web request.</p>\n         <p>\n            <b>ENDS_WITH</b>\n         </p>\n         <p>The value of <code>SearchString</code> must appear at the end of the specified part of\n         the web request.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "PreParseTextTransformations" : {
+               "target" : "com.amazonaws.wafv2#PreParseTextTransformations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pre-parse text transformations normalize the raw query string before WAF parses it into individual\n         query arguments. They are applied before the standard text transformations. Pre-parse text transformations\n         are only supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code> or\n         <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text transformations per rule statement.</p>"
                }
             },
             "SearchString" : {
@@ -4501,6 +4560,12 @@
                   "smithy.api#documentation" : "<p>A description of the rule group that helps with identification. </p>"
                }
             },
+            "MonetizationConfig" : {
+               "target" : "com.amazonaws.wafv2#MonetizationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The monetization configuration for the rule group. Provide this when any rule in the rule group uses the <code>Monetize</code> action.</p>"
+               }
+            },
             "Name" : {
                "target" : "com.amazonaws.wafv2#EntityName",
                "traits" : {
@@ -4606,7 +4671,7 @@
             "target" : "com.amazonaws.wafv2#CreateWebACLResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a <a>WebACL</a> per the specifications provided.</p>\n         <p> A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.  </p>"
+            "smithy.api#documentation" : "<p>Creates a <a>WebACL</a> per the specifications provided.</p>\n         <p> A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.  </p>"
          },
          "type" : "operation"
       },
@@ -4659,6 +4724,12 @@
                "target" : "com.amazonaws.wafv2#EntityDescription",
                "traits" : {
                   "smithy.api#documentation" : "<p>A description of the web ACL that helps with identification. </p>"
+               }
+            },
+            "MonetizationConfig" : {
+               "target" : "com.amazonaws.wafv2#MonetizationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The monetization configuration for the web ACL. Provide this when any rule in the web ACL uses the <code>Monetize</code> action.</p>"
                }
             },
             "Name" : {
@@ -4735,6 +4806,60 @@
             "smithy.api#pattern" : "\\S"
          },
          "type" : "string"
+      },
+      "com.amazonaws.wafv2#CryptoConfig" : {
+         "members" : {
+            "PaymentNetworks" : {
+               "target" : "com.amazonaws.wafv2#PaymentNetworks",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The blockchain payment networks configured to receive payments. You can specify 1 to 2 networks. All networks must be in the same environment-either all production networks (Base, Solana) or all test networks (Base Sepolia, Solana Devnet).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The cryptocurrency payment configuration for AI bot monetization. Contains the list of blockchain payment networks where you receive payments.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#CryptoCurrency" : {
+         "members" : {
+            "USDC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "USDC"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.wafv2#Currency" : {
+         "members" : {
+            "USDC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "USDC"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.wafv2#CurrencyMode" : {
+         "members" : {
+            "REAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REAL"
+               }
+            },
+            "TEST" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TEST"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.wafv2#CustomHTTPHeader" : {
          "members" : {
@@ -4866,6 +4991,64 @@
             "smithy.api#documentation" : "<p>The response body to use in a custom response to a web request. This is referenced by\n         key from <a>CustomResponse</a>\n            <code>CustomResponseBodyKey</code>.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.wafv2#DataPointEntry" : {
+         "members" : {
+            "Category" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The bot category for this data point, when grouped by category.</p>"
+               }
+            },
+            "Date" : {
+               "target" : "com.amazonaws.wafv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp for this data point.</p>"
+               }
+            },
+            "GroupByValue" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The group-by dimension value for this data point.</p>"
+               }
+            },
+            "Intent" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The intent classification for this data point, when grouped by intent.</p>"
+               }
+            },
+            "MonetizeServedCount" : {
+               "target" : "com.amazonaws.wafv2#RequestCount",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of HTTP 402 Payment Required responses served during this interval.</p>"
+               }
+            },
+            "SettledCount" : {
+               "target" : "com.amazonaws.wafv2#RequestCount",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of successfully settled payments during this interval.</p>"
+               }
+            },
+            "TotalAmount" : {
+               "target" : "com.amazonaws.wafv2#MonetizationAmountValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total revenue amount during this interval in the specified currency.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single data point in a revenue time series, representing aggregated monetization metrics for a specific time interval.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#DataPointsList" : {
+         "member" : {
+            "target" : "com.amazonaws.wafv2#DataPointEntry"
+         },
+         "type" : "list"
       },
       "com.amazonaws.wafv2#DataProtection" : {
          "members" : {
@@ -5812,7 +5995,7 @@
             "ResourceArn" : {
                "target" : "com.amazonaws.wafv2#ResourceArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL. </p>\n         <p>The ARN must be in one of the following formats:</p>\n         <ul>\n            <li>\n               <p>For an Application Load Balancer: <code>arn:<i>partition</i>:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon API Gateway REST API: <code>arn:<i>partition</i>:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an AppSync GraphQL API: <code>arn:<i>partition</i>:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Cognito user pool: <code>arn:<i>partition</i>:cognito-idp:<i>region</i>:<i>account-id</i>:userpool/<i>user-pool-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an App Runner service: <code>arn:<i>partition</i>:apprunner:<i>region</i>:<i>account-id</i>:service/<i>apprunner-service-name</i>/<i>apprunner-service-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Web Services Verified Access instance: <code>arn:<i>partition</i>:ec2:<i>region</i>:<i>account-id</i>:verified-access-instance/<i>instance-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amplify application: <code>arn:<i>partition</i>:amplify:<i>region</i>:<i>account-id</i>:apps/<i>app-id</i>\n                  </code>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL. </p>\n         <p>The ARN must be in one of the following formats:</p>\n         <ul>\n            <li>\n               <p>For an Application Load Balancer: <code>arn:<i>partition</i>:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon API Gateway REST API: <code>arn:<i>partition</i>:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an AppSync GraphQL API: <code>arn:<i>partition</i>:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Cognito user pool: <code>arn:<i>partition</i>:cognito-idp:<i>region</i>:<i>account-id</i>:userpool/<i>user-pool-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an App Runner service: <code>arn:<i>partition</i>:apprunner:<i>region</i>:<i>account-id</i>:service/<i>apprunner-service-name</i>/<i>apprunner-service-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Web Services Verified Access instance: <code>arn:<i>partition</i>:ec2:<i>region</i>:<i>account-id</i>:verified-access-instance/<i>instance-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amplify application: <code>arn:<i>partition</i>:amplify:<i>region</i>:<i>account-id</i>:apps/<i>app-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Bedrock AgentCore Gateway: <code>arn:<i>partition</i>:bedrock-agentcore:<i>region</i>:<i>account-id</i>:gateway/<i>gateway-id</i>\n                  </code>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -7060,6 +7243,318 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.wafv2#GetRevenueStatistics" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.wafv2#WAFInternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFInvalidOperationException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFInvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFNonexistentItemException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.wafv2#GetRevenueStatisticsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.wafv2#GetRevenueStatisticsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves ranked monetization statistics. Use the <code>StatisticType</code> parameter to specify the ranking: <code>TOP_SOURCES_BY_REVENUE</code> for top sources by revenue, or <code>TOP_PATHS_BY_REVENUE</code> for top content paths by revenue. This operation is only available for <code>CLOUDFRONT</code> scope. The maximum supported time window is 90 days. When no <code>CurrencyMode</code> filter is provided, results default to <code>REAL</code>. To retrieve test data, include a <code>CurrencyMode</code> filter with the value <code>TEST</code>.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.wafv2#GetRevenueStatisticsRequest" : {
+         "members" : {
+            "Currency" : {
+               "target" : "com.amazonaws.wafv2#Currency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The currency for the revenue amounts in the response.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Filters" : {
+               "target" : "com.amazonaws.wafv2#MonetizationFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional filters to narrow the results.</p>"
+               }
+            },
+            "GroupBy" : {
+               "target" : "com.amazonaws.wafv2#GroupByType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dimension to group results by: <code>NAME</code>, <code>CATEGORY</code>, <code>INTENT</code>, <code>ORGANIZATION</code>, or <code>WEBACL</code>. Required when <code>StatisticType</code> is <code>TOP_SOURCES_BY_REVENUE</code>. Not required for <code>TOP_PATHS_BY_REVENUE</code>, where results are grouped by content path. If <code>StatisticType</code> is <code>TOP_SOURCES_BY_REVENUE</code> and <code>GroupBy</code> is omitted, the request is rejected with a <code>WAFInvalidParameterException</code>.</p>"
+               }
+            },
+            "Limit" : {
+               "target" : "com.amazonaws.wafv2#PathStatisticsLimit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>"
+               }
+            },
+            "NextMarker" : {
+               "target" : "com.amazonaws.wafv2#NextMarker",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When you get a paginated response, this marker indicates that additional results are available. Use it in a subsequent request to retrieve the next page of results.</p>"
+               }
+            },
+            "Scope" : {
+               "target" : "com.amazonaws.wafv2#Scope",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether this is for a Amazon CloudFront distribution (<code>CLOUDFRONT</code>) or for a regional application (<code>REGIONAL</code>).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SortBy" : {
+               "target" : "com.amazonaws.wafv2#RankingSortBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field to sort results by: <code>REVENUE</code>, <code>PERCENTAGE</code>, or <code>NAME</code>.</p>"
+               }
+            },
+            "SortOrder" : {
+               "target" : "com.amazonaws.wafv2#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order: <code>ASC</code> for ascending or <code>DESC</code> for descending.</p>"
+               }
+            },
+            "StatisticType" : {
+               "target" : "com.amazonaws.wafv2#RankingStatisticType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            <code>TOP_SOURCES_BY_REVENUE</code> ranks revenue from AI bot traffic, grouped by the dimension you specify in the <code>GroupBy</code> parameter (<code>NAME</code>, <code>CATEGORY</code>, <code>INTENT</code>, <code>ORGANIZATION</code>, or <code>WEBACL</code>); <code>GroupBy</code> is required for this statistic type. <code>TOP_PATHS_BY_REVENUE</code> ranks revenue by path.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TimeWindow" : {
+               "target" : "com.amazonaws.wafv2#TimeWindow",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time range for the query. Specify start and end timestamps.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#GetRevenueStatisticsResponse" : {
+         "members" : {
+            "NextMarker" : {
+               "target" : "com.amazonaws.wafv2#NextMarker",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When you get a paginated response, this marker indicates that additional results are available.</p>"
+               }
+            },
+            "RevenuePathStatistics" : {
+               "target" : "com.amazonaws.wafv2#RevenuePathStatisticsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Statistics for top revenue paths. Populated when <code>StatisticType</code> is <code>TOP_PATHS_BY_REVENUE</code>.</p>"
+               }
+            },
+            "SourceStatistics" : {
+               "target" : "com.amazonaws.wafv2#SourceStatisticsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Statistics for top revenue sources (AI bots). Populated when <code>StatisticType</code> is <code>TOP_SOURCES_BY_REVENUE</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#GetRevenueStatisticsSummary" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.wafv2#WAFInternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFInvalidOperationException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFInvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFNonexistentItemException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.wafv2#GetRevenueStatisticsSummaryRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.wafv2#GetRevenueStatisticsSummaryResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves a summary of monetization revenue for the specified time window. Returns total revenue, revenue by verification tier, total settlements, and total HTTP 402 responses served. This operation is only available for <code>CLOUDFRONT</code> scope. The maximum supported time window is 90 days. When no <code>CurrencyMode</code> filter is provided, results default to <code>REAL</code>. To retrieve test data, include a <code>CurrencyMode</code> filter with the value <code>TEST</code>.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.wafv2#GetRevenueStatisticsSummaryRequest" : {
+         "members" : {
+            "Currency" : {
+               "target" : "com.amazonaws.wafv2#Currency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The currency for the revenue amounts in the response. Currently only <code>USDC</code> is supported.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Filters" : {
+               "target" : "com.amazonaws.wafv2#MonetizationFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional filters to narrow the results. You can filter by source name, category, organization, intent, verified status, content path, web ACL ARN, or currency mode.</p>"
+               }
+            },
+            "Scope" : {
+               "target" : "com.amazonaws.wafv2#Scope",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether this is for a Amazon CloudFront distribution (<code>CLOUDFRONT</code>) or for a regional application (<code>REGIONAL</code>). AI bot monetization is only available for <code>CLOUDFRONT</code> scope.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TimeWindow" : {
+               "target" : "com.amazonaws.wafv2#TimeWindow",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time range for the revenue summary query. Specify start and end timestamps.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#GetRevenueStatisticsSummaryResponse" : {
+         "members" : {
+            "RevenueBreakdown" : {
+               "target" : "com.amazonaws.wafv2#RevenueBreakdown",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The revenue breakdown summary for the specified time window and filters.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#GetRevenueStatisticsTimeSeries" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.wafv2#WAFInternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFInvalidOperationException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFInvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFNonexistentItemException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.wafv2#GetRevenueStatisticsTimeSeriesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.wafv2#GetRevenueStatisticsTimeSeriesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for <code>CLOUDFRONT</code> scope. The maximum supported time window is 90 days. When no <code>CurrencyMode</code> filter is provided, results default to <code>REAL</code>. To retrieve test data, include a <code>CurrencyMode</code> filter with the value <code>TEST</code>.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.wafv2#GetRevenueStatisticsTimeSeriesRequest" : {
+         "members" : {
+            "Currency" : {
+               "target" : "com.amazonaws.wafv2#Currency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The currency for the amounts in the response.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Filters" : {
+               "target" : "com.amazonaws.wafv2#MonetizationFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional filters to narrow the results.</p>"
+               }
+            },
+            "GroupBy" : {
+               "target" : "com.amazonaws.wafv2#GroupByType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dimension to group results by.</p>"
+               }
+            },
+            "Interval" : {
+               "target" : "com.amazonaws.wafv2#IntervalType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time interval for aggregating data points: <code>MINUTELY</code>, <code>FIVE_MINUTELY</code>, <code>HOURLY</code>, or <code>DAILY</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Limit" : {
+               "target" : "com.amazonaws.wafv2#MaxDataPoints",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of data points to return. Minimum: 1. Maximum: 10000.</p>"
+               }
+            },
+            "NextMarker" : {
+               "target" : "com.amazonaws.wafv2#NextMarker",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When you get a paginated response, this marker indicates that additional results are available.</p>"
+               }
+            },
+            "Scope" : {
+               "target" : "com.amazonaws.wafv2#Scope",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether this is for a Amazon CloudFront distribution (<code>CLOUDFRONT</code>) or for a regional application (<code>REGIONAL</code>).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "StatisticType" : {
+               "target" : "com.amazonaws.wafv2#TimeSeriesStatisticType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of time series data to retrieve: <code>DATE_HISTOGRAM</code> for revenue over time, or <code>PAYMENT_TRAFFIC</code> for payment traffic patterns.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TimeWindow" : {
+               "target" : "com.amazonaws.wafv2#TimeWindow",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time range for the query. Specify start and end timestamps.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#GetRevenueStatisticsTimeSeriesResponse" : {
+         "members" : {
+            "DataPoints" : {
+               "target" : "com.amazonaws.wafv2#DataPointsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of time series data points.</p>"
+               }
+            },
+            "NextMarker" : {
+               "target" : "com.amazonaws.wafv2#NextMarker",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When you get a paginated response, this marker indicates that additional results are available.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.wafv2#GetRuleGroup" : {
          "errors" : [
             {
@@ -7428,7 +7923,7 @@
             "ResourceArn" : {
                "target" : "com.amazonaws.wafv2#ResourceArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve. </p>\n         <p>The ARN must be in one of the following formats:</p>\n         <ul>\n            <li>\n               <p>For an Application Load Balancer: <code>arn:<i>partition</i>:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon API Gateway REST API: <code>arn:<i>partition</i>:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an AppSync GraphQL API: <code>arn:<i>partition</i>:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Cognito user pool: <code>arn:<i>partition</i>:cognito-idp:<i>region</i>:<i>account-id</i>:userpool/<i>user-pool-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an App Runner service: <code>arn:<i>partition</i>:apprunner:<i>region</i>:<i>account-id</i>:service/<i>apprunner-service-name</i>/<i>apprunner-service-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Web Services Verified Access instance: <code>arn:<i>partition</i>:ec2:<i>region</i>:<i>account-id</i>:verified-access-instance/<i>instance-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amplify application: <code>arn:<i>partition</i>:amplify:<i>region</i>:<i>account-id</i>:apps/<i>app-id</i>\n                  </code>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve. </p>\n         <p>The ARN must be in one of the following formats:</p>\n         <ul>\n            <li>\n               <p>For an Application Load Balancer: <code>arn:<i>partition</i>:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon API Gateway REST API: <code>arn:<i>partition</i>:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an AppSync GraphQL API: <code>arn:<i>partition</i>:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Cognito user pool: <code>arn:<i>partition</i>:cognito-idp:<i>region</i>:<i>account-id</i>:userpool/<i>user-pool-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an App Runner service: <code>arn:<i>partition</i>:apprunner:<i>region</i>:<i>account-id</i>:service/<i>apprunner-service-name</i>/<i>apprunner-service-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Web Services Verified Access instance: <code>arn:<i>partition</i>:ec2:<i>region</i>:<i>account-id</i>:verified-access-instance/<i>instance-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amplify application: <code>arn:<i>partition</i>:amplify:<i>region</i>:<i>account-id</i>:apps/<i>app-id</i>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>For an Amazon Bedrock AgentCore Gateway: <code>arn:<i>partition</i>:bedrock-agentcore:<i>region</i>:<i>account-id</i>:gateway/<i>gateway-id</i>\n                  </code>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -7509,6 +8004,41 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.wafv2#GroupByType" : {
+         "members" : {
+            "CATEGORY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CATEGORY"
+               }
+            },
+            "INTENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INTENT"
+               }
+            },
+            "NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NAME"
+               }
+            },
+            "ORGANIZATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ORGANIZATION"
+               }
+            },
+            "WEBACL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WEBACL"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.wafv2#HTTPHeader" : {
          "members" : {
@@ -7880,6 +8410,35 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "TARGETED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.wafv2#IntervalType" : {
+         "members" : {
+            "DAILY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DAILY"
+               }
+            },
+            "FIVE_MINUTELY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FIVE_MINUTELY"
+               }
+            },
+            "HOURLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "HOURLY"
+               }
+            },
+            "MINUTELY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MINUTELY"
                }
             }
          },
@@ -8876,6 +9435,111 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.wafv2#ListSettlementRecords" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.wafv2#WAFInternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFInvalidOperationException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFInvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.wafv2#WAFNonexistentItemException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.wafv2#ListSettlementRecordsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.wafv2#ListSettlementRecordsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves individual settlement transaction records for monetization. Each record represents a single payment transaction between a client and your protected resource. This operation is only available for <code>CLOUDFRONT</code> scope. The maximum supported time window is 90 days. When no <code>CurrencyMode</code> filter is provided, results default to <code>REAL</code>. To retrieve test data, include a <code>CurrencyMode</code> filter with the value <code>TEST</code>.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.wafv2#ListSettlementRecordsRequest" : {
+         "members" : {
+            "Currency" : {
+               "target" : "com.amazonaws.wafv2#Currency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The currency for the amounts in the response.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Filters" : {
+               "target" : "com.amazonaws.wafv2#MonetizationFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional filters to narrow the results. You can filter by payer address, status, source name, network, or other settlement fields.</p>"
+               }
+            },
+            "Limit" : {
+               "target" : "com.amazonaws.wafv2#SettlementRecordLimit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of settlement records to return. Minimum: 1. Maximum: 100.</p>"
+               }
+            },
+            "NextMarker" : {
+               "target" : "com.amazonaws.wafv2#NextMarker",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When you get a paginated response, this marker indicates that additional results are available.</p>"
+               }
+            },
+            "Scope" : {
+               "target" : "com.amazonaws.wafv2#Scope",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether this is for a Amazon CloudFront distribution (<code>CLOUDFRONT</code>) or for a regional application (<code>REGIONAL</code>).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SortBy" : {
+               "target" : "com.amazonaws.wafv2#SettlementSortBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field to sort settlement records by: <code>TIMESTAMP</code>, <code>AMOUNT</code>, <code>NAME</code>, or <code>STATUS</code>.</p>"
+               }
+            },
+            "SortOrder" : {
+               "target" : "com.amazonaws.wafv2#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order: <code>ASC</code> for ascending or <code>DESC</code> for descending.</p>"
+               }
+            },
+            "TimeWindow" : {
+               "target" : "com.amazonaws.wafv2#TimeWindow",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time range for the query. Specify start and end timestamps.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#ListSettlementRecordsResponse" : {
+         "members" : {
+            "NextMarker" : {
+               "target" : "com.amazonaws.wafv2#NextMarker",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When you get a paginated response, this marker indicates that additional results are available.</p>"
+               }
+            },
+            "Settlements" : {
+               "target" : "com.amazonaws.wafv2#SettlementRecordList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of settlement records.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.wafv2#ListTagsForResource" : {
          "errors" : [
             {
@@ -9636,6 +10300,15 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.wafv2#MaxDataPoints" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 10000,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
       "com.amazonaws.wafv2#Method" : {
          "members" : {},
          "traits" : {
@@ -9682,6 +10355,107 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Information for a release of the mobile SDK, including release notes and tags.</p>\n         <p>The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see \n<a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html\">WAF client application integration</a> in the <i>WAF Developer Guide</i>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#MonetizationAmountValue" : {
+         "type" : "string"
+      },
+      "com.amazonaws.wafv2#MonetizationConfig" : {
+         "members" : {
+            "CryptoConfig" : {
+               "target" : "com.amazonaws.wafv2#CryptoConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cryptocurrency payment configuration, including the blockchain networks and wallet addresses where you receive payments.</p>"
+               }
+            },
+            "CurrencyMode" : {
+               "target" : "com.amazonaws.wafv2#CurrencyMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the configuration uses real or test currency. Set to <code>REAL</code> to settle payments in USDC on production blockchain networks (Base, Solana). Set to <code>TEST</code> to settle on testnet networks (Base Sepolia, Solana Devnet) with tokens that have no monetary value. If not specified, defaults to <code>REAL</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The monetization configuration for a web ACL or rule group. Specifies the cryptocurrency payment networks and currency mode for AI bot monetization. You must provide this configuration when any rule in the web ACL or rule group uses the <code>Monetize</code> action.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#MonetizationFilter" : {
+         "members" : {
+            "Name" : {
+               "target" : "com.amazonaws.wafv2#MonetizationFilterName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The filter name. Format: Key is a string, Value is a list of strings.</p>\n         <p>Enum-restricted (invalid values rejected):</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CurrencyMode</code>: <code>REAL</code>, <code>TEST</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ChainName</code>: <code>BASE</code>, <code>SOLANA</code>, <code>BASE_SEPOLIA</code>, <code>SOLANA_DEVNET</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>SettlementStatus</code>: <code>SETTLED</code>, <code>PENDING</code>, <code>FAILED</code>, <code>SERVICE_ERROR</code>, <code>SKIPPED_ORIGIN_ERROR</code>, <code>DUPLICATE</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>HttpSourceName</code>: <code>CF</code>, <code>ALB</code>, <code>APIGW</code>, <code>APPRUNNER</code>, <code>COGNITO</code>, <code>VERIFIED_ACCESS</code>\n               </p>\n            </li>\n         </ul>\n         <p>ARN-validated:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>WebACLArn</code>: valid WAFv2 web ACL ARN</p>\n            </li>\n         </ul>\n         <p>Free-text (any string up to 256 chars):</p>\n         <ul>\n            <li>\n               <p>\n                  <code>SourceName</code>: The name of the bot. Populated from Bot Control verified bot labels.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SourceCategory</code>: The category classification of the bot. From Bot Control categorization.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Intent</code>: The declared intent of the bot request.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Organization</code>: The organization operating the bot.</p>\n            </li>\n            <li>\n               <p>\n                  <code>UriPathPrefix</code>: The URI path of the request that was monetized.</p>\n            </li>\n            <li>\n               <p>\n                  <code>RequestId</code>: The WAF request ID associated with the transaction. Matches the requestId in WAF logs. Pattern: <code>^[a-zA-Z0-9:._\\-=+/]+$</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>TransactionId</code>: The blockchain transaction identifier. Pattern: <code>^[a-zA-Z0-9:._\\-=+/]+$</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>TerminatingRuleName</code>: The name of the WAF rule that triggered the Monetize action.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PayerAddress</code>: The blockchain wallet address of the paying client. Pattern: <code>^[a-zA-Z0-9:._\\-=+/]+$</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>HttpSourceId</code>: The identifier of the Amazon Web Services resource associated with the web ACL (for example, CloudFront distribution ID).</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Values" : {
+               "target" : "com.amazonaws.wafv2#MonetizationFilterValueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The values to filter on. Specify as a list of strings. Results match any of the specified values (OR logic). Duplicate values are silently deduplicated. Maximum: 20 values per filter.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter for narrowing monetization statistics and settlement record results. Specify a filter name and one or more values to match.</p>\n         <p>Filter behavior:</p>\n         <ul>\n            <li>\n               <p>Multiple values within one filter: OR (match any)</p>\n            </li>\n            <li>\n               <p>Multiple filters: AND (all must match)</p>\n            </li>\n            <li>\n               <p>No duplicate filter names allowed (rejected with error)</p>\n            </li>\n            <li>\n               <p>Duplicate values within a filter are silently deduplicated</p>\n            </li>\n            <li>\n               <p>If no <code>CurrencyMode</code> filter is specified, defaults to <code>REAL</code>\n               </p>\n            </li>\n         </ul>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#MonetizationFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.wafv2#MonetizationFilter"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.wafv2#MonetizationFilterName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.wafv2#MonetizationFilterValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.wafv2#MonetizationFilterValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.wafv2#MonetizationFilterValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.wafv2#MonetizeAction" : {
+         "members" : {
+            "PriceMultiplier" : {
+               "target" : "com.amazonaws.wafv2#PriceMultiplier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An integer multiplier applied to the base price defined in the web ACL's <code>MonetizationConfig</code>. The effective price for the request is the base price multiplied by this value. Specify as a string. Valid values: 1 to 100.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies the monetize action settings for a rule. When WAF applies this action, it returns an HTTP 402 Payment Required response containing pricing information that the requesting client uses to complete payment and gain access to the resource. This is a terminating action-if the client does not complete the 402 payment flow, the request is blocked. This action is available only for web ACLs associated with Amazon CloudFront distributions. You must configure a <code>MonetizationConfig</code> on the web ACL or rule group before adding rules that use this action. You cannot use the Monetize action for rate-based rules.</p>"
          },
          "type" : "structure"
       },
@@ -10071,6 +10845,12 @@
                   "smithy.api#enumValue" : "METRIC_NAME"
                }
             },
+            "MONETIZATION_CONFIG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MONETIZATION_CONFIG"
+               }
+            },
             "NOT_STATEMENT" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -10101,10 +10881,28 @@
                   "smithy.api#enumValue" : "PAYLOAD_TYPE"
                }
             },
+            "PAYMENT_NETWORK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PAYMENT_NETWORK"
+               }
+            },
             "POSITION" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "POSITION"
+               }
+            },
+            "PRE_PARSE_TEXT_TRANSFORMATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRE_PARSE_TEXT_TRANSFORMATION"
+               }
+            },
+            "PRICE_AMOUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRICE_AMOUNT"
                }
             },
             "RATE_BASED_STATEMENT" : {
@@ -10233,6 +11031,12 @@
                   "smithy.api#enumValue" : "TOKEN_DOMAIN"
                }
             },
+            "WALLET_ADDRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WALLET_ADDRESS"
+               }
+            },
             "WEB_ACL" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -10355,6 +11159,47 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.wafv2#PaymentNetwork" : {
+         "members" : {
+            "Chain" : {
+               "target" : "com.amazonaws.wafv2#BlockchainChain",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The blockchain network for receiving payments. Production networks: <code>BASE</code> (Base mainnet), <code>SOLANA</code> (Solana mainnet). Test networks: <code>BASE_SEPOLIA</code> (Base Sepolia testnet), <code>SOLANA_DEVNET</code> (Solana Devnet).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Prices" : {
+               "target" : "com.amazonaws.wafv2#Prices",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The price configuration for this payment network. Currently supports a single price entry in USDC.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "WalletAddress" : {
+               "target" : "com.amazonaws.wafv2#WalletAddress",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your wallet address on the specified blockchain where payments are sent. For EVM chains (Base, Base Sepolia), provide a valid Ethereum address (42 characters including 0x prefix). For Solana chains, provide a valid Base58-encoded public key (32-44 characters).</p>\n         <p>For EVM addresses, WAF performs EIP-55 checksum validation for typo detection when the address uses a mix of lower and upper case letters. You can bypass this validation by providing the address in all lowercase or all uppercase.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A blockchain payment network configuration for receiving AI bot monetization payments. Specifies the blockchain chain, your wallet address on that chain, and the price per request.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#PaymentNetworks" : {
+         "member" : {
+            "target" : "com.amazonaws.wafv2#PaymentNetwork"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.wafv2#PercentageValue" : {
          "traits" : {
             "smithy.api#default" : 0,
@@ -10453,6 +11298,133 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.wafv2#PreParseTextTransformation" : {
+         "members" : {
+            "Priority" : {
+               "target" : "com.amazonaws.wafv2#PreParseTextTransformationPriority",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>Sets the relative processing order for the pre-parse text transformations that you define.\n         WAF processes all transformations, from lowest priority value to highest,\n         before inspecting the transformed content. </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.wafv2#PreParseTextTransformationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of pre-parse text transformation to apply to the raw query string.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A pre-parse text transformation that normalizes the raw query string before WAF parses\n         it into individual query arguments. Pre-parse text transformations are only supported when\n         <code>FieldToMatch</code> is <code>SingleQueryArgument</code> or <code>AllQueryArguments</code>. </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#PreParseTextTransformationPriority" : {
+         "traits" : {
+            "smithy.api#default" : 0,
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.wafv2#PreParseTextTransformationType" : {
+         "members" : {
+            "COMBINE_DUPLICATE_QUERY_ARGS_BY_COMMA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COMBINE_DUPLICATE_QUERY_ARGS_BY_COMMA"
+               }
+            },
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NONE"
+               }
+            },
+            "REPLACE_SEMICOLONS_WITH_AMPERSANDS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REPLACE_SEMICOLONS_WITH_AMPERSANDS"
+               }
+            },
+            "URL_DECODE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "URL_DECODE"
+               }
+            },
+            "URL_DECODE_UNI" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "URL_DECODE_UNI"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.wafv2#PreParseTextTransformations" : {
+         "member" : {
+            "target" : "com.amazonaws.wafv2#PreParseTextTransformation"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.wafv2#Price" : {
+         "members" : {
+            "Amount" : {
+               "target" : "com.amazonaws.wafv2#PriceAmount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The price per request as a decimal string in the specified currency. Minimum: 0.001. Maximum: 999999999.999. Supports up to 3 decimal places.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Currency" : {
+               "target" : "com.amazonaws.wafv2#CryptoCurrency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cryptocurrency for payment. Currently only <code>USDC</code> is supported.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The price per request for a payment network, specifying the amount and cryptocurrency.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#PriceAmount" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 13,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^([1-9][0-9]*(\\.[0-9]{1,3})?|0\\.([1-9][0-9]{0,2}|0[1-9][0-9]?|00[1-9]))$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.wafv2#PriceMultiplier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 3,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^([1-9][0-9]?|100)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.wafv2#Prices" : {
+         "member" : {
+            "target" : "com.amazonaws.wafv2#Price"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1,
+               "min" : 1
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.wafv2#PricingPlanFeatureName" : {
          "traits" : {
@@ -10733,6 +11705,46 @@
             "smithy.api#documentation" : "<p>Inspect the query string of the web request. This is the part of a URL that appears\n         after a <code>?</code> character, if any.</p>\n         <p>This is used in the <a>FieldToMatch</a> specification for some web request component types. </p>\n         <p>JSON specification: <code>\"QueryString\": {}</code>\n         </p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.wafv2#RankingSortBy" : {
+         "members" : {
+            "NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NAME"
+               }
+            },
+            "PERCENTAGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PERCENTAGE"
+               }
+            },
+            "REVENUE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REVENUE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.wafv2#RankingStatisticType" : {
+         "members" : {
+            "TOP_PATHS_BY_REVENUE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TOP_PATHS_BY_REVENUE"
+               }
+            },
+            "TOP_SOURCES_BY_REVENUE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TOP_SOURCES_BY_REVENUE"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.wafv2#RateBasedStatement" : {
          "members" : {
@@ -11117,7 +12129,7 @@
             "RegexString" : {
                "target" : "com.amazonaws.wafv2#RegexPatternString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The string representing the regular expression.</p>"
+                  "smithy.api#documentation" : "<p>The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/limits.html\">WAF quotas</a> in the <i>WAF Developer Guide</i>.</p>"
                }
             }
          },
@@ -11135,10 +12147,16 @@
                   "smithy.api#required" : {}
                }
             },
+            "PreParseTextTransformations" : {
+               "target" : "com.amazonaws.wafv2#PreParseTextTransformations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pre-parse text transformations normalize the raw query string before WAF parses it into individual\n         query arguments. They are applied before the standard text transformations. Pre-parse text transformations\n         are only supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code> or\n         <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text transformations per rule statement.</p>"
+               }
+            },
             "RegexString" : {
                "target" : "com.amazonaws.wafv2#RegexPatternString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The string representing the regular expression.</p>",
+                  "smithy.api#documentation" : "<p>The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see <a href=\"https://docs.aws.amazon.com/waf/latest/developerguide/limits.html\">WAF quotas</a> in the <i>WAF Developer Guide</i>.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -11207,6 +12225,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The part of the web request that you want WAF to inspect. </p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "PreParseTextTransformations" : {
+               "target" : "com.amazonaws.wafv2#PreParseTextTransformations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pre-parse text transformations normalize the raw query string before WAF parses it into individual\n         query arguments. They are applied before the standard text transformations. Pre-parse text transformations\n         are only supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code> or\n         <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text transformations per rule statement.</p>"
                }
             },
             "TextTransformations" : {
@@ -11456,6 +12480,12 @@
       },
       "com.amazonaws.wafv2#ResourceType" : {
          "members" : {
+            "AGENTCORE_GATEWAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AGENTCORE_GATEWAY"
+               }
+            },
             "AMPLIFY" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -11786,6 +12816,96 @@
          },
          "type" : "integer"
       },
+      "com.amazonaws.wafv2#RevenueBreakdown" : {
+         "members" : {
+            "Currency" : {
+               "target" : "com.amazonaws.wafv2#Currency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The currency of the revenue amounts.</p>"
+               }
+            },
+            "TotalAmount" : {
+               "target" : "com.amazonaws.wafv2#MonetizationAmountValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total revenue amount in the specified currency.</p>"
+               }
+            },
+            "TotalMonetizeServed" : {
+               "target" : "com.amazonaws.wafv2#RequestCount",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The total number of HTTP 402 Payment Required responses served to AI agents.</p>"
+               }
+            },
+            "TotalSettled" : {
+               "target" : "com.amazonaws.wafv2#RequestCount",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The total number of successfully settled payment transactions.</p>"
+               }
+            },
+            "UnverifiedAmount" : {
+               "target" : "com.amazonaws.wafv2#MonetizationAmountValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The revenue amount from unverified AI bots.</p>"
+               }
+            },
+            "VerifiedAmount" : {
+               "target" : "com.amazonaws.wafv2#MonetizationAmountValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The revenue amount from verified AI bots.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of AI bot monetization revenue, including total revenue, revenue by verification tier, and request counts.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#RevenuePathStatistics" : {
+         "members" : {
+            "Amount" : {
+               "target" : "com.amazonaws.wafv2#MonetizationAmountValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total revenue amount from this path in the specified currency.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Path" : {
+               "target" : "com.amazonaws.wafv2#PathString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URI path.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Percentage" : {
+               "target" : "com.amazonaws.wafv2#PercentageValue",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The percentage of total revenue from this path.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RequestCount" : {
+               "target" : "com.amazonaws.wafv2#RequestCount",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of monetized requests to this path.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Revenue statistics for a single content path, including the path, revenue amount, and request count.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#RevenuePathStatisticsList" : {
+         "member" : {
+            "target" : "com.amazonaws.wafv2#RevenuePathStatistics"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.wafv2#Rule" : {
          "members" : {
             "Action" : {
@@ -11884,6 +13004,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>Instructs WAF to count the web request and then continue evaluating the request using the remaining rules in the web ACL.</p>"
                }
+            },
+            "Monetize" : {
+               "target" : "com.amazonaws.wafv2#MonetizeAction",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Instructs WAF to return an HTTP 402 Payment Required response with a price manifest. The requesting client can complete payment and resubmit the request to gain access. This is a terminating action-requests that do not complete payment are blocked. This action is available only for web ACLs associated with Amazon CloudFront distributions and requires a <code>MonetizationConfig</code> on the web ACL.</p>"
+               }
             }
          },
          "traits" : {
@@ -11976,6 +13102,12 @@
                "target" : "com.amazonaws.wafv2#LabelName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The label namespace prefix for this rule group. All labels added by rules in this rule group have this prefix. </p>\n         <ul>\n            <li>\n               <p>The syntax for the label namespace prefix for your rule groups is the following: </p>\n               <p>\n                  <code>awswaf:<account ID>:rulegroup:<rule group name>:</code>\n               </p>\n            </li>\n            <li>\n               <p>When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon: </p>\n               <p>\n                  <code><label namespace>:<label from rule></code>\n               </p>\n            </li>\n         </ul>"
+               }
+            },
+            "MonetizationConfig" : {
+               "target" : "com.amazonaws.wafv2#MonetizationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The monetization configuration for the rule group. Required when any rule in the rule group uses the <code>Monetize</code> action. When a rule group with a <code>MonetizationConfig</code> is used in a web ACL, the rule group's configuration applies to rules within that group unless overridden at the web ACL level.</p>"
                }
             },
             "Name" : {
@@ -12268,6 +13400,224 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.wafv2#SettlementFilterString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9:._\\-=+/]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.wafv2#SettlementIdString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.wafv2#SettlementRecord" : {
+         "members" : {
+            "Amount" : {
+               "target" : "com.amazonaws.wafv2#MonetizationAmountValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The payment amount in the specified currency.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ContentPath" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content path that was accessed.</p>"
+               }
+            },
+            "Currency" : {
+               "target" : "com.amazonaws.wafv2#Currency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The currency of the payment amount.</p>"
+               }
+            },
+            "Intent" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The declared intent of the AI bot request.</p>"
+               }
+            },
+            "Network" : {
+               "target" : "com.amazonaws.wafv2#SettlementFilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The blockchain network on which the settlement occurred.</p>"
+               }
+            },
+            "Organization" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The organization associated with the AI bot.</p>"
+               }
+            },
+            "PayerAddress" : {
+               "target" : "com.amazonaws.wafv2#SettlementFilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The blockchain wallet address of the paying AI agent.</p>"
+               }
+            },
+            "RequestId" : {
+               "target" : "com.amazonaws.wafv2#SettlementFilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The WAF request ID associated with this settlement.</p>"
+               }
+            },
+            "RequestTimestamp" : {
+               "target" : "com.amazonaws.wafv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of the original web request.</p>"
+               }
+            },
+            "SourceCategory" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The category of the AI bot source.</p>"
+               }
+            },
+            "SourceName" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the AI bot that made the payment.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.wafv2#SettlementStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the settlement. Possible values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>SETTLED</code> - The payment was successfully settled on the blockchain and the transfer from the payer's wallet to the publisher's wallet is confirmed. The <code>TransactionId</code> field contains the on-chain transaction hash. Content is served to the client.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PENDING</code> - The blockchain transaction has been submitted but not yet confirmed on-chain. This is a transient state that automatically resolves to either <code>SETTLED</code> or <code>FAILED</code>. No action is required. While pending, content is not served and the API returns a 402 response. Clients can retry the request.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED</code> - The payment settlement was attempted but failed. Possible causes include insufficient funds, an expired payment authorization, or a reverted blockchain transaction. The <code>failureReason</code> field contains a machine-readable error code. Content is not served.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SERVICE_ERROR</code> - Settlement could not be completed due to an internal service issue or an issue with the payment network. Content is not served. The client's payment authorization remains valid and the request can be retried.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SKIPPED_ORIGIN_ERROR</code> - The origin returned a non-2xx response, so settlement was intentionally skipped. The client is not charged.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DUPLICATE</code> - A prior request with the same payment payload has already been settled. This status typically appears when a previous attempt timed out but the payment was ultimately processed. The client is not charged again.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Timestamp" : {
+               "target" : "com.amazonaws.wafv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the settlement was recorded.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TransactionId" : {
+               "target" : "com.amazonaws.wafv2#SettlementIdString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The blockchain transaction identifier. You can use this to verify the transaction on a blockchain explorer.</p>"
+               }
+            },
+            "Verified" : {
+               "target" : "com.amazonaws.wafv2#VerifiedStatus",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Whether the AI bot's identity was verified.</p>"
+               }
+            },
+            "WalletAddress" : {
+               "target" : "com.amazonaws.wafv2#SettlementFilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Your receiving wallet address.</p>"
+               }
+            },
+            "WebAclArn" : {
+               "target" : "com.amazonaws.wafv2#ResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the web ACL that processed the request.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single settlement transaction record for AI bot monetization. Contains details about the payment including timestamp, amount, status, and the parties involved.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#SettlementRecordLimit" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.wafv2#SettlementRecordList" : {
+         "member" : {
+            "target" : "com.amazonaws.wafv2#SettlementRecord"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.wafv2#SettlementSortBy" : {
+         "members" : {
+            "AMOUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AMOUNT"
+               }
+            },
+            "NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NAME"
+               }
+            },
+            "STATUS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STATUS"
+               }
+            },
+            "TIMESTAMP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TIMESTAMP"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.wafv2#SettlementStatus" : {
+         "members" : {
+            "DUPLICATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DUPLICATE"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "PENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING"
+               }
+            },
+            "SERVICE_ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SERVICE_ERROR"
+               }
+            },
+            "SETTLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SETTLED"
+               }
+            },
+            "SKIPPED_ORIGIN_ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SKIPPED_ORIGIN_ERROR"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.wafv2#SingleCookieName" : {
          "traits" : {
             "smithy.api#length" : {
@@ -12334,6 +13684,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "PreParseTextTransformations" : {
+               "target" : "com.amazonaws.wafv2#PreParseTextTransformations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pre-parse text transformations normalize the raw query string before WAF parses it into individual\n         query arguments. They are applied before the standard text transformations. Pre-parse text transformations\n         are only supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code> or\n         <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text transformations per rule statement.</p>"
+               }
+            },
             "Size" : {
                "target" : "com.amazonaws.wafv2#Size",
                "traits" : {
@@ -12387,6 +13743,98 @@
       "com.amazonaws.wafv2#SolveTimestamp" : {
          "type" : "long"
       },
+      "com.amazonaws.wafv2#SortOrder" : {
+         "members" : {
+            "ASC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ASC"
+               }
+            },
+            "DESC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DESC"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.wafv2#SourceStatistics" : {
+         "members" : {
+            "Amount" : {
+               "target" : "com.amazonaws.wafv2#MonetizationAmountValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total revenue amount from this source in the specified currency.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "GroupByValue" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value for the group-by dimension, when grouping is applied.</p>"
+               }
+            },
+            "Intent" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The declared intent of the AI bot (for example, summarize, index, or train).</p>"
+               }
+            },
+            "Organization" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The organization associated with the AI bot.</p>"
+               }
+            },
+            "Percentage" : {
+               "target" : "com.amazonaws.wafv2#PercentageValue",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The percentage of total revenue from this source.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RequestCount" : {
+               "target" : "com.amazonaws.wafv2#RequestCount",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of monetized requests from this source.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SourceCategory" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The category of this AI bot source.</p>"
+               }
+            },
+            "SourceName" : {
+               "target" : "com.amazonaws.wafv2#FilterString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the AI bot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Verified" : {
+               "target" : "com.amazonaws.wafv2#VerifiedStatus",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Indicates whether the AI bot's identity was verified — for example, through a cryptographically signed request (Web Bot Auth) or another published verification method. This value is meaningful only when GroupBy is NAME, where each result represents a single, identifiable bot. For all other GroupBy values (CATEGORY, INTENT, ORGANIZATION, or WEBACL), a result aggregates multiple bots that may have different verification states, so Verified is always returned as false and should be ignored. Type and required-ness are unchanged (Boolean, optional).</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Revenue statistics for a single AI bot source, including the bot name, revenue amount, request count, and verification status.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.wafv2#SourceStatisticsList" : {
+         "member" : {
+            "target" : "com.amazonaws.wafv2#SourceStatistics"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.wafv2#SourceType" : {
          "type" : "string"
       },
@@ -12397,6 +13845,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The part of the web request that you want WAF to inspect. </p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "PreParseTextTransformations" : {
+               "target" : "com.amazonaws.wafv2#PreParseTextTransformations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pre-parse text transformations normalize the raw query string before WAF parses it into individual\n         query arguments. They are applied before the standard text transformations. Pre-parse text transformations\n         are only supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code> or\n         <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text transformations per rule statement.</p>"
                }
             },
             "SensitivityLevel" : {
@@ -12751,6 +14205,18 @@
                   "smithy.api#enumValue" : "CMD_LINE"
                }
             },
+            "CMD_LINE_UNIX" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CMD_LINE_UNIX"
+               }
+            },
+            "CMD_LINE_WIN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CMD_LINE_WIN"
+               }
+            },
             "COMPRESS_WHITE_SPACE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -12787,6 +14253,12 @@
                   "smithy.api#enumValue" : "JS_DECODE"
                }
             },
+            "JS_DECODE_EXT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "JS_DECODE_EXT"
+               }
+            },
             "LOWERCASE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -12817,10 +14289,22 @@
                   "smithy.api#enumValue" : "NORMALIZE_PATH_WIN"
                }
             },
+            "REMOVE_COMMENTS_CHAR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REMOVE_COMMENTS_CHAR"
+               }
+            },
             "REMOVE_NULLS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "REMOVE_NULLS"
+               }
+            },
+            "REMOVE_WHITESPACE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REMOVE_WHITESPACE"
                }
             },
             "REPLACE_COMMENTS" : {
@@ -12835,10 +14319,40 @@
                   "smithy.api#enumValue" : "REPLACE_NULLS"
                }
             },
+            "SHA256" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SHA256"
+               }
+            },
             "SQL_HEX_DECODE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "SQL_HEX_DECODE"
+               }
+            },
+            "TRIM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRIM"
+               }
+            },
+            "TRIM_LEFT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRIM_LEFT"
+               }
+            },
+            "TRIM_RIGHT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRIM_RIGHT"
+               }
+            },
+            "UPPERCASE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPPERCASE"
                }
             },
             "URL_DECODE" : {
@@ -12872,6 +14386,23 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.wafv2#TimeSeriesStatisticType" : {
+         "members" : {
+            "DATE_HISTOGRAM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DATE_HISTOGRAM"
+               }
+            },
+            "PAYMENT_TRAFFIC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PAYMENT_TRAFFIC"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.wafv2#TimeWindow" : {
          "members" : {
@@ -13368,6 +14899,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "MonetizationConfig" : {
+               "target" : "com.amazonaws.wafv2#MonetizationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The monetization configuration for the rule group. Provide this when any rule in the rule group uses the <code>Monetize</code> action.</p>"
+               }
+            },
             "Name" : {
                "target" : "com.amazonaws.wafv2#EntityName",
                "traits" : {
@@ -13464,7 +15001,7 @@
             "target" : "com.amazonaws.wafv2#UpdateWebACLResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates the specified <a>WebACL</a>. While updating a web ACL, WAF provides\n         continuous coverage to the resources that you have associated with the web ACL. </p>\n         <note>\n            <p>This operation completely replaces the mutable specifications that you already have for the web ACL with the ones that you provide to this call. </p>\n            <p>To modify a web ACL, do the following: </p>\n            <ol>\n               <li>\n                  <p>Retrieve it by calling <a>GetWebACL</a>\n                  </p>\n               </li>\n               <li>\n                  <p>Update its settings as needed</p>\n               </li>\n               <li>\n                  <p>Provide the complete web ACL specification to this call</p>\n               </li>\n            </ol>\n         </note>\n         <p> A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.  </p>\n         <p>\n            <b>Temporary inconsistencies during updates</b>\n         </p>\n         <p>When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes. </p>\n         <p>The following are examples of the temporary inconsistencies that you might notice during change propagation: </p>\n         <ul>\n            <li>\n               <p>After you create a web ACL, if you try to associate it with a resource, you might get an exception indicating that the web ACL is unavailable. </p>\n            </li>\n            <li>\n               <p>After you add a rule group to a web ACL, the new rule group rules might be in effect in one area where the web ACL is used and not in another.</p>\n            </li>\n            <li>\n               <p>After you change a rule action setting, you might see the old action in some places and the new action in others. </p>\n            </li>\n            <li>\n               <p>After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.</p>\n            </li>\n         </ul>"
+            "smithy.api#documentation" : "<p>Updates the specified <a>WebACL</a>. While updating a web ACL, WAF provides\n         continuous coverage to the resources that you have associated with the web ACL. </p>\n         <note>\n            <p>This operation completely replaces the mutable specifications that you already have for the web ACL with the ones that you provide to this call. </p>\n            <p>To modify a web ACL, do the following: </p>\n            <ol>\n               <li>\n                  <p>Retrieve it by calling <a>GetWebACL</a>\n                  </p>\n               </li>\n               <li>\n                  <p>Update its settings as needed</p>\n               </li>\n               <li>\n                  <p>Provide the complete web ACL specification to this call</p>\n               </li>\n            </ol>\n         </note>\n         <p> A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.  </p>\n         <p>\n            <b>Temporary inconsistencies during updates</b>\n         </p>\n         <p>When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes. </p>\n         <p>The following are examples of the temporary inconsistencies that you might notice during change propagation: </p>\n         <ul>\n            <li>\n               <p>After you create a web ACL, if you try to associate it with a resource, you might get an exception indicating that the web ACL is unavailable. </p>\n            </li>\n            <li>\n               <p>After you add a rule group to a web ACL, the new rule group rules might be in effect in one area where the web ACL is used and not in another.</p>\n            </li>\n            <li>\n               <p>After you change a rule action setting, you might see the old action in some places and the new action in others. </p>\n            </li>\n            <li>\n               <p>After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.</p>\n            </li>\n         </ul>"
          },
          "type" : "operation"
       },
@@ -13531,6 +15068,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A token used for optimistic locking. WAF returns a token to your <code>get</code> and <code>list</code> requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like <code>update</code> and <code>delete</code>. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a <code>WAFOptimisticLockException</code>. If this happens, perform another <code>get</code>, and use the new token returned by that operation. </p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "MonetizationConfig" : {
+               "target" : "com.amazonaws.wafv2#MonetizationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The monetization configuration for the web ACL. Provide this when any rule in the web ACL uses the <code>Monetize</code> action.</p>"
                }
             },
             "Name" : {
@@ -13664,6 +15207,12 @@
             "smithy.api#pattern" : "\\S"
          },
          "type" : "string"
+      },
+      "com.amazonaws.wafv2#VerifiedStatus" : {
+         "traits" : {
+            "smithy.api#default" : false
+         },
+         "type" : "boolean"
       },
       "com.amazonaws.wafv2#VersionKeyString" : {
          "traits" : {
@@ -14005,6 +15554,16 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.wafv2#WalletAddress" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 44,
+               "min" : 26
+            },
+            "smithy.api#pattern" : "\\S"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.wafv2#WebACL" : {
          "members" : {
             "ARN" : {
@@ -14090,6 +15649,12 @@
                   "smithy.api#documentation" : "<p>Indicates whether this web ACL was created by Firewall Manager and is being managed by Firewall Manager. If true, then only Firewall Manager can\n          delete the web ACL or any Firewall Manager rule groups in the web ACL. \n           See also the properties <code>RetrofittedByFirewallManager</code>, <code>PreProcessFirewallManagerRuleGroups</code>, and <code>PostProcessFirewallManagerRuleGroups</code>. </p>"
                }
             },
+            "MonetizationConfig" : {
+               "target" : "com.amazonaws.wafv2#MonetizationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The monetization configuration for the web ACL. Required when any rule in the web ACL uses the <code>Monetize</code> action. Specifies the cryptocurrency payment networks and currency mode for AI bot monetization.</p>"
+               }
+            },
             "Name" : {
                "target" : "com.amazonaws.wafv2#EntityName",
                "traits" : {
@@ -14143,7 +15708,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p> A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.  </p>"
+            "smithy.api#documentation" : "<p> A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.  </p>"
          },
          "type" : "structure"
       },
@@ -14198,6 +15763,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The part of the web request that you want WAF to inspect. </p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "PreParseTextTransformations" : {
+               "target" : "com.amazonaws.wafv2#PreParseTextTransformations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pre-parse text transformations normalize the raw query string before WAF parses it into individual\n         query arguments. They are applied before the standard text transformations. Pre-parse text transformations\n         are only supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code> or\n         <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text transformations per rule statement.</p>"
                }
             },
             "TextTransformations" : {

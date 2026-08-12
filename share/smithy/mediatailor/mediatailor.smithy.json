@@ -142,6 +142,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The HTTP request configuration parameters for the ad decision server.</p>"
                }
+            },
+            "VastResponse" : {
+               "target" : "com.amazonaws.mediatailor#VastResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The settings that control how MediaTailor processes VAST responses from the ad decision server.</p>"
+               }
             }
          },
          "traits" : {
@@ -176,6 +182,35 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "SCTE35_ENHANCED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.mediatailor#AdSequencingMode" : {
+         "members" : {
+            "FOLLOW_AD_SEQUENCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FOLLOW_AD_SEQUENCE"
+               }
+            },
+            "FOLLOW_AD_SEQUENCE_ONLY_LIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FOLLOW_AD_SEQUENCE_ONLY_LIVE"
+               }
+            },
+            "FOLLOW_AD_SEQUENCE_ONLY_VOD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FOLLOW_AD_SEQUENCE_ONLY_VOD"
+               }
+            },
+            "IGNORE_AD_SEQUENCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IGNORE_AD_SEQUENCE"
                }
             }
          },
@@ -492,6 +527,64 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.mediatailor#AdsPersonalizationConcurrency" : {
+         "members" : {
+            "EnableVodVastParallelization" : {
+               "target" : "com.amazonaws.mediatailor#__boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables parallel processing of ad decision server requests in VOD workflows when the ADS returns VAST responses. The default is false.</p>"
+               }
+            },
+            "MaxConcurrentAdsRequests" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of simultaneous requests that MediaTailor makes to the ad decision server per manifest request. The default is 1.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The concurrency settings for ad decision server interactions during ad personalization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.mediatailor#AdsPersonalizationTimeouts" : {
+         "members" : {
+            "AdsRequestTimeoutMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum time, in milliseconds, that MediaTailor waits for a single ad decision server response during live or VOD playback. The default is 3000.</p>"
+               }
+            },
+            "LiveMaximumAdsPersonalizationTimeMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity for live manifests, including making requests, waiting for responses, and following VAST wrapper redirects. The default is 10000.</p>"
+               }
+            },
+            "PrefetchAdsRequestTimeoutMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum time, in milliseconds, that MediaTailor waits for a single ad decision server response during prefetch retrieval. If not set, the value of AdsRequestTimeoutMilliseconds is used.</p>"
+               }
+            },
+            "PrefetchMaximumAdsPersonalizationTimeMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity during prefetch retrieval, including making requests, waiting for responses, and following VAST wrapper redirects.</p>"
+               }
+            },
+            "VodMaximumAdsPersonalizationTimeMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity for VOD manifests, including making requests, waiting for responses, and following VAST wrapper redirects. The default is 10000.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The timeout settings for ad decision server interactions during ad personalization.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.mediatailor#Alert" : {
          "members" : {
@@ -854,6 +947,7 @@
             "aws.cloudformation#cfnResource" : {
                "name" : "ChannelPolicy"
             },
+            "aws.iam#disableConditionKeyInference" : {},
             "smithy.api#unstable" : {}
          },
          "type" : "resource"
@@ -905,9 +999,19 @@
             "aws.api#arn" : {
                "template" : "channel/{ChannelName}"
             },
+            "aws.api#taggable" : {},
             "aws.cloudformation#cfnResource" : {
                "name" : "Channel"
             },
+            "aws.iam#conditionKeys" : [
+               "aws:ResourceTag/${TagKey}"
+            ],
+            "aws.iam#disableConditionKeyInference" : {},
+            "aws.iam#iamResource" : {
+               "name" : "channel",
+               "relativeDocumentation" : "channel-channelname.html"
+            },
+            "smithy.api#documentation" : "Represents a linear stream assembled from source manifests",
             "smithy.api#noReplace" : {},
             "smithy.api#unstable" : {}
          },
@@ -972,6 +1076,49 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.mediatailor#ConcurrentExecutorConfiguration" : {
+         "members" : {
+            "FunctionList" : {
+               "target" : "com.amazonaws.mediatailor#__listOfFunctionsRef",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of child functions that MediaTailor runs in parallel. Each entry specifies a child function to execute and an optional run condition expression that controls whether the function runs.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxConcurrency" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of child functions that MediaTailor runs simultaneously. When the list contains more functions than <code>MaxConcurrency</code>, MediaTailor starts additional functions as running ones complete, so that no more than <code>MaxConcurrency</code> functions run at the same time.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Output" : {
+               "target" : "com.amazonaws.mediatailor#__mapOf__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of output bindings that controls which bindings the executor commits to the session state after all child functions complete. Each key is a namespaced output path, and each value is an expression that MediaTailor evaluates against the combined results of the child functions.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Runtime" : {
+               "target" : "com.amazonaws.mediatailor#RuntimeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The expression language used to evaluate expressions in the function configuration. Set this to <code>JSONata</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TimeoutMilliseconds" : {
+               "target" : "com.amazonaws.mediatailor#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum time, in milliseconds, for all child functions to complete. This timeout covers every function in the list, including any HTTP calls the child functions make. If the executor exceeds this timeout, MediaTailor discards all output from the executor and proceeds with default behavior.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for a <code>CONCURRENT_EXECUTOR</code> function. A <code>CONCURRENT_EXECUTOR</code> runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all functions complete. For more information about functions, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions.html\">Working with functions</a> in the <i>MediaTailor User Guide</i>.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.mediatailor#ConfigurationAliasesRequest" : {
          "key" : {
             "target" : "com.amazonaws.mediatailor#__string",
@@ -1016,6 +1163,19 @@
             "target" : "com.amazonaws.mediatailor#ConfigureLogsForChannelResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to configure logs on the channel with the specified channel name",
+               "relativeDocumentation" : "configurelogs-channel.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Configures Amazon CloudWatch log settings for a channel.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -1069,6 +1229,22 @@
             "target" : "com.amazonaws.mediatailor#ConfigureLogsForPlaybackConfigurationResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to configure logs for a playback configuration",
+               "relativeDocumentation" : "configurelogs-playbackconfiguration.html",
+               "requiredActions" : [
+                  "iam:CreateServiceLinkedRole"
+               ],
+               "resources" : {
+                  "required" : {
+                     "playbackConfiguration" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Defines where AWS Elemental MediaTailor sends logs for the playback configuration.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -1165,6 +1341,27 @@
             "target" : "com.amazonaws.mediatailor#CreateChannelResponse"
          },
          "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:RequestTag/${TagKey}",
+               "aws:TagKeys"
+            ],
+            "aws.iam#iamAction" : {
+               "createsResources" : [
+                  "channel"
+               ],
+               "documentation" : "Grants permission to create a new channel",
+               "relativeDocumentation" : "channel-channelname.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Creates a channel. For information about MediaTailor channels, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html\">Working with channels</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -1325,6 +1522,27 @@
             "target" : "com.amazonaws.mediatailor#CreateLiveSourceResponse"
          },
          "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:RequestTag/${TagKey}",
+               "aws:TagKeys"
+            ],
+            "aws.iam#iamAction" : {
+               "createsResources" : [
+                  "liveSource"
+               ],
+               "documentation" : "Grants permission to create a new live source on the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-livesource-livesourcename.html",
+               "resources" : {
+                  "required" : {
+                     "liveSource" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>The live source configuration.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -1426,6 +1644,18 @@
             "target" : "com.amazonaws.mediatailor#CreatePrefetchScheduleResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "createsResources" : [
+                  "prefetchSchedule"
+               ],
+               "documentation" : "Grants permission to create a prefetch schedule for the playback configuration with the specified playback configuration name",
+               "relativeDocumentation" : "prefetchschedule-playbackconfigurationname-name.html",
+               "resources" : {
+                  "required" : {
+                     "playbackConfiguration" : {}
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html\">Using ad prefetching</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -1562,6 +1792,10 @@
             "target" : "com.amazonaws.mediatailor#CreateProgramResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to create a new program on the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname-program-programname.html"
+            },
             "smithy.api#documentation" : "<p>Creates a program within a channel. For information about programs, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html\">Working with programs</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -1730,6 +1964,27 @@
             "target" : "com.amazonaws.mediatailor#CreateSourceLocationResponse"
          },
          "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:RequestTag/${TagKey}",
+               "aws:TagKeys"
+            ],
+            "aws.iam#iamAction" : {
+               "createsResources" : [
+                  "sourceLocation"
+               ],
+               "documentation" : "Grants permission to create a new source location",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname.html",
+               "resources" : {
+                  "required" : {
+                     "sourceLocation" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Creates a source location. A source location is a container for sources. For more information about source locations, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html\">Working with source locations</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -1853,6 +2108,27 @@
             "target" : "com.amazonaws.mediatailor#CreateVodSourceResponse"
          },
          "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:RequestTag/${TagKey}",
+               "aws:TagKeys"
+            ],
+            "aws.iam#iamAction" : {
+               "createsResources" : [
+                  "vodSource"
+               ],
+               "documentation" : "Grants permission to create a new VOD source on the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-vodsource-vodsourcename.html",
+               "resources" : {
+                  "required" : {
+                     "vodSource" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>The VOD source configuration parameters.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -1969,10 +2245,16 @@
       },
       "com.amazonaws.mediatailor#DashConfiguration" : {
          "members" : {
+            "DualStackManifestEndpointPrefix" : {
+               "target" : "com.amazonaws.mediatailor#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dual-stack (IPv4 and IPv6) URL that MediaTailor generates to initiate a playback session. The session uses server-side reporting.</p>"
+               }
+            },
             "ManifestEndpointPrefix" : {
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The URL generated by MediaTailor to initiate a playback session. The session uses server-side reporting. This setting is ignored in PUT operations.</p>"
+                  "smithy.api#documentation" : "<p>The URL that MediaTailor generates to initiate a playback session. The session uses server-side reporting.</p>"
                }
             },
             "MpdLocation" : {
@@ -2067,6 +2349,19 @@
             "target" : "com.amazonaws.mediatailor#DeleteChannelResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Deletes a channel. For information about MediaTailor channels, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html\">Working with channels</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2085,6 +2380,19 @@
             "target" : "com.amazonaws.mediatailor#DeleteChannelPolicyResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete the IAM policy on the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname-policy.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>The channel policy to delete.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2105,6 +2413,9 @@
                   "smithy.api#required" : {}
                }
             }
+         },
+         "traits" : {
+            "aws.api#data" : "permissions"
          },
          "type" : "structure"
       },
@@ -2183,6 +2494,19 @@
             "target" : "com.amazonaws.mediatailor#DeleteLiveSourceResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete the live source with the specified live source name on the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-livesource-livesourcename.html",
+               "resources" : {
+                  "required" : {
+                     "liveSource" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>The live source to delete.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2226,6 +2550,19 @@
             "target" : "com.amazonaws.mediatailor#DeletePlaybackConfigurationResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete the specified playback configuration",
+               "relativeDocumentation" : "playbackconfiguration-name.html",
+               "resources" : {
+                  "required" : {
+                     "playbackConfiguration" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Deletes a playback configuration. For information about MediaTailor configurations, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html\">Working with configurations in AWS Elemental MediaTailor</a>.</p>",
             "smithy.api#http" : {
                "code" : 204,
@@ -2261,6 +2598,16 @@
             "target" : "com.amazonaws.mediatailor#DeletePrefetchScheduleResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete a prefetch schedule for a playback configuration with the specified prefetch schedule name",
+               "relativeDocumentation" : "prefetchschedule-playbackconfigurationname-name.html",
+               "resources" : {
+                  "required" : {
+                     "playbackConfiguration" : {},
+                     "prefetchSchedule" : {}
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Deletes a prefetch schedule for a specific playback configuration. If you call <code>DeletePrefetchSchedule</code> on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html\">Using ad prefetching</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 204,
@@ -2304,6 +2651,15 @@
             "target" : "com.amazonaws.mediatailor#DeleteProgramResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete the program with the specified program name on the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname-program-programname.html",
+               "resources" : {
+                  "required" : {
+                     "program" : {}
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Deletes a program within a channel. For information about programs, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html\">Working with programs</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2347,6 +2703,19 @@
             "target" : "com.amazonaws.mediatailor#DeleteSourceLocationResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname.html",
+               "resources" : {
+                  "required" : {
+                     "sourceLocation" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Deletes a source location. A source location is a container for sources. For more information about source locations, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html\">Working with source locations</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2382,6 +2751,19 @@
             "target" : "com.amazonaws.mediatailor#DeleteVodSourceResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete the VOD source with the specified VOD source name on the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-vodsource-vodsourcename.html",
+               "resources" : {
+                  "required" : {
+                     "vodSource" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>The video on demand (VOD) source to delete.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2425,6 +2807,19 @@
             "target" : "com.amazonaws.mediatailor#DescribeChannelResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Describes a channel. For information about MediaTailor channels, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html\">Working with channels</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2547,6 +2942,19 @@
             "target" : "com.amazonaws.mediatailor#DescribeLiveSourceResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the live source with the specified live source name on the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-livesource-livesourcename.html",
+               "resources" : {
+                  "required" : {
+                     "liveSource" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>The live source to describe.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2634,6 +3042,15 @@
             "target" : "com.amazonaws.mediatailor#DescribeProgramResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the program with the specified program name on the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname-program-programname.html",
+               "resources" : {
+                  "required" : {
+                     "program" : {}
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Describes a program within a channel. For information about programs, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html\">Working with programs</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2757,6 +3174,19 @@
             "target" : "com.amazonaws.mediatailor#DescribeSourceLocationResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname.html",
+               "resources" : {
+                  "required" : {
+                     "sourceLocation" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Describes a source location. A source location is a container for sources. For more information about source locations, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html\">Working with source locations</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2848,6 +3278,19 @@
             "target" : "com.amazonaws.mediatailor#DescribeVodSourceResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the VOD source with the specified VOD source name on the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-vodsource-vodsourcename.html",
+               "resources" : {
+                  "required" : {
+                     "vodSource" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Provides details about a specific video on demand (VOD) source in a specific source location.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -2975,6 +3418,12 @@
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the function.</p>"
                }
             },
+            "ConcurrentExecutorConfiguration" : {
+               "target" : "com.amazonaws.mediatailor#ConcurrentExecutorConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for a <code>CONCURRENT_EXECUTOR</code> function.</p>"
+               }
+            },
             "CustomOutputConfiguration" : {
                "target" : "com.amazonaws.mediatailor#CustomOutputConfiguration",
                "traits" : {
@@ -3022,7 +3471,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "-- Define Mixin --"
+            "smithy.api#documentation" : "<p>Defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. The <code>FunctionType</code> determines the function's runtime behavior. For more information about functions, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions.html\">Working with functions</a> in the <i>MediaTailor User Guide</i>.</p>"
          },
          "type" : "structure"
       },
@@ -3037,6 +3486,12 @@
       },
       "com.amazonaws.mediatailor#FunctionRef" : {
          "members" : {
+            "Alias" : {
+               "target" : "com.amazonaws.mediatailor#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional alternate name for the function within the executor. If omitted, MediaTailor uses the function identifier.</p>"
+               }
+            },
             "FunctionId" : {
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
@@ -3076,12 +3531,26 @@
          "traits" : {
             "aws.api#arn" : {
                "template" : "function/{FunctionId}"
+            },
+            "aws.api#taggable" : {},
+            "aws.iam#conditionKeys" : [
+               "aws:ResourceTag/${TagKey}"
+            ],
+            "aws.iam#disableConditionKeyInference" : {},
+            "aws.iam#iamResource" : {
+               "name" : "function"
             }
          },
          "type" : "resource"
       },
       "com.amazonaws.mediatailor#FunctionType" : {
          "members" : {
+            "CONCURRENT_EXECUTOR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CONCURRENT_EXECUTOR"
+               }
+            },
             "CUSTOM_OUTPUT" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -3114,6 +3583,19 @@
             "target" : "com.amazonaws.mediatailor#GetChannelPolicyResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to read the IAM policy on the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname-policy.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Returns the channel's IAM policy. IAM policies are used to control access to your channel.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -3156,6 +3638,19 @@
             "target" : "com.amazonaws.mediatailor#GetChannelScheduleResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the schedule of programs on the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname-schedule.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Retrieves information about your channel's schedule.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -3278,6 +3773,12 @@
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the function.</p>"
                }
             },
+            "ConcurrentExecutorConfiguration" : {
+               "target" : "com.amazonaws.mediatailor#ConcurrentExecutorConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for a <code>CONCURRENT_EXECUTOR</code> function.</p>"
+               }
+            },
             "CustomOutputConfiguration" : {
                "target" : "com.amazonaws.mediatailor#CustomOutputConfiguration",
                "traits" : {
@@ -3343,6 +3844,19 @@
             "target" : "com.amazonaws.mediatailor#GetPlaybackConfigurationResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the configuration for the specified name",
+               "relativeDocumentation" : "playbackconfiguration-name.html",
+               "resources" : {
+                  "required" : {
+                     "playbackConfiguration" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Retrieves a playback configuration. For information about MediaTailor configurations, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html\">Working with configurations in AWS Elemental MediaTailor</a>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -3386,6 +3900,18 @@
                   "smithy.api#documentation" : "<p>The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.</p>"
                }
             },
+            "AdsPersonalizationConcurrency" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationConcurrency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.</p>"
+               }
+            },
+            "AdsPersonalizationTimeouts" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationTimeouts",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.</p>"
+               }
+            },
             "AvailSuppression" : {
                "target" : "com.amazonaws.mediatailor#AvailSuppression",
                "traits" : {
@@ -3414,6 +3940,18 @@
                "target" : "com.amazonaws.mediatailor#DashConfiguration",
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration for DASH content.</p>"
+               }
+            },
+            "DualStackPlaybackEndpointPrefix" : {
+               "target" : "com.amazonaws.mediatailor#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dual-stack (IPv4 and IPv6) URL that your player accesses to get a manifest from AWS Elemental MediaTailor. The session uses server-side reporting.</p>"
+               }
+            },
+            "DualStackSessionInitializationEndpointPrefix" : {
+               "target" : "com.amazonaws.mediatailor#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a session that uses client-side reporting.</p>"
                }
             },
             "FunctionMapping" : {
@@ -3474,13 +4012,13 @@
             "PlaybackEndpointPrefix" : {
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The URL that the player accesses to get a manifest from AWS Elemental MediaTailor. This session will use server-side reporting.</p>"
+                  "smithy.api#documentation" : "<p>The URL that your player accesses to get a manifest from AWS Elemental MediaTailor. The session uses server-side reporting.</p>"
                }
             },
             "SessionInitializationEndpointPrefix" : {
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The URL that the player uses to initialize a session that uses client-side reporting.</p>"
+                  "smithy.api#documentation" : "<p>The URL that your player uses to initialize a session that uses client-side reporting.</p>"
                }
             },
             "SlateAdUrl" : {
@@ -3519,6 +4057,16 @@
             "target" : "com.amazonaws.mediatailor#GetPrefetchScheduleResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve prefetch schedule for a playback configuration with the specified prefetch schedule name",
+               "relativeDocumentation" : "prefetchschedule-playbackconfigurationname-name.html",
+               "resources" : {
+                  "required" : {
+                     "playbackConfiguration" : {},
+                     "prefetchSchedule" : {}
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html\">Using ad prefetching</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -3612,10 +4160,16 @@
       },
       "com.amazonaws.mediatailor#HlsConfiguration" : {
          "members" : {
+            "DualStackManifestEndpointPrefix" : {
+               "target" : "com.amazonaws.mediatailor#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dual-stack (IPv4 and IPv6) URL that MediaTailor generates to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.</p>"
+               }
+            },
             "ManifestEndpointPrefix" : {
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The URL that is used to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.</p>"
+                  "smithy.api#documentation" : "<p>The URL that MediaTailor generates to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.</p>"
                }
             }
          },
@@ -3779,7 +4333,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "-- Function Configuration DataStructure"
+            "smithy.api#documentation" : "<p>The configuration for an <code>HTTP_REQUEST</code> function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions for the request. For more information, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-http-request.html\">HTTP_REQUEST</a> in the <i>MediaTailor User Guide</i>.</p>"
          },
          "type" : "structure"
       },
@@ -3833,6 +4387,10 @@
             "target" : "com.amazonaws.mediatailor#ListAlertsResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the list of alerts on a resource",
+               "relativeDocumentation" : "alerts.html"
+            },
             "smithy.api#documentation" : "<p>Lists the alerts that are associated with a MediaTailor channel assembly resource.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -3901,6 +4459,10 @@
             "target" : "com.amazonaws.mediatailor#ListChannelsResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the list of existing channels",
+               "relativeDocumentation" : "channels.html"
+            },
             "smithy.api#documentation" : "<p>Retrieves information about the channels that are associated with the current AWS account.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -4027,6 +4589,10 @@
             "target" : "com.amazonaws.mediatailor#ListLiveSourcesResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the list of existing live sources on the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-livesources.html"
+            },
             "smithy.api#documentation" : "<p>Lists the live sources contained in a source location. A source represents a piece of content.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -4095,6 +4661,10 @@
             "target" : "com.amazonaws.mediatailor#ListPlaybackConfigurationsResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the list of available configurations",
+               "relativeDocumentation" : "playbackconfigurations.html"
+            },
             "smithy.api#documentation" : "<p>Retrieves existing playback configurations. For information about MediaTailor configurations, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html\">Working with Configurations in AWS Elemental MediaTailor</a>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -4178,6 +4748,15 @@
             "target" : "com.amazonaws.mediatailor#ListPrefetchSchedulesResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the list of prefetch schedules for a playback configuration",
+               "relativeDocumentation" : "prefetchschedule-playbackconfigurationname.html",
+               "resources" : {
+                  "required" : {
+                     "playbackConfiguration" : {}
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Lists the prefetch schedules for a playback configuration.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -4259,6 +4838,10 @@
             "target" : "com.amazonaws.mediatailor#ListSourceLocationsResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the list of existing source locations",
+               "relativeDocumentation" : "sourcelocations.html"
+            },
             "smithy.api#documentation" : "<p>Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -4324,6 +4907,44 @@
             "target" : "com.amazonaws.mediatailor#ListTagsForResourceResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to list the tags assigned to the specified playback configuration resource",
+               "relativeDocumentation" : "tags-resourcearn.html",
+               "resources" : {
+                  "optional" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "function" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "liveSource" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "playbackConfiguration" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "sourceLocation" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "vodSource" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html\">Tagging AWS Elemental MediaTailor Resources</a>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -4367,6 +4988,10 @@
             "target" : "com.amazonaws.mediatailor#ListVodSourcesResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve the list of existing VOD sources on the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-vodsources.html"
+            },
             "smithy.api#documentation" : "<p>Lists the VOD sources contained in a source location. A source represents a piece of content.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -4429,6 +5054,12 @@
       },
       "com.amazonaws.mediatailor#LivePreRollConfiguration" : {
          "members" : {
+            "AdDecisionServerConfiguration" : {
+               "target" : "com.amazonaws.mediatailor#PreRollAdDecisionServerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for the ad decision server (ADS) for live pre-roll ads. The configuration contains settings that control how MediaTailor processes VAST responses for pre-roll ad breaks.</p>"
+               }
+            },
             "AdDecisionServerUrl" : {
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
@@ -4532,9 +5163,19 @@
             "aws.api#arn" : {
                "template" : "liveSource/{SourceLocationName}/{LiveSourceName}"
             },
+            "aws.api#taggable" : {},
             "aws.cloudformation#cfnResource" : {
                "name" : "LiveSource"
             },
+            "aws.iam#conditionKeys" : [
+               "aws:ResourceTag/${TagKey}"
+            ],
+            "aws.iam#disableConditionKeyInference" : {},
+            "aws.iam#iamResource" : {
+               "name" : "liveSource",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-livesource-livesourcename.html"
+            },
+            "smithy.api#documentation" : "Represents a single live stream that can be added to a source location",
             "smithy.api#unstable" : {}
          },
          "type" : "resource",
@@ -4944,6 +5585,7 @@
                "endpointPrefix" : "api.mediatailor",
                "sdkId" : "MediaTailor"
             },
+            "aws.api#tagEnabled" : {},
             "aws.auth#sigv4" : {
                "name" : "mediatailor"
             },
@@ -4959,17 +5601,17 @@
             },
             "aws.iam#defineConditionKeys" : {
                "aws:RequestTag/${TagKey}" : {
-                  "documentation" : "Filters access by tags that are passed in the request",
+                  "documentation" : "Filters access by the presence of tag key-value pairs in the request",
                   "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-requesttag",
                   "type" : "String"
                },
                "aws:ResourceTag/${TagKey}" : {
-                  "documentation" : "Filters access by tags associated with the resource",
+                  "documentation" : "Filters access by tag key-value pairs attached to the resource",
                   "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourcetag",
                   "type" : "String"
                },
                "aws:TagKeys" : {
-                  "documentation" : "Filters access by tag keys that are passed in the request",
+                  "documentation" : "Filters access by the presence of tag keys in the request",
                   "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-tagkeys",
                   "type" : "ArrayOfString"
                }
@@ -6059,6 +6701,18 @@
                   "smithy.api#documentation" : "<p>The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.</p>"
                }
             },
+            "AdsPersonalizationConcurrency" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationConcurrency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.</p>"
+               }
+            },
+            "AdsPersonalizationTimeouts" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationTimeouts",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.</p>"
+               }
+            },
             "AvailSuppression" : {
                "target" : "com.amazonaws.mediatailor#AvailSuppression",
                "traits" : {
@@ -6087,6 +6741,18 @@
                "target" : "com.amazonaws.mediatailor#DashConfiguration",
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration for a DASH source.</p>"
+               }
+            },
+            "DualStackPlaybackEndpointPrefix" : {
+               "target" : "com.amazonaws.mediatailor#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dual-stack (IPv4 and IPv6) URL that your player accesses to get a manifest from AWS Elemental MediaTailor.</p>"
+               }
+            },
+            "DualStackSessionInitializationEndpointPrefix" : {
+               "target" : "com.amazonaws.mediatailor#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a session that uses client-side reporting.</p>"
                }
             },
             "FunctionMapping" : {
@@ -6147,13 +6813,13 @@
             "PlaybackEndpointPrefix" : {
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The URL that the player accesses to get a manifest from AWS Elemental MediaTailor.</p>"
+                  "smithy.api#documentation" : "<p>The URL that your player accesses to get a manifest from AWS Elemental MediaTailor.</p>"
                }
             },
             "SessionInitializationEndpointPrefix" : {
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The URL that the player uses to initialize a session that uses client-side reporting.</p>"
+                  "smithy.api#documentation" : "<p>The URL that your player uses to initialize a session that uses client-side reporting.</p>"
                }
             },
             "SlateAdUrl" : {
@@ -6213,7 +6879,17 @@
          "traits" : {
             "aws.api#arn" : {
                "template" : "playbackConfiguration/{Name}"
-            }
+            },
+            "aws.api#taggable" : {},
+            "aws.iam#conditionKeys" : [
+               "aws:ResourceTag/${TagKey}"
+            ],
+            "aws.iam#disableConditionKeyInference" : {},
+            "aws.iam#iamResource" : {
+               "name" : "playbackConfiguration",
+               "relativeDocumentation" : "playbackconfiguration.html"
+            },
+            "smithy.api#documentation" : "Represents a configuration with mapping information for the origin server and the ad decision server (ADS)"
          },
          "type" : "resource"
       },
@@ -6233,6 +6909,51 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.mediatailor#PreRollAdDecisionServerConfiguration" : {
+         "members" : {
+            "VastResponse" : {
+               "target" : "com.amazonaws.mediatailor#PreRollVastResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The settings that control how MediaTailor processes VAST responses for live pre-roll ad breaks.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The ad decision server configuration for live pre-roll ads. It contains settings that control how MediaTailor processes VAST responses for pre-roll ad breaks.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.mediatailor#PreRollAdSequencingMode" : {
+         "members" : {
+            "FOLLOW_AD_SEQUENCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FOLLOW_AD_SEQUENCE"
+               }
+            },
+            "IGNORE_AD_SEQUENCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IGNORE_AD_SEQUENCE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.mediatailor#PreRollVastResponse" : {
+         "members" : {
+            "AdSequencingMode" : {
+               "target" : "com.amazonaws.mediatailor#PreRollAdSequencingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ad sequencing mode for live pre-roll ads. <code>FOLLOW_AD_SEQUENCE</code> inserts sequenced ads in increasing order and uses standalone ads only as replacements when a sequenced ad fails. <code>IGNORE_AD_SEQUENCE</code> inserts ads in the order they appear in the VAST response, regardless of sequence attributes. The default behavior is <code>IGNORE_AD_SEQUENCE</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The settings that control how MediaTailor processes VAST responses from the ad decision server for live pre-roll ad breaks.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.mediatailor#PrefetchConsumption" : {
          "members" : {
@@ -6402,6 +7123,12 @@
             "aws.api#arn" : {
                "template" : "prefetchSchedule/{PlaybackConfigurationName}/{Name}"
             },
+            "aws.iam#disableConditionKeyInference" : {},
+            "aws.iam#iamResource" : {
+               "name" : "prefetchSchedule",
+               "relativeDocumentation" : "prefetchschedule-playbackconfigurationname-name.html"
+            },
+            "smithy.api#documentation" : "Represents a configuration that is used to fetch and prepare ads in advance of the ad break.",
             "smithy.api#noReplace" : {}
          },
          "type" : "resource"
@@ -6445,6 +7172,13 @@
             "aws.api#arn" : {
                "template" : "program/{ChannelName}/{ProgramName}"
             },
+            "aws.iam#disableConditionKeyInference" : {},
+            "aws.iam#iamResource" : {
+               "disableConditionKeyInheritance" : true,
+               "name" : "program",
+               "relativeDocumentation" : "channel-channelname-program-programname.html"
+            },
+            "smithy.api#documentation" : "Represents a piece of content scheduled on a channel",
             "smithy.api#noReplace" : {}
          },
          "type" : "resource",
@@ -6460,6 +7194,19 @@
             "target" : "com.amazonaws.mediatailor#PutChannelPolicyResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to set the IAM policy on the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname-policy.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Creates an IAM policy for the channel. IAM policies are used to control access to your channel.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -6483,6 +7230,7 @@
             "Policy" : {
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
+                  "aws.api#data" : "permissions",
                   "smithy.api#documentation" : "<p>Adds an IAM role that determines the permissions of your channel.</p>",
                   "smithy.api#required" : {}
                }
@@ -6502,6 +7250,10 @@
             "target" : "com.amazonaws.mediatailor#PutFunctionResponse"
          },
          "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:RequestTag/${TagKey}",
+               "aws:TagKeys"
+            ],
             "smithy.api#documentation" : "<p>Creates or updates a function. A function defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. For more information about functions, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions.html\">Working with functions</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -6514,6 +7266,12 @@
       },
       "com.amazonaws.mediatailor#PutFunctionRequest" : {
          "members" : {
+            "ConcurrentExecutorConfiguration" : {
+               "target" : "com.amazonaws.mediatailor#ConcurrentExecutorConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for a <code>CONCURRENT_EXECUTOR</code> function. Specifies the list of child functions to run in parallel, the maximum concurrency, an optional output block, and a timeout. Required when <code>FunctionType</code> is <code>CONCURRENT_EXECUTOR</code>.</p>"
+               }
+            },
             "CustomOutputConfiguration" : {
                "target" : "com.amazonaws.mediatailor#CustomOutputConfiguration",
                "traits" : {
@@ -6580,6 +7338,12 @@
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the function.</p>"
                }
             },
+            "ConcurrentExecutorConfiguration" : {
+               "target" : "com.amazonaws.mediatailor#ConcurrentExecutorConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for a <code>CONCURRENT_EXECUTOR</code> function.</p>"
+               }
+            },
             "CustomOutputConfiguration" : {
                "target" : "com.amazonaws.mediatailor#CustomOutputConfiguration",
                "traits" : {
@@ -6640,6 +7404,27 @@
             "target" : "com.amazonaws.mediatailor#PutPlaybackConfigurationResponse"
          },
          "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:RequestTag/${TagKey}",
+               "aws:TagKeys"
+            ],
+            "aws.iam#iamAction" : {
+               "createsResources" : [
+                  "playbackConfiguration"
+               ],
+               "documentation" : "Grants permission to add a new configuration",
+               "relativeDocumentation" : "playbackconfiguration.html",
+               "resources" : {
+                  "required" : {
+                     "playbackConfiguration" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Creates a playback configuration. For information about MediaTailor configurations, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html\">Working with configurations in AWS Elemental MediaTailor</a>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -6668,6 +7453,18 @@
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
                   "smithy.api#documentation" : "<p>The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.</p>"
+               }
+            },
+            "AdsPersonalizationConcurrency" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationConcurrency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.</p>"
+               }
+            },
+            "AdsPersonalizationTimeouts" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationTimeouts",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.</p>"
                }
             },
             "AvailSuppression" : {
@@ -6786,6 +7583,18 @@
                   "smithy.api#documentation" : "<p>The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.</p>"
                }
             },
+            "AdsPersonalizationConcurrency" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationConcurrency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.</p>"
+               }
+            },
+            "AdsPersonalizationTimeouts" : {
+               "target" : "com.amazonaws.mediatailor#AdsPersonalizationTimeouts",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.</p>"
+               }
+            },
             "AvailSuppression" : {
                "target" : "com.amazonaws.mediatailor#AvailSuppression",
                "traits" : {
@@ -6814,6 +7623,18 @@
                "target" : "com.amazonaws.mediatailor#DashConfiguration",
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration for DASH content.</p>"
+               }
+            },
+            "DualStackPlaybackEndpointPrefix" : {
+               "target" : "com.amazonaws.mediatailor#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dual-stack (IPv4 and IPv6) playback endpoint prefix associated with the playback configuration.</p>"
+               }
+            },
+            "DualStackSessionInitializationEndpointPrefix" : {
+               "target" : "com.amazonaws.mediatailor#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dual-stack (IPv4 and IPv6) session initialization endpoint prefix associated with the playback configuration.</p>"
                }
             },
             "FunctionMapping" : {
@@ -7072,6 +7893,12 @@
                   "smithy.api#documentation" : "<p>DASH manifest configuration settings.</p>"
                }
             },
+            "DualStackPlaybackUrl" : {
+               "target" : "com.amazonaws.mediatailor#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dual-stack (IPv4 and IPv6) URL that your player uses for playback.</p>"
+               }
+            },
             "HlsPlaylistSettings" : {
                "target" : "com.amazonaws.mediatailor#HlsPlaylistSettings",
                "traits" : {
@@ -7088,7 +7915,7 @@
             "PlaybackUrl" : {
                "target" : "com.amazonaws.mediatailor#__string",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The URL used for playback by content players.</p>",
+                  "smithy.api#documentation" : "<p>The URL that your player uses for playback.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -7532,9 +8359,19 @@
             "aws.api#arn" : {
                "template" : "sourceLocation/{SourceLocationName}"
             },
+            "aws.api#taggable" : {},
             "aws.cloudformation#cfnResource" : {
                "name" : "SourceLocation"
             },
+            "aws.iam#conditionKeys" : [
+               "aws:ResourceTag/${TagKey}"
+            ],
+            "aws.iam#disableConditionKeyInference" : {},
+            "aws.iam#iamResource" : {
+               "name" : "sourceLocation",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname.html"
+            },
+            "smithy.api#documentation" : "Represents an origin server where source content is stored",
             "smithy.api#noReplace" : {},
             "smithy.api#unstable" : {}
          },
@@ -7583,6 +8420,19 @@
             "target" : "com.amazonaws.mediatailor#StartChannelResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to start the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname-start.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Starts a channel. For information about MediaTailor channels, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html\">Working with channels</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -7618,6 +8468,19 @@
             "target" : "com.amazonaws.mediatailor#StopChannelResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to stop the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname-stop.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Stops a channel. For information about MediaTailor channels, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html\">Working with channels</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -7684,6 +8547,60 @@
             "target" : "smithy.api#Unit"
          },
          "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:RequestTag/${TagKey}",
+               "aws:TagKeys"
+            ],
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to add tags to the specified playback configuration resource",
+               "relativeDocumentation" : "tags-resourcearn.html",
+               "resources" : {
+                  "optional" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "function" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "liveSource" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "playbackConfiguration" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "sourceLocation" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "vodSource" : {
+                        "conditionKeys" : [
+                           "aws:RequestTag/${TagKey}",
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html\">Tagging AWS Elemental MediaTailor Resources</a>.</p>",
             "smithy.api#http" : {
                "code" : 204,
@@ -7881,6 +8798,53 @@
             "target" : "smithy.api#Unit"
          },
          "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:TagKeys"
+            ],
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to remove tags from the specified playback configuration resource",
+               "relativeDocumentation" : "tags-resourcearn.html",
+               "resources" : {
+                  "optional" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "function" : {
+                        "conditionKeys" : [
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "liveSource" : {
+                        "conditionKeys" : [
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "playbackConfiguration" : {
+                        "conditionKeys" : [
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "sourceLocation" : {
+                        "conditionKeys" : [
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     },
+                     "vodSource" : {
+                        "conditionKeys" : [
+                           "aws:TagKeys",
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>The resource to untag.</p>",
             "smithy.api#http" : {
                "code" : 204,
@@ -7920,6 +8884,19 @@
             "target" : "com.amazonaws.mediatailor#UpdateChannelResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to update the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname.html",
+               "resources" : {
+                  "required" : {
+                     "channel" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Updates a channel. For information about MediaTailor channels, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html\">Working with channels</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -8060,6 +9037,19 @@
             "target" : "com.amazonaws.mediatailor#UpdateLiveSourceResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to update the live source with the specified live source name on the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-livesource-livesourcename.html",
+               "resources" : {
+                  "required" : {
+                     "liveSource" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Updates a live source's configuration.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -8154,6 +9144,15 @@
             "target" : "com.amazonaws.mediatailor#UpdateProgramResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to update the program with the specified program name on the channel with the specified channel name",
+               "relativeDocumentation" : "channel-channelname-program-programname.html",
+               "resources" : {
+                  "required" : {
+                     "program" : {}
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Updates a program within a channel.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -8336,6 +9335,19 @@
             "target" : "com.amazonaws.mediatailor#UpdateSourceLocationResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to update the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname.html",
+               "resources" : {
+                  "required" : {
+                     "sourceLocation" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Updates a source location. A source location is a container for sources. For more information about source locations, see <a href=\"https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html\">Working with source locations</a> in the <i>MediaTailor User Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -8452,6 +9464,19 @@
             "target" : "com.amazonaws.mediatailor#UpdateVodSourceResponse"
          },
          "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to update the VOD source with the specified VOD source name on the source location with the specified source location name",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-vodsource-vodsourcename.html",
+               "resources" : {
+                  "required" : {
+                     "vodSource" : {
+                        "conditionKeys" : [
+                           "aws:ResourceTag/${TagKey}"
+                        ]
+                     }
+                  }
+               }
+            },
             "smithy.api#documentation" : "<p>Updates a VOD source's configuration.</p>",
             "smithy.api#http" : {
                "code" : 200,
@@ -8535,6 +9560,20 @@
                   "smithy.api#documentation" : "<p>The name of the VOD source.</p>"
                }
             }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.mediatailor#VastResponse" : {
+         "members" : {
+            "AdSequencingMode" : {
+               "target" : "com.amazonaws.mediatailor#AdSequencingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ad sequencing mode that controls how MediaTailor handles sequenced and standalone ads in VAST responses. <code>FOLLOW_AD_SEQUENCE</code> inserts sequenced ads in increasing order for both live and VOD workflows, using standalone ads only as replacements when a sequenced ad fails. <code>FOLLOW_AD_SEQUENCE_ONLY_LIVE</code> enables ad sequencing for live workflows only. <code>FOLLOW_AD_SEQUENCE_ONLY_VOD</code> enables ad sequencing for VOD workflows only. <code>IGNORE_AD_SEQUENCE</code> inserts ads in the order they appear in the VAST response, regardless of sequence attributes. The default behavior is <code>IGNORE_AD_SEQUENCE</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The settings that control how MediaTailor processes VAST responses from the ad decision server.</p>"
          },
          "type" : "structure"
       },
@@ -8623,9 +9662,19 @@
             "aws.api#arn" : {
                "template" : "vodSource/{SourceLocationName}/{VodSourceName}"
             },
+            "aws.api#taggable" : {},
             "aws.cloudformation#cfnResource" : {
                "name" : "VodSource"
             },
+            "aws.iam#conditionKeys" : [
+               "aws:ResourceTag/${TagKey}"
+            ],
+            "aws.iam#disableConditionKeyInference" : {},
+            "aws.iam#iamResource" : {
+               "name" : "vodSource",
+               "relativeDocumentation" : "sourcelocation-sourcelocationname-vodsource-vodsourcename.html"
+            },
+            "smithy.api#documentation" : "Represents a single piece of content that can be added to a source location",
             "smithy.api#noReplace" : {},
             "smithy.api#unstable" : {}
          },

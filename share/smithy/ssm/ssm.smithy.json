@@ -517,6 +517,9 @@
                "target" : "com.amazonaws.ssm#CreateAssociationBatch"
             },
             {
+               "target" : "com.amazonaws.ssm#CreateCloudConnector"
+            },
+            {
                "target" : "com.amazonaws.ssm#CreateDocument"
             },
             {
@@ -539,6 +542,9 @@
             },
             {
                "target" : "com.amazonaws.ssm#DeleteAssociation"
+            },
+            {
+               "target" : "com.amazonaws.ssm#DeleteCloudConnector"
             },
             {
                "target" : "com.amazonaws.ssm#DeleteDocument"
@@ -694,6 +700,9 @@
                "target" : "com.amazonaws.ssm#GetCalendarState"
             },
             {
+               "target" : "com.amazonaws.ssm#GetCloudConnector"
+            },
+            {
                "target" : "com.amazonaws.ssm#GetCommandInvocation"
             },
             {
@@ -773,6 +782,9 @@
             },
             {
                "target" : "com.amazonaws.ssm#ListAssociationVersions"
+            },
+            {
+               "target" : "com.amazonaws.ssm#ListCloudConnectors"
             },
             {
                "target" : "com.amazonaws.ssm#ListCommandInvocations"
@@ -898,6 +910,9 @@
                "target" : "com.amazonaws.ssm#UpdateAssociationStatus"
             },
             {
+               "target" : "com.amazonaws.ssm#UpdateCloudConnector"
+            },
+            {
                "target" : "com.amazonaws.ssm#UpdateDocument"
             },
             {
@@ -932,6 +947,9 @@
             },
             {
                "target" : "com.amazonaws.ssm#UpdateServiceSetting"
+            },
+            {
+               "target" : "com.amazonaws.ssm#ValidateCloudConnector"
             }
          ],
          "traits" : {
@@ -2957,6 +2975,12 @@
                   "smithy.api#enumValue" : "AssociationName"
                }
             },
+            "CloudConnectorId" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CloudConnectorId"
+               }
+            },
             "InstanceId" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -3854,6 +3878,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>Variables defined for the automation.</p>"
                }
+            },
+            "WarningMessage" : {
+               "target" : "com.amazonaws.ssm#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message that describes a non-critical issue that occurred during the automation execution.</p>"
+               }
             }
          },
          "traits" : {
@@ -4035,7 +4065,7 @@
                }
             },
             "Targets" : {
-               "target" : "com.amazonaws.ssm#Targets",
+               "target" : "com.amazonaws.ssm#AutomationTargets",
                "traits" : {
                   "smithy.api#documentation" : "<p>Information about the resources that would be included in the actual runbook execution, if\n   it were to be run. Both Targets and TargetMaps can't be specified together.</p>"
                }
@@ -4151,7 +4181,7 @@
             "FailureMessage" : {
                "target" : "com.amazonaws.ssm#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The list of execution outputs as defined in the Automation runbook.</p>"
+                  "smithy.api#documentation" : "<p>A message that describes a failure that occurred during the automation execution.</p>"
                }
             },
             "LogFile" : {
@@ -4248,6 +4278,12 @@
                "target" : "com.amazonaws.ssm#AlarmStateInformationList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The CloudWatch alarm that was invoked by the automation.</p>"
+               }
+            },
+            "WarningMessage" : {
+               "target" : "com.amazonaws.ssm#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message that describes a non-critical issue that occurred during the automation execution.</p>"
                }
             }
          },
@@ -4517,6 +4553,18 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.ssm#AutomationTargets" : {
+         "member" : {
+            "target" : "com.amazonaws.ssm#Target"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.ssm#AutomationType" : {
          "members" : {
             "CrossAccount" : {
@@ -4533,6 +4581,157 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.ssm#AvailabilityZone" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 120,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#AvailabilityZoneId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#AzureApplicationDisplayName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#AzureApplicationId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#AzureConfiguration" : {
+         "members" : {
+            "ApplicationDisplayName" : {
+               "target" : "com.amazonaws.ssm#AzureApplicationDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the Azure application registration.</p>"
+               }
+            },
+            "ApplicationId" : {
+               "target" : "com.amazonaws.ssm#AzureApplicationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Azure application registration used for authentication.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Targets" : {
+               "target" : "com.amazonaws.ssm#ConfigurationTargets",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The target Azure subscriptions for the cloud connector.</p>"
+               }
+            },
+            "TenantDisplayName" : {
+               "target" : "com.amazonaws.ssm#AzureTenantDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the Azure tenant.</p>"
+               }
+            },
+            "TenantId" : {
+               "target" : "com.amazonaws.ssm#AzureTenantId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Azure tenant.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The access details and targets for connecting to a Microsoft Azure tenant, including\n   the application registration used for authentication and the subscriptions to target.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#AzureSubscription" : {
+         "members" : {
+            "DisplayName" : {
+               "target" : "com.amazonaws.ssm#AzureSubscriptionDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the Azure subscription.</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.ssm#AzureSubscriptionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Azure subscription.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about an Azure subscription targeted by the cloud connector.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#AzureSubscriptionDisplayName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#AzureSubscriptionId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#AzureSubscriptionList" : {
+         "member" : {
+            "target" : "com.amazonaws.ssm#AzureSubscription"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 75,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.ssm#AzureTenantDisplayName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#AzureTenantId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.ssm#BaselineDescription" : {
          "traits" : {
@@ -4825,6 +5024,190 @@
             }
          },
          "type" : "string"
+      },
+      "com.amazonaws.ssm#CloudConnectorArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:aws(-cn|-us-gov)?:ssm:([^:]+):\\d{12}:cloud-connector/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#CloudConnectorConfiguration" : {
+         "members" : {
+            "AzureConfiguration" : {
+               "target" : "com.amazonaws.ssm#AzureConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The access details and targets for connecting to a Microsoft Azure environment.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration that provides access details and targets for connecting to a third-party\n   cloud environment.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.ssm#CloudConnectorDescription" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#CloudConnectorFilter" : {
+         "members" : {
+            "FilterKey" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorFilterKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the filter key.</p>"
+               }
+            },
+            "FilterValues" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorFilterValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The filter values. Valid values for each filter key are as follows:</p>\n         <dl>\n            <dt>SubscriptionId</dt>\n            <dd>\n               <p>The Azure subscription ID to filter by. To return only tenant-level connectors,\n     specify <code>NONE</code>.</p>\n            </dd>\n            <dt>TenantId</dt>\n            <dd>\n               <p>The Azure tenant ID to filter by. Filters the results to connectors\n     that target the specified tenant.</p>\n            </dd>\n         </dl>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter for listing cloud connectors.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#CloudConnectorFilterKey" : {
+         "members" : {
+            "SubscriptionId" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SubscriptionId"
+               }
+            },
+            "TenantId" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TenantId"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.ssm#CloudConnectorFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.ssm#CloudConnectorFilter"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.ssm#CloudConnectorFilterValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#CloudConnectorFilterValues" : {
+         "member" : {
+            "target" : "com.amazonaws.ssm#CloudConnectorFilterValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.ssm#CloudConnectorIamRoleArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:aws[a-z0-9-]*:iam::\\d{12}:role\\/[\\w-\\/.@+=,]{1,1017}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#CloudConnectorId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 36,
+               "min" : 36
+            },
+            "smithy.api#pattern" : "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#CloudConnectorMaxResults" : {
+         "traits" : {
+            "smithy.api#default" : 0,
+            "smithy.api#range" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.ssm#CloudConnectorSummary" : {
+         "members" : {
+            "CloudConnectorId" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cloud connector.</p>"
+               }
+            },
+            "CreatedAt" : {
+               "target" : "com.amazonaws.ssm#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the cloud connector was created.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the cloud connector.</p>"
+               }
+            },
+            "DisplayName" : {
+               "target" : "com.amazonaws.ssm#DisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The friendly name of the cloud connector.</p>"
+               }
+            },
+            "RoleArn" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorIamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the IAM role used by the cloud connector.</p>"
+               }
+            },
+            "UpdatedAt" : {
+               "target" : "com.amazonaws.ssm#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the cloud connector was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a cloud connector.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#CloudConnectorSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.ssm#CloudConnectorSummary"
+         },
+         "type" : "list"
       },
       "com.amazonaws.ssm#CloudWatchLogGroupName" : {
          "traits" : {
@@ -6009,6 +6392,46 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.ssm#ConfigConnectorArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:aws(-cn|-us-gov)?:config:([^:]+):\\d{12}:connector/.+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssm#ConfigurationTargets" : {
+         "members" : {
+            "Subscriptions" : {
+               "target" : "com.amazonaws.ssm#AzureSubscriptionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of Azure subscriptions to target.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The target resources in the third-party cloud environment.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.ssm#ConflictException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.ssm#String"
+            }
+         },
+         "traits" : {
+            "aws.protocols#awsQueryError" : {
+               "code" : "ConflictException",
+               "httpResponseCode" : 409
+            },
+            "smithy.api#documentation" : "<p>An error occurred because of a conflict with a concurrent request or the current state of\n   the resource. Retry your request.</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.ssm#ConnectionStatus" : {
          "members" : {
             "CONNECTED" : {
@@ -6526,7 +6949,7 @@
             "TargetLocations" : {
                "target" : "com.amazonaws.ssm#TargetLocations",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the\n   association. Use this action to create an association in multiple Regions and multiple\n   accounts.</p>\n         <note>\n            <p>The <code>IncludeChildOrganizationUnits</code> parameter is not supported by State\n    Manager.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the\n   association. Use this action to create an association in multiple Regions and multiple\n   accounts.</p>\n         <note>\n            <p>The <code>TargetLocationAlarmConfiguration</code> parameter is not supported by State\n    Manager.</p>\n         </note>"
                }
             },
             "TargetMaps" : {
@@ -6553,6 +6976,91 @@
                "target" : "com.amazonaws.ssm#AssociationDescription",
                "traits" : {
                   "smithy.api#documentation" : "<p>Information about the association.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#CreateCloudConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.ssm#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.ssm#InternalServerError"
+            },
+            {
+               "target" : "com.amazonaws.ssm#ServiceQuotaExceededException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.ssm#CreateCloudConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.ssm#CreateCloudConnectorResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a cloud connector that establishes a connection between Systems Manager and a third-party\n   cloud environment.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.ssm#CreateCloudConnectorRequest" : {
+         "members" : {
+            "ConfigConnectorArn" : {
+               "target" : "com.amazonaws.ssm#ConfigConnectorArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Amazon Web Services Config connector associated with this cloud connector.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Configuration" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration details for connecting to the third-party cloud environment.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description for the cloud connector.</p>"
+               }
+            },
+            "DisplayName" : {
+               "target" : "com.amazonaws.ssm#DisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A friendly name for the cloud connector.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RoleArn" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorIamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the IAM role that the cloud connector\n   uses to communicate with the third-party cloud environment.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.ssm#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional metadata that you assign to a resource. Tags enable you to categorize a resource\n   in different ways, such as by purpose, owner, or environment.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#CreateCloudConnectorResult" : {
+         "members" : {
+            "CloudConnectorId" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cloud connector that was created.</p>"
                }
             }
          },
@@ -7411,6 +7919,58 @@
       },
       "com.amazonaws.ssm#DeleteAssociationResult" : {
          "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#DeleteCloudConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.ssm#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.ssm#InternalServerError"
+            },
+            {
+               "target" : "com.amazonaws.ssm#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.ssm#DeleteCloudConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.ssm#DeleteCloudConnectorResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a cloud connector.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.ssm#DeleteCloudConnectorRequest" : {
+         "members" : {
+            "CloudConnectorId" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cloud connector to delete.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#DeleteCloudConnectorResult" : {
+         "members" : {
+            "CloudConnectorId" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cloud connector that was deleted.</p>"
+               }
+            }
+         },
          "traits" : {
             "smithy.api#output" : {}
          },
@@ -11013,6 +11573,16 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.ssm#DisplayName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.ssm#DocumentARN" : {
          "traits" : {
             "smithy.api#pattern" : "^[a-zA-Z0-9_\\-.:/]{3,128}$"
@@ -12700,6 +13270,98 @@
                "target" : "com.amazonaws.ssm#CalendarState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The state of the calendar. An <code>OPEN</code> calendar indicates that actions are allowed\n   to proceed, and a <code>CLOSED</code> calendar indicates that actions aren't allowed to\n   proceed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#GetCloudConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.ssm#InternalServerError"
+            },
+            {
+               "target" : "com.amazonaws.ssm#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.ssm#GetCloudConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.ssm#GetCloudConnectorResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns detailed information about a cloud connector.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.ssm#GetCloudConnectorRequest" : {
+         "members" : {
+            "CloudConnectorId" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cloud connector to retrieve information about.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#GetCloudConnectorResult" : {
+         "members" : {
+            "CloudConnectorArn" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the cloud connector.</p>"
+               }
+            },
+            "ConfigConnectorArn" : {
+               "target" : "com.amazonaws.ssm#ConfigConnectorArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Amazon Web Services Config connector associated with this cloud connector.</p>"
+               }
+            },
+            "Configuration" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration details for the third-party cloud environment connection.</p>"
+               }
+            },
+            "CreatedAt" : {
+               "target" : "com.amazonaws.ssm#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the cloud connector was created.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the cloud connector.</p>"
+               }
+            },
+            "DisplayName" : {
+               "target" : "com.amazonaws.ssm#DisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The friendly name of the cloud connector.</p>"
+               }
+            },
+            "RoleArn" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorIamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the IAM role used by the cloud connector.</p>"
+               }
+            },
+            "UpdatedAt" : {
+               "target" : "com.amazonaws.ssm#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the cloud connector was last updated.</p>"
                }
             }
          },
@@ -14470,7 +15132,7 @@
             "target" : "com.amazonaws.ssm#GetParameterResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Get information about a single parameter by specifying the parameter name.</p>\n         <p>Parameter names can't contain spaces. The service removes any spaces specified for the\n   beginning or end of a parameter name. If the specified name for a parameter contains spaces\n   between characters, the request fails with a <code>ValidationException</code> error.</p>\n         <note>\n            <p>To get information about more than one parameter at a time, use the <a>GetParameters</a> operation.</p>\n         </note>"
+            "smithy.api#documentation" : "<p>Get information about a single parameter by specifying the parameter name.</p>\n         <p>Parameter names can't contain spaces. The service removes any spaces specified for the\n   beginning or end of a parameter name. If the specified name for a parameter contains spaces\n   between characters, the request fails with a <code>ValidationException</code> error.</p>\n         <note>\n            <p>To get information about more than one parameter at a time, use the <a>GetParameters</a> operation.</p>\n         </note>\n         <note>\n            <p>Parameter Store throughput defines the number of API transactions per second (TPS) that\n    Systems Manager can process. This applies to <code>GetParameter</code>,\n    <code>GetParameters</code>, and <code>PutParameter</code> API calls for your Amazon Web Services account and\n    Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable\n    for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently\n    or operate at smaller scale can use this default setting without additional cost.</p>\n            <p>For higher-volume workloads, you can enable higher throughput. This increases the maximum\n    number of supported transactions per second for your account and Region. Increased throughput\n    supports applications and workloads that need concurrent access to multiple parameters. If you\n    experience <code>ThrottlingException: Rate exceeded</code> errors, enable higher throughput. For\n    more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html\">Changing Parameter Store\n     throughput</a>.</p>\n         </note>"
          },
          "type" : "operation"
       },
@@ -14611,7 +15273,7 @@
             "target" : "com.amazonaws.ssm#GetParametersResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Get information about one or more parameters by specifying multiple parameter names.</p>\n         <note>\n            <p>To get information about a single parameter, you can use the <a>GetParameter</a>\n    operation instead.</p>\n         </note>\n         <p>Parameter names can't contain spaces. The service removes any spaces specified for the\n   beginning or end of a parameter name. If the specified name for a parameter contains spaces\n   between characters, the request fails with a <code>ValidationException</code> error.</p>"
+            "smithy.api#documentation" : "<p>Get information about one or more parameters by specifying multiple parameter names.</p>\n         <note>\n            <p>To get information about a single parameter, you can use the <a>GetParameter</a>\n    operation instead.</p>\n         </note>\n         <p>Parameter names can't contain spaces. The service removes any spaces specified for the\n   beginning or end of a parameter name. If the specified name for a parameter contains spaces\n   between characters, the request fails with a <code>ValidationException</code> error.</p>\n         <note>\n            <p>Parameter Store throughput defines the number of API transactions per second (TPS) that\n    Systems Manager can process. This applies to <code>GetParameter</code>,\n    <code>GetParameters</code>, and <code>PutParameter</code> API calls for your Amazon Web Services account and\n    Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable\n    for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently\n    or operate at smaller scale can use this default setting without additional cost.</p>\n            <p>For higher-volume workloads, you can enable higher throughput. This increases the maximum\n    number of supported transactions per second for your account and Region. Increased throughput\n    supports applications and workloads that need concurrent access to multiple parameters. If you\n    experience <code>ThrottlingException: Rate exceeded</code> errors, enable higher throughput. For\n    more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html\">Changing Parameter Store\n     throughput</a>.</p>\n         </note>"
          },
          "type" : "operation"
       },
@@ -14815,7 +15477,7 @@
             "OperatingSystem" : {
                "target" : "com.amazonaws.ssm#OperatingSystem",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Returns the operating system rule specified for patch groups using the patch\n   baseline.</p>"
+                  "smithy.api#documentation" : "<p>Returns the operating system rule specified for patch groups using the patch\n  baseline. The default value is <code>WINDOWS</code>. </p>"
                }
             },
             "PatchGroup" : {
@@ -15499,6 +16161,18 @@
                   "smithy.api#documentation" : "<p>The version number of the agent installed on the node.</p>"
                }
             },
+            "AvailabilityZone" : {
+               "target" : "com.amazonaws.ssm#AvailabilityZone",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Availability Zone where the managed node is located.</p>"
+               }
+            },
+            "AvailabilityZoneId" : {
+               "target" : "com.amazonaws.ssm#AvailabilityZoneId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Availability Zone ID where the managed node is located.</p>"
+               }
+            },
             "ComputerName" : {
                "target" : "com.amazonaws.ssm#ComputerName",
                "traits" : {
@@ -15523,6 +16197,12 @@
                   "smithy.api#documentation" : "<p>Indicates whether the node is managed by Systems Manager.</p>"
                }
             },
+            "Name" : {
+               "target" : "com.amazonaws.ssm#NodeName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name assigned to the managed node.</p>"
+               }
+            },
             "PlatformName" : {
                "target" : "com.amazonaws.ssm#PlatformName",
                "traits" : {
@@ -15545,6 +16225,24 @@
                "target" : "com.amazonaws.ssm#ResourceType",
                "traits" : {
                   "smithy.api#documentation" : "<p>The type of instance, either an EC2 instance or another supported machine type in a hybrid\n   fleet.</p>"
+               }
+            },
+            "SourceId" : {
+               "target" : "com.amazonaws.ssm#SourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the source resource. For IoT Greengrass devices, <code>SourceId</code> is\n   the Thing name.</p>"
+               }
+            },
+            "SourceLocation" : {
+               "target" : "com.amazonaws.ssm#SourceLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The location of the source resource in the third-party cloud environment.</p>"
+               }
+            },
+            "SourceType" : {
+               "target" : "com.amazonaws.ssm#SourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the source resource. For IoT Greengrass devices,\n   <code>SourceType</code> is <code>AWS::IoT::Thing</code>.</p>"
                }
             }
          },
@@ -15676,10 +16374,16 @@
                   "smithy.api#documentation" : "<p>The ID of the source resource. For IoT Greengrass devices, <code>SourceId</code> is\n   the Thing name. </p>"
                }
             },
+            "SourceLocation" : {
+               "target" : "com.amazonaws.ssm#SourceLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The location of the source resource in the third-party cloud environment.</p>"
+               }
+            },
             "SourceType" : {
                "target" : "com.amazonaws.ssm#SourceType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of the source resource. For IoT Greengrass devices, <code>SourceType</code>\n   is <code>AWS::IoT::Thing</code>. </p>"
+                  "smithy.api#documentation" : "<p>The type of the source resource. For IoT Greengrass devices, <code>SourceType</code>\n   is <code>AWS::IoT::Thing</code>. For Azure Virtual Machines, <code>SourceType</code> is\n    <code>Microsoft.Compute/virtualMachines</code>.</p>"
                }
             }
          },
@@ -15814,7 +16518,7 @@
             "Key" : {
                "target" : "com.amazonaws.ssm#InstanceInformationStringFilterKey",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The filter key name to describe your managed nodes.</p>\n         <p>Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole |\n   InstanceIds | PingStatus | PlatformType | ResourceType | SourceIds | SourceTypes | \"tag-key\" |\n    \"tag:<code>{keyname}</code>\n         </p>\n         <ul>\n            <li>\n               <p>Valid values for the <code>AssociationStatus</code> filter key: Success | Pending |\n     Failed</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>PingStatus</code> filter key: Online | ConnectionLost |\n     Inactive (deprecated)</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>PlatformType</code> filter key: Windows | Linux | MacOS</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>ResourceType</code> filter key: EC2Instance |\n     ManagedInstance</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>SourceType</code> filter key: AWS::EC2::Instance |\n     AWS::SSM::ManagedInstance | AWS::IoT::Thing</p>\n            </li>\n            <li>\n               <p>Valid tag examples: <code>Key=tag-key,Values=Purpose</code> |\n      <code>Key=tag:Purpose,Values=Test</code>.</p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The filter key name to describe your managed nodes.</p>\n         <p>Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole |\n   InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | \"tag-key\" |\n    \"tag:<code>{keyname}</code>\n         </p>\n         <ul>\n            <li>\n               <p>Valid values for the <code>AssociationStatus</code> filter key: Success | Pending |\n     Failed</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>PingStatus</code> filter key: Online | ConnectionLost |\n     Inactive (deprecated)</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>PlatformTypes</code> filter key: Windows | Linux | MacOS</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>ResourceType</code> filter key: EC2Instance |\n     ManagedInstance</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>SourceType</code> filter key: AWS::EC2::Instance |\n     AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines</p>\n            </li>\n            <li>\n               <p>Valid tag examples: <code>Key=tag-key,Values=Purpose</code> |\n      <code>Key=tag:Purpose,Values=Test</code>.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -16176,6 +16880,12 @@
                   "smithy.api#documentation" : "<p>The status of the State Manager association applied to the managed node.</p>"
                }
             },
+            "AvailabilityZone" : {
+               "target" : "com.amazonaws.ssm#AvailabilityZone",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Availability Zone where the managed node is located.</p>"
+               }
+            },
             "ComputerName" : {
                "target" : "com.amazonaws.ssm#ComputerName",
                "traits" : {
@@ -16296,10 +17006,16 @@
                   "smithy.api#documentation" : "<p>The ID of the source resource.</p>"
                }
             },
+            "SourceLocation" : {
+               "target" : "com.amazonaws.ssm#SourceLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The location of the source resource in the third-party cloud environment.</p>"
+               }
+            },
             "SourceType" : {
                "target" : "com.amazonaws.ssm#SourceType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of the source resource.</p>"
+                  "smithy.api#documentation" : "<p>The type of the source resource. Valid values: <code>AWS::EC2::Instance</code> |\n    <code>AWS::SSM::ManagedInstance</code> | <code>AWS::IoT::Thing</code> |\n    <code>Microsoft.Compute/virtualMachines</code>.</p>"
                }
             }
          },
@@ -18405,6 +19121,77 @@
                "target" : "com.amazonaws.ssm#NextToken",
                "traits" : {
                   "smithy.api#documentation" : "<p>The token to use when requesting the next set of items. If there are no additional items to\n   return, the string is empty.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#ListCloudConnectors" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.ssm#InternalServerError"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.ssm#ListCloudConnectorsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.ssm#ListCloudConnectorsResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of cloud connectors in the current Amazon Web Services account and Amazon Web Services Region.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "CloudConnectors",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.ssm#ListCloudConnectorsRequest" : {
+         "members" : {
+            "Filters" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>One or more filters to limit the cloud connectors returned in the response.</p>"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorMaxResults",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "<p>The maximum number of items to return for this call.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.ssm#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of items to return. (You received this token from a previous\n   call.)</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#ListCloudConnectorsResult" : {
+         "members" : {
+            "CloudConnectors" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of cloud connector summary objects.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.ssm#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to use when requesting the next set of items.</p>"
                }
             }
          },
@@ -20738,7 +21525,7 @@
             "TaskArn" : {
                "target" : "com.amazonaws.ssm#MaintenanceWindowTaskArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The resource that the task uses during execution. For <code>RUN_COMMAND</code> and\n    <code>AUTOMATION</code> task types, <code>TaskArn</code> is the Amazon Web Services Systems Manager (SSM document) name or\n   ARN. For <code>LAMBDA</code> tasks, it's the function name or ARN. For\n    <code>STEP_FUNCTIONS</code> tasks, it's the state machine ARN.</p>"
+                  "smithy.api#documentation" : "<p>The resource that the task uses during execution. For <code>RUN_COMMAND</code> and\n    <code>AUTOMATION</code> task types, <code>TaskArn</code> is the Amazon Web Services Systems Manager (SSM document) name or\n   ARN. For <code>LAMBDA</code> tasks, it's the function name or ARN. For\n    <code>STEP_FUNCTIONS</code> tasks, it's the state machine ARN.</p>\n         <note>\n            <p>Maintenance Window does not validate the TaskArn when you register a task.\n   A successful registration does not guarantee that the TaskArn is valid.</p>\n         </note>"
                }
             },
             "TaskParameters" : {
@@ -21346,6 +22133,12 @@
                   "smithy.api#enumValue" : "AgentVersion"
                }
             },
+            "AVAILABILITY_ZONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AvailabilityZone"
+               }
+            },
             "PLATFORM_NAME" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -21374,6 +22167,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ResourceType"
+               }
+            },
+            "SOURCE_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SourceType"
                }
             }
          },
@@ -21428,6 +22227,18 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "AgentVersion"
+               }
+            },
+            "AVAILABILITY_ZONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AvailabilityZone"
+               }
+            },
+            "AVAILABILITY_ZONE_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AvailabilityZoneId"
                }
             },
             "COMPUTER_NAME" : {
@@ -21500,6 +22311,24 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ResourceType"
+               }
+            },
+            "SOURCE_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SourceId"
+               }
+            },
+            "SOURCE_LOCATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SourceLocation"
+               }
+            },
+            "SOURCE_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SourceType"
                }
             }
          },
@@ -21585,6 +22414,16 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.ssm#NodeName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.ssm#NodeOrganizationalUnitId" : {
          "traits" : {
@@ -25587,7 +26426,7 @@
                "target" : "com.amazonaws.ssm#ApproveAfterDays",
                "traits" : {
                   "smithy.api#default" : null,
-                  "smithy.api#documentation" : "<p>The number of days after the release date of each patch matched by the rule that the patch\n   is marked as approved in the patch baseline. For example, a value of <code>7</code> means that\n   patches are approved seven days after they are released.</p>\n         <p>Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If the\n   day represented by <code>7</code> is <code>2025-11-16</code>, patches released between\n    <code>2025-11-16T00:00:00Z</code> and <code>2025-11-16T23:59:59Z</code> will be included in the\n   approval.</p>\n         <p>This parameter is marked as <code>Required: No</code>, but your request must include a value\n   for either <code>ApproveAfterDays</code> or <code>ApproveUntilDate</code>.</p>\n         <p>Not supported for Debian Server or Ubuntu Server.</p>\n         <important>\n            <p>Use caution when setting this value for Windows Server patch baselines. Because patch\n    updates that are replaced by later updates are removed, setting too broad a value for this\n    parameter can result in crucial patches not being installed. For more information, see the\n     <b>Windows Server</b> tab in the topic <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html\">How security\n     patches are selected</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>\n         </important>"
+                  "smithy.api#documentation" : "<p>The number of days after the release date of each patch matched by the rule that the patch\n   is marked as approved in the patch baseline. For example, a value of <code>7</code> means that\n   patches are approved seven days after they are released.</p>\n         <p>Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If a\n   patch is released at <code>2025-11-09T18:00:00Z</code> and <code>ApproveAfterDays</code> is set to\n    <code>7</code>, the patch will be approved after <code>2025-11-16T18:00:00Z</code>.</p>\n         <p>This parameter is marked as <code>Required: No</code>, but your request must include a value\n   for either <code>ApproveAfterDays</code> or <code>ApproveUntilDate</code>.</p>\n         <p>Not supported for Debian Server or Ubuntu Server.</p>\n         <important>\n            <p>Use caution when setting this value for Windows Server patch baselines. Because patch\n    updates that are replaced by later updates are removed, setting too broad a value for this\n    parameter can result in crucial patches not being installed. For more information, see the\n     <b>Windows Server</b> tab in the topic <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html\">How security\n     patches are selected</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>\n         </important>"
                }
             },
             "ApproveUntilDate" : {
@@ -26191,7 +27030,7 @@
             "target" : "com.amazonaws.ssm#PutParameterResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Create or update a parameter in Parameter Store.</p>"
+            "smithy.api#documentation" : "<p>Create or update a parameter in Parameter Store.</p>\n         <note>\n            <p>Parameter Store throughput defines the number of API transactions per second (TPS) that\n    Systems Manager can process. This applies to <code>GetParameter</code>,\n    <code>GetParameters</code>, and <code>PutParameter</code> API calls for your Amazon Web Services account and\n    Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable\n    for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently\n    or operate at smaller scale can use this default setting without additional cost.</p>\n            <p>For higher-volume workloads, you can enable higher throughput. This increases the maximum\n    number of supported transactions per second for your account and Region. Increased throughput\n    supports applications and workloads that need concurrent access to multiple parameters. If you\n    experience <code>ThrottlingException: Rate exceeded</code> errors, enable higher throughput. For\n    more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html\">Changing Parameter Store\n     throughput</a>.</p>\n         </note>"
          },
          "type" : "operation"
       },
@@ -27792,6 +28631,12 @@
                   "smithy.api#enumValue" : "Automation"
                }
             },
+            "CLOUD_CONNECTOR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CloudConnector"
+               }
+            },
             "DOCUMENT" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -29057,6 +29902,16 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.ssm#SourceLocation" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^.{1,128}$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.ssm#SourceType" : {
          "members" : {
             "AWS_EC2_INSTANCE" : {
@@ -29075,6 +29930,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "AWS::SSM::ManagedInstance"
+               }
+            },
+            "AZURE_INSTANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Microsoft.Compute/virtualMachines"
                }
             }
          },
@@ -29331,7 +30192,7 @@
                }
             },
             "Targets" : {
-               "target" : "com.amazonaws.ssm#Targets",
+               "target" : "com.amazonaws.ssm#AutomationTargets",
                "traits" : {
                   "smithy.api#documentation" : "<p>A key-value mapping to target resources. Required if you specify TargetParameterName.</p>\n         <p>If both this parameter and the <code>TargetLocation:Targets</code> parameter are supplied,\n    <code>TargetLocation:Targets</code> takes precedence.</p>"
                }
@@ -29819,6 +30680,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>Strategies used when step fails, we support Continue and Abort. Abort will fail the\n   automation when the step fails. Continue will ignore the failure of current step and allow\n   automation to run the next step. With conditional branching, we add step:stepName to support the\n   automation to go to another specific step.</p>"
                }
+            },
+            "WarningMessage" : {
+               "target" : "com.amazonaws.ssm#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message that describes a non-critical issue that occurred during the step execution. Present only if the step status includes a warning.</p>"
+               }
             }
          },
          "traits" : {
@@ -30196,7 +31063,7 @@
                "target" : "com.amazonaws.ssm#Boolean",
                "traits" : {
                   "smithy.api#default" : false,
-                  "smithy.api#documentation" : "<p>Indicates whether to include child organizational units (OUs) that are children of the\n   targeted OUs. The default is <code>false</code>.</p>\n         <note>\n            <p>This parameter is not supported by State Manager.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>Indicates whether to include child organizational units (OUs) that are children of the\n   targeted OUs. The default is <code>false</code>.</p>"
                }
             },
             "Regions" : {
@@ -30221,7 +31088,7 @@
                }
             },
             "Targets" : {
-               "target" : "com.amazonaws.ssm#Targets",
+               "target" : "com.amazonaws.ssm#AutomationTargets",
                "traits" : {
                   "smithy.api#documentation" : "<p>A list of key-value mappings to target resources. If you specify values for this data type,\n   you must also specify a value for <code>TargetParameterName</code>.</p>\n         <p>This <code>Targets</code> parameter takes precedence over the\n    <code>StartAutomationExecution:Targets</code> parameter if both are supplied.</p>"
                }
@@ -30936,7 +31803,7 @@
             "TargetLocations" : {
                "target" : "com.amazonaws.ssm#TargetLocations",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the\n   association. Use this action to update an association in multiple Regions and multiple\n   accounts.</p>\n         <note>\n            <p>The <code>IncludeChildOrganizationUnits</code> parameter is not supported by State\n    Manager.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the\n   association. Use this action to update an association in multiple Regions and multiple\n   accounts.</p>\n         <note>\n            <p>The <code>TargetLocationAlarmConfiguration</code> parameter is not supported by State\n    Manager.</p>\n         </note>"
                }
             },
             "TargetMaps" : {
@@ -31038,6 +31905,76 @@
                "target" : "com.amazonaws.ssm#AssociationDescription",
                "traits" : {
                   "smithy.api#documentation" : "<p>Information about the association.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#UpdateCloudConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.ssm#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.ssm#InternalServerError"
+            },
+            {
+               "target" : "com.amazonaws.ssm#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.ssm#UpdateCloudConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.ssm#UpdateCloudConnectorResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates an existing cloud connector with new configuration details.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.ssm#UpdateCloudConnectorRequest" : {
+         "members" : {
+            "CloudConnectorId" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cloud connector to update.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Configuration" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated configuration details for connecting to the third-party cloud\n   environment.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A new description for the cloud connector.</p>"
+               }
+            },
+            "DisplayName" : {
+               "target" : "com.amazonaws.ssm#DisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A new friendly name for the cloud connector.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#UpdateCloudConnectorResult" : {
+         "members" : {
+            "CloudConnectorId" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cloud connector that was updated.</p>"
                }
             }
          },
@@ -32434,6 +33371,91 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.ssm#ValidateCloudConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.ssm#InternalServerError"
+            },
+            {
+               "target" : "com.amazonaws.ssm#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.ssm#ValidateCloudConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.ssm#ValidateCloudConnectorResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Validates the configuration and connectivity of a cloud connector.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "ValidationFindings",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.ssm#ValidateCloudConnectorMaxResults" : {
+         "traits" : {
+            "smithy.api#default" : 0,
+            "smithy.api#range" : {
+               "max" : 75,
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.ssm#ValidateCloudConnectorRequest" : {
+         "members" : {
+            "CloudConnectorId" : {
+               "target" : "com.amazonaws.ssm#CloudConnectorId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cloud connector to validate.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.ssm#ValidateCloudConnectorMaxResults",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "<p>The maximum number of validation findings to return.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.ssm#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of items to return. (You received this token from a previous\n   call.)</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#ValidateCloudConnectorResult" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.ssm#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to use when requesting the next set of items.</p>"
+               }
+            },
+            "ValidationFindings" : {
+               "target" : "com.amazonaws.ssm#ValidationFindingList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of validation findings for the cloud connector.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.ssm#ValidationException" : {
          "members" : {
             "Message" : {
@@ -32455,6 +33477,169 @@
             "smithy.api#error" : "client"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.ssm#ValidationFinding" : {
+         "members" : {
+            "Code" : {
+               "target" : "com.amazonaws.ssm#ValidationFindingCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A code that identifies the specific validation finding.</p>"
+               }
+            },
+            "Message" : {
+               "target" : "com.amazonaws.ssm#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message that describes the validation finding.</p>"
+               }
+            },
+            "ProviderMessage" : {
+               "target" : "com.amazonaws.ssm#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message from the third-party cloud provider related to the validation finding.</p>"
+               }
+            },
+            "Scope" : {
+               "target" : "com.amazonaws.ssm#ValidationFindingScope",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scope of the validation finding, identifying the specific resource affected.</p>"
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.ssm#ValidationFindingType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the validation finding.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A validation finding from a cloud connector validation check.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#ValidationFindingCode" : {
+         "members" : {
+            "AWS_ROLE_ASSUMPTION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AwsRoleAssumptionFailed"
+               }
+            },
+            "OUTBOUND_WEB_IDENTITY_FEDERATION_DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OutboundWebIdentityFederationDisabled"
+               }
+            },
+            "PROVIDER_CREDENTIAL_CREATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ProviderCredentialCreationFailed"
+               }
+            },
+            "SUBSCRIPTION_ACCESSIBLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SubscriptionAccessible"
+               }
+            },
+            "TARGET_INACCESSIBLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TargetInaccessible"
+               }
+            },
+            "TARGET_STATE_WARNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TargetStateWarning"
+               }
+            },
+            "TARGET_UNUSABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TargetUnusable"
+               }
+            },
+            "TENANT_SUMMARY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TenantSummary"
+               }
+            },
+            "WEB_IDENTITY_TOKEN_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WebIdentityTokenFailed"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.ssm#ValidationFindingList" : {
+         "member" : {
+            "target" : "com.amazonaws.ssm#ValidationFinding"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.ssm#ValidationFindingScope" : {
+         "members" : {
+            "Id" : {
+               "target" : "com.amazonaws.ssm#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resource within the scope.</p>"
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.ssm#ValidationFindingScopeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource scope.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Identifies the specific resource scope of a validation finding.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssm#ValidationFindingScopeType" : {
+         "members" : {
+            "AZURE_SUBSCRIPTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "azure:subscription"
+               }
+            },
+            "AZURE_TENANT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "azure:tenant"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.ssm#ValidationFindingType" : {
+         "members" : {
+            "ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ERROR"
+               }
+            },
+            "INFO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INFO"
+               }
+            },
+            "WARN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WARN"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.ssm#Version" : {
          "traits" : {

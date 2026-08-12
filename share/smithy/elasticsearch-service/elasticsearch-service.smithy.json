@@ -3067,6 +3067,12 @@
                   "smithy.api#documentation" : "<p>Specifies the Encryption At Rest Options.</p>"
                }
             },
+            "EngineMode" : {
+               "target" : "com.amazonaws.elasticsearchservice#DomainEngineMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The engine mode for the domain. For valid values and requirements, see <code>DomainEngineMode</code>.</p>"
+               }
+            },
             "LogPublishingOptions" : {
                "target" : "com.amazonaws.elasticsearchservice#LogPublishingOptions",
                "traits" : {
@@ -3089,6 +3095,12 @@
                "target" : "com.amazonaws.elasticsearchservice#TagList",
                "traits" : {
                   "smithy.api#documentation" : "<p>A list of <code>Tag</code> added during domain creation.</p>"
+               }
+            },
+            "UseCase" : {
+               "target" : "com.amazonaws.elasticsearchservice#DomainUseCase",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary use case for the domain. For valid values, see <code>DomainUseCase</code>.</p>"
                }
             },
             "VPCOptions" : {
@@ -4997,6 +5009,26 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.elasticsearchservice#DomainEngineMode" : {
+         "members" : {
+            "GENERAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GENERAL"
+               }
+            },
+            "OPTIMIZED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OPTIMIZED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The engine mode for the domain. Valid values are <code>GENERAL</code> (the standard\n          Elasticsearch/OpenSearch engine) and <code>OPTIMIZED</code> (the cost- and\n          performance-optimized engine for observability and log-analytics workloads). If you don't\n          specify an engine mode, <code>GENERAL</code> is used. <code>OPTIMIZED</code> requires\n          OpenSearch 3.5 or later, OpenSearch Optimized instance types (OR1, OR2, OM2, or OI2) for the\n          data tier, and encryption at rest, and is available only for the <code>OBSERVABILITY</code>\n          and <code>MIXED</code> use cases. The engine mode can't be changed after the domain is\n          created.</p>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.elasticsearchservice#DomainId" : {
          "traits" : {
             "smithy.api#documentation" : "<p>Unique identifier for an Elasticsearch domain.</p>",
@@ -5224,6 +5256,38 @@
                   "smithy.api#enumValue" : "UpgradingEngineVersion"
                }
             }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.elasticsearchservice#DomainUseCase" : {
+         "members" : {
+            "MIXED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MIXED"
+               }
+            },
+            "OBSERVABILITY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OBSERVABILITY"
+               }
+            },
+            "SEARCH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SEARCH"
+               }
+            },
+            "VECTOR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VECTOR"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The primary use case for the domain, which determines the default configuration and the\n          engine modes that are available. Valid values are <code>SEARCH</code> (full-text search,\n          e-commerce, content discovery, and hybrid and semantic search), <code>VECTOR</code> (k-NN\n          and semantic search, and retrieval-augmented generation), <code>OBSERVABILITY</code> (logs,\n          metrics, traces, and dashboards), and <code>MIXED</code> (a combination of search and\n          analytics). If you don't specify a use case, <code>MIXED</code> is used.</p>"
          },
          "type" : "enum"
       },
@@ -5886,6 +5950,12 @@
                   "smithy.api#documentation" : "<p>Specifies the <code>EncryptionAtRestOptions</code> for the Elasticsearch domain.</p>"
                }
             },
+            "EngineMode" : {
+               "target" : "com.amazonaws.elasticsearchservice#EngineModeStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The engine mode configured for the domain.</p>"
+               }
+            },
             "LogPublishingOptions" : {
                "target" : "com.amazonaws.elasticsearchservice#LogPublishingOptionsStatus",
                "traits" : {
@@ -5908,6 +5978,12 @@
                "target" : "com.amazonaws.elasticsearchservice#SnapshotOptionsStatus",
                "traits" : {
                   "smithy.api#documentation" : "<p>Specifies the <code>SnapshotOptions</code> for the Elasticsearch domain.</p>"
+               }
+            },
+            "UseCase" : {
+               "target" : "com.amazonaws.elasticsearchservice#UseCaseStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The use case configured for the domain.</p>"
                }
             },
             "VPCOptions" : {
@@ -6051,6 +6127,12 @@
                   "smithy.api#documentation" : "<p>Map containing the Elasticsearch domain endpoints used to submit index and search requests. Example <code>key, value</code>: <code>'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'</code>.</p>"
                }
             },
+            "EngineMode" : {
+               "target" : "com.amazonaws.elasticsearchservice#DomainEngineMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The engine mode for the domain.</p>"
+               }
+            },
             "LogPublishingOptions" : {
                "target" : "com.amazonaws.elasticsearchservice#LogPublishingOptions",
                "traits" : {
@@ -6091,6 +6173,12 @@
                "target" : "com.amazonaws.elasticsearchservice#Boolean",
                "traits" : {
                   "smithy.api#documentation" : "<p>The status of an Elasticsearch domain version upgrade. <code>True</code> if Amazon Elasticsearch Service is undergoing a version upgrade. <code>False</code> if the configuration is active.</p>"
+               }
+            },
+            "UseCase" : {
+               "target" : "com.amazonaws.elasticsearchservice#DomainUseCase",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary use case for the domain.</p>"
                }
             },
             "VPCOptions" : {
@@ -6216,6 +6304,28 @@
          "value" : {
             "target" : "com.amazonaws.elasticsearchservice#ServiceUrl"
          }
+      },
+      "com.amazonaws.elasticsearchservice#EngineModeStatus" : {
+         "members" : {
+            "Options" : {
+               "target" : "com.amazonaws.elasticsearchservice#DomainEngineMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The engine mode configured for the domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.elasticsearchservice#OptionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the engine mode for the domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The status of the engine mode for the domain.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.elasticsearchservice#EngineType" : {
          "members" : {
@@ -9602,6 +9712,12 @@
                   "smithy.api#documentation" : "<p>Specifies the Encryption At Rest Options.</p>"
                }
             },
+            "EngineMode" : {
+               "target" : "com.amazonaws.elasticsearchservice#DomainEngineMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The engine mode for the domain. For valid values and requirements, see <code>DomainEngineMode</code>.</p>"
+               }
+            },
             "LogPublishingOptions" : {
                "target" : "com.amazonaws.elasticsearchservice#LogPublishingOptions",
                "traits" : {
@@ -9618,6 +9734,12 @@
                "target" : "com.amazonaws.elasticsearchservice#SnapshotOptions",
                "traits" : {
                   "smithy.api#documentation" : "<p>Option to set the time, in UTC format, for the daily automated snapshot. Default value is <code>0</code> hours. </p>"
+               }
+            },
+            "UseCase" : {
+               "target" : "com.amazonaws.elasticsearchservice#DomainUseCase",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary use case for the domain. For valid values, see <code>DomainUseCase</code>.</p>"
                }
             },
             "VPCOptions" : {
@@ -10042,6 +10164,28 @@
             "target" : "com.amazonaws.elasticsearchservice#UpgradeStepItem"
          },
          "type" : "list"
+      },
+      "com.amazonaws.elasticsearchservice#UseCaseStatus" : {
+         "members" : {
+            "Options" : {
+               "target" : "com.amazonaws.elasticsearchservice#DomainUseCase",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The use case configured for the domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.elasticsearchservice#OptionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the use case for the domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The status of the use case for the domain.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.elasticsearchservice#UserPoolId" : {
          "traits" : {

@@ -675,6 +675,7 @@
                "requiredActions" : [
                   "iam:PassRole",
                   "logs:PutPipelineRule",
+                  "cloudwatch:PutPipelineRule",
                   "observabilityadmin:TagResource",
                   "observabilityadmin:ListTagsForResource",
                   "observabilityadmin:GetTelemetryPipeline"
@@ -1052,6 +1053,7 @@
             "aws.iam#iamAction" : {
                "requiredActions" : [
                   "logs:DeletePipelineRule",
+                  "cloudwatch:DeletePipelineRule",
                   "observabilityadmin:GetTelemetryPipeline"
                ]
             },
@@ -1305,6 +1307,28 @@
                   "smithy.api#enumValue" : "SKIP"
                }
             }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.observabilityadmin#EncryptionScope" : {
+         "members" : {
+            "ENCRYPTED_SOURCE_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Only destination log groups whose source log group is encrypted with a customer managed KMS key use the configured <code>KmsKeyArn</code>. This is the default behavior.</p>",
+                  "smithy.api#enumValue" : "ENCRYPTED_SOURCE_ONLY"
+               }
+            },
+            "NEW_DESTINATION_LOG_GROUPS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Every new destination log group created by this rule uses the configured <code>KmsKeyArn</code>, regardless of whether the source log group is encrypted with a customer managed key or Amazon Web Services owned encryption.</p>",
+                  "smithy.api#enumValue" : "NEW_DESTINATION_LOG_GROUPS"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Determines which newly created destination log groups are encrypted with the configured KMS key.</p>"
          },
          "type" : "enum"
       },
@@ -2223,6 +2247,16 @@
       "com.amazonaws.observabilityadmin#IsReplicated" : {
          "type" : "boolean"
       },
+      "com.amazonaws.observabilityadmin#KmsKeyArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:\\d{12}:key/(mrk-)?[a-f0-9-]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.observabilityadmin#LabelNameCondition" : {
          "members" : {
             "LabelName" : {
@@ -3019,12 +3053,12 @@
             "LogTypes" : {
                "target" : "com.amazonaws.observabilityadmin#LogTypes",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of log that the source is sending.</p>"
+                  "smithy.api#documentation" : "<p>The types of logs to collect from the resource.</p>"
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Configuration parameters for Amazon Bedrock AgentCore logging, including <code>logType</code> settings.</p>"
+            "smithy.api#documentation" : "<p>The configuration parameters for log delivery, including <code>logType</code> settings. Applies to resource types that support configurable log delivery, such as Amazon Bedrock Knowledge Bases and Elastic Load Balancing Application Load Balancers.</p>"
          },
          "type" : "structure"
       },
@@ -3062,6 +3096,24 @@
                   "smithy.api#enumValue" : "ACCESS_LOGS"
                }
             },
+            "ALB_ACCESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALB_ACCESS_LOGS"
+               }
+            },
+            "ALB_CONNECTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALB_CONNECTION_LOGS"
+               }
+            },
+            "ALB_HEALTH_CHECK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALB_HEALTH_CHECK_LOGS"
+               }
+            },
             "APPLICATION" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -3072,6 +3124,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "CONNECTION_LOGS"
+               }
+            },
+            "S3_SERVER_ACCESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "S3_SERVER_ACCESS_LOGS"
                }
             },
             "SECURITY_FINDING" : {
@@ -3086,6 +3144,9 @@
                   "smithy.api#enumValue" : "USAGE_LOGS"
                }
             }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The following log types are supported for log delivery configuration:</p> <ul> <li> <p>APPLICATION_LOGS – Application-level logs.</p> </li> <li> <p>USAGE_LOGS – Resource usage logs.</p> </li> <li> <p>SECURITY_FINDING_LOGS – Security finding logs.</p> </li> <li> <p>ACCESS_LOGS – Access logs (such as Elastic Load Balancing access logs).</p> </li> <li> <p>CONNECTION_LOGS – Connection logs.</p> </li> <li> <p>S3_SERVER_ACCESS_LOGS – Amazon S3 server access logs.</p> </li> </ul>"
          },
          "type" : "enum"
       },
@@ -3144,6 +3205,12 @@
                   "smithy.api#documentation" : "<p>Conflict resolution strategy for centralization if the encryption strategy is set to CUSTOMER_MANAGED and the destination log group is encrypted with an AWS_OWNED KMS Key. ALLOW lets centralization go through while SKIP prevents centralization into the destination log group.</p>"
                }
             },
+            "EncryptionScope" : {
+               "target" : "com.amazonaws.observabilityadmin#EncryptionScope",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Determines which newly created destination log groups are encrypted with the configured <code>KmsKeyArn</code> when <code>EncryptionStrategy</code> is <code>CUSTOMER_MANAGED</code>.</p> <p>If you set this to <code>ENCRYPTED_SOURCE_ONLY</code> (the default), only destination log groups whose source log group is encrypted with a customer managed KMS key use the configured <code>KmsKeyArn</code>. Destination log groups derived from Amazon Web Services owned encrypted source log groups remain Amazon Web Services owned encrypted.</p> <p>If you set this to <code>NEW_DESTINATION_LOG_GROUPS</code>, every new destination log group created by this rule uses the configured <code>KmsKeyArn</code>, regardless of the source log group's encryption posture.</p> <p>This field is not valid when <code>EncryptionStrategy</code> is <code>AWS_OWNED</code>.</p>"
+               }
+            },
             "EncryptionStrategy" : {
                "target" : "com.amazonaws.observabilityadmin#EncryptionStrategy",
                "traits" : {
@@ -3159,7 +3226,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Configuration for encrypting centralized log groups. This configuration is only applied to destination log groups for which the corresponding source log groups are encrypted using Customer Managed KMS Keys.</p>"
+            "smithy.api#documentation" : "<p>Configuration for encrypting centralized destination log groups. By default, this configuration applies only to destination log groups whose corresponding source log groups are encrypted using customer managed KMS keys. To encrypt all destination log groups created by the rule, set <code>EncryptionScope</code> to <code>NEW_DESTINATION_LOG_GROUPS</code>.</p>"
          },
          "type" : "structure"
       },
@@ -4465,6 +4532,12 @@
                   "smithy.api#enumValue" : "AWS::BedrockAgentCore::WorkloadIdentity"
                }
             },
+            "AWS_BEDROCK_KNOWLEDGEBASE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS::Bedrock::KnowledgeBase"
+               }
+            },
             "AWS_CLOUDFRONT_DISTRIBUTION" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -4523,6 +4596,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "AWS::Route53Resolver::ResolverEndpoint"
+               }
+            },
+            "AWS_S3_BUCKET" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS::S3::Bucket"
                }
             },
             "AWS_SECURITY_HUB" : {
@@ -4670,6 +4749,25 @@
             "smithy.api#httpError" : 402
          },
          "type" : "structure"
+      },
+      "com.amazonaws.observabilityadmin#SignalType" : {
+         "members" : {
+            "LOG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Log signal type. The pipeline processes log records.</p>",
+                  "smithy.api#enumValue" : "LOG"
+               }
+            },
+            "METRIC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Metric signal type. The pipeline processes metric records.</p>",
+                  "smithy.api#enumValue" : "METRIC"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.observabilityadmin#SingleHeader" : {
          "members" : {
@@ -5280,10 +5378,16 @@
                   "smithy.api#documentation" : "<p> Configuration parameters specific to ELB load balancer logging when ELB is the resource type. </p>"
                }
             },
+            "KmsKeyArn" : {
+               "target" : "com.amazonaws.observabilityadmin#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The Amazon Resource Name (ARN) of the customer-managed Amazon Web Services KMS key used to encrypt the log groups created during telemetry rule remediation. </p>"
+               }
+            },
             "LogDeliveryParameters" : {
                "target" : "com.amazonaws.observabilityadmin#LogDeliveryParameters",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Configuration parameters specific to Amazon Bedrock AgentCore logging when Amazon Bedrock AgentCore is the resource type.</p>"
+                  "smithy.api#documentation" : "<p>The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases or Elastic Load Balancing Application Load Balancers.</p>"
                }
             },
             "MskMonitoringParameters" : {
@@ -5624,7 +5728,7 @@
             "ResourceType" : {
                "target" : "com.amazonaws.observabilityadmin#ResourceType",
                "traits" : {
-                  "smithy.api#documentation" : "<p> The type of Amazon Web Services resource to configure telemetry for (e.g., \"AWS::EC2::VPC\", \"AWS::EKS::Cluster\", \"AWS::WAFv2::WebACL\"). </p>"
+                  "smithy.api#documentation" : "<p> The type of Amazon Web Services resource to configure telemetry for (for example, <code>AWS::EC2::VPC</code>, <code>AWS::EKS::Cluster</code>, <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>, or <code>AWS::Bedrock::KnowledgeBase</code>). </p>"
                }
             },
             "Scope" : {
@@ -5864,6 +5968,13 @@
                   "smithy.api#documentation" : "<p>The sample records to process through the pipeline configuration for testing purposes.</p>",
                   "smithy.api#required" : {}
                }
+            },
+            "SignalType" : {
+               "target" : "com.amazonaws.observabilityadmin#SignalType",
+               "traits" : {
+                  "smithy.api#default" : "LOG",
+                  "smithy.api#documentation" : "<p>The type of telemetry signal to test. If not specified, defaults to log processing.</p>"
+               }
             }
          },
          "traits" : {
@@ -6055,6 +6166,7 @@
                   "iam:PassRole",
                   "logs:DeletePipelineRule",
                   "logs:PutPipelineRule",
+                  "cloudwatch:PutPipelineRule",
                   "observabilityadmin:GetTelemetryPipeline",
                   "observabilityadmin:ListTagsForResource",
                   "observabilityadmin:TagResource",

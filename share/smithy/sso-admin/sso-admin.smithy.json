@@ -2945,6 +2945,12 @@
                   "smithy.api#documentation" : "<p>The identifier of the Amazon Web Services account for which the instance was created.</p>"
                }
             },
+            "PermissionSetsEnabled" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether permission sets are enabled for this Identity Center instance.</p>"
+               }
+            },
             "Status" : {
                "target" : "com.amazonaws.ssoadmin#InstanceStatus",
                "traits" : {
@@ -4180,6 +4186,18 @@
                "target" : "com.amazonaws.ssoadmin#AccountId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Web Services account ID number of the owner of the Identity Center instance.</p>"
+               }
+            },
+            "PrimaryRegion" : {
+               "target" : "com.amazonaws.ssoadmin#RegionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary Region where the IAM Identity Center instance was originally enabled. The primary Region cannot be removed.</p>"
+               }
+            },
+            "Regions" : {
+               "target" : "com.amazonaws.ssoadmin#RegionMetadataList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Regions enabled in the IAM Identity Center instance, including Regions with ACTIVE, ADDING, or REMOVING status.</p>"
                }
             },
             "Status" : {
@@ -9374,7 +9392,7 @@
             "target" : "com.amazonaws.ssoadmin#UpdateInstanceResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.</p>"
+            "smithy.api#documentation" : "<p>Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.</p> <p>In a single <code>UpdateInstance</code> request, you can perform only one of the following operations:</p> <ul> <li> <p>Update the encryption configuration of the instance by specifying <code>EncryptionConfiguration</code>.</p> </li> <li> <p>Enable permission sets for the instance by specifying <code>PermissionSetsEnabled</code>.</p> </li> </ul> <p>A request that specifies both <code>EncryptionConfiguration</code> and <code>PermissionSetsEnabled</code> returns a <code>ValidationException</code>. To perform both operations, call <code>UpdateInstance</code> separately for each. The two calls can be made in parallel.</p>"
          },
          "type" : "operation"
       },
@@ -9458,6 +9476,12 @@
                "target" : "com.amazonaws.ssoadmin#NameType",
                "traits" : {
                   "smithy.api#documentation" : "<p>Updates the instance name.</p>"
+               }
+            },
+            "PermissionSetsEnabled" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables permission sets for this Identity Center instance. The only accepted value is <code>true </code>. After permission sets are enabled, they cannot be disabled.</p> <note> <p>You can't set <code>EncryptionConfiguration</code> and <code>PermissionSetsEnabled</code> in the same request. To configure both, make two separate <code>UpdateInstance</code> calls. These calls can be made in parallel.</p> </note>"
                }
             }
          },

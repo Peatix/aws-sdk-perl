@@ -1,0 +1,43 @@
+{
+  "smithy": "2.0",
+  "shapes": {
+    "com.example.cbor#CborOnlyThing": {
+      "type": "service",
+      "version": "2024-01-01",
+      "operations": [
+        {"target": "com.example.cbor#GetThing"}
+      ],
+      "traits": {
+        "aws.api#service": {
+          "sdkId": "Cbor Only Thing",
+          "endpointPrefix": "cbor-only-thing"
+        },
+        "smithy.protocols#rpcv2Cbor": {}
+      }
+    },
+    "com.example.cbor#GetThing": {
+      "type": "operation",
+      "input":  {"target": "com.example.cbor#GetThingRequest"},
+      "output": {"target": "com.example.cbor#GetThingResponse"},
+      "traits": {
+        "smithy.api#http": {"method": "GET", "uri": "/things/{ThingId}"}
+      }
+    },
+    "com.example.cbor#ThingId": {"type": "string"},
+    "com.example.cbor#GetThingRequest": {
+      "type": "structure",
+      "members": {
+        "ThingId": {
+          "target": "com.example.cbor#ThingId",
+          "traits": {"smithy.api#required": {}, "smithy.api#httpLabel": {}}
+        }
+      }
+    },
+    "com.example.cbor#GetThingResponse": {
+      "type": "structure",
+      "members": {
+        "ThingId": {"target": "com.example.cbor#ThingId"}
+      }
+    }
+  }
+}

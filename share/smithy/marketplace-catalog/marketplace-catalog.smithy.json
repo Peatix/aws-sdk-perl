@@ -3822,6 +3822,49 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.marketplacecatalog#OfferCreatedBySourceFilter" : {
+         "members" : {
+            "ValueList" : {
+               "target" : "com.amazonaws.marketplacecatalog#OfferCreatedBySourceFilterValueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Allows filtering on the <code>CreatedBySource</code> of an offer with list input.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Allows filtering on the <code>CreatedBySource</code> of an offer.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#OfferCreatedBySourceFilterValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacecatalog#OfferCreatedBySourceString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacecatalog#OfferCreatedBySourceString" : {
+         "members" : {
+            "AwsMarketplace" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AwsMarketplace"
+               }
+            },
+            "Seller" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Seller"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.marketplacecatalog#OfferEntityIdFilter" : {
          "members" : {
             "ValueList" : {
@@ -3872,6 +3915,12 @@
                   "smithy.api#documentation" : "<p>Allows filtering on the <code>BuyerAccounts</code> of an offer.</p>"
                }
             },
+            "CreatedBySource" : {
+               "target" : "com.amazonaws.marketplacecatalog#OfferCreatedBySourceFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Allows filtering on the <code>CreatedBySource</code> of an offer.</p>"
+               }
+            },
             "EntityId" : {
                "target" : "com.amazonaws.marketplacecatalog#OfferEntityIdFilter",
                "traits" : {
@@ -3918,6 +3967,18 @@
                "target" : "com.amazonaws.marketplacecatalog#OfferStateFilter",
                "traits" : {
                   "smithy.api#documentation" : "<p>Allows filtering on the <code>State</code> of an offer.</p>"
+               }
+            },
+            "TargetAgreementId" : {
+               "target" : "com.amazonaws.marketplacecatalog#OfferTargetAgreementIdFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Allows filtering on the <code>TargetAgreementId</code> of an offer.</p>"
+               }
+            },
+            "TargetAgreementIntent" : {
+               "target" : "com.amazonaws.marketplacecatalog#OfferTargetAgreementIntentFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Allows filtering on the <code>TargetAgreementIntent</code> of an offer.</p>"
                }
             },
             "Targeting" : {
@@ -4600,6 +4661,12 @@
                   "smithy.api#enumValue" : "BuyerAccounts"
                }
             },
+            "CreatedBySource" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CreatedBySource"
+               }
+            },
             "EntityId" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -4646,6 +4713,18 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "State"
+               }
+            },
+            "TargetAgreementId" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TargetAgreementId"
+               }
+            },
+            "TargetAgreementIntent" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TargetAgreementIntent"
                }
             },
             "Targeting" : {
@@ -4714,6 +4793,12 @@
                   "smithy.api#documentation" : "<p>The buyer accounts in the offer.</p>"
                }
             },
+            "CreatedBySource" : {
+               "target" : "com.amazonaws.marketplacecatalog#OfferCreatedBySourceString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The creation source of the offer.</p>"
+               }
+            },
             "Name" : {
                "target" : "com.amazonaws.marketplacecatalog#OfferNameString",
                "traits" : {
@@ -4750,6 +4835,18 @@
                   "smithy.api#documentation" : "<p>The status of the offer.</p>"
                }
             },
+            "TargetAgreementId" : {
+               "target" : "com.amazonaws.marketplacecatalog#OfferTargetAgreementIdString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The target agreement ID of the offer.</p>"
+               }
+            },
+            "TargetAgreementIntent" : {
+               "target" : "com.amazonaws.marketplacecatalog#OfferTargetAgreementIntentString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The target agreement intent of the offer.</p>"
+               }
+            },
             "Targeting" : {
                "target" : "com.amazonaws.marketplacecatalog#OfferTargetingList",
                "traits" : {
@@ -4761,6 +4858,79 @@
             "smithy.api#documentation" : "<p>Summarized information about an offer.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#OfferTargetAgreementIdFilter" : {
+         "members" : {
+            "ValueList" : {
+               "target" : "com.amazonaws.marketplacecatalog#OfferTargetAgreementIdFilterValueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Allows filtering on the <code>TargetAgreementId</code> of an offer with list input.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Allows filtering on the <code>TargetAgreementId</code> of an offer.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#OfferTargetAgreementIdFilterValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacecatalog#OfferTargetAgreementIdString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacecatalog#OfferTargetAgreementIdString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(.)+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacecatalog#OfferTargetAgreementIntentFilter" : {
+         "members" : {
+            "ValueList" : {
+               "target" : "com.amazonaws.marketplacecatalog#OfferTargetAgreementIntentFilterValueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Allows filtering on the <code>TargetAgreementIntent</code> of an offer with list input.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Allows filtering on the <code>TargetAgreementIntent</code> of an offer.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#OfferTargetAgreementIntentFilterValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacecatalog#OfferTargetAgreementIntentString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacecatalog#OfferTargetAgreementIntentString" : {
+         "members" : {
+            "Renew" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Renew"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.marketplacecatalog#OfferTargetingFilter" : {
          "members" : {
@@ -5133,6 +5303,12 @@
                "target" : "com.amazonaws.marketplacecatalog#ResaleAuthorizationResellerLegalNameFilter",
                "traits" : {
                   "smithy.api#documentation" : "<p>Allows filtering on the <code>ResellerLegalName</code> of a ResaleAuthorization.</p>"
+               }
+            },
+            "ResellerRole" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResaleAuthorizationResellerRoleFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Allows filtering on the <code>ResellerRole</code> of a ResaleAuthorization.</p>"
                }
             },
             "Status" : {
@@ -5581,6 +5757,49 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.marketplacecatalog#ResaleAuthorizationResellerRoleFilter" : {
+         "members" : {
+            "ValueList" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResaleAuthorizationResellerRoleFilterValueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Allows filtering on the <code>ResellerRole</code> of a ResaleAuthorization with list input.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Allows filtering on the <code>ResellerRole</code> of a ResaleAuthorization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#ResaleAuthorizationResellerRoleFilterValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacecatalog#ResaleAuthorizationResellerRoleString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacecatalog#ResaleAuthorizationResellerRoleString" : {
+         "members" : {
+            "ChannelPartner" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ChannelPartner"
+               }
+            },
+            "Distributor" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Distributor"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.marketplacecatalog#ResaleAuthorizationSort" : {
          "members" : {
             "SortBy" : {
@@ -5793,6 +6012,12 @@
                "target" : "com.amazonaws.marketplacecatalog#ResaleAuthorizationResellerLegalNameString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The reseller legal name of the ResaleAuthorization</p>"
+               }
+            },
+            "ResellerRole" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResaleAuthorizationResellerRoleString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reseller role of the ResaleAuthorization.</p>"
                }
             },
             "Status" : {
