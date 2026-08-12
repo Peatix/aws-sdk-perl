@@ -150,7 +150,7 @@ string. `V` is the body bytes scalar.
 | `$bucket->get_acl(K)` / `set_acl(K, ...)` | `$s3->GetObjectAcl(Bucket => B, Key => K)` / `$s3->PutObjectAcl(Bucket, Key, ACL => 'private', ...)` | Same for bucket ACLs: `GetBucketAcl` / `PutBucketAcl`. |
 | `$bucket->get_location_constraint` | `$s3->GetBucketLocation(Bucket => B)` | |
 | `Net::Amazon::S3::Client::Object`'s multipart family (`initiate_multipart_upload` / `put_part` / `complete_multipart_upload` / `abort_multipart_upload`) | `$s3->CreateMultipartUpload` → `$s3->UploadPart` → `$s3->CompleteMultipartUpload` / `$s3->AbortMultipartUpload` | See `t/s3/multipartupload.t` for a worked example. |
-| `$bucket->query_string_authentication_uri(...)` | `$s3->presign($op, \%args, expires_in => N)` | Generic: works for any V4-signed operation. See `t/s3/presign.t`. |
+| `$bucket->query_string_authentication_uri(...)` | `$s3->presign($op, \%args, expires_in => N)` or `Paws::S3::Presigner->presign_get(...)` | Generic: works for any V4-signed operation. Standalone presigner also available. See `t/s3/presign.t` and `t/s3/presigner.t`. |
 
 ## 5. Worked examples
 
@@ -269,18 +269,41 @@ my $url = $bucket->query_string_authentication_uri({
     expires => time + 3600,
 });
 
-# Paws::S3
+# Paws::S3 — via the service client (requires materialised Paws::S3)
 my $url = $s3->presign('GetObject',
     { Bucket => $bucket_name, Key => $key },
     expires_in => 3600,
 );
+
+# Paws::S3 — standalone presigner (no materialised service needed)
+use Paws::S3::Presigner;
+
+my $url = Paws::S3::Presigner->presign_get(
+    credentials => $paws->config->credentials,
+    region      => 'eu-west-1',
+    bucket      => $bucket_name,
+    key         => $key,
+    expires_in  => 3600,
+);
 ```
 
-`presign` works for any V4-signed S3 operation
-(`GetObject` / `PutObject` / `HeadObject` / etc.). It does not
-hit the network. The returned URL is shareable; an HTTP GET (or
-PUT for a `PutObject` presign) within the expiry window
-authenticates against AWS without an `Authorization` header.
+Two approaches are available:
+
+1. **`$s3->presign($op, \%args, ...)`** — instance method on
+   the materialised S3 client. Works for any V4-signed operation.
+   Requires `Paws-S3` installed.
+
+2. **`Paws::S3::Presigner->presign_get(...)`** (and
+   `presign_put`, `presign_delete`, `presign_head`) — standalone
+   class-method API. Only depends on `Paws-Core`. Follows the
+   same pattern as `Paws::RDS::AuthToken`. Uses virtual-hosted-style
+   URLs by default. Supports custom endpoints for S3-compatible
+   services (MinIO, R2, etc.) via the `endpoint` parameter.
+
+Both produce the same SigV4 query-string-signed URL. Neither
+hits the network. The returned URL is shareable; an HTTP request
+within the expiry window authenticates against AWS without an
+`Authorization` header.
 
 ### Multipart upload (large file)
 
@@ -351,6 +374,8 @@ $s3->CompleteMultipartUpload(
 * `lib/Paws/Net/RestXMLResponse.pm` — REST-XML response decoding.
 * `lib/Paws/API/Caller.pm` — `presign`, `new_with_coercions`,
   `to_hash`, `response_to_object`.
+* `lib/Paws/S3/Presigner.pm` — standalone S3 pre-signed URL generator
+  (class-method API, no materialised service client required).
 * `lib/Paws/Net/S3Signature.pm` — legacy S3-specific signer
   (deprecated; the materialiser composes V4Signature directly).
 * `lib/Paws/Net/S3APIRequest.pm` — S3-specific request object
