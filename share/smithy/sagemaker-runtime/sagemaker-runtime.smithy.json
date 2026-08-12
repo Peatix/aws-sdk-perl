@@ -1658,6 +1658,13 @@
                   "smithy.api#httpHeader" : "X-Amzn-SageMaker-Inference-Id"
                }
             },
+            "PrefixAwareId" : {
+               "target" : "com.amazonaws.sagemakerruntime#PrefixAwareIdHeader",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional, stable identifier that serves as a routing hint for prefix-aware routing.\n        The service routes requests with the same prefix and the same identifier to the same\n        instance. If requests from different applications might have the same prompt prefix, set\n        a different identifier for each application to differentiate their routing\n        decisions.</p>\n         <p>Applies only to endpoints configured with a\n        <code>RoutingStrategy</code> of <code>PREFIX_AWARE</code>.</p>",
+                  "smithy.api#httpHeader" : "X-Amzn-SageMaker-Prefix-Aware-Id"
+               }
+            },
             "SessionId" : {
                "target" : "com.amazonaws.sagemakerruntime#SessionIdOrNewSessionConstantHeader",
                "traits" : {
@@ -1835,6 +1842,13 @@
                   "smithy.api#httpHeader" : "X-Amzn-SageMaker-Inference-Id"
                }
             },
+            "PrefixAwareId" : {
+               "target" : "com.amazonaws.sagemakerruntime#PrefixAwareIdHeader",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional, stable identifier that serves as a routing hint for prefix-aware routing.\n        The service routes requests with the same prefix and the same identifier to the same\n        instance. If requests from different applications might have the same prompt prefix, set\n        a different identifier for each application to differentiate their routing\n        decisions.</p>\n         <p>Applies only to endpoints configured with a\n        <code>RoutingStrategy</code> of <code>PREFIX_AWARE</code>.</p>",
+                  "smithy.api#httpHeader" : "X-Amzn-SageMaker-Prefix-Aware-Id"
+               }
+            },
             "SessionId" : {
                "target" : "com.amazonaws.sagemakerruntime#SessionIdHeader",
                "traits" : {
@@ -2006,6 +2020,16 @@
             "smithy.api#documentation" : "<p>A wrapper for pieces of the payload that's returned in response to a streaming\n        inference request. A streaming inference response consists of one or more payload parts.\n    </p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.sagemakerruntime#PrefixAwareIdHeader" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^\\A\\S[\\p{Print}]*\\z$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.sagemakerruntime#RequestTTLSecondsHeader" : {
          "traits" : {

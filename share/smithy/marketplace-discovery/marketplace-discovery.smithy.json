@@ -2081,7 +2081,8 @@
             "smithy.api#paginated" : {
                "inputToken" : "nextToken",
                "items" : "offerTerms",
-               "outputToken" : "nextToken"
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
             },
             "smithy.api#readonly" : {},
             "smithy.test#smokeTests" : [
@@ -3046,6 +3047,35 @@
          },
          "type" : "integer"
       },
+      "com.amazonaws.marketplacediscovery#NetPaymentTerm" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.marketplacediscovery#TermId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the term.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "paymentDuePeriod" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The duration after invoice date by which payment is due.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.marketplacediscovery#TermType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The category of the term.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines a net payment term that sets how many days after the invoice date the payment is due.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.marketplacediscovery#NextToken" : {
          "traits" : {
             "smithy.api#length" : {
@@ -3233,6 +3263,12 @@
             },
             "legalTerm" : {
                "target" : "com.amazonaws.marketplacediscovery#LegalTerm"
+            },
+            "netPaymentTerm" : {
+               "target" : "com.amazonaws.marketplacediscovery#NetPaymentTerm",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A net payment term.</p>"
+               }
             },
             "paymentScheduleTerm" : {
                "target" : "com.amazonaws.marketplacediscovery#PaymentScheduleTerm"
@@ -5059,6 +5095,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "LegalTerm"
+               }
+            },
+            "NET_PAYMENT_TERM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NetPaymentTerm"
                }
             },
             "PAYMENT_SCHEDULE_TERM" : {

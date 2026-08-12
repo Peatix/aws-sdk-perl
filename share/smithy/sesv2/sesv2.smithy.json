@@ -2089,7 +2089,7 @@
             "target" : "com.amazonaws.sesv2#CreateMultiRegionEndpointResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a multi-region endpoint (global-endpoint).</p>\n         <p>The primary region is going to be the AWS-Region where the operation is executed.\n            The secondary region has to be provided in request's parameters.\n            From the data flow standpoint there is no difference between primary\n            and secondary regions - sending traffic will be split equally between the two.\n            The primary region is the region where the resource has been created and where it can be managed.\n        </p>",
+            "smithy.api#documentation" : "<p>Creates a multi-region endpoint (global-endpoint).</p>\n         <p>The primary region is going to be the AWS-Region where the operation is executed.\n            The secondary region has to be provided in request's parameters.\n            From the data flow standpoint there is no difference between primary\n            and secondary regions - sending traffic is divided between the two.\n            The primary region is the region where the resource has been created and where it can be managed.\n        </p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -3557,7 +3557,7 @@
             "SigningAttributesOrigin" : {
                "target" : "com.amazonaws.sesv2#DkimSigningAttributesOrigin",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A string that indicates how DKIM was configured for the identity. These are the\n            possible values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AWS_SES</code> – Indicates that DKIM was configured for the\n                    identity by using <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>EXTERNAL</code> – Indicates that DKIM was configured for the\n                    identity by using Bring Your Own DKIM (BYODKIM).</p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AF_SOUTH_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_NORTH_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTH_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTH_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_3</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_SOUTH_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_3</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_ME_CENTRAL_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_ME_SOUTH_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_IL_CENTRAL_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_SA_EAST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_CA_CENTRAL_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_CA_WEST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_3</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_5</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_CENTRAL_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_CENTRAL_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_EAST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_EAST_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_WEST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in US West (N. California) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_WEST_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>A string that indicates how DKIM was configured for the identity. These are the\n            possible values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AWS_SES</code> – Indicates that DKIM was configured for the\n                    identity by using <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>EXTERNAL</code> – Indicates that DKIM was configured for the\n                    identity by using Bring Your Own DKIM (BYODKIM).</p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AF_SOUTH_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_NORTH_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTH_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTH_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_3</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_SOUTH_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_3</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_ME_CENTRAL_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_ME_SOUTH_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_IL_CENTRAL_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_SA_EAST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_CA_CENTRAL_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_CA_WEST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_3</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_5</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_CENTRAL_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_CENTRAL_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_EAST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_EAST_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_WEST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in US West (N. California) region using Deterministic Easy-DKIM\n                    (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_WEST_2</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_GOV_EAST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in AWS GovCloud (US-East) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_GOV_WEST_1</code> – Indicates that DKIM was configured for the identity by\n                    replicating signing attributes from a parent identity in AWS GovCloud (US-West) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n         </ul>"
                }
             },
             "SigningEnabled" : {
@@ -3596,7 +3596,7 @@
             "DomainSigningAttributesOrigin" : {
                "target" : "com.amazonaws.sesv2#DkimSigningAttributesOrigin",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The attribute to use for configuring DKIM for the identity depends on the\n            operation:\n        </p>\n         <ol>\n            <li>\n               <p>For <code>PutEmailIdentityDkimSigningAttributes</code>:\n                </p>\n               <ul>\n                  <li>\n                     <p>None of the values are allowed - use the\n                            <a href=\"https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_PutEmailIdentityDkimSigningAttributes.html#SES-PutEmailIdentityDkimSigningAttributes-request-SigningAttributesOrigin\">\n                           <code>SigningAttributesOrigin</code>\n                        </a>\n                            parameter instead\n                        </p>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>For <code>CreateEmailIdentity</code> when replicating a parent identity's DKIM\n                    configuration:\n                </p>\n               <ul>\n                  <li>\n                     <p>Allowed values: All values except <code>AWS_SES</code> and\n                            <code>EXTERNAL</code>\n                     </p>\n                  </li>\n               </ul>\n            </li>\n         </ol>\n         <ul>\n            <li>\n               <p>\n                  <code>AWS_SES</code> – Configure DKIM for the identity by using Easy DKIM.\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>EXTERNAL</code> – Configure DKIM for the identity by using Bring Your Own DKIM\n                    (BYODKIM).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AF_SOUTH_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_NORTH_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTH_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTH_2</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_3</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_2</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (London) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_SOUTH_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_3</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_2</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_ME_CENTRAL_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_ME_SOUTH_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_1</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_IL_CENTRAL_1</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_SA_EAST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_CA_CENTRAL_1</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_CA_WEST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_1</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_2</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_3</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_5</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_CENTRAL_1</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_CENTRAL_2</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_EAST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_EAST_2</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_WEST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_WEST_2</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>The attribute to use for configuring DKIM for the identity depends on the\n            operation:\n        </p>\n         <ol>\n            <li>\n               <p>For <code>PutEmailIdentityDkimSigningAttributes</code>:\n                </p>\n               <ul>\n                  <li>\n                     <p>None of the values are allowed - use the\n                            <a href=\"https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_PutEmailIdentityDkimSigningAttributes.html#SES-PutEmailIdentityDkimSigningAttributes-request-SigningAttributesOrigin\">\n                           <code>SigningAttributesOrigin</code>\n                        </a>\n                            parameter instead\n                        </p>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>For <code>CreateEmailIdentity</code> when replicating a parent identity's DKIM\n                    configuration:\n                </p>\n               <ul>\n                  <li>\n                     <p>Allowed values: All values except <code>AWS_SES</code> and\n                            <code>EXTERNAL</code>\n                     </p>\n                  </li>\n               </ul>\n            </li>\n         </ol>\n         <ul>\n            <li>\n               <p>\n                  <code>AWS_SES</code> – Configure DKIM for the identity by using Easy DKIM.\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>EXTERNAL</code> – Configure DKIM for the identity by using Bring Your Own DKIM\n                    (BYODKIM).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AF_SOUTH_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_NORTH_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTH_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTH_2</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_3</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_2</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (London) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_SOUTH_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_WEST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_3</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_2</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_ME_CENTRAL_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_ME_SOUTH_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_NORTHEAST_1</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_IL_CENTRAL_1</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_SA_EAST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_CA_CENTRAL_1</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_CA_WEST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_1</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_2</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_3</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_AP_SOUTHEAST_5</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_CENTRAL_1</code> – Configure DKIM for the identity by replicating from a\n                    parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_EU_CENTRAL_2</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_EAST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_EAST_2</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_WEST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_WEST_2</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_GOV_EAST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in AWS GovCloud (US-East) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_SES_US_GOV_WEST_1</code> – Configure DKIM for the identity by replicating from a parent\n                    identity in AWS GovCloud (US-West) region using Deterministic Easy-DKIM (DEED).\n                </p>\n            </li>\n         </ul>"
                }
             },
             "DomainSigningPrivateKey" : {
@@ -3779,6 +3779,18 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "AWS_SES_US_EAST_2"
+               }
+            },
+            "AWS_SES_US_GOV_EAST_1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_SES_US_GOV_EAST_1"
+               }
+            },
+            "AWS_SES_US_GOV_WEST_1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_SES_US_GOV_WEST_1"
                }
             },
             "AWS_SES_US_WEST_1" : {
@@ -4900,6 +4912,12 @@
                "target" : "com.amazonaws.sesv2#GeneralEnforcementStatus",
                "traits" : {
                   "smithy.api#documentation" : "<p>The reputation status of your Amazon SES account. The status can be one of the\n            following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>HEALTHY</code> – There are no reputation-related issues that\n                    currently impact your account.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PROBATION</code> – We've identified potential issues with your\n                    Amazon SES account. We're placing your account under review while you work on\n                    correcting these issues.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SHUTDOWN</code> – Your account's ability to send email is\n                    currently paused because of an issue with the email sent from your account. When\n                    you correct the issue, you can contact us and request that your account's\n                    ability to send email is resumed.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "PricingAttributes" : {
+               "target" : "com.amazonaws.sesv2#PricingAttributes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pricing attributes that apply to your Amazon SES account, including the currently active\n            pricing plan and any scheduled change.</p>"
                }
             },
             "ProductionAccessEnabled" : {
@@ -9888,6 +9906,58 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.sesv2#PricingAttributes" : {
+         "members" : {
+            "CurrentPlan" : {
+               "target" : "com.amazonaws.sesv2#PricingPlan",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pricing plan that is currently active on your Amazon SES account.</p>"
+               }
+            },
+            "NextPlan" : {
+               "target" : "com.amazonaws.sesv2#PricingPlan",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pricing plan that will become active at the start of the next billing cycle, if a\n            scheduled change has been requested. This field is empty when no scheduled change is\n            pending.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The pricing attributes that apply to your Amazon SES account, including the currently active\n            pricing plan and any scheduled change for the next billing cycle.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sesv2#PricingPlan" : {
+         "members" : {
+            "ENTERPRISE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENTERPRISE"
+               }
+            },
+            "ESSENTIALS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ESSENTIALS"
+               }
+            },
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NONE"
+               }
+            },
+            "PRO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRO"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Identifies an Amazon SES pricing plan. See\n            <code>PutAccountPricingAttributesRequest$Plan</code> for the list of supported values and\n            their meanings.</p>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.sesv2#PrimaryNameServer" : {
          "type" : "string"
       },
@@ -10033,6 +10103,58 @@
          "members" : {},
          "traits" : {
             "smithy.api#documentation" : "<p>An HTTP 200 response if the request succeeds, or an error message if the request\n            fails.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sesv2#PutAccountPricingAttributes" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.sesv2#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.sesv2#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.sesv2#TooManyRequestsException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.sesv2#PutAccountPricingAttributesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.sesv2#PutAccountPricingAttributesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Set the pricing plan for your Amazon SES account. Use this operation to choose a billing plan\n            that packages multiple Amazon SES features at a single rate.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/v2/email/account/pricing-attributes"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.sesv2#PutAccountPricingAttributesRequest" : {
+         "members" : {
+            "Plan" : {
+               "target" : "com.amazonaws.sesv2#PricingPlan",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pricing plan to apply to your Amazon SES account. Can be one of the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>NONE</code> – No pricing plan is applied; billing follows per-feature\n                    pricing.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ESSENTIALS</code> – Baseline Amazon SES capabilities and select premium\n                    features.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PRO</code> – Includes everything in <code>ESSENTIALS</code>, plus\n                    additional premium features for growing senders.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENTERPRISE</code> – Includes everything in <code>PRO</code>, plus\n                    features intended for large-scale senders.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A request to set the pricing plan for your Amazon SES account.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sesv2#PutAccountPricingAttributesResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>An HTTP 200 response if the request succeeds, or an error response if the request\n            fails.</p>",
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -12681,6 +12803,9 @@
                "target" : "com.amazonaws.sesv2#PutAccountDetails"
             },
             {
+               "target" : "com.amazonaws.sesv2#PutAccountPricingAttributes"
+            },
+            {
                "target" : "com.amazonaws.sesv2#PutAccountSendingAttributes"
             },
             {
@@ -12884,6 +13009,21 @@
                               {
                                  "ref" : "PartitionResult"
                               },
+                              "name"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        "aws-us-gov"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
                               "supportsFIPS"
                            ],
                            "fn" : "getAttr"
@@ -12893,8 +13033,8 @@
                      "fn" : "booleanEquals"
                   }
                ],
-               "nodeCount" : 21,
-               "nodes" : "/////wAAAAH/////AAAAAAAAAAMAAAAEAAAAAQAAAAUAAAAEAAAABAAAAA4F9eEQAAAAAgAAABAAAAAGAAAABAAAAA4AAAAHAAAABQAAAAoAAAAIAAAABgAAAAkF9eEPAAAABwX14Q4F9eEDAAAABgAAAAwAAAALAAAACAX14QwF9eENAAAABwAAAA0F9eELAAAACAX14QoF9eELAAAABQX14QcAAAAPAAAABgX14QgF9eEJAAAAAwAAABEF9eEGAAAABAAAABUAAAASAAAABQX14QUAAAATAAAABgAAABQF9eEEAAAABwX14QIF9eEDAAAABQX14QUF9eEB",
+               "nodeCount" : 23,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAMAAAAEAAAAAQAAAAUAAAAEAAAABAAAAA4F9eESAAAAAgAAABAAAAAGAAAABAAAAA4AAAAHAAAABQAAAAoAAAAIAAAABgAAAAkF9eERAAAABwX14RAF9eEDAAAABgAAAAwAAAALAAAACQX14Q4F9eEPAAAABwAAAA0F9eENAAAACQX14QwF9eENAAAABQX14QkAAAAPAAAABgX14QoF9eELAAAAAwAAABEF9eEIAAAABAAAABcAAAASAAAABQX14QcAAAATAAAABgAAABUAAAAUAAAACAX14QQF9eEGAAAABwAAABYF9eEDAAAACAX14QIF9eEFAAAABQX14QcF9eEB",
                "parameters" : {
                   "Endpoint" : {
                      "builtIn" : "SDK::Endpoint",
@@ -12965,7 +13105,7 @@
                               }
                            ]
                         },
-                        "url" : "https://{EndpointId}.endpoints.email.global.{PartitionResult#dualStackDnsSuffix}"
+                        "url" : "https://{EndpointId}.endpoints.email.us-gov.{PartitionResult#dualStackDnsSuffix}"
                      },
                      "type" : "endpoint"
                   },
@@ -12973,6 +13113,44 @@
                      "conditions" : [],
                      "error" : "DualStack is enabled but this partition does not support DualStack",
                      "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4a",
+                                 "signingName" : "ses",
+                                 "signingRegionSet" : [
+                                    "*"
+                                 ]
+                              }
+                           ]
+                        },
+                        "url" : "https://{EndpointId}.endpoints.email.us-gov.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4a",
+                                 "signingName" : "ses",
+                                 "signingRegionSet" : [
+                                    "*"
+                                 ]
+                              }
+                           ]
+                        },
+                        "url" : "https://{EndpointId}.endpoints.email.global.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
                   },
                   {
                      "conditions" : [],
@@ -13204,6 +13382,138 @@
                                           {
                                              "argv" : [
                                                 {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "name"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                },
+                                                "aws-us-gov"
+                                             ],
+                                             "fn" : "stringEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "endpoint" : {
+                                                      "headers" : {},
+                                                      "properties" : {
+                                                         "authSchemes" : [
+                                                            {
+                                                               "name" : "sigv4a",
+                                                               "signingName" : "ses",
+                                                               "signingRegionSet" : [
+                                                                  "*"
+                                                               ]
+                                                            }
+                                                         ]
+                                                      },
+                                                      "url" : "https://{EndpointId}.endpoints.email.us-gov.{PartitionResult#dualStackDnsSuffix}"
+                                                   },
+                                                   "type" : "endpoint"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "name"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                },
+                                                "aws-us-gov"
+                                             ],
+                                             "fn" : "stringEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4a",
+                                                   "signingName" : "ses",
+                                                   "signingRegionSet" : [
+                                                      "*"
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://{EndpointId}.endpoints.email.us-gov.{PartitionResult#dnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "name"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      "aws-us-gov"
+                                                   ],
+                                                   "fn" : "stringEquals"
+                                                }
+                                             ],
+                                             "fn" : "not"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
                                                    "ref" : "UseDualStack"
                                                 },
                                                 true
@@ -13262,7 +13572,28 @@
                                        "type" : "tree"
                                     },
                                     {
-                                       "conditions" : [],
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "name"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      "aws-us-gov"
+                                                   ],
+                                                   "fn" : "stringEquals"
+                                                }
+                                             ],
+                                             "fn" : "not"
+                                          }
+                                       ],
                                        "endpoint" : {
                                           "headers" : {},
                                           "properties" : {
@@ -14280,6 +14611,219 @@
                         "Region" : "us-east-1",
                         "UseDualStack" : false,
                         "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "Gov IPv4 only: us-gov-west-1 primary, dualstack and FIPS disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingName" : "ses",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 }
+                              ]
+                           },
+                           "url" : "https://abc123.456def.endpoints.email.us-gov.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "EndpointId" : "abc123.456def",
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Gov IPv4 only: us-gov-east-1, dualstack and FIPS disabled (proves both gov regions resolve identically)",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingName" : "ses",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 }
+                              ]
+                           },
+                           "url" : "https://abc123.456def.endpoints.email.us-gov.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "EndpointId" : "abc123.456def",
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Gov dualstack: us-gov-west-1, dualstack enabled, FIPS disabled (no global. prefix; api.aws not global.api.aws)",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingName" : "ses",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 }
+                              ]
+                           },
+                           "url" : "https://abc123.456def.endpoints.email.us-gov.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "EndpointId" : "abc123.456def",
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Gov FIPS: us-gov-west-1, FIPS enabled, dualstack disabled — FIPS not supported with multi-region endpoints",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS is not supported with multi-region endpoints"
+                     },
+                     "params" : {
+                        "EndpointId" : "abc123.456def",
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "Gov FIPS+dualstack: us-gov-west-1, both FIPS and dualstack enabled — FIPS check precedes dualstack branch selection",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS is not supported with multi-region endpoints"
+                     },
+                     "params" : {
+                        "EndpointId" : "abc123.456def",
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "Gov custom SDK endpoint: us-gov-west-1, EndpointId set, custom Endpoint — passes through unchanged with SigV4a",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingName" : "ses",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 }
+                              ]
+                           },
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "EndpointId" : "abc123.456def",
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "China IPv4 regression: cn-north-1, dualstack disabled — endpoint uses aws-cn dnsSuffix (amazonaws.com.cn)",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingName" : "ses",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 }
+                              ]
+                           },
+                           "url" : "https://abc123.456def.endpoints.email.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "EndpointId" : "abc123.456def",
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "China dualstack regression: cn-north-1, dualstack enabled — uses global. prefix with aws-cn dualStackDnsSuffix (api.amazonwebservices.com.cn)",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingName" : "ses",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 }
+                              ]
+                           },
+                           "url" : "https://abc123.456def.endpoints.email.global.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "EndpointId" : "abc123.456def",
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Gov custom SDK endpoint with FIPS: FIPS guard sits above the SDK passthrough, so error wins",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS is not supported with multi-region endpoints"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "EndpointId" : "abc123.456def",
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "Gov dualstack OSU (us-gov-east-1) matches PDT dualstack output (us-gov.api.aws, no global. prefix)",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingName" : "ses",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 }
+                              ]
+                           },
+                           "url" : "https://abc123.456def.endpoints.email.us-gov.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "EndpointId" : "abc123.456def",
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
                      }
                   }
                ],

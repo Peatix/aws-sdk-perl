@@ -1429,6 +1429,9 @@
                "target" : "com.amazonaws.connect#CreateIntegrationAssociation"
             },
             {
+               "target" : "com.amazonaws.connect#CreateMetric"
+            },
+            {
                "target" : "com.amazonaws.connect#CreateNotification"
             },
             {
@@ -1546,6 +1549,9 @@
                "target" : "com.amazonaws.connect#DeleteIntegrationAssociation"
             },
             {
+               "target" : "com.amazonaws.connect#DeleteMetric"
+            },
+            {
                "target" : "com.amazonaws.connect#DeleteNotification"
             },
             {
@@ -1661,6 +1667,9 @@
             },
             {
                "target" : "com.amazonaws.connect#DescribeInstanceStorageConfig"
+            },
+            {
+               "target" : "com.amazonaws.connect#DescribeMetric"
             },
             {
                "target" : "com.amazonaws.connect#DescribeNotification"
@@ -1924,6 +1933,9 @@
                "target" : "com.amazonaws.connect#ListLexBots"
             },
             {
+               "target" : "com.amazonaws.connect#ListMetrics"
+            },
+            {
                "target" : "com.amazonaws.connect#ListNotifications"
             },
             {
@@ -2084,6 +2096,9 @@
             },
             {
                "target" : "com.amazonaws.connect#SearchHoursOfOperations"
+            },
+            {
+               "target" : "com.amazonaws.connect#SearchMetrics"
             },
             {
                "target" : "com.amazonaws.connect#SearchNotifications"
@@ -2269,6 +2284,9 @@
                "target" : "com.amazonaws.connect#UpdateContactSchedule"
             },
             {
+               "target" : "com.amazonaws.connect#UpdateContactTaskTemplate"
+            },
+            {
                "target" : "com.amazonaws.connect#UpdateDataTableAttribute"
             },
             {
@@ -2294,6 +2312,12 @@
             },
             {
                "target" : "com.amazonaws.connect#UpdateInstanceStorageConfig"
+            },
+            {
+               "target" : "com.amazonaws.connect#UpdateMetricContent"
+            },
+            {
+               "target" : "com.amazonaws.connect#UpdateMetricMetadata"
             },
             {
                "target" : "com.amazonaws.connect#UpdateNotificationContent"
@@ -4055,7 +4079,7 @@
             "target" : "com.amazonaws.connect#AssociateContactWithUserResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Associates a queued contact with an agent.</p>\n         <p>\n            <b>Use cases</b>\n         </p>\n         <p>Following are common uses cases for this API:</p>\n         <ul>\n            <li>\n               <p>Programmatically assign queued contacts to available users.</p>\n            </li>\n            <li>\n               <p>Leverage the IAM context key <code>connect:PreferredUserArn</code> to restrict contact association to specific\n     preferred user.</p>\n            </li>\n         </ul>\n         <p>\n            <b>Important things to know</b>\n         </p>\n         <ul>\n            <li>\n               <p>Use this API with chat, email, and task contacts. It does not support voice contacts.</p>\n            </li>\n            <li>\n               <p>Use it to associate contacts with users regardless of their current state, including custom states. Ensure\n     your application logic accounts for user availability before making associations.</p>\n            </li>\n            <li>\n               <p>It honors the IAM context key <code>connect:PreferredUserArn</code> to prevent unauthorized contact\n     associations.</p>\n            </li>\n            <li>\n               <p>It respects the IAM context key <code>connect:PreferredUserArn</code> to enforce authorization controls and\n     prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your\n     intended use cases.</p>\n            </li>\n            <li>\n               <p>The service quota <i>Queues per routing profile per instance</i> applies to manually assigned\n     queues, too. For more information about this quota, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas\">Connect Customer\n      quotas</a> in the <i>Connect Customer Administrator Guide</i>.</p>\n            </li>\n         </ul>\n         <p>\n            <b>Endpoints</b>: See <a href=\"https://docs.aws.amazon.com/general/latest/gr/connect_region.html\">Connect Customer endpoints and quotas</a>.</p>",
+            "smithy.api#documentation" : "<p>Associates a queued contact with an agent.</p>\n         <p>\n            <b>Use cases</b>\n         </p>\n         <p>Following are common uses cases for this API:</p>\n         <ul>\n            <li>\n               <p>Programmatically assign queued contacts to available users.</p>\n            </li>\n            <li>\n               <p>Leverage the IAM context key <code>connect:PreferredUserArn</code> to restrict contact association to specific\n     preferred user.</p>\n            </li>\n         </ul>\n         <p>\n            <b>Important things to know</b>\n         </p>\n         <ul>\n            <li>\n               <p>Use this API with chat, email, task, and voice contacts. For voice callbacks, this API does not support customer-first mode.</p>\n            </li>\n            <li>\n               <p>This API can be used to offer a contact to an agent even if the agent is currently at maximum concurrency\n     for the channel.</p>\n            </li>\n            <li>\n               <p>Use it to associate contacts with users regardless of their current state, including custom states. Ensure\n     your application logic accounts for user availability before making associations.</p>\n            </li>\n            <li>\n               <p>It honors the IAM context key <code>connect:PreferredUserArn</code> to prevent unauthorized contact\n     associations.</p>\n            </li>\n            <li>\n               <p>It respects the IAM context key <code>connect:PreferredUserArn</code> to enforce authorization controls and\n     prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your\n     intended use cases.</p>\n            </li>\n            <li>\n               <p>The service quota <i>Queues per routing profile per instance</i> applies to manually assigned\n     queues, too. For more information about this quota, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas\">Connect Customer\n      quotas</a> in the <i>Connect Customer Administrator Guide</i>.</p>\n            </li>\n         </ul>\n         <p>\n            <b>Endpoints</b>: See <a href=\"https://docs.aws.amazon.com/general/latest/gr/connect_region.html\">Connect Customer endpoints and quotas</a>.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -4898,7 +4922,7 @@
             "ManualAssignmentQueueConfigs" : {
                "target" : "com.amazonaws.connect#RoutingProfileManualAssignmentQueueConfigList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The manual assignment queues to associate with this routing profile.</p>\n         <p>Note: Use this config for chat, email, and task contacts. It does not support voice contacts.</p>"
+                  "smithy.api#documentation" : "<p>The manual assignment queues to associate with this routing profile.</p>\n         <note>\n            <p>For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully supported.</p>\n         </note>"
                }
             },
             "QueueConfigs" : {
@@ -5401,7 +5425,7 @@
             "AssociatedResourceArn" : {
                "target" : "com.amazonaws.connect#ARN",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html\">Cases</a> are the only current supported\n   resource.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a>, <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>, and \n    <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html\">Task</a>.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>"
                }
             },
             "CreatedBy" : {
@@ -6283,6 +6307,52 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#AvailableFilter" : {
+         "members" : {
+            "Id" : {
+               "target" : "com.amazonaws.connect#FilterId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the filter.</p>"
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.connect#AvailableFilterType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the filter. Valid values: <code>METRIC_LEVEL</code> | <code>RESOURCE_LEVEL</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter that is available for use with the metric. Part of an AvailableFilterList that describes the filters that are available for use with the metric.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#AvailableFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#AvailableFilter"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connect#AvailableFilterType" : {
+         "members" : {
+            "METRIC_LEVEL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "METRIC_LEVEL"
+               }
+            },
+            "RESOURCE_LEVEL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RESOURCE_LEVEL"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of an available metric filter. Valid values: <code>METRIC_LEVEL</code> | <code>RESOURCE_LEVEL</code>.</p>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.connect#AvailableNumberSummary" : {
          "members" : {
             "PhoneNumber" : {
@@ -7061,7 +7131,7 @@
             "AssociatedResourceArn" : {
                "target" : "com.amazonaws.connect#ARN",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a> and <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a>, <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>, and <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html\">Task</a>.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>",
                   "smithy.api#httpQuery" : "associatedResourceArn",
                   "smithy.api#required" : {}
                }
@@ -7544,6 +7614,60 @@
          "traits" : {
             "smithy.api#length" : {
                "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connect#CalculationComponent" : {
+         "members" : {
+            "Alias" : {
+               "target" : "com.amazonaws.connect#ComponentAlias",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The alias used to reference this component in the calculation expression.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MetricFilters" : {
+               "target" : "com.amazonaws.connect#MetricFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The filters applied to the calculation component.</p>"
+               }
+            },
+            "MetricId" : {
+               "target" : "com.amazonaws.connect#MetricId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of an AWS-managed metric used in this calculation component. Mutually exclusive with <code>MetricName</code>.</p>"
+               }
+            },
+            "MetricName" : {
+               "target" : "com.amazonaws.connect#MetricName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of an AWS-managed metric used in this calculation component (for example, <code>CONTACTS_HANDLED</code>). Mutually exclusive with <code>MetricId</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents a component metric referenced in a custom metric calculation formula.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#CalculationComponentList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#CalculationComponent"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connect#CalculationExpression" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
                "min" : 1
             }
          },
@@ -8195,7 +8319,7 @@
             "AssociatedResourceArn" : {
                "target" : "com.amazonaws.connect#ARN",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a> and <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a>, <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>, and <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html\">Task</a>.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>",
                   "smithy.api#httpQuery" : "associatedResourceArn",
                   "smithy.api#required" : {}
                }
@@ -8230,6 +8354,15 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.connect#ComponentAlias" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.connect#Concurrency" : {
          "traits" : {
@@ -10095,7 +10228,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The contact has not been disconnected and is not in a terminated state. PII can be deleted\n   only from a contact that has been disconnected. This error is returned with an HTTP 409 status\n   code.</p>",
+            "smithy.api#documentation" : "<p>The contact has not been disconnected and is not in a terminated state. To delete PII,\n   disconnect the contact first. Wait for it to reach the terminated state, then retry the\n   request.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 409
          },
@@ -12679,6 +12812,140 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#CreateMetric" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connect#DuplicateResourceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidRequestException"
+            },
+            {
+               "target" : "com.amazonaws.connect#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connect#CreateMetricRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connect#CreateMetricResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new metric definition for the specified Connect Customer instance. You can create custom metrics\n   that use formulas referencing existing Amazon Web Services-managed metrics, optionally with filters applied.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/metrics/definitions/{InstanceId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connect#CreateMetricRequest" : {
+         "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.connect#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the\n            request. If not provided, the Amazon Web Services\n            SDK populates this field. For more information about idempotency, see\n            <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.connect#MetricDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the metric.</p>"
+               }
+            },
+            "InstanceId" : {
+               "target" : "com.amazonaws.connect#InstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MetricCalculation" : {
+               "target" : "com.amazonaws.connect#MetricCalculation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The calculation definition for the metric, including the formula expression and the component metrics it references.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.connect#MetricName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PositiveTrendIndicator" : {
+               "target" : "com.amazonaws.connect#TrendIndicator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>How an increase in the metric value should be interpreted. Valid values: <code>POSITIVE</code>, <code>NEUTRAL</code>, <code>NEGATIVE</code>.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.connect#MetricStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The publish status of the metric. Set to <code>PUBLISHED</code> to make the metric available for use in dashboards and reports, or <code>SAVED</code> to keep it in draft state.</p>"
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.connect#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags used to organize, track, or control access for this resource. For example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.</p>"
+               }
+            },
+            "Unit" : {
+               "target" : "com.amazonaws.connect#MetricUnit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display unit for the metric's data.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#CreateMetricResponse" : {
+         "members" : {
+            "MetricArn" : {
+               "target" : "com.amazonaws.connect#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MetricId" : {
+               "target" : "com.amazonaws.connect#MetricId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.connect#CreateNotification" : {
          "errors" : [
             {
@@ -13584,7 +13851,7 @@
             "ManualAssignmentQueueConfigs" : {
                "target" : "com.amazonaws.connect#RoutingProfileManualAssignmentQueueConfigList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors\n   can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum\n   number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API\n   request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas.</p>\n         <p>Note: Use this config for chat, email, and task contacts. It does not support voice contacts.</p>"
+                  "smithy.api#documentation" : "<p>The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors\n   can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum\n   number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API\n   request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas.</p>\n         <note>\n            <p>For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully supported.</p>\n         </note>"
                }
             },
             "MediaConcurrencies" : {
@@ -13961,13 +14228,13 @@
             "Constraints" : {
                "target" : "com.amazonaws.connect#TaskTemplateConstraints",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Constraints that are applicable to the fields listed.</p>"
+                  "smithy.api#documentation" : "<p>Constraints that are applicable to the fields listed.\nAlthough this parameter is marked as optional in the API model, the service requires it when calling <code>CreateTaskTemplate</code> or <code>UpdateTaskTemplate</code>.\nThe <code>RequiredFields</code> array must contain at least one element, and the field of type <code>NAME</code> must be included in <code>RequiredFields</code>.</p>"
                }
             },
             "ContactFlowId" : {
                "target" : "com.amazonaws.connect#ContactFlowId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the flow that runs by default when a task is created by referencing this template.</p>"
+                  "smithy.api#documentation" : "<p>The identifier of the flow that runs by default when a task is created by referencing this template.</p>\n         <p>Although this parameter is marked as optional, the request must contain either a <code>ContactFlowId</code> or a field of type <code>QUICK_CONNECT</code>.</p>"
                }
             },
             "Defaults" : {
@@ -13985,7 +14252,7 @@
             "Fields" : {
                "target" : "com.amazonaws.connect#TaskTemplateFields",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Fields that are part of the template.</p>",
+                  "smithy.api#documentation" : "<p>Fields that are part of the template.</p>\n         <p>The request must contain exactly one field of type <code>NAME</code>. This field must also be listed in the <code>RequiredFields</code> array within the <code>Constraints</code> parameter.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -16644,6 +16911,15 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#DefaultStat" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.connect#DefaultVocabulary" : {
          "members" : {
             "InstanceId" : {
@@ -16735,7 +17011,7 @@
             "AssociatedResourceArn" : {
                "target" : "com.amazonaws.connect#ARN",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html\">Cases</a> are the only current supported\n   resource.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a>, <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>, and <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html\">Task</a>.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>",
                   "smithy.api#httpQuery" : "associatedResourceArn",
                   "smithy.api#required" : {}
                }
@@ -16799,7 +17075,7 @@
             "target" : "com.amazonaws.connect#DeleteContactDataResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Deletes the specified fields containing personally identifiable information (PII) from a\n   contact in the specified Connect Customer instance. This operation redacts PII (such as\n   customer endpoints, additional email recipients, and the email subject) from the contact and its\n   associated contact trace record (CTR). The contact must be in a terminated state.</p>\n         <important>\n            <p>This operation performs a hard deletion of the specified PII and cannot be undone. There is\n    no retention period; after the data is deleted, it cannot be recovered. Only fields that\n    Connect Customer identifies and stores as PII are removed. Any PII that you place in fields\n    outside the scope of this operation remains your responsibility to remove.</p>\n         </important>",
+            "smithy.api#documentation" : "<p>Deletes the specified fields containing personally identifiable information (PII) from a\n   contact in the specified Connect Customer instance. We redact PII (such as\n   customer endpoints, additional email recipients, and the email subject) from the contact and its\n   associated contact trace record (CTR). The contact must be in a terminated state.</p>\n         <important>\n            <p>\n               <b>This deletion is permanent and cannot be undone.</b> Performing this\n    operation permanently deletes the specified PII. There is\n    no retention period; you cannot recover the data after deletion. We remove only the fields\n    that Connect Customer identifies and stores as PII. Any PII that you place in fields\n    outside the scope of this operation remains your responsibility to remove.</p>\n         </important>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -16813,14 +17089,14 @@
             "ContactFields" : {
                "target" : "com.amazonaws.connect#ContactFields",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The categories of PII to redact from the contact. Valid values are\n   <code>CUSTOMER_ENDPOINT</code>, <code>ADDITIONAL_EMAIL_RECIPIENTS</code>, and\n   <code>EMAIL_SUBJECT</code>. <code>ADDITIONAL_EMAIL_RECIPIENTS</code> and <code>EMAIL_SUBJECT</code>\n   are supported only for contacts in the email channel.</p>",
+                  "smithy.api#documentation" : "<p>The categories of PII to redact from the contact. Specify one or more of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CUSTOMER_ENDPOINT</code> – The customer's contact endpoint.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ADDITIONAL_EMAIL_RECIPIENTS</code> – Additional recipients on an email contact (email channel only).</p>\n            </li>\n            <li>\n               <p>\n                  <code>EMAIL_SUBJECT</code> – The subject line of an email contact (email channel only).</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
             "ContactId" : {
                "target" : "com.amazonaws.connect#ContactId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the contact. PII can be deleted only from a contact that has been\n   disconnected (is in a terminated state).</p>",
+                  "smithy.api#documentation" : "<p>The identifier of the contact. You can delete PII only from a contact that has been\n   disconnected (is in a terminated state).</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
                }
@@ -17793,6 +18069,77 @@
          },
          "traits" : {
             "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#DeleteMetric" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidRequestException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceInUseException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connect#DeleteMetricRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connect#DeleteMetricResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes an existing metric from the specified Connect Customer instance. This operation fails with <code>ResourceConflictException</code> if the metric is currently in use in a dashboard.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/metrics/definitions/{InstanceId}/{MetricId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connect#DeleteMetricRequest" : {
+         "members" : {
+            "InstanceId" : {
+               "target" : "com.amazonaws.connect#InstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MetricId" : {
+               "target" : "com.amazonaws.connect#MetricId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the metric to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#DeleteMetricResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -20581,6 +20928,83 @@
                "target" : "com.amazonaws.connect#InstanceStorageConfig",
                "traits" : {
                   "smithy.api#documentation" : "<p>A valid storage type.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#DescribeMetric" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidRequestException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connect#DescribeMetricRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connect#DescribeMetricResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the full definition of an existing metric from the specified Connect Customer instance.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/metrics/definitions/{InstanceId}/{MetricId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connect#DescribeMetricRequest" : {
+         "members" : {
+            "InstanceId" : {
+               "target" : "com.amazonaws.connect#InstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MetricId" : {
+               "target" : "com.amazonaws.connect#MetricId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the metric to describe. Adding the <code>$SAVED</code> qualifier will describe the saved version of the metric. Adding <code>$LATEST</code> or omitting a qualifier will describe the published version.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#DescribeMetricResponse" : {
+         "members" : {
+            "Metric" : {
+               "target" : "com.amazonaws.connect#MetricDefinition",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metric definition.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -23846,7 +24270,7 @@
          },
          "traits" : {
             "smithy.api#length" : {
-               "max" : 10,
+               "max" : 50,
                "min" : 1
             },
             "smithy.api#sensitive" : {}
@@ -25241,6 +25665,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ko-KR"
+               }
+            },
+            "MS_MY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ms-MY"
                }
             },
             "PT_BR" : {
@@ -28290,6 +28720,15 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.connect#FilterId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.connect#FilterV2" : {
          "members" : {
             "FilterKey" : {
@@ -28640,7 +29079,7 @@
             "AssociatedResourceArn" : {
                "target" : "com.amazonaws.connect#ARN",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a> and <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a>, <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>, and <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html\">Task</a>.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>",
                   "smithy.api#httpQuery" : "associatedResourceArn",
                   "smithy.api#required" : {}
                }
@@ -28680,7 +29119,7 @@
             "AssociatedResourceArn" : {
                "target" : "com.amazonaws.connect#ARN",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html\">Cases</a> are the only current supported\n   resource.</p>"
+                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a>, <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>, and <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html\">Task</a>.</p>"
                }
             },
             "CreatedBy" : {
@@ -29937,7 +30376,7 @@
             "Constraints" : {
                "target" : "com.amazonaws.connect#TaskTemplateConstraints",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Constraints that are applicable to the fields listed.</p>"
+                  "smithy.api#documentation" : "<p>Constraints that are applicable to the fields listed.\nAlthough this parameter is marked as optional in the API model, the service requires it when calling <code>CreateTaskTemplate</code> or <code>UpdateTaskTemplate</code>.\nThe <code>RequiredFields</code> array must contain at least one element, and the field of type <code>NAME</code> must be included in <code>RequiredFields</code>.</p>"
                }
             },
             "ContactFlowId" : {
@@ -36271,6 +36710,108 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#ListMetrics" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidRequestException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connect#ListMetricsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connect#ListMetricsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves a paginated list of metric summaries for the specified Connect Customer instance. Use pagination to ensure that the operation returns quickly and successfully.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/metrics/definitions/{InstanceId}"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "MetricSummaryList",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connect#ListMetricsRequest" : {
+         "members" : {
+            "InstanceId" : {
+               "target" : "com.amazonaws.connect#InstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.connect#MaxResult100",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.connect#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous \nresponse in the next request to retrieve the next set of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.connect#MetricType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of metrics to list. Valid values: <code>AWS_MANAGED</code> | <code>CUSTOMER_MANAGED</code>.</p>",
+                  "smithy.api#httpQuery" : "type"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#ListMetricsResponse" : {
+         "members" : {
+            "MetricSummaryList" : {
+               "target" : "com.amazonaws.connect#MetricSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of metric summaries.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.connect#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If there are additional results, this is the token for the next set of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.connect#ListNotifications" : {
          "errors" : [
             {
@@ -40393,6 +40934,57 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.connect#MetricCalculation" : {
+         "members" : {
+            "Calculation" : {
+               "target" : "com.amazonaws.connect#CalculationExpression",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The formula expression that defines how the metric is calculated. Uses component aliases (for example, <code>100 * SUM(M1) / SUM(M2)</code>).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "CalculationComponents" : {
+               "target" : "com.amazonaws.connect#CalculationComponentList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of component metrics referenced in the calculation formula. Each component has an alias used in the formula expression.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the formula and component metrics that define a custom metric calculation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#MetricCategory" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connect#MetricCreationMethod" : {
+         "members" : {
+            "METRIC_BUILDER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "METRIC_BUILDER"
+               }
+            },
+            "SERVICE_LEVEL_BUILDER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SERVICE_LEVEL_BUILDER"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The method used to create a custom metric. Valid values: <code>SERVICE_LEVEL_BUILDER</code> | <code>METRIC_BUILDER</code>.</p>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.connect#MetricDataCollectionsV2" : {
          "member" : {
             "target" : "com.amazonaws.connect#MetricDataV2"
@@ -40418,6 +41010,390 @@
             "smithy.api#documentation" : "<p>Contains the name, thresholds, and metric filters.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.connect#MetricDefinition" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.connect#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the metric. May be qualified with <code>$SAVED</code> or <code>$LATEST</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Category" : {
+               "target" : "com.amazonaws.connect#MetricCategory",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The category of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "CreatedTime" : {
+               "target" : "com.amazonaws.connect#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the metric was created.</p>"
+               }
+            },
+            "CreatedUser" : {
+               "target" : "com.amazonaws.connect#CreatedByInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user that created the metric. The creator for metrics created through the CreateMetric API will be <code>Amazon Connect API</code>.</p>"
+               }
+            },
+            "CreationMethod" : {
+               "target" : "com.amazonaws.connect#MetricCreationMethod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The method used to create the metric. Valid values: <code>SERVICE_LEVEL_BUILDER</code> (created with the guided service-level experience) | <code>METRIC_BUILDER</code> (created with the free-form metric builder).</p>"
+               }
+            },
+            "DefaultStat" : {
+               "target" : "com.amazonaws.connect#DefaultStat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default stat aggregation for the metric.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.connect#MetricDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the metric.</p>"
+               }
+            },
+            "EffectiveTime" : {
+               "target" : "com.amazonaws.connect#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The earliest time that can be queried for this metric.</p>"
+               }
+            },
+            "Filters" : {
+               "target" : "com.amazonaws.connect#AvailableFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The filters applied to the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Groupings" : {
+               "target" : "com.amazonaws.connect#MetricGroupingList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The groupings available for this metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.connect#MetricId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "LastModifiedRegion" : {
+               "target" : "com.amazonaws.connect#RegionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The region where the metric was last modified.</p>"
+               }
+            },
+            "LastModifiedTime" : {
+               "target" : "com.amazonaws.connect#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the metric was last modified.</p>"
+               }
+            },
+            "LastModifiedUser" : {
+               "target" : "com.amazonaws.connect#CreatedByInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user that last modified the metric. For modifications made through the API, this will be <code>Amazon Connect API</code>.</p>"
+               }
+            },
+            "MetricCalculation" : {
+               "target" : "com.amazonaws.connect#MetricCalculation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The calculation definition for the metric.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.connect#MetricName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PositiveTrendIndicator" : {
+               "target" : "com.amazonaws.connect#TrendIndicator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>How an increase in the metric value should be interpreted. Valid values: <code>POSITIVE</code>, <code>NEUTRAL</code>, <code>NEGATIVE</code>.</p>"
+               }
+            },
+            "PrimaryEventSource" : {
+               "target" : "com.amazonaws.connect#PrimaryEventSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary event source for the metric data.</p>"
+               }
+            },
+            "PrimaryEventSourceEffectiveTimestampType" : {
+               "target" : "com.amazonaws.connect#PrimaryEventSourceEffectiveTimestampType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp type that determines where the metric appears on a time series.</p>"
+               }
+            },
+            "RefreshRate" : {
+               "target" : "com.amazonaws.connect#RefreshRate",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The minimum interval, in seconds, between data refreshes for this metric.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.connect#MetricStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The publish status of the metric. Valid values: <code>PUBLISHED</code> | <code>SAVED</code>.</p>"
+               }
+            },
+            "SupportedStats" : {
+               "target" : "com.amazonaws.connect#SupportedStatsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The stat aggregations available for this metric.</p>"
+               }
+            },
+            "SupportsCustomCalculation" : {
+               "target" : "com.amazonaws.connect#SupportsCustomCalculation",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether the metric can be used as a component of custom metrics.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SupportsPreaggregateCalculation" : {
+               "target" : "com.amazonaws.connect#SupportsPreaggregateCalculation",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether the metric can be used inside aggregating statistical functions (SUM, AVG, etc.) in custom metric calculations.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.connect#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags used to organize, track, or control access for this resource. For example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.</p>"
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.connect#MetricType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the metric. Valid values: <code>AWS_MANAGED</code> | <code>CUSTOMER_MANAGED</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Unit" : {
+               "target" : "com.amazonaws.connect#MetricUnit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display unit for the metric's data.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the full definition of a metric, including its calculation, unit, status, and trend indicator.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#MetricDescription" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 500,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connect#MetricFilter" : {
+         "members" : {
+            "BooleanCondition" : {
+               "target" : "com.amazonaws.connect#MetricFilterBooleanCondition",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A boolean comparison condition.</p>"
+               }
+            },
+            "MetricFilterKey" : {
+               "target" : "com.amazonaws.connect#MetricFilterKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key identifying the field to filter on.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Negate" : {
+               "target" : "com.amazonaws.connect#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether the filter condition is negated. When set to <code>true</code>, the filter excludes matching data instead of including it.</p>"
+               }
+            },
+            "NumberCondition" : {
+               "target" : "com.amazonaws.connect#MetricFilterNumberCondition",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A numeric comparison condition.</p>"
+               }
+            },
+            "StringCondition" : {
+               "target" : "com.amazonaws.connect#MetricFilterStringCondition",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A string comparison condition.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter condition applied to a metric component in a calculation. Filters restrict the data included in the metric computation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#MetricFilterBooleanCondition" : {
+         "members" : {
+            "Comparison" : {
+               "target" : "com.amazonaws.connect#MetricFilterBooleanConditionComparison",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The comparison operator. Valid values: <code>IS_TRUE</code> (matches when the field is true) | <code>IS_FALSE</code> (matches when the field is false).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A boolean comparison condition for metric filters.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#MetricFilterBooleanConditionComparison" : {
+         "members" : {
+            "IS_FALSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IS_FALSE"
+               }
+            },
+            "IS_TRUE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IS_TRUE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The boolean comparison operator for metric filters. Valid values: <code>IS_TRUE</code> | <code>IS_FALSE</code>.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connect#MetricFilterKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connect#MetricFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#MetricFilter"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connect#MetricFilterNumberCondition" : {
+         "members" : {
+            "Comparison" : {
+               "target" : "com.amazonaws.connect#MetricFilterNumberConditionComparison",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The comparison operator. Valid values: <code>LESSER</code> (less than) | <code>LESSER_OR_EQUAL</code> (less than or equal to) | <code>GREATER</code> (greater than) | <code>GREATER_OR_EQUAL</code> (greater than or equal to).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Values" : {
+               "target" : "com.amazonaws.connect#NumberValueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The numeric values to compare against.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A numeric comparison condition for metric filters.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#MetricFilterNumberConditionComparison" : {
+         "members" : {
+            "GREATER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GREATER"
+               }
+            },
+            "GREATER_OR_EQUAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GREATER_OR_EQUAL"
+               }
+            },
+            "LESSER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LESSER"
+               }
+            },
+            "LESSER_OR_EQUAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LESSER_OR_EQUAL"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The numeric comparison operator for metric filters. Valid values: <code>LESSER</code> | <code>LESSER_OR_EQUAL</code> | <code>GREATER</code> | <code>GREATER_OR_EQUAL</code>.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connect#MetricFilterStringCondition" : {
+         "members" : {
+            "Comparison" : {
+               "target" : "com.amazonaws.connect#MetricFilterStringConditionComparison",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The comparison operator. Valid values: <code>MATCHES_ANY</code> (matches any of the specified values) | <code>MATCHES_NONE</code> (matches none of the specified values).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Values" : {
+               "target" : "com.amazonaws.connect#StringValueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The string values to compare against.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A string comparison condition for metric filters.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#MetricFilterStringConditionComparison" : {
+         "members" : {
+            "MATCHES_ANY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MATCHES_ANY"
+               }
+            },
+            "MATCHES_NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MATCHES_NONE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The string comparison operator for metric filters. Valid values: <code>MATCHES_ANY</code> | <code>MATCHES_NONE</code>.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.connect#MetricFilterV2" : {
          "members" : {
@@ -40470,6 +41446,12 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.connect#MetricGroupingList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#String"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.connect#MetricId" : {
          "traits" : {
             "smithy.api#length" : {
@@ -40505,6 +41487,15 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#MetricName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.connect#MetricNameV2" : {
          "type" : "string"
       },
@@ -40539,6 +41530,191 @@
             "target" : "com.amazonaws.connect#MetricResultV2"
          },
          "type" : "list"
+      },
+      "com.amazonaws.connect#MetricSearchConditionList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#MetricSearchCriteria"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connect#MetricSearchCriteria" : {
+         "members" : {
+            "AndConditions" : {
+               "target" : "com.amazonaws.connect#MetricSearchConditionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of conditions that must all be satisfied.</p>"
+               }
+            },
+            "BooleanCondition" : {
+               "target" : "com.amazonaws.connect#BooleanCondition"
+            },
+            "OrConditions" : {
+               "target" : "com.amazonaws.connect#MetricSearchConditionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of conditions to be met, where at least one condition must be satisfied.</p>"
+               }
+            },
+            "StringCondition" : {
+               "target" : "com.amazonaws.connect#StringCondition"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the search criteria for filtering metrics.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#MetricSearchFilter" : {
+         "members" : {
+            "TagFilter" : {
+               "target" : "com.amazonaws.connect#ControlPlaneTagFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An object that can be used to specify tag conditions inside the <code>SearchFilter</code>. This accepts an OR of AND (List of List) input where:</p>\n         <ul>\n            <li>\n               <p>The top level list specifies conditions that need to be applied with OR operator.</p>\n            </li>\n            <li>\n               <p>The inner list specifies conditions that need to be applied with AND operator.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Filters to apply when searching for metrics.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#MetricSearchSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#MetricDefinition"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connect#MetricStatus" : {
+         "members" : {
+            "PUBLISHED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PUBLISHED"
+               }
+            },
+            "SAVED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SAVED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The publish status of a metric. Valid values: <code>PUBLISHED</code> | <code>SAVED</code>.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connect#MetricSummary" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.connect#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.connect#MetricId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "LastModifiedRegion" : {
+               "target" : "com.amazonaws.connect#RegionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The region where the metric was last modified.</p>"
+               }
+            },
+            "LastModifiedTime" : {
+               "target" : "com.amazonaws.connect#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the metric was last modified.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.connect#MetricName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.connect#MetricStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The publish status of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.connect#MetricType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the metric.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains summary information about a metric.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#MetricSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#MetricSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connect#MetricType" : {
+         "members" : {
+            "AWS_MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_MANAGED"
+               }
+            },
+            "CUSTOMER_MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOMER_MANAGED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of the metric. Valid values: <code>AWS_MANAGED</code> | <code>CUSTOMER_MANAGED</code>.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connect#MetricUnit" : {
+         "members" : {
+            "DOUBLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DOUBLE"
+               }
+            },
+            "INTEGER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INTEGER"
+               }
+            },
+            "PERCENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PERCENT"
+               }
+            },
+            "SECONDS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SECONDS"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The display unit for metric data. Valid values: <code>INTEGER</code> | <code>DOUBLE</code> | <code>PERCENT</code> | <code>SECONDS</code>.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.connect#MetricV2" : {
          "members" : {
@@ -41422,6 +42598,18 @@
             "smithy.api#documentation" : "<p>Information about a reference when the <code>referenceType</code> is <code>NUMBER</code>. Otherwise,\n   null.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.connect#NumberValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#Double"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.connect#NumericQuestionPropertyAutomationLabel" : {
          "members" : {
@@ -44890,6 +46078,24 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.connect#PrimaryEventSource" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connect#PrimaryEventSourceEffectiveTimestampType" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.connect#PrimaryValue" : {
          "members" : {
             "AttributeName" : {
@@ -45293,6 +46499,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "RESOURCE_NAME_ALREADY_EXISTS"
+               }
+            },
+            "TYPE_MISMATCH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TYPE_MISMATCH"
                }
             },
             "UNIQUE_CONSTRAINT_VIOLATED" : {
@@ -47558,6 +48770,12 @@
             }
          },
          "type" : "string"
+      },
+      "com.amazonaws.connect#RefreshRate" : {
+         "traits" : {
+            "smithy.api#default" : 0
+         },
+         "type" : "long"
       },
       "com.amazonaws.connect#RefreshTokenDuration" : {
          "traits" : {
@@ -50756,6 +51974,114 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#SearchMetrics" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidRequestException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connect#SearchMetricsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connect#SearchMetricsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Searches for metrics in the specified Connect Customer instance using search criteria and optional tag-based filters. Use pagination to ensure that the operation returns quickly and successfully.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/search-metrics"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "Metrics",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connect#SearchMetricsRequest" : {
+         "members" : {
+            "InstanceId" : {
+               "target" : "com.amazonaws.connect#InstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.connect#MaxResult100",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.connect#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous \nresponse in the next request to retrieve the next set of results.</p>"
+               }
+            },
+            "SearchCriteria" : {
+               "target" : "com.amazonaws.connect#MetricSearchCriteria",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The search criteria to filter the metrics.</p>"
+               }
+            },
+            "SearchFilter" : {
+               "target" : "com.amazonaws.connect#MetricSearchFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters to be applied to search results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#SearchMetricsResponse" : {
+         "members" : {
+            "ApproximateTotalCount" : {
+               "target" : "com.amazonaws.connect#ApproximateTotalCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The approximate total number of metrics that matched your search criteria.</p>"
+               }
+            },
+            "Metrics" : {
+               "target" : "com.amazonaws.connect#MetricSearchSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metrics that matched the search criteria.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.connect#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If there are additional results, this is the token for the next set of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.connect#SearchNotifications" : {
          "errors" : [
             {
@@ -51339,7 +52665,7 @@
             "ResourceTypes" : {
                "target" : "com.amazonaws.connect#ResourceTypeList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The list of resource types to be used to search tags from. If not provided or if any empty list is provided,\n   this API will search from all supported resource types. Note that lowercase and - are required.</p>\n         <p class=\"title\">\n            <b>Supported resource types</b>\n         </p>\n         <ul>\n            <li>\n               <p>agent</p>\n            </li>\n            <li>\n               <p>agent-state</p>\n            </li>\n            <li>\n               <p>routing-profile</p>\n            </li>\n            <li>\n               <p>standard-queue</p>\n            </li>\n            <li>\n               <p>security-profile</p>\n            </li>\n            <li>\n               <p>operating-hours</p>\n            </li>\n            <li>\n               <p>prompt</p>\n            </li>\n            <li>\n               <p>contact-flow</p>\n            </li>\n            <li>\n               <p>flow- module</p>\n            </li>\n            <li>\n               <p>transfer-destination (also known as quick connect)</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>The list of resource types to be used to search tags from. If not provided or if any empty list is provided,\n   this API will search from all supported resource types. Note that lowercase and - are required.</p>\n         <p class=\"title\">\n            <b>Supported resource types</b>\n         </p>\n         <ul>\n            <li>\n               <p>agent</p>\n            </li>\n            <li>\n               <p>agent-state</p>\n            </li>\n            <li>\n               <p>routing-profile</p>\n            </li>\n            <li>\n               <p>standard-queue</p>\n            </li>\n            <li>\n               <p>security-profile</p>\n            </li>\n            <li>\n               <p>operating-hours</p>\n            </li>\n            <li>\n               <p>prompt</p>\n            </li>\n            <li>\n               <p>contact-flow</p>\n            </li>\n            <li>\n               <p>flow- module</p>\n            </li>\n            <li>\n               <p>transfer-destination (also known as quick connect)</p>\n            </li>\n            <li>\n               <p>metric</p>\n            </li>\n         </ul>"
                }
             },
             "SearchCriteria" : {
@@ -53892,7 +55218,7 @@
             "target" : "com.amazonaws.connect#StartAttachedFileUploadResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Provides a pre-signed Amazon S3 URL in response for uploading your content.</p>\n         <important>\n            <p>You may only use this API to upload attachments to an <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html\">Connect Customer Case</a> or <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Connect Customer Email</a>. </p>\n         </important>",
+            "smithy.api#documentation" : "<p>Provides a pre-signed Amazon S3 URL in response for uploading your content.</p>\n         <important>\n            <p>You may only use this API to upload attachments to a <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html\">Connect Customer Case</a>, <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Connect Customer Email</a>, or\n     <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html\">Connect Customer Task</a>. </p>\n         </important>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -53906,7 +55232,7 @@
             "AssociatedResourceArn" : {
                "target" : "com.amazonaws.connect#ARN",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a> and <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The resource to which the attached file is (being) uploaded to. The supported resources are <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/cases.html\">Cases</a>, <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html\">Email</a>, and <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html\">Task</a>.</p>\n         <note>\n            <p>This value must be a valid ARN.</p>\n         </note>",
                   "smithy.api#httpQuery" : "associatedResourceArn",
                   "smithy.api#required" : {}
                }
@@ -56309,6 +57635,18 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#StringValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#String"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.connect#Subject" : {
          "traits" : {
             "smithy.api#length" : {
@@ -56563,6 +57901,24 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.connect#SupportedStatsList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#String"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connect#SupportsCustomCalculation" : {
+         "traits" : {
+            "smithy.api#default" : false
+         },
+         "type" : "boolean"
+      },
+      "com.amazonaws.connect#SupportsPreaggregateCalculation" : {
+         "traits" : {
+            "smithy.api#default" : false
+         },
+         "type" : "boolean"
+      },
       "com.amazonaws.connect#SuspendContactRecording" : {
          "errors" : [
             {
@@ -56813,7 +58169,7 @@
             "target" : "smithy.api#Unit"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Adds the specified tags to the specified resource.</p>\n         <p>Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent\n   statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html\">Tagging resources in Connect Customer</a>.</p>\n         <p>For sample policies that use tags, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html\">Connect Customer Identity-Based Policy\n    Examples</a> in the <i>Connect Customer Administrator Guide</i>.</p>",
+            "smithy.api#documentation" : "<p>Adds the specified tags to the specified resource.</p>\n         <p>Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent\n   statuses, hours of operation, phone numbers, security profiles, task templates, and custom metrics. For a complete list, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html\">Tagging resources in Connect Customer</a>.</p>\n         <p>For sample policies that use tags, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html\">Connect Customer Identity-Based Policy\n    Examples</a> in the <i>Connect Customer Administrator Guide</i>.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -58422,6 +59778,32 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#TrendIndicator" : {
+         "members" : {
+            "NEGATIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NEGATIVE"
+               }
+            },
+            "NEUTRAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NEUTRAL"
+               }
+            },
+            "POSITIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "POSITIVE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies how to interpret a positive trend in metric data. Valid values: <code>POSITIVE</code> | <code>NEGATIVE</code> | <code>NEUTRAL</code>.</p>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.connect#URI" : {
          "traits" : {
             "smithy.api#length" : {
@@ -59903,6 +61285,82 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#UpdateContactTaskTemplate" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidRequestException"
+            },
+            {
+               "target" : "com.amazonaws.connect#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.connect#PropertyValidationException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ServiceQuotaExceededException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connect#UpdateContactTaskTemplateRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connect#UpdateContactTaskTemplateResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the task template association on an existing task contact. You can update the task template on a contact\n   before assignment to support tasks that are created without a template (for example <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/connect-rules.html\">Rules</a> or <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/set-disconnect-flow.html\">disconnect flows</a>) or change the agent interaction\n   form to represent the latest task data (for example an initial request that was submitted as a refund gets updated to\n   an account cancellation and requires a new template).</p>\n         <p>This operation can only be used with task contacts that are in progress and not connected to an agent. A task\n   template can be updated a maximum of 5 times per contact.</p>\n         <p>The task's references must be compatible with the fields of the target task template. If the target template has\n   a required field, the task must have a corresponding reference with a matching name and compatible type. The\n   following task template field types map to reference types:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>TEXT</code>, <code>TEXT_AREA</code>, <code>BOOLEAN</code>, and <code>SINGLE_SELECT</code> map to\n     references of type <code>STRING</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NUMBER</code> maps to references of type <code>NUMBER</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DATE_TIME</code> maps to references of type <code>DATE</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>URL</code> maps to references of type <code>URL</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>EMAIL</code> maps to references of type <code>EMAIL</code>.</p>\n            </li>\n         </ul>\n         <p>References corresponding to <code>TEXT</code> fields must be fewer than 512 characters.\n   <code>TEXT_AREA</code> fields must be fewer than 4,096 characters. <code>BOOLEAN</code> fields must have a value\n   of <code>true</code> or <code>false</code>.</p>\n         <p>An <code>InvalidRequestException</code> occurs when <code>UpdateContactTaskTemplate</code> is called on a\n   connected or terminated task, when it is called on non-task contacts, and when the task contact already uses the\n   provided task template. A <code>PropertyValidationException</code> occurs when the task's references conflict with\n   the task template's fields, for example if the task is missing a reference that matches a required field, or if the\n   task has a reference that matches a required field's name but not its datatype.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/contact/task-template"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connect#UpdateContactTaskTemplateRequest" : {
+         "members" : {
+            "ContactId" : {
+               "target" : "com.amazonaws.connect#ContactId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the contact in this instance of Connect Customer. </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "InstanceId" : {
+               "target" : "com.amazonaws.connect#InstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TaskTemplateId" : {
+               "target" : "com.amazonaws.connect#TaskTemplateId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique identifier for the task template. For more information about task templates, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html\">Task templates</a> in the <i>Connect Customer Administrator Guide</i>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#UpdateContactTaskTemplateResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.connect#UpdateDataTableAttribute" : {
          "errors" : [
             {
@@ -60874,6 +62332,177 @@
          },
          "traits" : {
             "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#UpdateMetricContent" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidRequestException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connect#UpdateMetricContentRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connect#UpdateMetricContentResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the calculation, unit, and/or trend indicator of an existing metric in the specified Connect Customer instance.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/metrics/definitions/{InstanceId}/{MetricId}/content"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connect#UpdateMetricContentRequest" : {
+         "members" : {
+            "InstanceId" : {
+               "target" : "com.amazonaws.connect#InstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MetricCalculation" : {
+               "target" : "com.amazonaws.connect#MetricCalculation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated calculation definition for the metric.</p>"
+               }
+            },
+            "MetricId" : {
+               "target" : "com.amazonaws.connect#MetricId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the metric to update. Adding the <code>$SAVED</code> qualifier will update the saved version of the metric. Adding <code>$LATEST</code> or omitting a qualifier will update the published version.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "PositiveTrendIndicator" : {
+               "target" : "com.amazonaws.connect#TrendIndicator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>How an increase in the metric value should be interpreted. Valid values: <code>POSITIVE</code>, <code>NEUTRAL</code>, <code>NEGATIVE</code>.</p>"
+               }
+            },
+            "Unit" : {
+               "target" : "com.amazonaws.connect#MetricUnit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated display unit for the metric.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#UpdateMetricContentResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#UpdateMetricMetadata" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connect#DuplicateResourceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidRequestException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connect#UpdateMetricMetadataRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connect#UpdateMetricMetadataResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the name and/or description of an existing metric in the specified Connect Customer instance.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/metrics/definitions/{InstanceId}/{MetricId}/metadata"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connect#UpdateMetricMetadataRequest" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.connect#MetricDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated description of the metric.</p>"
+               }
+            },
+            "InstanceId" : {
+               "target" : "com.amazonaws.connect#InstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MetricId" : {
+               "target" : "com.amazonaws.connect#MetricId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the metric to update. Adding the <code>$SAVED</code> qualifier will update the saved version of the metric. Adding <code>$LATEST</code> or omitting a qualifier will update the published version.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.connect#MetricName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated name of the metric.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#UpdateMetricMetadataResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -62589,13 +64218,13 @@
             "Constraints" : {
                "target" : "com.amazonaws.connect#TaskTemplateConstraints",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Constraints that are applicable to the fields listed.</p>"
+                  "smithy.api#documentation" : "<p>Constraints that are applicable to the fields listed.\nAlthough this parameter is marked as optional in the API model, the service requires it when calling <code>CreateTaskTemplate</code> or <code>UpdateTaskTemplate</code>.\nThe <code>RequiredFields</code> array must contain at least one element, and the field of type <code>NAME</code> must be included in <code>RequiredFields</code>.</p>"
                }
             },
             "ContactFlowId" : {
                "target" : "com.amazonaws.connect#ContactFlowId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the flow that runs by default when a task is created by referencing this template.</p>"
+                  "smithy.api#documentation" : "<p>The identifier of the flow that runs by default when a task is created by referencing this template.</p>\n         <p>Although this parameter is marked as optional, the request must contain either a <code>ContactFlowId</code> or a field of type <code>QUICK_CONNECT</code>.</p>"
                }
             },
             "Defaults" : {
@@ -62613,7 +64242,7 @@
             "Fields" : {
                "target" : "com.amazonaws.connect#TaskTemplateFields",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Fields that are part of the template.</p>"
+                  "smithy.api#documentation" : "<p>Fields that are part of the template.</p>\n         <p>The request must contain exactly one field of type <code>NAME</code>. This field must also be listed in the <code>RequiredFields</code> array within the <code>Constraints</code> parameter.</p>"
                }
             },
             "InstanceId" : {
@@ -62639,7 +64268,7 @@
             "Status" : {
                "target" : "com.amazonaws.connect#TaskTemplateStatus",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Marks a template as <code>ACTIVE</code> or <code>INACTIVE</code> for a task to refer to it. \nTasks can only be created from <code>ACTIVE</code> templates.\nIf a template is marked as <code>INACTIVE</code>, then a task that refers to this template cannot be created.</p>"
+                  "smithy.api#documentation" : "<p>Marks a template as <code>ACTIVE</code> or <code>INACTIVE</code> for a task to refer to it. \nTasks can only be created from <code>ACTIVE</code> templates.\nIf a template is marked as <code>INACTIVE</code>, then a task that refers to this template cannot be created.</p>\n         <p>Although this parameter is marked as optional, the service requires it when calling <code>UpdateTaskTemplate</code>.</p>"
                }
             },
             "TaskTemplateId" : {
@@ -62667,7 +64296,7 @@
             "Constraints" : {
                "target" : "com.amazonaws.connect#TaskTemplateConstraints",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Constraints that are applicable to the fields listed.</p>"
+                  "smithy.api#documentation" : "<p>Constraints that are applicable to the fields listed.\nAlthough this parameter is marked as optional in the API model, the service requires it when calling <code>CreateTaskTemplate</code> or <code>UpdateTaskTemplate</code>.\nThe <code>RequiredFields</code> array must contain at least one element, and the field of type <code>NAME</code> must be included in <code>RequiredFields</code>.</p>"
                }
             },
             "ContactFlowId" : {

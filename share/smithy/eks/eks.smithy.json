@@ -2262,6 +2262,33 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.eks#AllowedValuesConstraint" : {
+         "members" : {
+            "allowedValues" : {
+               "target" : "com.amazonaws.eks#AllowedValuesList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of allowed values.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A constraint specifying the allowed values for a parameter.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#AllowedValuesList" : {
+         "member" : {
+            "target" : "com.amazonaws.eks#String"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of allowed string values for a parameter constraint.</p>",
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.eks#ArgoCdAwsIdcConfigRequest" : {
          "members" : {
             "idcInstanceArn" : {
@@ -3520,6 +3547,24 @@
                   "smithy.api#documentation" : "<p>The identity provider information for the cluster.</p>"
                }
             },
+            "kubeApiServerConfig" : {
+               "target" : "com.amazonaws.eks#KubeApiServerConfigResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes API server configuration for the cluster.</p>"
+               }
+            },
+            "kubeControllerManagerConfig" : {
+               "target" : "com.amazonaws.eks#KubeControllerManagerConfigResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes controller manager configuration for the cluster.</p>"
+               }
+            },
+            "kubeSchedulerConfig" : {
+               "target" : "com.amazonaws.eks#KubeSchedulerConfigResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes scheduler configuration for the cluster.</p>"
+               }
+            },
             "kubernetesNetworkConfig" : {
                "target" : "com.amazonaws.eks#KubernetesNetworkConfigResponse",
                "traits" : {
@@ -3840,6 +3885,18 @@
                   "smithy.api#documentation" : "<p>The Kubernetes version for the cluster.</p>"
                }
             },
+            "controlPlaneComponentConfig" : {
+               "target" : "com.amazonaws.eks#ControlPlaneConfigInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default control plane component configuration and constraints for this Kubernetes version.</p>"
+               }
+            },
+            "controlPlaneScalingTiers" : {
+               "target" : "com.amazonaws.eks#ControlPlaneScalingTierList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The available provisioned control plane scaling tiers and their capabilities for this Kubernetes version.</p>"
+               }
+            },
             "defaultPlatformVersion" : {
                "target" : "com.amazonaws.eks#String",
                "traits" : {
@@ -4128,6 +4185,32 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.eks#ControlPlaneConfigInfo" : {
+         "members" : {
+            "kubeApiServerConfig" : {
+               "target" : "com.amazonaws.eks#KubeApiServerVersionConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes API server configuration defaults and constraints.</p>"
+               }
+            },
+            "kubeControllerManagerConfig" : {
+               "target" : "com.amazonaws.eks#KubeControllerManagerVersionConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes controller manager configuration defaults and constraints.</p>"
+               }
+            },
+            "kubeSchedulerConfig" : {
+               "target" : "com.amazonaws.eks#KubeSchedulerVersionConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes scheduler configuration defaults and constraints.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The control plane component configuration defaults and constraints.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.eks#ControlPlaneEgressModeType" : {
          "members" : {
             "AWS_MANAGED" : {
@@ -4204,6 +4287,57 @@
             "smithy.api#documentation" : "<p>The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.eks#ControlPlaneScalingTierInfo" : {
+         "members" : {
+            "apiRequestConcurrency" : {
+               "target" : "com.amazonaws.eks#BoxedInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum API request concurrency supported by this tier.</p>"
+               }
+            },
+            "clusterDatabaseSizeGb" : {
+               "target" : "com.amazonaws.eks#BoxedInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum cluster database size in GB supported by this tier.</p>"
+               }
+            },
+            "controlPlaneComponentConfigOverrides" : {
+               "target" : "com.amazonaws.eks#ControlPlaneConfigInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The control plane component configuration overrides specific to this scaling tier.</p>"
+               }
+            },
+            "podSchedulingRatePerSecond" : {
+               "target" : "com.amazonaws.eks#BoxedInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum pod scheduling rate per second supported by this tier.</p>"
+               }
+            },
+            "tierName" : {
+               "target" : "com.amazonaws.eks#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the scaling tier.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about a provisioned control plane scaling tier.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#ControlPlaneScalingTierList" : {
+         "member" : {
+            "target" : "com.amazonaws.eks#ControlPlaneScalingTierInfo"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of available provisioned control plane scaling tiers.</p>",
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.eks#CreateAccessConfigRequest" : {
          "members" : {
@@ -4644,6 +4778,24 @@
                "target" : "com.amazonaws.eks#EncryptionConfigList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The encryption configuration for the cluster.</p>"
+               }
+            },
+            "kubeApiServerConfig" : {
+               "target" : "com.amazonaws.eks#KubeApiServerConfigRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes API server configuration for the new cluster.</p>"
+               }
+            },
+            "kubeControllerManagerConfig" : {
+               "target" : "com.amazonaws.eks#KubeControllerManagerConfigRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes controller manager configuration for the new cluster.</p>"
+               }
+            },
+            "kubeSchedulerConfig" : {
+               "target" : "com.amazonaws.eks#KubeSchedulerConfigRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes scheduler configuration for the new cluster.</p>"
                }
             },
             "kubernetesNetworkConfig" : {
@@ -7475,6 +7627,46 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.eks#DurationConstraints" : {
+         "members" : {
+            "max" : {
+               "target" : "com.amazonaws.eks#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum allowed duration value.</p>"
+               }
+            },
+            "min" : {
+               "target" : "com.amazonaws.eks#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum allowed duration value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Constraints for a duration parameter.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#DurationParameterConfig" : {
+         "members" : {
+            "constraints" : {
+               "target" : "com.amazonaws.eks#DurationConstraints",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The constraints for the duration parameter.</p>"
+               }
+            },
+            "defaultValue" : {
+               "target" : "com.amazonaws.eks#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default value for the duration parameter.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A duration parameter configuration with default value and constraints.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.eks#EksAnywhereSubscription" : {
          "members" : {
             "arn" : {
@@ -8104,6 +8296,48 @@
          },
          "type" : "integer"
       },
+      "com.amazonaws.eks#HorizontalPodAutoscalerControllerConfigRequest" : {
+         "members" : {
+            "horizontalPodAutoscalerSyncPeriod" : {
+               "target" : "com.amazonaws.eks#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The interval between each sync of the horizontal pod autoscaler. Valid values are single-unit durations such as <code>15s</code> or <code>1m</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The horizontal pod autoscaler controller configuration for the Kubernetes controller manager.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#HorizontalPodAutoscalerControllerConfigResponse" : {
+         "members" : {
+            "horizontalPodAutoscalerSyncPeriod" : {
+               "target" : "com.amazonaws.eks#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The interval between each sync of the horizontal pod autoscaler.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The horizontal pod autoscaler controller configuration for the Kubernetes controller manager.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#HorizontalPodAutoscalerControllerVersionConfig" : {
+         "members" : {
+            "horizontalPodAutoscalerSyncPeriod" : {
+               "target" : "com.amazonaws.eks#DurationParameterConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The HPA sync period configuration with default value and constraints.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The horizontal pod autoscaler controller version configuration.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.eks#Identity" : {
          "members" : {
             "oidc" : {
@@ -8470,6 +8704,26 @@
          },
          "type" : "integer"
       },
+      "com.amazonaws.eks#IntegerRangeConstraint" : {
+         "members" : {
+            "max" : {
+               "target" : "com.amazonaws.eks#BoxedInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum allowed value.</p>"
+               }
+            },
+            "min" : {
+               "target" : "com.amazonaws.eks#BoxedInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum allowed value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An integer range constraint specifying minimum and maximum allowed values.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.eks#InvalidParameterException" : {
          "members" : {
             "addonName" : {
@@ -8623,6 +8877,150 @@
             "target" : "com.amazonaws.eks#Issue"
          },
          "type" : "list"
+      },
+      "com.amazonaws.eks#KubeApiServerConfigRequest" : {
+         "members" : {
+            "eventTtl" : {
+               "target" : "com.amazonaws.eks#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The duration that Kubernetes events are retained. Valid values are single-unit durations such as <code>30m</code> or <code>1h</code>.</p>"
+               }
+            },
+            "serviceNodePortRange" : {
+               "target" : "com.amazonaws.eks#ServiceNodePortRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The port range for NodePort services.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for the Kubernetes API server on an Amazon EKS cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#KubeApiServerConfigResponse" : {
+         "members" : {
+            "eventTtl" : {
+               "target" : "com.amazonaws.eks#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The duration that Kubernetes events are retained.</p>"
+               }
+            },
+            "serviceNodePortRange" : {
+               "target" : "com.amazonaws.eks#ServiceNodePortRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The port range for NodePort services.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Kubernetes API server configuration for an Amazon EKS cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#KubeApiServerVersionConfig" : {
+         "members" : {
+            "eventTtl" : {
+               "target" : "com.amazonaws.eks#DurationParameterConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The event TTL configuration with default value and constraints.</p>"
+               }
+            },
+            "serviceNodePortRange" : {
+               "target" : "com.amazonaws.eks#PortRangeParameterConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The service node port range configuration with default value and constraints.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Kubernetes API server version-specific configuration defaults and constraints.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#KubeControllerManagerConfigRequest" : {
+         "members" : {
+            "horizontalPodAutoscalerControllerConfig" : {
+               "target" : "com.amazonaws.eks#HorizontalPodAutoscalerControllerConfigRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The horizontal pod autoscaler controller configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for the Kubernetes controller manager on an Amazon EKS cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#KubeControllerManagerConfigResponse" : {
+         "members" : {
+            "horizontalPodAutoscalerControllerConfig" : {
+               "target" : "com.amazonaws.eks#HorizontalPodAutoscalerControllerConfigResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The horizontal pod autoscaler controller configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Kubernetes controller manager configuration for an Amazon EKS cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#KubeControllerManagerVersionConfig" : {
+         "members" : {
+            "horizontalPodAutoscalerControllerConfig" : {
+               "target" : "com.amazonaws.eks#HorizontalPodAutoscalerControllerVersionConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The horizontal pod autoscaler controller configuration with default value and constraints.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Kubernetes controller manager version-specific configuration defaults and constraints.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#KubeSchedulerConfigRequest" : {
+         "members" : {
+            "nodeResourcesFit" : {
+               "target" : "com.amazonaws.eks#NodeResourcesFitConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The node resource fit scoring configuration for the scheduler.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for the Kubernetes scheduler on an Amazon EKS cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#KubeSchedulerConfigResponse" : {
+         "members" : {
+            "nodeResourcesFit" : {
+               "target" : "com.amazonaws.eks#NodeResourcesFitConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The node resource fit scoring configuration for the scheduler.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Kubernetes scheduler configuration for an Amazon EKS cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#KubeSchedulerVersionConfig" : {
+         "members" : {
+            "nodeResourcesFit" : {
+               "target" : "com.amazonaws.eks#NodeResourcesFitVersionConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NodeResourcesFit configuration with default value and constraints.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Kubernetes scheduler version-specific configuration defaults and constraints.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.eks#KubernetesNetworkConfigRequest" : {
          "members" : {
@@ -10258,6 +10656,34 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.eks#NodeResourcesFitConfig" : {
+         "members" : {
+            "scoringStrategy" : {
+               "target" : "com.amazonaws.eks#ScoringStrategy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scoring strategy used to rank nodes during scheduling.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The NodeResourcesFit plugin configuration for the Kubernetes scheduler.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#NodeResourcesFitVersionConfig" : {
+         "members" : {
+            "scoringStrategy" : {
+               "target" : "com.amazonaws.eks#ScoringStrategyConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scoring strategy configuration with default value and constraints.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The NodeResourcesFit version configuration with default value and constraints.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.eks#Nodegroup" : {
          "members" : {
             "amiType" : {
@@ -11195,6 +11621,46 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.eks#PortRangeConstraints" : {
+         "members" : {
+            "maxPort" : {
+               "target" : "com.amazonaws.eks#IntegerRangeConstraint",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The constraints for the maximum port value.</p>"
+               }
+            },
+            "minPort" : {
+               "target" : "com.amazonaws.eks#IntegerRangeConstraint",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The constraints for the minimum port value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Constraints for a port range parameter.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#PortRangeParameterConfig" : {
+         "members" : {
+            "constraints" : {
+               "target" : "com.amazonaws.eks#PortRangeConstraints",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The constraints for the port range parameter.</p>"
+               }
+            },
+            "defaultValue" : {
+               "target" : "com.amazonaws.eks#ServiceNodePortRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default port range value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A port range parameter configuration with default value and constraints.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.eks#Provider" : {
          "members" : {
             "keyArn" : {
@@ -11491,6 +11957,26 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.eks#ResourceConstraints" : {
+         "members" : {
+            "name" : {
+               "target" : "com.amazonaws.eks#AllowedValuesConstraint",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The allowed values for resource names.</p>"
+               }
+            },
+            "weight" : {
+               "target" : "com.amazonaws.eks#IntegerRangeConstraint",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The allowed range for resource weight values.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Constraints for resource weight entries.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.eks#ResourceInUseException" : {
          "members" : {
             "addonName" : {
@@ -11621,6 +12107,59 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.eks#ResourceWeight" : {
+         "members" : {
+            "name" : {
+               "target" : "com.amazonaws.eks#ResourceWeightName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the resource (for example, <code>cpu</code> or <code>memory</code>).</p>"
+               }
+            },
+            "weight" : {
+               "target" : "com.amazonaws.eks#ResourceWeightValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The weight assigned to the resource for scoring. Must be between 1 and 100.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A resource weight entry for the scheduler scoring strategy.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#ResourceWeightList" : {
+         "member" : {
+            "target" : "com.amazonaws.eks#ResourceWeight"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of resource weights for the scoring strategy.</p>",
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.eks#ResourceWeightName" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name of a resource used in the scheduler scoring strategy.</p>",
+            "smithy.api#length" : {
+               "max" : 253,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.eks#ResourceWeightValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The weight value for a resource in the scheduler scoring strategy. Must be between 1 and 100.</p>",
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
       "com.amazonaws.eks#RoleArn" : {
          "traits" : {
             "smithy.api#length" : {
@@ -11643,6 +12182,86 @@
             "smithy.api#documentation" : "<p>The rollback configuration for the cluster version rollback.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.eks#ScoringStrategy" : {
+         "members" : {
+            "resources" : {
+               "target" : "com.amazonaws.eks#ResourceWeightList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource weights used for scoring nodes.</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.eks#ScoringStrategyType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scoring strategy type. Valid values are <code>LeastAllocated</code> or <code>MostAllocated</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The scoring strategy configuration for the NodeResourcesFit scheduler plugin.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#ScoringStrategyConfig" : {
+         "members" : {
+            "constraints" : {
+               "target" : "com.amazonaws.eks#ScoringStrategyConstraints",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The constraints for the scoring strategy.</p>"
+               }
+            },
+            "defaultValue" : {
+               "target" : "com.amazonaws.eks#ScoringStrategy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default scoring strategy.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The scoring strategy configuration with default value and constraints.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#ScoringStrategyConstraints" : {
+         "members" : {
+            "resources" : {
+               "target" : "com.amazonaws.eks#ResourceConstraints",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The constraints for resource weights.</p>"
+               }
+            },
+            "scoringStrategy" : {
+               "target" : "com.amazonaws.eks#AllowedValuesConstraint",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The allowed values for the scoring strategy type.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Constraints for the scoring strategy configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#ScoringStrategyType" : {
+         "members" : {
+            "LEAST_ALLOCATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LeastAllocated"
+               }
+            },
+            "MOST_ALLOCATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MostAllocated"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The scoring strategy type for the NodeResourcesFit scheduler plugin.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.eks#ServerException" : {
          "members" : {
@@ -11681,6 +12300,28 @@
             "smithy.api#documentation" : "<p>These errors are usually caused by a server-side issue.</p>",
             "smithy.api#error" : "server",
             "smithy.api#httpError" : 500
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.eks#ServiceNodePortRange" : {
+         "members" : {
+            "maxPort" : {
+               "target" : "com.amazonaws.eks#Integer",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The maximum port number in the range.</p>"
+               }
+            },
+            "minPort" : {
+               "target" : "com.amazonaws.eks#Integer",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The minimum port number in the range.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The port range for Kubernetes NodePort services.</p>"
          },
          "type" : "structure"
       },
@@ -12609,6 +13250,24 @@
                   "smithy.api#documentation" : "<p>Specifies whether to enable or disable deletion protection for the cluster. When \n            enabled (<code>true</code>), the cluster cannot be deleted until deletion protection is \n            explicitly disabled. When disabled (<code>false</code>), the cluster can be deleted \n            normally.</p>"
                }
             },
+            "kubeApiServerConfig" : {
+               "target" : "com.amazonaws.eks#KubeApiServerConfigRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes API server configuration for the updated cluster.</p>"
+               }
+            },
+            "kubeControllerManagerConfig" : {
+               "target" : "com.amazonaws.eks#KubeControllerManagerConfigRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes controller manager configuration for the updated cluster.</p>"
+               }
+            },
+            "kubeSchedulerConfig" : {
+               "target" : "com.amazonaws.eks#KubeSchedulerConfigRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Kubernetes scheduler configuration for the updated cluster.</p>"
+               }
+            },
             "kubernetesNetworkConfig" : {
                "target" : "com.amazonaws.eks#KubernetesNetworkConfigRequest"
             },
@@ -13188,6 +13847,24 @@
                   "smithy.api#enumValue" : "KubernetesNetworkConfig"
                }
             },
+            "KUBE_API_SERVER_CONFIG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KubeApiServerConfig"
+               }
+            },
+            "KUBE_CONTROLLER_MANAGER_CONFIG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KubeControllerManagerConfig"
+               }
+            },
+            "KUBE_SCHEDULER_CONFIG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KubeSchedulerConfig"
+               }
+            },
             "LABELS_TO_ADD" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -13636,6 +14313,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ConfigUpdate"
+               }
+            },
+            "CONTROL_PLANE_COMPONENT_CONFIG_UPDATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ControlPlaneComponentConfigUpdate"
                }
             },
             "CONTROL_PLANE_EGRESS_UPDATE" : {
