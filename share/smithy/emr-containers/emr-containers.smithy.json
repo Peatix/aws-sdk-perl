@@ -55,6 +55,26 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.emrcontainers#AuthenticationConfiguration" : {
+         "members" : {
+            "iamConfiguration" : {
+               "target" : "com.amazonaws.emrcontainers#IAMConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IAM configuration to use for authentication.</p>"
+               }
+            },
+            "identityCenterConfiguration" : {
+               "target" : "com.amazonaws.emrcontainers#IdentityCenterConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IAM Identity Center configuration to use for authentication.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the authentication settings for a security configuration, including Identity Center and IAM configuration options.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.emrcontainers#AuthorizationConfiguration" : {
          "members" : {
             "encryptionConfiguration" : {
@@ -97,6 +117,9 @@
             },
             {
                "target" : "com.amazonaws.emrcontainers#DeleteManagedEndpoint"
+            },
+            {
+               "target" : "com.amazonaws.emrcontainers#DeleteSecurityConfiguration"
             },
             {
                "target" : "com.amazonaws.emrcontainers#DeleteVirtualCluster"
@@ -145,6 +168,9 @@
             },
             {
                "target" : "com.amazonaws.emrcontainers#UntagResource"
+            },
+            {
+               "target" : "com.amazonaws.emrcontainers#UpdateVirtualCluster"
             }
          ],
          "traits" : {
@@ -1765,7 +1791,7 @@
                "target" : "com.amazonaws.emrcontainers#SessionIdleTimeoutInMinutes",
                "traits" : {
                   "smithy.api#default" : 0,
-                  "smithy.api#documentation" : "<p>The idle timeout in minutes for the managed endpoint session.</p>"
+                  "smithy.api#documentation" : "<p>The number of idle minutes before the managed endpoint session times out.</p>"
                }
             },
             "tags" : {
@@ -1942,7 +1968,7 @@
             "target" : "com.amazonaws.emrcontainers#CreateVirtualClusterResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any\n         additional resource in your system. A single virtual cluster maps to a single Kubernetes\n         namespace. Given this relationship, you can model virtual clusters the same way you model\n         Kubernetes namespaces to meet your requirements.</p>",
+            "smithy.api#documentation" : "<p>Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any\n         additional resource in your system. A single virtual cluster maps to a single Kubernetes\n         namespace. Given this relationship, you can model virtual clusters the same way you model\n         Kubernetes namespaces to meet your requirements.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -1973,6 +1999,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The specified name of the virtual cluster.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "schedulerConfiguration" : {
+               "target" : "com.amazonaws.emrcontainers#SchedulerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scheduler configuration (concurrency and queue limits) to apply to the virtual\n         cluster at creation time. When omitted, no limits are applied.</p>"
                }
             },
             "securityConfigurationId" : {
@@ -2179,6 +2211,61 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.emrcontainers#DeleteSecurityConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.emrcontainers#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.emrcontainers#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.emrcontainers#DeleteSecurityConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.emrcontainers#DeleteSecurityConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a security configuration.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/securityconfigurations/{id}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.emrcontainers#DeleteSecurityConfigurationRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.emrcontainers#ResourceIdString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the security configuration to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.emrcontainers#DeleteSecurityConfigurationResponse" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.emrcontainers#ResourceIdString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the deleted security configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.emrcontainers#DeleteVirtualCluster" : {
          "errors" : [
             {
@@ -2195,7 +2282,7 @@
             "target" : "com.amazonaws.emrcontainers#DeleteVirtualClusterResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any\n         additional resource in your system. A single virtual cluster maps to a single Kubernetes\n         namespace. Given this relationship, you can model virtual clusters the same way you model\n         Kubernetes namespaces to meet your requirements.</p>",
+            "smithy.api#documentation" : "<p>Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any\n         additional resource in your system. A single virtual cluster maps to a single Kubernetes\n         namespace. Given this relationship, you can model virtual clusters the same way you model\n         Kubernetes namespaces to meet your requirements.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "DELETE",
@@ -2501,7 +2588,7 @@
             "target" : "com.amazonaws.emrcontainers#DescribeVirtualClusterResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Displays detailed information about a specified virtual cluster. Virtual cluster is a\n         managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual\n         clusters. They do not consume any additional resource in your system. A single virtual\n         cluster maps to a single Kubernetes namespace. Given this relationship, you can model\n         virtual clusters the same way you model Kubernetes namespaces to meet your\n         requirements.</p>",
+            "smithy.api#documentation" : "<p>Displays detailed information about a specified virtual cluster. Virtual cluster is a\n         managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual\n         clusters. They do not consume any additional resource in your system. A single virtual\n         cluster maps to a single Kubernetes namespace. Given this relationship, you can model\n         virtual clusters the same way you model Kubernetes namespaces to meet your\n         requirements.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -2573,6 +2660,12 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.emrcontainers#EmrIdentityCenterApplicationARN" : {
+         "traits" : {
+            "smithy.api#pattern" : "^arn:(aws[a-zA-Z0-9-]*):sso:::application/ssoins-[0-9a-zA-Z/\\\\-_]+/apl-[0-9a-zA-Z/\\\\-_]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.emrcontainers#EncryptionConfiguration" : {
          "members" : {
             "inTransitEncryptionConfiguration" : {
@@ -2598,7 +2691,7 @@
             "authProxyUrl" : {
                "target" : "com.amazonaws.emrcontainers#UriString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The auth proxy URL of the endpoint.</p>"
+                  "smithy.api#documentation" : "<p>The authentication proxy URL of the endpoint.</p>"
                }
             },
             "certificateArn" : {
@@ -2953,7 +3046,7 @@
             "endpointCredentials" : {
                "target" : "com.amazonaws.emrcontainers#Credentials",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The structure containing the session token being returned.</p>"
+                  "smithy.api#documentation" : "<p>The session credentials that the operation returns.</p>"
                }
             },
             "expiresAt" : {
@@ -2974,6 +3067,20 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.emrcontainers#IAMConfiguration" : {
+         "members" : {
+            "systemRole" : {
+               "target" : "com.amazonaws.emrcontainers#IAMRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the system role used by the security configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the IAM settings for a security configuration, including the system role used for authentication.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.emrcontainers#IAMRoleArn" : {
          "traits" : {
             "smithy.api#length" : {
@@ -2983,6 +3090,57 @@
             "smithy.api#pattern" : "^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.emrcontainers#IdentityCenterConfiguration" : {
+         "members" : {
+            "emrIdentityCenterApplicationARN" : {
+               "target" : "com.amazonaws.emrcontainers#EmrIdentityCenterApplicationARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon EMR Identity Center application.</p>"
+               }
+            },
+            "enableIdentityCenter" : {
+               "target" : "com.amazonaws.emrcontainers#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether Identity Center is enabled for the security configuration.</p>"
+               }
+            },
+            "identityCenterApplicationAssignmentRequired" : {
+               "target" : "com.amazonaws.emrcontainers#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether user assignment is required for the Identity Center application.</p>"
+               }
+            },
+            "identityCenterInstanceARN" : {
+               "target" : "com.amazonaws.emrcontainers#IdentityCenterInstanceARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Identity Center instance.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the IAM Identity Center settings for a security configuration, including instance ARN, application assignment requirements, and application ARN.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.emrcontainers#IdentityCenterInstanceARN" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1224,
+               "min" : 10
+            },
+            "smithy.api#pattern" : "^arn:(aws[a-zA-Z0-9-]*):sso:::instance/ssoins-[0-9a-zA-Z/\\\\-_]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.emrcontainers#InQueueJobLimitInteger" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 10000,
+               "min" : 100
+            }
+         },
+         "type" : "integer"
       },
       "com.amazonaws.emrcontainers#InTransitEncryptionConfiguration" : {
          "members" : {
@@ -3043,6 +3201,15 @@
             "smithy.api#documentation" : "<p>Specify the driver that the job runs on. Exactly one of the two available job drivers is\n         required, either sparkSqlJobDriver or sparkSubmitJobDriver.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.emrcontainers#JobLimitInteger" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 10000,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
       },
       "com.amazonaws.emrcontainers#JobRun" : {
          "members" : {
@@ -3862,7 +4029,7 @@
             "target" : "com.amazonaws.emrcontainers#ListVirtualClustersResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Lists information about the specified virtual cluster. Virtual cluster is a managed\n         entity on Amazon EMR on EKS. You can create, describe, list and delete virtual\n         clusters. They do not consume any additional resource in your system. A single virtual\n         cluster maps to a single Kubernetes namespace. Given this relationship, you can model\n         virtual clusters the same way you model Kubernetes namespaces to meet your\n         requirements.</p>",
+            "smithy.api#documentation" : "<p>Lists information about the specified virtual cluster. Virtual cluster is a managed\n         entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual\n         clusters. They do not consume any additional resource in your system. A single virtual\n         cluster maps to a single Kubernetes namespace. Given this relationship, you can model\n         virtual clusters the same way you model Kubernetes namespaces to meet your\n         requirements.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -4067,6 +4234,15 @@
             "smithy.api#pattern" : "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.emrcontainers#NonNegativeInteger" : {
+         "traits" : {
+            "smithy.api#default" : 0,
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
       },
       "com.amazonaws.emrcontainers#ParametricCloudWatchMonitoringConfiguration" : {
          "members" : {
@@ -4306,7 +4482,7 @@
             "encryptionKeyArn" : {
                "target" : "com.amazonaws.emrcontainers#KmsKeyArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon resource name (ARN) of the encryption key for logs.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the encryption key for logs.</p>"
                }
             },
             "logUri" : {
@@ -4319,6 +4495,48 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p> Amazon S3 configuration for monitoring log publishing. You can configure your jobs to\n         send log information to Amazon S3.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.emrcontainers#SchedulerConfiguration" : {
+         "members" : {
+            "maxConcurrentJobRuns" : {
+               "target" : "com.amazonaws.emrcontainers#JobLimitInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of job runs that can be in the <code>RUNNING</code> state at any time\n         for the virtual cluster. As running slots free up, queued job runs start automatically. If\n         you omit this field, the service applies no concurrency limit.</p>"
+               }
+            },
+            "maxInQueueJobRuns" : {
+               "target" : "com.amazonaws.emrcontainers#InQueueJobLimitInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of job runs that can be in the <code>PENDING</code> or\n         <code>SUBMITTED</code> state at any time for the virtual cluster. When the queue is full,\n         the service rejects <code>StartJobRun</code> requests with a <code>ValidationException</code>. If you omit\n         this field, the service applies no queue-depth limit.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The scheduler configuration for a virtual cluster on Amazon EMR on EKS. It controls how\n         many job runs can run concurrently and how many can wait in the queue. When not set, no\n         concurrency or queue limits are applied.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.emrcontainers#SchedulerStatus" : {
+         "members" : {
+            "currentConcurrentJobRuns" : {
+               "target" : "com.amazonaws.emrcontainers#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of job runs currently in the <code>RUNNING</code> state for the virtual\n         cluster.</p>"
+               }
+            },
+            "currentInQueueJobRuns" : {
+               "target" : "com.amazonaws.emrcontainers#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of job runs currently waiting in the queue (<code>PENDING</code> or\n         <code>SUBMITTED</code>) for the virtual cluster.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The current job-run counts for a virtual cluster, reflecting how much of the configured\n         scheduler capacity is in use.</p>"
          },
          "type" : "structure"
       },
@@ -4414,6 +4632,12 @@
       },
       "com.amazonaws.emrcontainers#SecurityConfigurationData" : {
          "members" : {
+            "authenticationConfiguration" : {
+               "target" : "com.amazonaws.emrcontainers#AuthenticationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Authentication-related configuration input for the security configuration.</p>"
+               }
+            },
             "authorizationConfiguration" : {
                "target" : "com.amazonaws.emrcontainers#AuthorizationConfiguration",
                "traits" : {
@@ -4994,6 +5218,81 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.emrcontainers#UpdateVirtualCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.emrcontainers#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.emrcontainers#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.emrcontainers#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.emrcontainers#UpdateVirtualClusterRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.emrcontainers#UpdateVirtualClusterResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any\n         additional resource in your system. A single virtual cluster maps to a single Kubernetes\n         namespace. Given this relationship, you can model virtual clusters the same way you model\n         Kubernetes namespaces to meet your requirements.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/virtualclusters/{id}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.emrcontainers#UpdateVirtualClusterRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.emrcontainers#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure that the operation\n         completes no more than one time. If this token matches a previous request, the service\n         ignores the request, but does not return an error.</p>",
+                  "smithy.api#idempotencyToken" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.emrcontainers#ResourceIdString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the virtual cluster to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "schedulerConfiguration" : {
+               "target" : "com.amazonaws.emrcontainers#SchedulerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scheduler configuration to apply to the virtual cluster. The new configuration fully\n         replaces the existing one. If you omit a field, the corresponding limit is removed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the parameters for a request to update a virtual cluster on Amazon EMR on EKS.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.emrcontainers#UpdateVirtualClusterResponse" : {
+         "members" : {
+            "virtualCluster" : {
+               "target" : "com.amazonaws.emrcontainers#VirtualCluster",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated virtual cluster.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the virtual cluster returned after a successful update request.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.emrcontainers#UriString" : {
          "traits" : {
             "smithy.api#length" : {
@@ -5049,6 +5348,18 @@
                   "smithy.api#documentation" : "<p>The name of the virtual cluster.</p>"
                }
             },
+            "schedulerConfiguration" : {
+               "target" : "com.amazonaws.emrcontainers#SchedulerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scheduler configuration (concurrency and queue limits) applied to the virtual\n         cluster. The service does not return this field when no scheduler limits are configured.</p>"
+               }
+            },
+            "schedulerStatus" : {
+               "target" : "com.amazonaws.emrcontainers#SchedulerStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current in-queue and concurrent job-run counts for the virtual cluster.</p>"
+               }
+            },
             "securityConfigurationId" : {
                "target" : "com.amazonaws.emrcontainers#ResourceIdString",
                "traits" : {
@@ -5058,7 +5369,7 @@
             "sessionEnabled" : {
                "target" : "com.amazonaws.emrcontainers#Boolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Indicates whether the virtual cluster has session support enabled. </p>"
+                  "smithy.api#documentation" : "<p>Specifies whether the virtual cluster has session support enabled. </p>"
                }
             },
             "state" : {

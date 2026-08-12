@@ -104,10 +104,22 @@
                   "smithy.api#documentation" : "<p>A description of the actor.</p>"
                }
             },
+            "enableEmailMfa" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether email-based MFA is enabled for this actor.</p>"
+               }
+            },
             "identifier" : {
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier for the actor.</p>"
+               }
+            },
+            "mfaForwardingAddress" : {
+               "target" : "com.amazonaws.securityagent#SensitiveEmailAddress",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Server-generated email forwarding address for receiving MFA codes.</p>"
                }
             },
             "uris" : {
@@ -7178,6 +7190,12 @@
       },
       "com.amazonaws.securityagent#IntegratedRepository" : {
          "members" : {
+            "branch" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional override for the repository branch.</p>"
+               }
+            },
             "integrationId" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -11872,6 +11890,12 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.securityagent#SensitiveEmailAddress" : {
+         "traits" : {
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
       "com.amazonaws.securityagent#ServiceManagedInput" : {
          "members" : {
             "certificate" : {
@@ -13045,6 +13069,12 @@
                   "smithy.api#documentation" : "<p>The target endpoint being tested by the task.</p>"
                }
             },
+            "taskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of active work hours consumed by the task during execution.</p>"
+               }
+            },
             "taskId" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -13163,6 +13193,12 @@
                "target" : "com.amazonaws.securityagent#RiskType",
                "traits" : {
                   "smithy.api#documentation" : "<p>The type of security risk the task is testing for.</p>"
+               }
+            },
+            "taskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of active work hours consumed by the task during execution.</p>"
                }
             },
             "taskId" : {
