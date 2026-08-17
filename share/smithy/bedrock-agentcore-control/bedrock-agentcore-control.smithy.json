@@ -965,6 +965,9 @@
                "target" : "com.amazonaws.bedrockagentcorecontrol#OnlineEvaluationConfig"
             },
             {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#PaymentConnectionResource"
+            },
+            {
                "target" : "com.amazonaws.bedrockagentcorecontrol#PaymentCredentialProvider"
             },
             {
@@ -2885,7 +2888,9 @@
             "capacityProviderArn" : {
                "target" : "com.amazonaws.bedrockagentcorecontrol#CapacityProviderArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the capacity provider to use for the AgentCore Runtime.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the capacity provider to use for the AgentCore Runtime.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -7489,6 +7494,9 @@
                "target" : "com.amazonaws.bedrockagentcorecontrol#ServiceQuotaExceededException"
             },
             {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#SubscriptionRequiredException"
+            },
+            {
                "target" : "com.amazonaws.bedrockagentcorecontrol#ThrottlingException"
             },
             {
@@ -7549,6 +7557,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "provisionMode" : {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#PaymentConnectorProvisionMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The provision mode for creating the payment connector. If you don't specify a value, the default is <code>MANUAL</code>.</p> <ul> <li> <p> <code>MANUAL</code> - You provide the credential provider configurations directly.</p> </li> <li> <p> <code>QUICK_CREATE</code> - The service orchestrates OAuth consent and provisions the credential provider for you.</p> </li> </ul>"
+               }
+            },
             "type" : {
                "target" : "com.amazonaws.bedrockagentcorecontrol#PaymentConnectorType",
                "traits" : {
@@ -7564,6 +7578,12 @@
       },
       "com.amazonaws.bedrockagentcorecontrol#CreatePaymentConnectorResponse" : {
          "members" : {
+            "authorizationUrl" : {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#PaymentConnectorAuthorizationUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL that the user must open to complete OAuth consent. This field is only present when the payment connector status is <code>PENDING_AUTHENTICATION</code>.</p>"
+               }
+            },
             "createdAt" : {
                "target" : "com.amazonaws.bedrockagentcorecontrol#DateTimestamp",
                "traits" : {
@@ -7812,6 +7832,12 @@
                   "smithy.api#documentation" : "<p>A description of the payment manager.</p>"
                }
             },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the customer managed KMS key to use for encrypting sensitive payment manager data at rest. If you don't specify a key, the data is encrypted with an Amazon Web Services owned key.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.bedrockagentcorecontrol#PaymentManagerName",
                "traits" : {
@@ -7855,6 +7881,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The timestamp when the payment manager was created.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the KMS key used to encrypt sensitive payment manager data at rest, if configured.</p>"
                }
             },
             "name" : {
@@ -8873,7 +8905,7 @@
          "traits" : {
             "smithy.api#length" : {
                "max" : 1,
-               "min" : 1
+               "min" : 0
             }
          },
          "type" : "list"
@@ -15083,8 +15115,7 @@
             "networkConfiguration" : {
                "target" : "com.amazonaws.bedrockagentcorecontrol#NetworkConfiguration",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The network configuration for the AgentCore Runtime.</p>",
-                  "smithy.api#required" : {}
+                  "smithy.api#documentation" : "<p>The network configuration for the AgentCore Runtime.</p>"
                }
             },
             "protocolConfiguration" : {
@@ -17610,6 +17641,12 @@
       },
       "com.amazonaws.bedrockagentcorecontrol#GetPaymentConnectorResponse" : {
          "members" : {
+            "authorizationUrl" : {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#PaymentConnectorAuthorizationUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL that the user must open to complete OAuth consent. This field is only present when the payment connector status is <code>PENDING_AUTHENTICATION</code>.</p>"
+               }
+            },
             "createdAt" : {
                "target" : "com.amazonaws.bedrockagentcorecontrol#DateTimestamp",
                "traits" : {
@@ -17858,6 +17895,12 @@
                "target" : "com.amazonaws.bedrockagentcorecontrol#PaymentsDescription",
                "traits" : {
                   "smithy.api#documentation" : "<p>The description of the payment manager.</p>"
+               }
+            },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the KMS key used to encrypt sensitive payment manager data at rest, if configured.</p>"
                }
             },
             "lastUpdatedAt" : {
@@ -28613,13 +28656,26 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.bedrockagentcorecontrol#PaymentConnectionResource" : {
+         "type" : "resource"
+      },
+      "com.amazonaws.bedrockagentcorecontrol#PaymentConnectorAuthorizationUrl" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 4096,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^https://[^\\p{C}]*$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.bedrockagentcorecontrol#PaymentConnectorId" : {
          "traits" : {
             "smithy.api#length" : {
                "max" : 211,
                "min" : 12
             },
-            "smithy.api#pattern" : "^([0-9a-z][-]?){1,100}-[0-9a-z]{10}$"
+            "smithy.api#pattern" : "^([0-9a-z_][-]?){1,100}-[0-9a-z]{10}$"
          },
          "type" : "string"
       },
@@ -28632,6 +28688,23 @@
             "smithy.api#pattern" : "^[a-zA-Z][a-zA-Z0-9_]{0,47}$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcorecontrol#PaymentConnectorProvisionMode" : {
+         "members" : {
+            "MANUAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANUAL"
+               }
+            },
+            "QUICK_CREATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "QUICK_CREATE"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.bedrockagentcorecontrol#PaymentConnectorResource" : {
          "create" : {
@@ -28661,6 +28734,24 @@
       },
       "com.amazonaws.bedrockagentcorecontrol#PaymentConnectorStatus" : {
          "members" : {
+            "AUTHENTICATION_EXPIRED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AUTHENTICATION_EXPIRED"
+               }
+            },
+            "AUTHENTICATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AUTHENTICATION_FAILED"
+               }
+            },
+            "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED"
+               }
+            },
             "CREATE_FAILED" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -28683,6 +28774,18 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "DELETING"
+               }
+            },
+            "PENDING_AUTHENTICATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_AUTHENTICATION"
+               }
+            },
+            "PROVISIONING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PROVISIONING"
                }
             },
             "READY" : {
@@ -29057,6 +29160,12 @@
                   "smithy.api#documentation" : "<p>The description of the payment manager.</p>"
                }
             },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the KMS key used to encrypt sensitive payment manager data at rest, if configured.</p>"
+               }
+            },
             "lastUpdatedAt" : {
                "target" : "com.amazonaws.bedrockagentcorecontrol#DateTimestamp",
                "traits" : {
@@ -29168,7 +29277,7 @@
                "max" : 4096,
                "min" : 1
             },
-            "smithy.api#pattern" : "^[a-zA-Z0-9\\s]+$"
+            "smithy.api#pattern" : "^[^\\p{C}]*$"
          },
          "type" : "string"
       },
@@ -33330,6 +33439,34 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.bedrockagentcorecontrol#SubscriptionRequiredException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "productName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The product requiring subscription"
+               }
+            },
+            "subscriptionUrl" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "URL to the Marketplace listing for subscription"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request failed because it requires an active Amazon Web Services Marketplace subscription that is not present. Subscribe to the required product in Amazon Web Services Marketplace and try again.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.bedrockagentcorecontrol#SummaryConsolidationOverride" : {
          "members" : {
             "appendToPrompt" : {
@@ -37211,6 +37348,9 @@
                "target" : "com.amazonaws.bedrockagentcorecontrol#ServiceQuotaExceededException"
             },
             {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#SubscriptionRequiredException"
+            },
+            {
                "target" : "com.amazonaws.bedrockagentcorecontrol#ThrottlingException"
             },
             {
@@ -37285,6 +37425,12 @@
       },
       "com.amazonaws.bedrockagentcorecontrol#UpdatePaymentConnectorResponse" : {
          "members" : {
+            "authorizationUrl" : {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#PaymentConnectorAuthorizationUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL that the user must open to complete OAuth consent. This field is only present when the payment connector status is <code>PENDING_AUTHENTICATION</code>.</p>"
+               }
+            },
             "credentialProviderConfigurations" : {
                "target" : "com.amazonaws.bedrockagentcorecontrol#CredentialsProviderConfigurations",
                "traits" : {
@@ -37537,6 +37683,12 @@
                   "smithy.api#documentation" : "<p>The updated description of the payment manager.</p>"
                }
             },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated Amazon Resource Name (ARN) of the customer managed KMS key used to encrypt sensitive payment manager data at rest.</p>"
+               }
+            },
             "paymentManagerId" : {
                "target" : "com.amazonaws.bedrockagentcorecontrol#PaymentManagerId",
                "traits" : {
@@ -37564,6 +37716,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The type of authorizer for the updated payment manager.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcorecontrol#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the KMS key used to encrypt sensitive payment manager data at rest, if configured.</p>"
                }
             },
             "lastUpdatedAt" : {

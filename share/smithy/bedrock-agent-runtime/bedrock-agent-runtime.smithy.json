@@ -1604,6 +1604,9 @@
                "target" : "com.amazonaws.bedrockagentruntime#AgenticRetrieveStreamResource"
             },
             {
+               "target" : "com.amazonaws.bedrockagentruntime#CheckIngestedDocumentAclResource"
+            },
+            {
                "target" : "com.amazonaws.bedrockagentruntime#FlowExecutionResource"
             },
             {
@@ -1614,6 +1617,9 @@
             },
             {
                "target" : "com.amazonaws.bedrockagentruntime#GetDocumentContentResource"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#GetIngestedDocumentAclResource"
             },
             {
                "target" : "com.amazonaws.bedrockagentruntime#InferenceResource"
@@ -1666,7 +1672,7 @@
                   "http/1.1"
                ]
             },
-            "smithy.api#documentation" : "<p>Contains APIs related to model invocation and querying of knowledge bases.</p>",
+            "smithy.api#documentation" : "<note> <p>Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/agents-classic-maintenance-mode.html\">Amazon Bedrock Agents Classic availability change</a>.</p> </note> <p>Contains APIs related to model invocation and querying of knowledge bases.</p>",
             "smithy.api#title" : "Agents for Amazon Bedrock Runtime",
             "smithy.rules#endpointBdd" : {
                "conditions" : [
@@ -2992,6 +2998,102 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.bedrockagentruntime#CheckIngestedDocumentAcl" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bedrockagentruntime#CheckIngestedDocumentAclRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bedrockagentruntime#CheckIngestedDocumentAclResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is working as expected after ingestion. To use this operation, you must have the <code>bedrock:CheckIngestedDocumentAcl</code> permission.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/check-ingested-document-acl"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bedrockagentruntime#CheckIngestedDocumentAclRequest" : {
+         "members" : {
+            "dataSourceId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DataSourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the data source that contains the document.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "documentId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the document to check access for.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "knowledgeBaseId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#KnowledgeBaseIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the knowledge base that contains the document.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "userContext" : {
+               "target" : "com.amazonaws.bedrockagentruntime#UserContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The context object containing identity information for access control filtering, including user ID and optional group memberships used to evaluate the document access control list (ACL).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#CheckIngestedDocumentAclResource" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#CheckIngestedDocumentAcl"
+            }
+         ],
+         "type" : "resource"
+      },
+      "com.amazonaws.bedrockagentruntime#CheckIngestedDocumentAclResponse" : {
+         "members" : {
+            "hasAccess" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the user has access to the document based on the ingested access control list (ACL). Returns <code>true</code> if the user is allowed access, and <code>false</code> otherwise.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.bedrockagentruntime#Citation" : {
          "members" : {
             "generatedResponsePart" : {
@@ -3848,6 +3950,194 @@
             "smithy.api#httpError" : 424
          },
          "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentAcl" : {
+         "members" : {
+            "allowList" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentAclMembership",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of principals allowed access to the document.</p>"
+               }
+            },
+            "denyList" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentAclMembership",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of principals denied access to the document.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The access control list for a document, containing allow and deny membership lists. Each list specifies conditions that determine which users and groups are granted or denied access.</p>",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentAclCondition" : {
+         "members" : {
+            "conditionOperator" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentAclMemberRelation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The logical operator for combining users and groups within this condition. Valid values: <code>AND</code> – Both a user match and a group match are required. <code>OR</code> – Either a user match or a group match is sufficient.</p>"
+               }
+            },
+            "groups" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentAclGroupList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of group entries in this condition.</p>",
+                  "smithy.api#length" : {
+                     "max" : 3000
+                  }
+               }
+            },
+            "users" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentAclUserList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of user entries in this condition.</p>",
+                  "smithy.api#length" : {
+                     "max" : 3000
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A condition within a document access control list (ACL) membership, specifying users and groups that are evaluated together.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentAclConditionList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#DocumentAclCondition"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentAclGroup" : {
+         "members" : {
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the group.</p>",
+                  "smithy.api#length" : {
+                     "max" : 1024,
+                     "min" : 1
+                  },
+                  "smithy.api#pattern" : "^\\P{C}*$",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentAclMembershipType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The membership type indicating the scope of the group entry.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A group entry within a document access control list (ACL) condition.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentAclGroupList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#DocumentAclGroup"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentAclMemberRelation" : {
+         "members" : {
+            "AND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AND"
+               }
+            },
+            "OR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OR"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The logical relation for combining access control list (ACL) membership conditions.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentAclMembership" : {
+         "members" : {
+            "conditions" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentAclConditionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of conditions that determine membership.</p>",
+                  "smithy.api#length" : {
+                     "max" : 100
+                  }
+               }
+            },
+            "memberRelation" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentAclMemberRelation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The logical relation between conditions. Valid values: <code>AND</code> – All conditions must match. <code>OR</code> – At least one condition must match.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The membership entry for a document access control list (ACL), containing conditions and their logical relation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentAclMembershipType" : {
+         "members" : {
+            "DATA_SOURCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DATA_SOURCE"
+               }
+            },
+            "KNOWLEDGE_BASE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KNOWLEDGE_BASE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The scope type for a document access control list (ACL) membership condition. Valid values: <code>KNOWLEDGE_BASE</code> – The entry applies at the knowledge base level. <code>DATA_SOURCE</code> – The entry applies at the data source level.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentAclUser" : {
+         "members" : {
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user.</p>",
+                  "smithy.api#length" : {
+                     "max" : 1024,
+                     "min" : 1
+                  },
+                  "smithy.api#pattern" : "^\\P{C}*$",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentAclMembershipType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The membership type indicating the scope of the user entry.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A user entry within a document access control list (ACL) condition.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#DocumentAclUserList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentruntime#DocumentAclUser"
+         },
+         "type" : "list"
       },
       "com.amazonaws.bedrockagentruntime#DocumentId" : {
          "traits" : {
@@ -6320,7 +6610,10 @@
                }
             },
             "userContext" : {
-               "target" : "com.amazonaws.bedrockagentruntime#UserContext"
+               "target" : "com.amazonaws.bedrockagentruntime#UserContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about the user making the request. This is used for access control filtering to ensure that results only include documents the user is authorized to access.</p>"
+               }
             }
          },
          "traits" : {
@@ -6600,6 +6893,95 @@
                "target" : "com.amazonaws.bedrockagentruntime#FlowExecutionStatus",
                "traits" : {
                   "smithy.api#documentation" : "<p>The current status of the flow execution.</p> <p>Flow executions time out after 24 hours.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#GetIngestedDocumentAcl" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bedrockagentruntime#GetIngestedDocumentAclRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bedrockagentruntime#GetIngestedDocumentAclResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the ingested access control list (ACL) for a specific document in a knowledge base. Use this operation to inspect the allow and deny lists that were ingested for a document to troubleshoot access control issues. To use this operation, you must have the <code>bedrock:GetIngestedDocumentAcl</code> permission.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/get-ingested-document-acl"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bedrockagentruntime#GetIngestedDocumentAclRequest" : {
+         "members" : {
+            "dataSourceId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DataSourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the data source that contains the document.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "documentId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the document to retrieve the ingested access control list (ACL) for.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "knowledgeBaseId" : {
+               "target" : "com.amazonaws.bedrockagentruntime#KnowledgeBaseIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the knowledge base that contains the document.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentruntime#GetIngestedDocumentAclResource" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.bedrockagentruntime#GetIngestedDocumentAcl"
+            }
+         ],
+         "type" : "resource"
+      },
+      "com.amazonaws.bedrockagentruntime#GetIngestedDocumentAclResponse" : {
+         "members" : {
+            "documentAcl" : {
+               "target" : "com.amazonaws.bedrockagentruntime#DocumentAcl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ingested document access control list (ACL) containing allow and deny membership information.</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -8617,7 +8999,7 @@
             "target" : "com.amazonaws.bedrockagentruntime#InvokeAgentResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<note> </note> <p>Sends a prompt for the agent to process and respond to. Note the following fields for the request:</p> <ul> <li> <p>To continue the same conversation with an agent, use the same <code>sessionId</code> value in the request.</p> </li> <li> <p>To activate trace enablement, turn <code>enableTrace</code> to <code>true</code>. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events\">Trace enablement</a>.</p> </li> <li> <p>End a conversation by setting <code>endSession</code> to <code>true</code>.</p> </li> <li> <p>In the <code>sessionState</code> object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.</p> </li> </ul> <p>The response contains both <b>chunk</b> and <b>trace</b> attributes.</p> <p>The final response is returned in the <code>bytes</code> field of the <code>chunk</code> object. The <code>InvokeAgent</code> returns one chunk for the entire interaction.</p> <ul> <li> <p>The <code>attribution</code> object contains citations for parts of the response.</p> </li> <li> <p>If you set <code>enableTrace</code> to <code>true</code> in the request, you can trace the agent's steps and reasoning process that led it to the response.</p> </li> <li> <p>If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the <code>returnControl</code> field.</p> </li> <li> <p>Errors are also surfaced in the response.</p> </li> </ul>",
+            "smithy.api#documentation" : "<note> <p>Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/agents-classic-maintenance-mode.html\">Amazon Bedrock Agents Classic availability change</a>.</p> </note> <note> </note> <p>Sends a prompt for the agent to process and respond to. Note the following fields for the request:</p> <ul> <li> <p>To continue the same conversation with an agent, use the same <code>sessionId</code> value in the request.</p> </li> <li> <p>To activate trace enablement, turn <code>enableTrace</code> to <code>true</code>. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events\">Trace enablement</a>.</p> </li> <li> <p>End a conversation by setting <code>endSession</code> to <code>true</code>.</p> </li> <li> <p>In the <code>sessionState</code> object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.</p> </li> </ul> <p>The response contains both <b>chunk</b> and <b>trace</b> attributes.</p> <p>The final response is returned in the <code>bytes</code> field of the <code>chunk</code> object. The <code>InvokeAgent</code> returns one chunk for the entire interaction.</p> <ul> <li> <p>The <code>attribution</code> object contains citations for parts of the response.</p> </li> <li> <p>If you set <code>enableTrace</code> to <code>true</code> in the request, you can trace the agent's steps and reasoning process that led it to the response.</p> </li> <li> <p>If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the <code>returnControl</code> field.</p> </li> <li> <p>Errors are also surfaced in the response.</p> </li> </ul>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -10087,7 +10469,10 @@
       "com.amazonaws.bedrockagentruntime#ManagedSearchConfiguration" : {
          "members" : {
             "filter" : {
-               "target" : "com.amazonaws.bedrockagentruntime#RetrievalFilter"
+               "target" : "com.amazonaws.bedrockagentruntime#RetrievalFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters the metadata of the retrieved results so that Amazon Bedrock returns only results that match the filter.</p>"
+               }
             },
             "numberOfResults" : {
                "target" : "smithy.api#Integer",
@@ -13748,7 +14133,10 @@
                }
             },
             "userContext" : {
-               "target" : "com.amazonaws.bedrockagentruntime#UserContext"
+               "target" : "com.amazonaws.bedrockagentruntime#UserContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.</p>"
+               }
             }
          },
          "traits" : {
@@ -13887,7 +14275,10 @@
                }
             },
             "userContext" : {
-               "target" : "com.amazonaws.bedrockagentruntime#UserContext"
+               "target" : "com.amazonaws.bedrockagentruntime#UserContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.</p>"
+               }
             }
          },
          "traits" : {
@@ -14061,7 +14452,10 @@
                }
             },
             "userContext" : {
-               "target" : "com.amazonaws.bedrockagentruntime#UserContext"
+               "target" : "com.amazonaws.bedrockagentruntime#UserContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.</p>"
+               }
             }
          },
          "traits" : {
