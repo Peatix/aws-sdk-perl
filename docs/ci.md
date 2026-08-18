@@ -1,6 +1,6 @@
 # CI workflows
 
-This repository ships seven GitHub Actions workflows under `.github/workflows/`:
+This repository ships GitHub Actions workflows under `.github/workflows/`:
 
 | Workflow | Trigger | Purpose |
 | --- | --- | --- |
