@@ -1,0 +1,298 @@
+#!/usr/bin/env perl
+# bump-version --version VER [--dry-run] [--allow-current] [--require-new-tag]
+#
+# Updates every `our $VERSION = '...'` declaration under lib/ so Core,
+# hand-written helpers (Paws::S3::Presigner, Paws::RDS::AuthToken), and
+# the modular builders (which read lib/Paws.pm) stay in lockstep.
+#
+# cpm/cpanm decide whether an installed module satisfies a requirement
+# by reading the installed .pm via Module::Metadata. Releasing a new
+# GitHub tag whose tarballs still declare VERSION 1.0.0 is a no-op for
+# hosts that already have 1.0.0 installed — that is why v1.1.0 did not
+# overlay the previous tarballs. This script exists so a release cannot
+# be cut without bumping the package version first.
+#
+# Usage:
+#   script/bump-version --version 1.2.0
+#   script/bump-version --version 1.2.0 --dry-run
+#   script/bump-version --version 1.2.0 --allow-current --require-new-tag
+#
+# Options:
+#   --version VER       Proposed version (X.Y.Z or X.Y.Z-rcN). Required.
+#                       Do not include a leading v; the GitHub tag is vVER.
+#   --dry-run           Validate and report; do not write files.
+#   --allow-current     Succeed without writing when VER already matches
+#                       the package VERSION (re-run after a failed publish).
+#   --require-new-tag   Fail if refs/tags/vVER exists, or if VER is not
+#                       strictly greater than every existing vX.Y.Z tag.
+#   --repo-root DIR     Repository root (default: parent of script/).
+#
+# Writes GITHUB_OUTPUT when that env var is set (current_version,
+# proposed_version, tag, is_prerelease, updated, files).
+#
+# Uses only core modules so the cut-release workflow can run it on a
+# vanilla ubuntu-latest Perl without carton.
+
+use strict;
+use warnings;
+use v5.10;
+
+use File::Basename qw(dirname);
+use File::Find;
+use File::Spec;
+use Getopt::Long qw(:config posix_default no_ignore_case);
+use IPC::Open3;
+use Symbol qw(gensym);
+
+my $version;
+my $dry_run         = 0;
+my $allow_current   = 0;
+my $require_new_tag = 0;
+my $repo_root;
+my $help = 0;
+
+GetOptions(
+    'version=s'       => \$version,
+    'dry-run'         => \$dry_run,
+    'allow-current'   => \$allow_current,
+    'require-new-tag' => \$require_new_tag,
+    'repo-root=s'     => \$repo_root,
+    'help|h'          => \$help,
+) or die "invalid arguments\n";
+
+if ($help) {
+    print <<'USAGE';
+usage: bump-version --version VER [--dry-run] [--allow-current] [--require-new-tag] [--repo-root DIR]
+
+  --version VER        Proposed version (X.Y.Z or X.Y.Z-rcN). No leading v.
+  --dry-run            Validate and report; do not write files
+  --allow-current      Succeed without writing when VER matches package VERSION
+  --require-new-tag    Fail if tag vVER exists or VER is not newer than existing v* tags
+  --repo-root DIR      Repository root (default: parent of script/)
+USAGE
+    exit 0;
+}
+
+if (!defined $version) {
+    die "bump-version: --version is required\n";
+}
+
+$version =~ s/^\s+|\s+$//g;
+if ($version eq '') {
+    die "bump-version: --version is empty after trimming whitespace\n";
+}
+
+if (!defined $repo_root) {
+    $repo_root = File::Spec->rel2abs(File::Spec->catdir(dirname(__FILE__), '..'));
+}
+
+my $paws_pm = File::Spec->catfile($repo_root, 'lib', 'Paws.pm');
+if (!-r $paws_pm) {
+    die "bump-version: cannot read $paws_pm\n";
+}
+
+my $current = extract_version(read_file($paws_pm), $paws_pm);
+validate_version($version);
+
+my $tag = "v$version";
+my $cmp = cmp_version($version, $current);
+
+if ($cmp < 0) {
+    die "bump-version: version=$version is not greater than current package VERSION=$current\n";
+}
+
+if ($cmp == 0 && !$allow_current) {
+    die "bump-version: version=$version already matches current package VERSION=$current (pass --allow-current to skip the write)\n";
+}
+
+my @files = find_version_files($repo_root);
+if (!@files) {
+    die "bump-version: no our \$VERSION declarations found under lib/\n";
+}
+
+for my $file (@files) {
+    my $got = extract_version(read_file($file), $file);
+    if ($got ne $current) {
+        die "bump-version: file=$file VERSION=$got does not match lib/Paws.pm VERSION=$current\n";
+    }
+}
+
+if ($require_new_tag) {
+    assert_new_tag($repo_root, $tag, $version);
+}
+
+my $updated = 0;
+if ($cmp > 0) {
+    if (!$dry_run) {
+        for my $file (@files) {
+            my $body  = read_file($file);
+            my $count = $body =~ s/(our\s+\$VERSION\s*=\s*')\Q$current\E(')/$1$version$2/g;
+            if ($count < 1) {
+                die "bump-version: file=$file had no replaceable VERSION=$current\n";
+            }
+            write_file($file, $body);
+        }
+    }
+    $updated = 1;
+}
+
+my $is_prerelease = ($version =~ /-rc[1-9][0-9]*$/) ? 'true' : 'false';
+my $rel_files = join(',', map { rel_path($repo_root, $_) } @files);
+
+say STDERR "status=ok current_version=$current proposed_version=$version tag=$tag "
+    . "updated=$updated dry_run=" . ($dry_run ? 'true' : 'false')
+    . " is_prerelease=$is_prerelease files=$rel_files";
+
+write_github_output(
+    current_version  => $current,
+    proposed_version => $version,
+    tag              => $tag,
+    is_prerelease    => $is_prerelease,
+    updated          => $updated ? 'true' : 'false',
+    files            => $rel_files,
+);
+
+exit 0;
+
+sub validate_version {
+    my ($ver) = @_;
+    if ($ver =~ /^v/i) {
+        die "bump-version: version=$ver must not include a leading v; pass e.g. 1.2.0 (the workflow tags v1.2.0)\n";
+    }
+    if (!defined parse_version($ver)) {
+        die "bump-version: version=$ver is not X.Y.Z or X.Y.Z-rcN (no leading zeros)\n";
+    }
+}
+
+sub parse_version {
+    my ($ver) = @_;
+    return unless defined $ver;
+    if ($ver =~ /^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-rc([1-9][0-9]*))?$/) {
+        return [ $1 + 0, $2 + 0, $3 + 0, defined $4 ? $4 + 0 : undef ];
+    }
+    return;
+}
+
+sub cmp_version {
+    my ($left, $right) = @_;
+    my $a = parse_version($left)  or die "bump-version: cannot parse version=$left\n";
+    my $b = parse_version($right) or die "bump-version: cannot parse version=$right\n";
+    for my $i (0 .. 2) {
+        my $d = $a->[$i] <=> $b->[$i];
+        return $d if $d;
+    }
+    my $ra = $a->[3];
+    my $rb = $b->[3];
+    return 0  if !defined $ra && !defined $rb;
+    return 1  if !defined $ra;
+    return -1 if !defined $rb;
+    return $ra <=> $rb;
+}
+
+sub extract_version {
+    my ($body, $file) = @_;
+    if ($body =~ /our\s+\$VERSION\s*=\s*'([^']+)'/) {
+        return $1;
+    }
+    die "bump-version: could not extract our \$VERSION from $file\n";
+}
+
+sub find_version_files {
+    my ($root) = @_;
+    my $lib = File::Spec->catdir($root, 'lib');
+    die "bump-version: lib/ not found under $root\n" unless -d $lib;
+
+    my @files;
+    find({
+        wanted => sub {
+            return unless -f $_;
+            return unless /\.pm$/;
+            my $body = read_file($_);
+            push @files, $_ if $body =~ /our\s+\$VERSION\s*=\s*'[^']+'/;
+        },
+        no_chdir => 1,
+    }, $lib);
+    return sort @files;
+}
+
+sub assert_new_tag {
+    my ($root, $tag, $proposed) = @_;
+
+    my (undef, undef, $exists_rc) = git_run($root, 'rev-parse', '-q', '--verify', "refs/tags/$tag");
+    if ($exists_rc == 0) {
+        die "bump-version: tag=$tag already exists\n";
+    }
+
+    my ($list_out, $list_err, $list_rc) = git_run($root, 'tag', '--list', 'v*');
+    if ($list_rc != 0) {
+        die "bump-version: git tag --list failed: $list_err\n";
+    }
+
+    my $max_tag;
+    my $max_ver;
+    for my $existing (split /\n/, $list_out) {
+        next if $existing eq '';
+        my $bare = $existing;
+        $bare =~ s/^v//;
+        next unless defined parse_version($bare);
+        if (!defined $max_ver || cmp_version($bare, $max_ver) > 0) {
+            $max_ver = $bare;
+            $max_tag = $existing;
+        }
+    }
+    if (defined $max_ver && cmp_version($proposed, $max_ver) <= 0) {
+        die "bump-version: version=$proposed is not greater than existing tag $max_tag\n";
+    }
+}
+
+sub git_run {
+    my ($root, @args) = @_;
+    my $in  = gensym;
+    my $out = gensym;
+    my $err = gensym;
+    my $pid = eval { open3($in, $out, $err, 'git', '-C', $root, @args) };
+    if (!defined $pid) {
+        die "bump-version: failed to spawn git: $!\n";
+    }
+    close $in;
+    my $stdout = do { local $/; <$out> // '' };
+    my $stderr = do { local $/; <$err> // '' };
+    waitpid $pid, 0;
+    my $rc = $? >> 8;
+    return ($stdout, $stderr, $rc);
+}
+
+sub read_file {
+    my ($path) = @_;
+    open my $fh, '<', $path or die "bump-version: open $path: $!\n";
+    local $/;
+    my $body = <$fh>;
+    close $fh;
+    return $body;
+}
+
+sub write_file {
+    my ($path, $body) = @_;
+    open my $fh, '>', $path or die "bump-version: write $path: $!\n";
+    print {$fh} $body or die "bump-version: write $path: $!\n";
+    close $fh or die "bump-version: close $path: $!\n";
+}
+
+sub rel_path {
+    my ($root, $path) = @_;
+    my $rel = File::Spec->abs2rel($path, $root);
+    $rel =~ s{\\}{/}g;
+    return $rel;
+}
+
+sub write_github_output {
+    my (%pairs) = @_;
+    my $dest = $ENV{GITHUB_OUTPUT};
+    return unless defined $dest && length $dest;
+
+    open my $fh, '>>', $dest or die "bump-version: open GITHUB_OUTPUT=$dest: $!\n";
+    for my $key (qw(current_version proposed_version tag is_prerelease updated files)) {
+        print {$fh} "$key=$pairs{$key}\n";
+    }
+    close $fh or die "bump-version: close GITHUB_OUTPUT=$dest: $!\n";
+}
