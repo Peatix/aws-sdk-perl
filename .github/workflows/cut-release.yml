@@ -130,8 +130,11 @@ jobs:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -eu
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # GITHUB_ACTOR / GITHUB_ACTOR_ID are set by the runner for
+          # the user who dispatched the workflow. The noreply form is
+          # how GitHub links a commit to that account.
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
           git add -u -- lib
           git commit \
             --message "Bump Paws VERSION to ${VERSION}" \
