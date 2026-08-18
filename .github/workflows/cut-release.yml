@@ -1,0 +1,207 @@
+name: cut-release
+
+# Cut a versioned GitHub release so release-modular.yml builds the
+# per-service tarball fleet. The package VERSION must move with the
+# tag: cpm/cpanm read Module::Metadata from the installed .pm, so a
+# new tag whose tarballs still declare 1.0.0 will not overlay an
+# already-installed 1.0.0 (the v1.1.0 release hit this).
+#
+# Dispatch from the default branch:
+#
+#   gh workflow run cut-release.yml --ref master --field version=1.2.0
+#
+# The job:
+#   1. Validates the proposed version (X.Y.Z or X.Y.Z-rcN, no leading v).
+#   2. Requires it to be greater than lib/Paws.pm and every existing v* tag.
+#   3. Updates every `our $VERSION` under lib/.
+#   4. Commits the bump to the default branch (skipped on re-run if
+#      VERSION is already at the proposed value).
+#   5. Creates the GitHub release + tag `v<version>`, which is what
+#      kicks off release-modular.yml.
+#
+# GITHUB_TOKEN cannot trigger `on: release` workflows (GitHub blocks
+# recursive runs). Creating the release with PAWS_BUMP_PAT lets
+# release.published fire. If that secret is unset the job falls back
+# to GITHUB_TOKEN and dispatches release-modular.yml itself.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'New Paws version (e.g. 1.2.0). No leading v; the tag will be v<version>. Must be greater than the current package VERSION and every existing v* tag.'
+        required: true
+        type: string
+
+concurrency:
+  group: cut-release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  cut-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Require default branch
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          REF: ${{ github.ref }}
+        run: |
+          set -eu
+          if [ "${REF}" != "refs/heads/${DEFAULT_BRANCH}" ]
+          then
+            echo "::error::cut-release must be dispatched from the default branch (${DEFAULT_BRANCH}); got ${REF}"
+            exit 1
+          fi
+          echo "status=ok ref=${REF} default=${DEFAULT_BRANCH}"
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Fetch tags
+        run: |
+          set -eu
+          git fetch --tags --force origin
+          echo "status=ok tag_count=$(git tag --list 'v*' | wc -l | tr -d ' ')"
+
+      - name: Normalise version input
+        id: input
+        env:
+          RAW_VERSION: ${{ inputs.version }}
+        run: |
+          set -eu
+          version=$(printf '%s' "${RAW_VERSION}" | tr -d '[:space:]')
+          if [ -z "${version}" ]
+          then
+            echo "::error::version input is empty"
+            exit 1
+          fi
+          # Same shape as script/bump-version: X.Y.Z or X.Y.Z-rcN, no
+          # leading v (the workflow tags v<version>), no leading zeros.
+          if [[ "${version}" =~ ^[vV] ]]
+          then
+            echo "::error::version must not include a leading v; pass e.g. 1.2.0 (the workflow tags v1.2.0)"
+            exit 1
+          fi
+          if [[ ! "${version}" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-rc[1-9][0-9]*)?$ ]]
+          then
+            echo "::error::version=${version} is not X.Y.Z or X.Y.Z-rcN (no leading zeros)"
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "status=ok version=${version}"
+
+      - name: Reject an already-published release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.input.outputs.version }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -eu
+          tag="v${VERSION}"
+          if gh release view "${tag}" --repo "${REPO}" >/dev/null 2>&1
+          then
+            echo "::error::release ${tag} already exists"
+            exit 1
+          fi
+          echo "status=ok release_absent tag=${tag}"
+
+      - name: Validate and bump package VERSION
+        id: bump
+        env:
+          VERSION: ${{ steps.input.outputs.version }}
+        run: |
+          set -eu
+          script/bump-version \
+            --version "${VERSION}" \
+            --allow-current \
+            --require-new-tag
+
+      - name: Commit VERSION bump
+        if: steps.bump.outputs.updated == 'true'
+        env:
+          VERSION: ${{ steps.bump.outputs.proposed_version }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -eu
+          # GITHUB_ACTOR / GITHUB_ACTOR_ID are set by the runner for
+          # the user who dispatched the workflow. The noreply form is
+          # how GitHub links a commit to that account.
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
+          git add -u -- lib
+          git commit \
+            --message "Bump Paws VERSION to ${VERSION}" \
+            --message "Cut by the cut-release workflow so cpm/cpanm see a new Module::Metadata version and install the new tarballs."
+          git push origin "HEAD:${DEFAULT_BRANCH}"
+          echo "status=ok sha=$(git rev-parse HEAD) version=${VERSION}"
+
+      - name: Create GitHub release and tag
+        id: release
+        env:
+          GH_TOKEN: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+          FALLBACK_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.bump.outputs.tag }}
+          IS_PRERELEASE: ${{ steps.bump.outputs.is_prerelease }}
+          REPO: ${{ github.repository }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -eu
+          sha=$(git rev-parse HEAD)
+          if [ "${IS_PRERELEASE}" = 'true' ]
+          then
+            url=$(gh release create "${TAG}" \
+              --repo "${REPO}" \
+              --target "${sha}" \
+              --title "${TAG}" \
+              --generate-notes \
+              --prerelease)
+          else
+            url=$(gh release create "${TAG}" \
+              --repo "${REPO}" \
+              --target "${sha}" \
+              --title "${TAG}" \
+              --generate-notes)
+          fi
+          echo "url=${url}" >> "$GITHUB_OUTPUT"
+          echo "status=ok tag=${TAG} sha=${sha} url=${url}"
+
+          # GITHUB_TOKEN cannot trigger on: release. When the PAT is
+          # unset the two tokens compare equal and we dispatch
+          # release-modular.yml ourselves. Do not print the tokens.
+          if [ "${GH_TOKEN}" = "${FALLBACK_TOKEN}" ]
+          then
+            echo "::warning::PAWS_BUMP_PAT is unset; GITHUB_TOKEN cannot trigger on: release, so dispatching release-modular.yml directly"
+            gh workflow run release-modular.yml \
+              --repo "${REPO}" \
+              --ref "${DEFAULT_BRANCH}" \
+              --field tag="${TAG}"
+            echo "status=ok dispatched=release-modular tag=${TAG}"
+          else
+            echo "status=ok trigger=release.published tag=${TAG}"
+          fi
+
+      - name: Summarise
+        env:
+          TAG: ${{ steps.bump.outputs.tag }}
+          CURRENT_VERSION: ${{ steps.bump.outputs.current_version }}
+          PROPOSED_VERSION: ${{ steps.bump.outputs.proposed_version }}
+          UPDATED: ${{ steps.bump.outputs.updated }}
+          RELEASE_URL: ${{ steps.release.outputs.url }}
+        run: |
+          set -eu
+          {
+            echo "## cut-release ${TAG}"
+            echo
+            echo "- package VERSION: \`${CURRENT_VERSION}\` -> \`${PROPOSED_VERSION}\`"
+            echo "- files updated: \`${UPDATED}\`"
+            echo "- release: ${RELEASE_URL}"
+            echo
+            echo "release-modular.yml builds the tarball fleet against this tag."
+          } >> "$GITHUB_STEP_SUMMARY"

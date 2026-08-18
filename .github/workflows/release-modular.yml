@@ -21,6 +21,11 @@ on:
 # matrix stays small while each shard's job loops through its slice
 # of services serially.
 #
+# Version gate: after checkout the plan job asserts every
+# `our $VERSION` under lib/ equals the release tag with a leading
+# `v` stripped (v1.2.0 -> 1.2.0). That is the check that would have
+# failed the v1.1.0 release, whose tarballs still declared 1.0.0.
+#
 # Determinism: SOURCE_DATE_EPOCH is pinned to the release tag's
 # commit author-date so re-running the workflow produces byte-
 # identical tarballs (Phase 1 t/build/01_determinism.t verifies the
@@ -42,6 +47,7 @@ jobs:
       shards:        ${{ steps.shards.outputs.matrix }}
       epoch:         ${{ steps.epoch.outputs.epoch }}
       tag:           ${{ steps.tag.outputs.tag }}
+      version:       ${{ steps.version.outputs.version }}
       service_count: ${{ steps.shards.outputs.service_count }}
     steps:
       - name: Resolve release tag
@@ -58,6 +64,51 @@ jobs:
         uses: actions/checkout@v6
         with:
           ref: ${{ steps.tag.outputs.tag }}
+
+      - name: Assert package VERSION matches tag
+        id: version
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          set -eu
+          expected="${TAG#v}"
+          if [ -z "${expected}" ]
+          then
+            echo "::error::tag=${TAG} has empty version after stripping a leading v"
+            exit 1
+          fi
+          EXPECTED="${expected}" perl -MFile::Find <<'PERL'
+          use strict;
+          use warnings;
+          my $expected = $ENV{EXPECTED};
+          my $tag = $ENV{TAG};
+          my $found = 0;
+          my $bad = 0;
+          find({
+            wanted => sub {
+              return unless -f $_ && /\.pm$/;
+              open my $fh, "<", $_ or die "open $_: $!";
+              local $/;
+              my $body = <$fh>;
+              close $fh;
+              return unless $body =~ /our\s+\$VERSION\s*=\s*'([^']+)'/;
+              $found++;
+              my $got = $1;
+              if ($got ne $expected) {
+                warn "::error::file=$_ VERSION=$got does not match tag=$tag expected=$expected\n";
+                $bad++;
+              }
+              else {
+                warn "status=ok file=$_ version=$got tag=$tag\n";
+              }
+            },
+            no_chdir => 1,
+          }, "lib");
+          die "::error::no our \$VERSION declarations found under lib/\n" if $found == 0;
+          exit 1 if $bad;
+          PERL
+          echo "version=${expected}" >> "$GITHUB_OUTPUT"
+          echo "status=ok version=${expected} tag=${TAG}"
 
       - name: Set up Perl + Paws cpanfile deps
         uses: ./.github/actions/setup-paws-perl
@@ -332,8 +383,11 @@ jobs:
       - name: Assert expected service fleet size
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ needs.plan.outputs.tag }}
+          VERSION: ${{ needs.plan.outputs.version }}
         run: |
-          tag="${{ needs.plan.outputs.tag }}"
+          tag="${TAG}"
+          version="${VERSION}"
           service_count="${{ needs.plan.outputs.service_count }}"
           min_services=$(cat "$GITHUB_WORKSPACE/.github/expected-service-count.txt" 2>/dev/null || echo 0)
 
@@ -363,8 +417,8 @@ jobs:
             for name in "${asset_names[@]}"
             do
               case "$name" in
-                Paws-"$svc"-Docs-*.tar.gz) found_docs=1 ;;
-                Paws-"$svc"-[0-9]*.tar.gz) found_code=1 ;;
+                Paws-"$svc"-Docs-"$version".tar.gz) found_docs=1 ;;
+                Paws-"$svc"-"$version".tar.gz) found_code=1 ;;
               esac
             done
             if [ "$found_code" -eq 0 ]
@@ -381,13 +435,13 @@ jobs:
 
           # Also verify core dist is present. The runtime dist is named
           # `Paws-Core` (dist.ini), so the tarball is `Paws-Core-<version>.tar.gz`
-          # — not `Paws-<version>.tar.gz`. The `-[0-9]` guard keeps this from
-          # matching the `Paws-Core-Docs-*` companion.
+          # — not `Paws-<version>.tar.gz`. Match the exact tag version so a
+          # leftover 1.0.0 core tarball cannot satisfy a v1.2.0 release.
           found_core=0
           for name in "${asset_names[@]}"
           do
             case "$name" in
-              Paws-Core-[0-9]*.tar.gz) found_core=1 ;;
+              Paws-Core-"$version".tar.gz) found_core=1 ;;
             esac
           done
           if [ "$found_core" -eq 0 ]
