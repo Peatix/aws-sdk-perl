@@ -2974,6 +2974,18 @@
                   "smithy.api#documentation" : "<p>The list of glossary term identifiers to associate with the asset.</p>",
                   "smithy.api#required" : {}
                }
+            },
+            "ItemIdentifier" : {
+               "target" : "com.amazonaws.glue#ItemIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the item within the iterable form. Required when <code>iterableFormName</code> is specified.</p>"
+               }
+            },
+            "IterableFormName" : {
+               "target" : "com.amazonaws.glue#IterableFormName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the iterable form. When specified along with <code>itemIdentifier</code>, the glossary terms are associated with an item within the iterable form rather than the asset itself.</p>"
+               }
             }
          },
          "traits" : {
@@ -2993,6 +3005,18 @@
                "target" : "com.amazonaws.glue#GlossaryTermIdList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The glossary terms now associated with the asset.</p>"
+               }
+            },
+            "ItemIdentifier" : {
+               "target" : "com.amazonaws.glue#ItemIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the item within the iterable form, if applicable.</p>"
+               }
+            },
+            "IterableFormName" : {
+               "target" : "com.amazonaws.glue#IterableFormName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the iterable form, if the association targets an item.</p>"
                }
             }
          },
@@ -16821,6 +16845,18 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier of the asset.</p>"
                }
+            },
+            "ItemIdentifier" : {
+               "target" : "com.amazonaws.glue#ItemIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the item within the iterable form, if applicable.</p>"
+               }
+            },
+            "IterableFormName" : {
+               "target" : "com.amazonaws.glue#IterableFormName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the iterable form, if the deletion targets an item.</p>"
+               }
             }
          },
          "traits" : {
@@ -20047,6 +20083,18 @@
                   "smithy.api#documentation" : "<p>The list of glossary term identifiers to disassociate from the asset.</p>",
                   "smithy.api#required" : {}
                }
+            },
+            "ItemIdentifier" : {
+               "target" : "com.amazonaws.glue#ItemIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the item within the iterable form. Required when <code>iterableFormName</code> is specified.</p>"
+               }
+            },
+            "IterableFormName" : {
+               "target" : "com.amazonaws.glue#IterableFormName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the iterable form. When specified along with <code>itemIdentifier</code>, the glossary terms are disassociated from an item within the iterable form rather than the asset itself.</p>"
+               }
             }
          },
          "traits" : {
@@ -20066,6 +20114,18 @@
                "target" : "com.amazonaws.glue#GlossaryTermIdList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The remaining glossary terms associated with the asset.</p>"
+               }
+            },
+            "ItemIdentifier" : {
+               "target" : "com.amazonaws.glue#ItemIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the item within the iterable form, if applicable.</p>"
+               }
+            },
+            "IterableFormName" : {
+               "target" : "com.amazonaws.glue#IterableFormName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the iterable form, if the disassociation targets an item.</p>"
                }
             }
          },
@@ -22561,6 +22621,7 @@
             }
          },
          "traits" : {
+            "smithy.api#documentation" : "<p>The asset metadata returned by the <code>GetAsset</code> operation.</p>",
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -24204,6 +24265,7 @@
             }
          },
          "traits" : {
+            "smithy.api#documentation" : "<p>The export configuration returned by the <code>GetDataCatalogExportConfiguration</code> operation.</p>",
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -36307,7 +36369,7 @@
             "TableName" : {
                "target" : "com.amazonaws.glue#NameString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the table for which statistics is generated.</p>"
+                  "smithy.api#documentation" : "<p>The name of the materialized view.</p>"
                }
             }
          },
@@ -37615,7 +37677,10 @@
       "com.amazonaws.glue#MaterializedViewRefreshTaskNotRunningException" : {
          "members" : {
             "Message" : {
-               "target" : "com.amazonaws.glue#MessageString"
+               "target" : "com.amazonaws.glue#MessageString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the problem.</p>"
+               }
             }
          },
          "traits" : {
@@ -37696,7 +37761,7 @@
             "Role" : {
                "target" : "com.amazonaws.glue#Role",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The IAM role that the service assumes to generate statistics.</p>"
+                  "smithy.api#documentation" : "<p>The IAM role that the service assumes to run the materialized view refresh task.</p>"
                }
             },
             "StartTime" : {
@@ -37714,7 +37779,7 @@
             "TableName" : {
                "target" : "com.amazonaws.glue#TableName",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the table for which statistics is generated.</p>"
+                  "smithy.api#documentation" : "<p>The name of the materialized view.</p>"
                }
             }
          },
@@ -37726,7 +37791,10 @@
       "com.amazonaws.glue#MaterializedViewRefreshTaskRunningException" : {
          "members" : {
             "Message" : {
-               "target" : "com.amazonaws.glue#MessageString"
+               "target" : "com.amazonaws.glue#MessageString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the problem.</p>"
+               }
             }
          },
          "traits" : {
@@ -37744,7 +37812,10 @@
       "com.amazonaws.glue#MaterializedViewRefreshTaskStoppingException" : {
          "members" : {
             "Message" : {
-               "target" : "com.amazonaws.glue#MessageString"
+               "target" : "com.amazonaws.glue#MessageString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the problem.</p>"
+               }
             }
          },
          "traits" : {
@@ -40643,6 +40714,9 @@
                "target" : "com.amazonaws.glue#ConcurrentModificationException"
             },
             {
+               "target" : "com.amazonaws.glue#EntityNotFoundException"
+            },
+            {
                "target" : "com.amazonaws.glue#InternalServiceException"
             },
             {
@@ -40983,6 +41057,7 @@
             }
          },
          "traits" : {
+            "smithy.api#documentation" : "<p>The export configuration returned by the <code>PutDataCatalogExportConfiguration</code> operation.</p>",
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -45037,6 +45112,7 @@
             }
          },
          "traits" : {
+            "smithy.api#documentation" : "<p>The search results returned by the <code>SearchAssets</code> operation.</p>",
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -47674,7 +47750,7 @@
             "target" : "com.amazonaws.glue#StartMaterializedViewRefreshTaskRunResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Starts a materialized view refresh task run, for a specified table and columns.</p>"
+            "smithy.api#documentation" : "<p>Starts a materialized view refresh task run for a specified materialized view.</p>"
          },
          "type" : "operation"
       },
@@ -47703,7 +47779,7 @@
             "TableName" : {
                "target" : "com.amazonaws.glue#NameString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the table to generate run the materialized view refresh task.</p>",
+                  "smithy.api#documentation" : "<p>The name of the materialized view to run the refresh task for.</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -48529,7 +48605,7 @@
             "target" : "com.amazonaws.glue#StopMaterializedViewRefreshTaskRunResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Stops a materialized view refresh task run, for a specified table and columns.</p>"
+            "smithy.api#documentation" : "<p>Stops a materialized view refresh task run for a specified materialized view.</p>"
          },
          "type" : "operation"
       },
@@ -48552,7 +48628,7 @@
             "TableName" : {
                "target" : "com.amazonaws.glue#NameString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the table to generate statistics.</p>",
+                  "smithy.api#documentation" : "<p>The name of the materialized view.</p>",
                   "smithy.api#required" : {}
                }
             }

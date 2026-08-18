@@ -2709,6 +2709,12 @@
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the code review.</p>"
                }
             },
+            "maxTaskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of billable task hours allowed for jobs started from this code review. If a job reaches the configured limit, it is gracefully stopped. If not set, jobs run to completion with no budget cap.</p>"
+               }
+            },
             "serviceRole" : {
                "target" : "com.amazonaws.securityagent#ServiceRole",
                "traits" : {
@@ -2805,6 +2811,12 @@
                "target" : "com.amazonaws.securityagent#CloudWatchLog",
                "traits" : {
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the code review job.</p>"
+               }
+            },
+            "maxTaskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of billable task hours allowed for this code review job. If the cumulative task hours reach this limit, the job is gracefully stopped.</p>"
                }
             },
             "overview" : {
@@ -3677,6 +3689,12 @@
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the code review.</p>"
                }
             },
+            "maxTaskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of billable task hours allowed for jobs started from this code review. Must be a positive number. If not set, jobs run to completion with no budget cap.</p>"
+               }
+            },
             "serviceRole" : {
                "target" : "com.amazonaws.securityagent#ServiceRole",
                "traits" : {
@@ -3741,6 +3759,12 @@
                "target" : "com.amazonaws.securityagent#CloudWatchLog",
                "traits" : {
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the code review.</p>"
+               }
+            },
+            "maxTaskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of billable task hours configured for jobs started from this code review. Null if no budget cap is set.</p>"
                }
             },
             "serviceRole" : {
@@ -3999,6 +4023,12 @@
                "target" : "com.amazonaws.securityagent#CloudWatchLog",
                "traits" : {
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the pentest.</p>"
+               }
+            },
+            "maxTaskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of billable task hours allowed for jobs started from this pentest. Must be a positive number. If not set, jobs run to completion with no budget cap.</p>"
                }
             },
             "networkTrafficConfig" : {
@@ -6037,6 +6067,12 @@
                   "smithy.api#documentation" : "<p>The name of the finding.</p>"
                }
             },
+            "originalFindingId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the original finding that this revalidation finding was produced from.</p>"
+               }
+            },
             "pentestId" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -6053,6 +6089,12 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The reasoning behind the finding, explaining why it was identified as a vulnerability.</p>"
+               }
+            },
+            "revalidationJobIds" : {
+               "target" : "com.amazonaws.securityagent#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of pentest job identifiers for revalidation jobs that retested this finding.</p>"
                }
             },
             "riskLevel" : {
@@ -7554,6 +7596,28 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Status of a pentest job.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.securityagent#JobType" : {
+         "members" : {
+            "FULL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A full pentest job that executes all phases including scanning, managed execution, and guided exploration.</p>",
+                  "smithy.api#enumValue" : "FULL"
+               }
+            },
+            "REVALIDATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A targeted revalidation job that retests specific findings to determine whether they are still exploitable.</p>",
+                  "smithy.api#enumValue" : "REVALIDATION"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of pentest job execution.</p>"
          },
          "type" : "enum"
       },
@@ -9837,6 +9901,12 @@
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the pentest.</p>"
                }
             },
+            "maxTaskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of billable task hours allowed for jobs started from this pentest. If a job reaches the configured limit, it is gracefully stopped. If not set, jobs run to completion with no budget cap.</p>"
+               }
+            },
             "networkTrafficConfig" : {
                "target" : "com.amazonaws.securityagent#NetworkTrafficConfig",
                "traits" : {
@@ -9969,10 +10039,22 @@
                   "smithy.api#documentation" : "<p>The list of integrated repositories associated with the pentest job.</p>"
                }
             },
+            "jobType" : {
+               "target" : "com.amazonaws.securityagent#JobType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the pentest job. Valid values are FULL and REVALIDATION.</p>"
+               }
+            },
             "logConfig" : {
                "target" : "com.amazonaws.securityagent#CloudWatchLog",
                "traits" : {
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the pentest job.</p>"
+               }
+            },
+            "maxTaskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of billable task hours allowed for this pentest job. If the cumulative task hours reach this limit, the job is gracefully stopped.</p>"
                }
             },
             "networkTrafficConfig" : {
@@ -9997,6 +10079,12 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier of the pentest job.</p>"
+               }
+            },
+            "selectedFindingIds" : {
+               "target" : "com.amazonaws.securityagent#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of finding identifiers selected for revalidation. Present only when jobType is REVALIDATION.</p>"
                }
             },
             "serviceRole" : {
@@ -12218,11 +12306,23 @@
                   "smithy.api#required" : {}
                }
             },
+            "jobType" : {
+               "target" : "com.amazonaws.securityagent#JobType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of pentest job to start. Valid values are FULL and REVALIDATION. When set to REVALIDATION, the selectedFindingIds parameter is required.</p>"
+               }
+            },
             "pentestId" : {
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier of the pentest to start a job for.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "selectedFindingIds" : {
+               "target" : "com.amazonaws.securityagent#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of finding identifiers to revalidate. Required when jobType is REVALIDATION. Each finding must belong to the same agent space and pentest.</p>"
                }
             }
          },
@@ -14407,6 +14507,12 @@
                   "smithy.api#documentation" : "<p>The updated CloudWatch Logs configuration for the code review.</p>"
                }
             },
+            "maxTaskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated maximum number of billable task hours allowed for jobs started from this code review.</p>"
+               }
+            },
             "serviceRole" : {
                "target" : "com.amazonaws.securityagent#ServiceRole",
                "traits" : {
@@ -14470,6 +14576,12 @@
                "target" : "com.amazonaws.securityagent#CloudWatchLog",
                "traits" : {
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the code review.</p>"
+               }
+            },
+            "maxTaskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of billable task hours configured for jobs started from this code review. Null if no budget cap is set.</p>"
                }
             },
             "serviceRole" : {
@@ -14730,6 +14842,12 @@
                "target" : "com.amazonaws.securityagent#CloudWatchLog",
                "traits" : {
                   "smithy.api#documentation" : "<p>The updated CloudWatch Logs configuration for the pentest.</p>"
+               }
+            },
+            "maxTaskHours" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated maximum number of billable task hours allowed for jobs started from this pentest.</p>"
                }
             },
             "networkTrafficConfig" : {
