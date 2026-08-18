@@ -7,7 +7,7 @@ This repository ships GitHub Actions workflows under `.github/workflows/`:
 | `test.yml` | `pull_request` (filtered to code paths) | Run the test suite against the current branch. |
 | `build-modular-smoke.yml` | `pull_request` | Build a subset of per-service sub-dists and smoke-test them via `cpanm` install + `examples/smoke.pl`. |
 | `cut-release.yml` | `workflow_dispatch` | Validate a proposed version, bump every `our $VERSION` under `lib/`, and publish a GitHub release + `v<version>` tag so `release-modular.yml` builds the tarball fleet. See ["Cutting a release"](#cutting-a-release). |
-| `release-modular.yml` | `release.published` | Build all ~300+ per-service code + docs tarballs and attach them to the GitHub release. |
+| `release-modular.yml` | `release.published` | Build all ~300+ per-service code + docs tarballs and attach them to the GitHub release. Fails the plan job if any `our $VERSION` under `lib/` does not match the tag (`v1.2.0` requires `1.2.0`). |
 | `refresh-source-deps.yml` | daily `schedule` + `workflow_dispatch` | Bump `share/smithy/.upstream-sha` and refresh the vendored Smithy IR tree; open + auto-merge a bump PR. See ["Source-dep refresh"](#source-dep-refresh). |
 | `coverage.yml` | `pull_request` | Run the test suite under `Devel::Cover` and compare against the coverage baseline. |
 | `install-smoke.yml` | `pull_request` | Build the dist tarball, install via `cpanm` in a clean container, and run `examples/smoke.pl`. |
@@ -164,7 +164,11 @@ the next cut must be `1.1.1` or later (`1.2.0` is the natural choice).
 
 The workflow must be dispatched from the default branch (`master`).
 It commits the VERSION bump to that branch, then creates the GitHub
-release. `release-modular.yml` builds against the new tag.
+release. `release-modular.yml` builds against the new tag and fails
+in the plan job if any `our $VERSION` under `lib/` does not equal
+that tag with a leading `v` stripped. The publish job then requires
+uploaded tarball names to carry that same version
+(`Paws-Core-1.2.0.tar.gz`, not a leftover `Paws-Core-1.0.0.tar.gz`).
 
 `script/bump-version` is the validator the workflow calls. Run it
 locally to preview a cut:
