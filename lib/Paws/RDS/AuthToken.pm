@@ -10,7 +10,7 @@ use Scalar::Util qw(blessed);
 use URI;
 use URI::Escape qw(uri_escape_utf8);
 
-our $VERSION = '1.0.0';
+our $VERSION = '1.2.0';
 
 my $SIGNING_SERVICE = 'rds-db';
 my $DEFAULT_EXPIRY  = 900;
