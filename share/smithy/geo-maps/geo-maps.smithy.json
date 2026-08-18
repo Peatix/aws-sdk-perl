@@ -30,30 +30,32 @@
          "type" : "string"
       },
       "com.amazonaws.geomaps#Buildings" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "BUILDINGS_3D",
-                  "value" : "Buildings3D"
+         "members" : {
+            "BUILDINGS_3D" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Buildings3D"
                }
-            ]
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#ColorScheme" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "LIGHT",
-                  "value" : "Light"
-               },
-               {
-                  "name" : "DARK",
-                  "value" : "Dark"
+         "members" : {
+            "DARK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Dark"
                }
-            ]
+            },
+            "LIGHT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Light"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#CompactOverlay" : {
          "traits" : {
@@ -66,23 +68,27 @@
          "type" : "string"
       },
       "com.amazonaws.geomaps#ContourDensity" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "LOW",
-                  "value" : "Low"
-               },
-               {
-                  "name" : "MEDIUM",
-                  "value" : "Medium"
-               },
-               {
-                  "name" : "HIGH",
-                  "value" : "High"
+         "members" : {
+            "HIGH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "High"
                }
-            ]
+            },
+            "LOW" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Low"
+               }
+            },
+            "MEDIUM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Medium"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#CountryCode" : {
          "traits" : {
@@ -127,7 +133,7 @@
             "smithy.api#documentation" : "<p> <code>GetGlyphs</code> returns the map's glyphs.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/styling-labels-with-glyphs.html\">Style labels with glyphs</a> in the <i>Amazon Location Service Developer Guide</i>.</p>",
             "smithy.api#http" : {
                "method" : "GET",
-               "uri" : "/glyphs/{FontStack}/{FontUnicodeRange}"
+               "uri" : "/v2/glyphs/{FontStack}/{FontUnicodeRange}"
             },
             "smithy.api#readonly" : {},
             "smithy.test#smokeTests" : [
@@ -227,7 +233,7 @@
             "smithy.api#documentation" : "<p> <code>GetSprites</code> returns the map's sprites.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/styling-iconography-with-sprites.html\">Style iconography with sprites</a> in the <i>Amazon Location Service Developer Guide</i>.</p>",
             "smithy.api#http" : {
                "method" : "GET",
-               "uri" : "/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}"
+               "uri" : "/v2/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}"
             },
             "smithy.api#readonly" : {},
             "smithy.test#smokeTests" : [
@@ -351,10 +357,10 @@
          },
          "traits" : {
             "aws.api#dataPlane" : {},
-            "smithy.api#documentation" : "<note> <p>This operation is not supported in <code>ap-southeast-1</code> and <code>ap-southeast-5</code> regions for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html\">GrabMaps</a> customers. </p> </note> <p> <code>GetStaticMap</code> provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots.</p> <p>For more information, see the following topics in the <i>Amazon Location Service Developer Guide</i>:</p> <ul> <li> <p> <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/static-maps.html\">Static maps</a> </p> </li> <li> <p> <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/customizing-static-maps.html\">Customize static maps</a> </p> </li> <li> <p> <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/overlaying-static-map.html\">Overlay on the static map</a> </p> </li> </ul>",
+            "smithy.api#documentation" : "<p> <code>GetStaticMap</code> provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. Not supported in <code>ap-southeast-1</code> and <code>ap-southeast-5</code> regions for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html\">GrabMaps</a> customers.</p> <p>For more information, see the following topics in the <i>Amazon Location Service Developer Guide</i>:</p> <ul> <li> <p> <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/static-maps.html\">Static maps</a> </p> </li> <li> <p> <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/customizing-static-maps.html\">Customize static maps</a> </p> </li> <li> <p> <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/overlaying-static-map.html\">Overlay on the static map</a> </p> </li> </ul>",
             "smithy.api#http" : {
                "method" : "GET",
-               "uri" : "/static/{FileName}"
+               "uri" : "/v2/static/{FileName}"
             },
             "smithy.api#readonly" : {},
             "smithy.test#smokeTests" : [
@@ -611,7 +617,7 @@
             "smithy.api#documentation" : "<p> <code>GetStyleDescriptor</code> returns information about the style.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/styling-dynamic-maps.html\">Style dynamic maps</a> in the <i>Amazon Location Service Developer Guide</i>.</p>",
             "smithy.api#http" : {
                "method" : "GET",
-               "uri" : "/styles/{Style}/descriptor"
+               "uri" : "/v2/styles/{Style}/descriptor"
             },
             "smithy.api#readonly" : {},
             "smithy.test#smokeTests" : [
@@ -660,6 +666,20 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. </p>",
                   "smithy.api#httpQuery" : "key"
+               }
+            },
+            "PoiCategories" : {
+               "target" : "com.amazonaws.geomaps#PoiCategoryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Renders only the specified categories of points of interest. When you omit this parameter, the map renders all categories.</p> <p>The following categories are currently supported:</p> <ul> <li> <p> <code>FoodAndDrink</code> </p> </li> <li> <p> <code>Entertainment</code> </p> </li> <li> <p> <code>SightsAndMuseums</code> </p> </li> <li> <p> <code>Transportation</code> </p> </li> <li> <p> <code>Accommodations</code> </p> </li> <li> <p> <code>LeisureAndOutdoor</code> </p> </li> <li> <p> <code>Shopping</code> </p> </li> <li> <p> <code>BusinessAndServices</code> </p> </li> <li> <p> <code>FacilitiesAndBuildings</code> </p> </li> </ul> <p>Specify each category as a separate <code>poi-categories</code> query parameter. Duplicate values are rejected.</p> <note> <p>This parameter has no effect when <code>poi-density</code> is set to <code>Off</code>, which hides all points of interest regardless of category.</p> </note> <p>This parameter is valid only for the <code>Standard</code> and <code>Hybrid</code> map styles. In <code>ap-southeast-1</code> and <code>ap-southeast-5</code> regions for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html\">GrabMaps</a> customers, this parameter is valid only for the <code>Standard</code> map style.</p>",
+                  "smithy.api#httpQuery" : "poi-categories"
+               }
+            },
+            "PoiDensity" : {
+               "target" : "com.amazonaws.geomaps#PoiDensity",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Controls how densely points of interest are rendered on the map. The density value controls the zoom level at which each category of points of interest appears, and how quickly less prominent points of interest are revealed as you zoom in. Denser values display more points of interest at lower zoom levels.</p> <p>Use <code>Off</code> to hide all points of interest. When you omit this parameter, the map renders at <code>Default</code> density.</p> <note> <p>The difference between density values is most noticeable at mid-range zoom levels. At high zoom levels, all density values converge on displaying every available point of interest.</p> </note> <p>This parameter is valid only for the <code>Standard</code> and <code>Hybrid</code> map styles. In <code>ap-southeast-1</code> and <code>ap-southeast-5</code> regions for <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html\">GrabMaps</a> customers, this parameter is valid only for the <code>Standard</code> map style.</p>",
+                  "smithy.api#httpQuery" : "poi-density"
                }
             },
             "PoliticalView" : {
@@ -769,7 +789,7 @@
             "smithy.api#documentation" : "<p> <code>GetTile</code> returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/tiles.html\">Tiles</a> in the <i>Amazon Location Service Developer Guide</i>.</p>",
             "smithy.api#http" : {
                "method" : "GET",
-               "uri" : "/tiles/{Tileset}/{Z}/{X}/{Y}"
+               "uri" : "/v2/tiles/{Tileset}/{Z}/{X}/{Y}"
             },
             "smithy.api#readonly" : {},
             "smithy.test#smokeTests" : [
@@ -922,19 +942,21 @@
          "type" : "structure"
       },
       "com.amazonaws.geomaps#LabelSize" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "SMALL",
-                  "value" : "Small"
-               },
-               {
-                  "name" : "LARGE",
-                  "value" : "Large"
+         "members" : {
+            "LARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Large"
                }
-            ]
+            },
+            "SMALL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Small"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#LanguageTag" : {
          "traits" : {
@@ -946,42 +968,50 @@
          "type" : "string"
       },
       "com.amazonaws.geomaps#MapFeatureMode" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "ENABLED",
-                  "value" : "Enabled"
-               },
-               {
-                  "name" : "DISABLED",
-                  "value" : "Disabled"
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Disabled"
                }
-            ]
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Enabled"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#MapStyle" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "STANDARD",
-                  "value" : "Standard"
-               },
-               {
-                  "name" : "MONOCHROME",
-                  "value" : "Monochrome"
-               },
-               {
-                  "name" : "HYBRID",
-                  "value" : "Hybrid"
-               },
-               {
-                  "name" : "SATELLITE",
-                  "value" : "Satellite"
+         "members" : {
+            "HYBRID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Hybrid"
                }
-            ]
+            },
+            "MONOCHROME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Monochrome"
+               }
+            },
+            "SATELLITE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Satellite"
+               }
+            },
+            "STANDARD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Standard"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#MapsService" : {
          "resources" : [
@@ -1002,41 +1032,41 @@
                "partitionSpecialCases" : {
                   "aws" : [
                      {
-                        "endpoint" : "https://maps.geo.{region}.{dnsSuffix}/v2"
+                        "endpoint" : "https://maps.geo.{region}.{dnsSuffix}"
                      },
                      {
                         "dualStack" : true,
-                        "endpoint" : "https://maps.geo-fips.{region}.{dualStackDnsSuffix}/v2",
+                        "endpoint" : "https://maps.geo-fips.{region}.{dualStackDnsSuffix}",
                         "fips" : true
                      },
                      {
                         "dualStack" : false,
-                        "endpoint" : "https://maps.geo-fips.{region}.{dnsSuffix}/v2",
+                        "endpoint" : "https://maps.geo-fips.{region}.{dnsSuffix}",
                         "fips" : true
                      },
                      {
                         "dualStack" : true,
-                        "endpoint" : "https://maps.geo.{region}.{dualStackDnsSuffix}/v2",
+                        "endpoint" : "https://maps.geo.{region}.{dualStackDnsSuffix}",
                         "fips" : false
                      }
                   ],
                   "aws-us-gov" : [
                      {
-                        "endpoint" : "https://maps.geo.{region}.{dnsSuffix}/v2"
+                        "endpoint" : "https://maps.geo.{region}.{dnsSuffix}"
                      },
                      {
                         "dualStack" : true,
-                        "endpoint" : "https://maps.geo-fips.{region}.{dualStackDnsSuffix}/v2",
+                        "endpoint" : "https://maps.geo-fips.{region}.{dualStackDnsSuffix}",
                         "fips" : true
                      },
                      {
                         "dualStack" : false,
-                        "endpoint" : "https://maps.geo-fips.{region}.{dnsSuffix}/v2",
+                        "endpoint" : "https://maps.geo-fips.{region}.{dnsSuffix}",
                         "fips" : true
                      },
                      {
                         "dualStack" : true,
-                        "endpoint" : "https://maps.geo.{region}.{dualStackDnsSuffix}/v2",
+                        "endpoint" : "https://maps.geo.{region}.{dualStackDnsSuffix}",
                         "fips" : false
                      }
                   ]
@@ -1060,7 +1090,7 @@
                   "x-cache"
                ]
             },
-            "smithy.api#documentation" : "<p> Integrate high-quality base map data into your applications using <a href=\"https://maplibre.org\">MapLibre</a>. Capabilities include: </p> <ul> <li> <p>Access to comprehensive base map data, allowing you to tailor the map display to your specific needs.</p> </li> <li> <p>Multiple pre-designed map styles suited for various application types, such as navigation, logistics, or data visualization.</p> </li> <li> <p>Generation of static map images for scenarios where interactive maps aren't suitable, such as:</p> <ul> <li> <p>Embedding in emails or documents</p> </li> <li> <p>Displaying in low-bandwidth environments</p> </li> <li> <p>Creating printable maps</p> </li> <li> <p>Enhancing application performance by reducing client-side rendering</p> </li> </ul> </li> </ul>",
+            "smithy.api#documentation" : "<p> Integrate high-quality base map data into your applications using <a href=\"https://maplibre.org\">MapLibre</a>. Capabilities include: </p> <ul> <li> <p>Access to comprehensive base map data, allowing you to tailor the map display to your specific needs. See <a href=\"https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html\">GetTile</a>.</p> </li> <li> <p>Multiple pre-designed map styles suited for various application types, such as navigation, logistics, or data visualization. See <a href=\"https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html\">GetStyleDescriptor</a>.</p> </li> <li> <p>Generation of static map images for scenarios where interactive maps aren't suitable. See <a href=\"https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStaticMap.html\">GetStaticMap</a>. Use cases include:</p> <ul> <li> <p>Embedding in emails or documents</p> </li> <li> <p>Displaying in low-bandwidth environments</p> </li> <li> <p>Creating printable maps</p> </li> <li> <p>Enhancing application performance by reducing client-side rendering</p> </li> </ul> </li> </ul>",
             "smithy.api#title" : "Amazon Location Service Maps V2",
             "smithy.rules#endpointBdd" : {
                "conditions" : [
@@ -1225,7 +1255,7 @@
                      "endpoint" : {
                         "headers" : {},
                         "properties" : {},
-                        "url" : "https://maps.geo.{Region}.{PartitionResult#dnsSuffix}/v2"
+                        "url" : "https://maps.geo.{Region}.{PartitionResult#dnsSuffix}"
                      },
                      "type" : "endpoint"
                   },
@@ -1234,7 +1264,7 @@
                      "endpoint" : {
                         "headers" : {},
                         "properties" : {},
-                        "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dualStackDnsSuffix}/v2"
+                        "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
                      },
                      "type" : "endpoint"
                   },
@@ -1243,7 +1273,7 @@
                      "endpoint" : {
                         "headers" : {},
                         "properties" : {},
-                        "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dnsSuffix}/v2"
+                        "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dnsSuffix}"
                      },
                      "type" : "endpoint"
                   },
@@ -1252,7 +1282,7 @@
                      "endpoint" : {
                         "headers" : {},
                         "properties" : {},
-                        "url" : "https://maps.geo.{Region}.{PartitionResult#dualStackDnsSuffix}/v2"
+                        "url" : "https://maps.geo.{Region}.{PartitionResult#dualStackDnsSuffix}"
                      },
                      "type" : "endpoint"
                   },
@@ -1475,7 +1505,7 @@
                                        "endpoint" : {
                                           "headers" : {},
                                           "properties" : {},
-                                          "url" : "https://maps.geo.{Region}.{PartitionResult#dnsSuffix}/v2"
+                                          "url" : "https://maps.geo.{Region}.{PartitionResult#dnsSuffix}"
                                        },
                                        "type" : "endpoint"
                                     },
@@ -1518,7 +1548,7 @@
                                        "endpoint" : {
                                           "headers" : {},
                                           "properties" : {},
-                                          "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dualStackDnsSuffix}/v2"
+                                          "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
                                        },
                                        "type" : "endpoint"
                                     },
@@ -1561,7 +1591,7 @@
                                        "endpoint" : {
                                           "headers" : {},
                                           "properties" : {},
-                                          "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dnsSuffix}/v2"
+                                          "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dnsSuffix}"
                                        },
                                        "type" : "endpoint"
                                     },
@@ -1604,7 +1634,7 @@
                                        "endpoint" : {
                                           "headers" : {},
                                           "properties" : {},
-                                          "url" : "https://maps.geo.{Region}.{PartitionResult#dualStackDnsSuffix}/v2"
+                                          "url" : "https://maps.geo.{Region}.{PartitionResult#dualStackDnsSuffix}"
                                        },
                                        "type" : "endpoint"
                                     },
@@ -1647,7 +1677,7 @@
                                        "endpoint" : {
                                           "headers" : {},
                                           "properties" : {},
-                                          "url" : "https://maps.geo.{Region}.{PartitionResult#dnsSuffix}/v2"
+                                          "url" : "https://maps.geo.{Region}.{PartitionResult#dnsSuffix}"
                                        },
                                        "type" : "endpoint"
                                     },
@@ -1690,7 +1720,7 @@
                                        "endpoint" : {
                                           "headers" : {},
                                           "properties" : {},
-                                          "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dualStackDnsSuffix}/v2"
+                                          "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
                                        },
                                        "type" : "endpoint"
                                     },
@@ -1733,7 +1763,7 @@
                                        "endpoint" : {
                                           "headers" : {},
                                           "properties" : {},
-                                          "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dnsSuffix}/v2"
+                                          "url" : "https://maps.geo-fips.{Region}.{PartitionResult#dnsSuffix}"
                                        },
                                        "type" : "endpoint"
                                     },
@@ -1776,7 +1806,7 @@
                                        "endpoint" : {
                                           "headers" : {},
                                           "properties" : {},
-                                          "url" : "https://maps.geo.{Region}.{PartitionResult#dualStackDnsSuffix}/v2"
+                                          "url" : "https://maps.geo.{Region}.{PartitionResult#dualStackDnsSuffix}"
                                        },
                                        "type" : "endpoint"
                                     },
@@ -2043,7 +2073,7 @@
                      "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://maps.geo-fips.us-east-1.api.aws/v2"
+                           "url" : "https://maps.geo-fips.us-east-1.api.aws"
                         }
                      },
                      "params" : {
@@ -2056,7 +2086,7 @@
                      "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://maps.geo-fips.us-east-1.amazonaws.com/v2"
+                           "url" : "https://maps.geo-fips.us-east-1.amazonaws.com"
                         }
                      },
                      "params" : {
@@ -2069,7 +2099,7 @@
                      "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://maps.geo.us-east-1.api.aws/v2"
+                           "url" : "https://maps.geo.us-east-1.api.aws"
                         }
                      },
                      "params" : {
@@ -2082,7 +2112,7 @@
                      "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://maps.geo.us-east-1.amazonaws.com/v2"
+                           "url" : "https://maps.geo.us-east-1.amazonaws.com"
                         }
                      },
                      "params" : {
@@ -2277,7 +2307,7 @@
                      "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://maps.geo-fips.us-gov-west-1.api.aws/v2"
+                           "url" : "https://maps.geo-fips.us-gov-west-1.api.aws"
                         }
                      },
                      "params" : {
@@ -2290,7 +2320,7 @@
                      "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack disabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://maps.geo-fips.us-gov-west-1.amazonaws.com/v2"
+                           "url" : "https://maps.geo-fips.us-gov-west-1.amazonaws.com"
                         }
                      },
                      "params" : {
@@ -2303,7 +2333,7 @@
                      "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://maps.geo.us-gov-west-1.api.aws/v2"
+                           "url" : "https://maps.geo.us-gov-west-1.api.aws"
                         }
                      },
                      "params" : {
@@ -2316,7 +2346,7 @@
                      "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack disabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://maps.geo.us-gov-west-1.amazonaws.com/v2"
+                           "url" : "https://maps.geo.us-gov-west-1.amazonaws.com"
                         }
                      },
                      "params" : {
@@ -2337,6 +2367,118 @@
          },
          "type" : "service",
          "version" : "2020-11-19"
+      },
+      "com.amazonaws.geomaps#PoiCategory" : {
+         "members" : {
+            "ACCOMMODATIONS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Accommodations"
+               }
+            },
+            "BUSINESS_AND_SERVICES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BusinessAndServices"
+               }
+            },
+            "ENTERTAINMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Entertainment"
+               }
+            },
+            "FACILITIES_AND_BUILDINGS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FacilitiesAndBuildings"
+               }
+            },
+            "FOOD_AND_DRINK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FoodAndDrink"
+               }
+            },
+            "LEISURE_AND_OUTDOOR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LeisureAndOutdoor"
+               }
+            },
+            "SHOPPING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Shopping"
+               }
+            },
+            "SIGHTS_AND_MUSEUMS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SightsAndMuseums"
+               }
+            },
+            "TRANSPORTATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Transportation"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.geomaps#PoiCategoryList" : {
+         "member" : {
+            "target" : "com.amazonaws.geomaps#PoiCategory"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 9
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.geomaps#PoiDensity" : {
+         "members" : {
+            "DEFAULT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Default"
+               }
+            },
+            "DENSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Dense"
+               }
+            },
+            "OFF" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Off"
+               }
+            },
+            "SPARSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Sparse"
+               }
+            },
+            "VERY_DENSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VeryDense"
+               }
+            },
+            "VERY_SPARSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VerySparse"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#PositionListString" : {
          "traits" : {
@@ -2397,27 +2539,33 @@
          "type" : "structure"
       },
       "com.amazonaws.geomaps#ScaleBarUnit" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "KILOMETERS",
-                  "value" : "Kilometers"
-               },
-               {
-                  "name" : "KILOMETERS_MILES",
-                  "value" : "KilometersMiles"
-               },
-               {
-                  "name" : "MILES",
-                  "value" : "Miles"
-               },
-               {
-                  "name" : "MILES_KILOMETERS",
-                  "value" : "MilesKilometers"
+         "members" : {
+            "KILOMETERS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Kilometers"
                }
-            ]
+            },
+            "KILOMETERS_MILES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KilometersMiles"
+               }
+            },
+            "MILES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Miles"
+               }
+            },
+            "MILES_KILOMETERS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MilesKilometers"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#SensitiveFloat" : {
          "traits" : {
@@ -2438,34 +2586,38 @@
          "type" : "string"
       },
       "com.amazonaws.geomaps#StaticMapStyle" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "SATELLITE",
-                  "value" : "Satellite"
-               },
-               {
-                  "name" : "STANDARD",
-                  "value" : "Standard"
+         "members" : {
+            "SATELLITE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Satellite"
                }
-            ]
+            },
+            "STANDARD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Standard"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#Terrain" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "HILLSHADE",
-                  "value" : "Hillshade"
-               },
-               {
-                  "name" : "TERRAIN_3D",
-                  "value" : "Terrain3D"
+         "members" : {
+            "HILLSHADE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Hillshade"
                }
-            ]
+            },
+            "TERRAIN_3D" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Terrain3D"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#ThrottlingException" : {
          "members" : {
@@ -2486,31 +2638,37 @@
          "type" : "structure"
       },
       "com.amazonaws.geomaps#TileAdditionalFeature" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "documentation" : "Map elevation contour lines.",
-                  "name" : "CONTOUR_LINES",
-                  "value" : "ContourLines"
-               },
-               {
-                  "documentation" : "Map hillshading details for shading elevation changes.",
-                  "name" : "HILLSHADE",
-                  "value" : "Hillshade"
-               },
-               {
-                  "documentation" : "Map logistics details, including advanced pois and road networks.",
-                  "name" : "LOGISTICS",
-                  "value" : "Logistics"
-               },
-               {
-                  "documentation" : "Map transit details.",
-                  "name" : "TRANSIT",
-                  "value" : "Transit"
+         "members" : {
+            "CONTOUR_LINES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "Map elevation contour lines.",
+                  "smithy.api#enumValue" : "ContourLines"
                }
-            ]
+            },
+            "HILLSHADE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "Map hillshading details for shading elevation changes.",
+                  "smithy.api#enumValue" : "Hillshade"
+               }
+            },
+            "LOGISTICS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "Map logistics details, including advanced pois and road networks.",
+                  "smithy.api#enumValue" : "Logistics"
+               }
+            },
+            "TRANSIT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "Map transit details.",
+                  "smithy.api#enumValue" : "Transit"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#TileAdditionalFeatureList" : {
          "member" : {
@@ -2535,34 +2693,38 @@
          "type" : "string"
       },
       "com.amazonaws.geomaps#Traffic" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "ALL",
-                  "value" : "All"
-               },
-               {
-                  "name" : "CONGESTION",
-                  "value" : "Congestion"
+         "members" : {
+            "ALL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "All"
                }
-            ]
+            },
+            "CONGESTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Congestion"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#TravelMode" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "TRANSIT",
-                  "value" : "Transit"
-               },
-               {
-                  "name" : "TRUCK",
-                  "value" : "Truck"
+         "members" : {
+            "TRANSIT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Transit"
                }
-            ]
+            },
+            "TRUCK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Truck"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#TravelModeList" : {
          "member" : {
@@ -2640,52 +2802,60 @@
          "type" : "list"
       },
       "com.amazonaws.geomaps#ValidationExceptionReason" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "documentation" : "No such operation is supported.",
-                  "name" : "UNKNOWN_OPERATION",
-                  "value" : "UnknownOperation"
-               },
-               {
-                  "documentation" : "The required input is missing.",
-                  "name" : "MISSING",
-                  "value" : "Missing"
-               },
-               {
-                  "documentation" : "    The input cannot be parsed. For example a required JSON document, ARN identifier,\n    date value, or numeric field cannot be parsed.\n",
-                  "name" : "CANNOT_PARSE",
-                  "value" : "CannotParse"
-               },
-               {
-                  "documentation" : "    The input is present and parsable, but it is otherwise invalid. For example, a\n    required numeric argument is outside the allowed range.\n",
-                  "name" : "FIELD_VALIDATION_FAILED",
-                  "value" : "FieldValidationFailed"
-               },
-               {
-                  "documentation" : "The input is invalid but no more specific reason is applicable.",
-                  "name" : "OTHER",
-                  "value" : "Other"
-               },
-               {
-                  "documentation" : "No such field is supported.",
-                  "name" : "UNKNOWN_FIELD",
-                  "value" : "UnknownField"
+         "members" : {
+            "CANNOT_PARSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CannotParse"
                }
-            ]
+            },
+            "FIELD_VALIDATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FieldValidationFailed"
+               }
+            },
+            "MISSING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The required input is missing.",
+                  "smithy.api#enumValue" : "Missing"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The input is invalid but no more specific reason is applicable.",
+                  "smithy.api#enumValue" : "Other"
+               }
+            },
+            "UNKNOWN_FIELD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "No such field is supported.",
+                  "smithy.api#enumValue" : "UnknownField"
+               }
+            },
+            "UNKNOWN_OPERATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "No such operation is supported.",
+                  "smithy.api#enumValue" : "UnknownOperation"
+               }
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       },
       "com.amazonaws.geomaps#Variant" : {
-         "traits" : {
-            "smithy.api#enum" : [
-               {
-                  "name" : "DEFAULT",
-                  "value" : "Default"
+         "members" : {
+            "DEFAULT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Default"
                }
-            ]
+            }
          },
-         "type" : "string"
+         "type" : "enum"
       }
    },
    "smithy" : "2.0"

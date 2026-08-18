@@ -506,7 +506,7 @@
    ],
    "geo-maps" : [
       {
-         "uri" : "https://maps.geo.{region}.amazonaws.com/v2"
+         "uri" : "https://maps.geo.{region}.amazonaws.com"
       },
       {
          "constraints" : [
@@ -516,7 +516,7 @@
                "us-gov-"
             ]
          ],
-         "uri" : "https://maps.geo.{region}.amazonaws.com/v2"
+         "uri" : "https://maps.geo.{region}.amazonaws.com"
       },
       {
          "uri" : "https://geo-maps.{region}.amazonaws.com"

@@ -9162,7 +9162,7 @@
          },
          "traits" : {
             "smithy.api#length" : {
-               "max" : 10,
+               "max" : 25,
                "min" : 0
             }
          },
