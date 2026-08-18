@@ -1,11 +1,12 @@
 # CI workflows
 
-This repository ships six GitHub Actions workflows under `.github/workflows/`:
+This repository ships seven GitHub Actions workflows under `.github/workflows/`:
 
 | Workflow | Trigger | Purpose |
 | --- | --- | --- |
 | `test.yml` | `pull_request` (filtered to code paths) | Run the test suite against the current branch. |
 | `build-modular-smoke.yml` | `pull_request` | Build a subset of per-service sub-dists and smoke-test them via `cpanm` install + `examples/smoke.pl`. |
+| `cut-release.yml` | `workflow_dispatch` | Validate a proposed version, bump every `our $VERSION` under `lib/`, and publish a GitHub release + `v<version>` tag so `release-modular.yml` builds the tarball fleet. See ["Cutting a release"](#cutting-a-release). |
 | `release-modular.yml` | `release.published` | Build all ~300+ per-service code + docs tarballs and attach them to the GitHub release. |
 | `refresh-source-deps.yml` | daily `schedule` + `workflow_dispatch` | Bump `share/smithy/.upstream-sha` and refresh the vendored Smithy IR tree; open + auto-merge a bump PR. See ["Source-dep refresh"](#source-dep-refresh). |
 | `coverage.yml` | `pull_request` | Run the test suite under `Devel::Cover` and compare against the coverage baseline. |
@@ -124,6 +125,69 @@ Two options:
    `workflow_dispatch` stays available for manual nudges.
 2. **Disable the workflow in the GitHub UI** under Actions →
    refresh-source-deps → ⋯ → Disable workflow.
+
+## Cutting a release
+
+`cut-release.yml` is the only supported way to publish a new Paws
+version. Do not create a GitHub tag or release by hand: the v1.1.0
+release tagged master without bumping `our $VERSION` in `lib/Paws.pm`
+(still `1.0.0`), so `cpm` treated the new tarballs as the same
+installed version and skipped them.
+
+### Why the package VERSION must move
+
+`cpm` / `cpanm` decide whether an installed module satisfies a
+cpanfile pin by reading the installed `.pm` with `Module::Metadata`,
+not by comparing tarball filenames. `script/build-modular-dist` copies
+`lib/Paws.pm`'s `$VERSION` into every per-service tarball. If that
+string does not change, a host that already has Paws 1.0.0 will not
+install the new artefacts.
+
+### How to cut
+
+From the GitHub Actions UI (Actions → cut-release → Run workflow) or:
+
+```
+gh workflow run cut-release.yml --ref master --field version=1.2.0
+gh run watch
+```
+
+The version field is `X.Y.Z` or `X.Y.Z-rcN` (for example `1.2.0` or
+`1.2.0-rc1`). Do not include a leading `v` — the workflow tags
+`v<version>`. The proposed version must be strictly greater than:
+
+1. The current `our $VERSION` in `lib/Paws.pm`
+2. Every existing `v*` tag that parses as `X.Y.Z` / `X.Y.Z-rcN`
+
+Because `v1.1.0` already exists while the package is still `1.0.0`,
+the next cut must be `1.1.1` or later (`1.2.0` is the natural choice).
+
+The workflow must be dispatched from the default branch (`master`).
+It commits the VERSION bump to that branch, then creates the GitHub
+release. `release-modular.yml` builds against the new tag.
+
+`script/bump-version` is the validator the workflow calls. Run it
+locally to preview a cut:
+
+```
+script/bump-version --version 1.2.0 --dry-run --require-new-tag
+```
+
+### Re-running a failed cut
+
+If the VERSION bump was pushed but `gh release create` failed, dispatch
+the same version again. `--allow-current` lets the script skip the
+write when `lib/Paws.pm` is already at the proposed version, then the
+workflow creates the missing release.
+
+### `PAWS_BUMP_PAT` and kicking off the build
+
+GitHub does not let `GITHUB_TOKEN` trigger `on: release` workflows.
+When `secrets.PAWS_BUMP_PAT` is set (same secret as
+[Source-dep refresh](#source-dep-refresh)), creating the release fires
+`release-modular.yml` via `release.published`. When the secret is
+unset, `cut-release.yml` dispatches `release-modular.yml` with
+`workflow_dispatch` and the new tag.
 
 ## GitHub Releases asset limits
 
