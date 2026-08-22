@@ -28,6 +28,34 @@
       ]
    },
    "shapes" : {
+      "com.amazonaws.marketplacecatalog#AMISecurityFilters" : {
+         "members" : {
+            "DeliveryOptionId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the delivery option whose AMI Security assessments you want to\n            list.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Filters that apply to assessments performed against the AMI Security framework.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#AMISecuritySummary" : {
+         "members" : {
+            "DeliveryOptionId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the delivery option that was evaluated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The details of the resource assessed under the AMI Security framework.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.marketplacecatalog#ARN" : {
          "traits" : {
             "smithy.api#length" : {
@@ -50,6 +78,9 @@
                "target" : "com.amazonaws.marketplacecatalog#DeleteResourcePolicy"
             },
             {
+               "target" : "com.amazonaws.marketplacecatalog#DescribeAssessment"
+            },
+            {
                "target" : "com.amazonaws.marketplacecatalog#DescribeChangeSet"
             },
             {
@@ -57,6 +88,9 @@
             },
             {
                "target" : "com.amazonaws.marketplacecatalog#GetResourcePolicy"
+            },
+            {
+               "target" : "com.amazonaws.marketplacecatalog#ListAssessments"
             },
             {
                "target" : "com.amazonaws.marketplacecatalog#ListChangeSets"
@@ -1296,6 +1330,135 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.marketplacecatalog#AssessmentIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(assessment-[a-zA-Z0-9]+|arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:[0-9]*:[a-zA-Z0-9-]+/Assessment/assessment-[a-zA-Z0-9]+)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacecatalog#AssessmentResult" : {
+         "members" : {
+            "FAIL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAIL"
+               }
+            },
+            "PASS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASS"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.marketplacecatalog#AssessmentSummary" : {
+         "members" : {
+            "AssessmentArn" : {
+               "target" : "com.amazonaws.marketplacecatalog#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN associated with the assessment.</p>"
+               }
+            },
+            "AssessmentId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the assessment.</p>"
+               }
+            },
+            "AssessmentResult" : {
+               "target" : "com.amazonaws.marketplacecatalog#AssessmentResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The overall result of the assessment.</p>"
+               }
+            },
+            "AssessmentTargetSummary" : {
+               "target" : "com.amazonaws.marketplacecatalog#AssessmentTargetSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifies the entity or change set that was assessed.</p>"
+               }
+            },
+            "CreatedAt" : {
+               "target" : "com.amazonaws.marketplacecatalog#DateTimeISO8601",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the assessment was created, in ISO 8601 format\n            (<code>2018-02-27T13:45:22Z</code>).</p>"
+               }
+            },
+            "ExpiresAt" : {
+               "target" : "com.amazonaws.marketplacecatalog#DateTimeISO8601",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the assessment expires, in ISO 8601 format\n            (<code>2018-02-27T13:45:22Z</code>).</p>"
+               }
+            },
+            "FrameworkId" : {
+               "target" : "com.amazonaws.marketplacecatalog#VersionedFrameworkId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the framework that was evaluated by this assessment, in the format\n            <code>frameworkId@version</code> (for example,\n            <code>AMISecurity@1.0</code>).</p>"
+               }
+            },
+            "FrameworkSummary" : {
+               "target" : "com.amazonaws.marketplacecatalog#FrameworkSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The framework-specific details of the assessed resource. The set member corresponds\n            to the framework identified by <code>FrameworkId</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summarized information about an assessment.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#AssessmentSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacecatalog#AssessmentSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacecatalog#AssessmentTargetFilter" : {
+         "members" : {
+            "ChangeSetId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the change set that triggered the assessments you want to\n            list.</p>"
+               }
+            },
+            "EntityId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the entity whose assessments you want to list.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Filters assessment list results by the resource that was assessed. Provide an entity\n            identifier, a change set identifier, or both.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#AssessmentTargetSummary" : {
+         "members" : {
+            "ChangeSetId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the change set that was assessed.</p>"
+               }
+            },
+            "EntityId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the entity that was assessed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Identifies the entity or change set that was assessed.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.marketplacecatalog#BatchDescribeEntities" : {
          "errors" : [
             {
@@ -2000,6 +2163,127 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.marketplacecatalog#ContainerSecurityFilters" : {
+         "members" : {
+            "DeliveryOptionId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the delivery option whose Container Security assessments you want\n            to list.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Filters that apply to assessments performed against the Container Security\n            framework.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#ContainerSecuritySummary" : {
+         "members" : {
+            "DeliveryOptionId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the delivery option that was evaluated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The details of the resource assessed under the Container Security framework.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#ControlAssessment" : {
+         "members" : {
+            "ControlAssessmentResult" : {
+               "target" : "com.amazonaws.marketplacecatalog#ControlAssessmentResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The result of the control evaluation.</p>"
+               }
+            },
+            "ControlId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the control that was evaluated.</p>"
+               }
+            },
+            "Errors" : {
+               "target" : "com.amazonaws.marketplacecatalog#ControlErrorList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of <code>ControlError</code> objects associated with the control\n            evaluation.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The result of evaluating a single control as part of an assessment.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#ControlAssessmentList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacecatalog#ControlAssessment"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacecatalog#ControlAssessmentResult" : {
+         "members" : {
+            "EXEMPTION_PASS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EXEMPTION_PASS"
+               }
+            },
+            "FAIL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAIL"
+               }
+            },
+            "NOT_EXECUTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NOT_EXECUTED"
+               }
+            },
+            "PASS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASS"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.marketplacecatalog#ControlError" : {
+         "members" : {
+            "Code" : {
+               "target" : "com.amazonaws.marketplacecatalog#ErrorCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error code that identifies the type of error.</p>"
+               }
+            },
+            "Message" : {
+               "target" : "com.amazonaws.marketplacecatalog#ErrorMessage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The message for the error.</p>"
+               }
+            },
+            "Scope" : {
+               "target" : "com.amazonaws.marketplacecatalog#ErrorScopeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of name-value pairs that identify the resource or attribute that the error\n            applies to.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An error reported during the evaluation of a single control.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#ControlErrorList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacecatalog#ControlError"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.marketplacecatalog#DataProductEntityIdFilter" : {
          "members" : {
             "ValueList" : {
@@ -2336,6 +2620,158 @@
       },
       "com.amazonaws.marketplacecatalog#DeleteResourcePolicyResponse" : {
          "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#DescribeAssessment" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.marketplacecatalog#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacecatalog#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacecatalog#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacecatalog#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.marketplacecatalog#DescribeAssessmentRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.marketplacecatalog#DescribeAssessmentResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the metadata and detailed results of a single assessment, including the\n            framework that was evaluated, the overall assessment result, and a paginated list of\n            individual control evaluation results.</p>\n         <p>To list available assessments before describing one, use the\n            <code>ListAssessments</code> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/DescribeAssessment"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "ControlAssessments",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.marketplacecatalog#DescribeAssessmentMaxResultInteger" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.marketplacecatalog#DescribeAssessmentRequest" : {
+         "members" : {
+            "AssessmentIdentifier" : {
+               "target" : "com.amazonaws.marketplacecatalog#AssessmentIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the assessment to describe. You can provide either\n            the assessment ID (for example, <code>assessment-12345</code>) or the full\n            assessment ARN (for example,\n            <code>arn:aws:aws-marketplace:us-east-1::AWSMarketplace/Assessment/assessment-12345</code>).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Catalog" : {
+               "target" : "com.amazonaws.marketplacecatalog#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog related to the request. Fixed value: <code>AWSMarketplace</code>\n         </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.marketplacecatalog#DescribeAssessmentMaxResultInteger",
+               "traits" : {
+                  "smithy.api#default" : 50,
+                  "smithy.api#documentation" : "<p>Specifies the upper limit of <code>ControlAssessment</code> elements returned on a\n            single page. If a value isn't provided, the default value is 50. Valid values range\n            from 1 to 100.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.marketplacecatalog#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value of the next token, if it exists. <code>null</code> if there are no more\n            results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#DescribeAssessmentResponse" : {
+         "members" : {
+            "AssessmentArn" : {
+               "target" : "com.amazonaws.marketplacecatalog#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN associated with the assessment.</p>"
+               }
+            },
+            "AssessmentId" : {
+               "target" : "com.amazonaws.marketplacecatalog#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the assessment.</p>"
+               }
+            },
+            "AssessmentResult" : {
+               "target" : "com.amazonaws.marketplacecatalog#AssessmentResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The overall result of the assessment.</p>"
+               }
+            },
+            "AssessmentTargetSummary" : {
+               "target" : "com.amazonaws.marketplacecatalog#AssessmentTargetSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifies the entity or change set that was assessed.</p>"
+               }
+            },
+            "ControlAssessments" : {
+               "target" : "com.amazonaws.marketplacecatalog#ControlAssessmentList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of <code>ControlAssessment</code> objects, each containing the result of an\n            individual control evaluated as part of the assessment.</p>"
+               }
+            },
+            "CreatedAt" : {
+               "target" : "com.amazonaws.marketplacecatalog#DateTimeISO8601",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the assessment was created, in ISO 8601 format\n            (<code>2018-02-27T13:45:22Z</code>).</p>"
+               }
+            },
+            "ExpiresAt" : {
+               "target" : "com.amazonaws.marketplacecatalog#DateTimeISO8601",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the assessment expires, in ISO 8601 format\n            (<code>2018-02-27T13:45:22Z</code>).</p>"
+               }
+            },
+            "FrameworkId" : {
+               "target" : "com.amazonaws.marketplacecatalog#VersionedFrameworkId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the framework that was evaluated by this assessment, in the format\n            <code>frameworkId@version</code> (for example,\n            <code>AMISecurity@1.0</code>).</p>"
+               }
+            },
+            "FrameworkSummary" : {
+               "target" : "com.amazonaws.marketplacecatalog#FrameworkSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The framework-specific details of the assessed resource. The set member corresponds\n            to the framework identified by <code>FrameworkId</code>.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.marketplacecatalog#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value of the next token, if it exists. <code>null</code> if there are no more\n            results.</p>"
+               }
+            }
+         },
          "traits" : {
             "smithy.api#output" : {}
          },
@@ -2905,6 +3341,16 @@
          },
          "type" : "union"
       },
+      "com.amazonaws.marketplacecatalog#ErrorCode" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[A-Z_]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.marketplacecatalog#ErrorCodeString" : {
          "traits" : {
             "smithy.api#length" : {
@@ -2938,6 +3384,41 @@
       "com.amazonaws.marketplacecatalog#ErrorDetailList" : {
          "member" : {
             "target" : "com.amazonaws.marketplacecatalog#ErrorDetail"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacecatalog#ErrorMessage" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacecatalog#ErrorScope" : {
+         "members" : {
+            "Name" : {
+               "target" : "com.amazonaws.marketplacecatalog#ScopeName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the resource field the error applies to (for example,\n            <code>AMI_ID</code>, <code>FILE_PATH</code>, or <code>PACKAGE_NAME</code>).</p>"
+               }
+            },
+            "Value" : {
+               "target" : "com.amazonaws.marketplacecatalog#ScopeValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value of the resource field the error applies to.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A name-value pair that identifies the resource or attribute that a\n            <code>ControlError</code> applies to.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#ErrorScopeList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacecatalog#ErrorScope"
          },
          "type" : "list"
       },
@@ -2976,6 +3457,16 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.marketplacecatalog#FieldName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9\\-_\\.\\/]+$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.marketplacecatalog#Filter" : {
          "members" : {
@@ -3028,6 +3519,56 @@
             "smithy.api#pattern" : "^(.)+$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.marketplacecatalog#FrameworkFilters" : {
+         "members" : {
+            "AMISecurityFilters" : {
+               "target" : "com.amazonaws.marketplacecatalog#AMISecurityFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters that apply to assessments performed against the AMI Security framework.</p>"
+               }
+            },
+            "ContainerSecurityFilters" : {
+               "target" : "com.amazonaws.marketplacecatalog#ContainerSecurityFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters that apply to assessments performed against the Container Security\n            framework.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Framework-specific filters used to scope <code>ListAssessments</code> results. Set\n            exactly one member, corresponding to the framework you want to filter by.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.marketplacecatalog#FrameworkId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\w\\-@]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacecatalog#FrameworkSummary" : {
+         "members" : {
+            "AMISecuritySummary" : {
+               "target" : "com.amazonaws.marketplacecatalog#AMISecuritySummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The details of the resource assessed under the AMI Security framework.</p>"
+               }
+            },
+            "ContainerSecuritySummary" : {
+               "target" : "com.amazonaws.marketplacecatalog#ContainerSecuritySummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The details of the resource assessed under the Container Security framework.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The framework-specific details of the assessed resource. Exactly one member is set,\n            corresponding to the framework that was assessed.</p>"
+         },
+         "type" : "union"
       },
       "com.amazonaws.marketplacecatalog#GetResourcePolicy" : {
          "errors" : [
@@ -3145,6 +3686,118 @@
       },
       "com.amazonaws.marketplacecatalog#JsonDocumentType" : {
          "type" : "document"
+      },
+      "com.amazonaws.marketplacecatalog#ListAssessments" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.marketplacecatalog#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacecatalog#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacecatalog#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacecatalog#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.marketplacecatalog#ListAssessmentsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.marketplacecatalog#ListAssessmentsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a paginated list of assessments associated with an entity or change set in\n            AWS Marketplace. An <i>assessment</i> is the result of evaluating a\n            product or change set against a framework, such as AMI Security or Container\n            Security.</p>\n         <p>Use the <code>AssessmentTargetFilter</code> to scope results to a specific entity or\n            change set, and use <code>FrameworkFilters</code> to scope results to a single\n            framework. To retrieve detailed control-level results for an individual assessment, use\n            the <code>DescribeAssessment</code> action.</p>\n         <p>Results are sorted by assessment creation time in descending order.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/ListAssessments"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "AssessmentSummaryList",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.marketplacecatalog#ListAssessmentsMaxResultInteger" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.marketplacecatalog#ListAssessmentsRequest" : {
+         "members" : {
+            "AssessmentTargetFilter" : {
+               "target" : "com.amazonaws.marketplacecatalog#AssessmentTargetFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters the list of assessments to those performed against a specific entity or\n            change set.</p>"
+               }
+            },
+            "Catalog" : {
+               "target" : "com.amazonaws.marketplacecatalog#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog related to the request. Fixed value: <code>AWSMarketplace</code>\n         </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "FrameworkFilters" : {
+               "target" : "com.amazonaws.marketplacecatalog#FrameworkFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Framework-specific filters. Set exactly one member to filter results to assessments\n            performed against that framework.</p>"
+               }
+            },
+            "FrameworkId" : {
+               "target" : "com.amazonaws.marketplacecatalog#FrameworkId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of a framework. When specified, only assessments performed\n            against this framework are returned. For example, <code>AMISecurity</code>.</p>"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.marketplacecatalog#ListAssessmentsMaxResultInteger",
+               "traits" : {
+                  "smithy.api#default" : 20,
+                  "smithy.api#documentation" : "<p>Specifies the upper limit of the elements on a single page. If a value isn't provided,\n            the default value is 20. Valid values range from 1 to 100.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.marketplacecatalog#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value of the next token, if it exists. <code>null</code> if there are no more\n            results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#ListAssessmentsResponse" : {
+         "members" : {
+            "AssessmentSummaryList" : {
+               "target" : "com.amazonaws.marketplacecatalog#AssessmentSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of <code>AssessmentSummary</code> objects.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.marketplacecatalog#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value of the next token, if it exists. <code>null</code> if there are no more\n            results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.marketplacecatalog#ListChangeSets" : {
          "errors" : [
@@ -3735,10 +4388,10 @@
       "com.amazonaws.marketplacecatalog#NextToken" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 2048,
+               "max" : 4096,
                "min" : 1
             },
-            "smithy.api#pattern" : "^[\\w+=.:@\\-\\/]$"
+            "smithy.api#pattern" : "^[\\w+=.:@\\-\\/]+$"
          },
          "type" : "string"
       },
@@ -6381,6 +7034,24 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.marketplacecatalog#ScopeName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacecatalog#ScopeValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.marketplacecatalog#ServiceQuotaExceededException" : {
          "members" : {
             "Message" : {
@@ -6757,6 +7428,12 @@
          "members" : {
             "Message" : {
                "target" : "com.amazonaws.marketplacecatalog#ExceptionMessageContent"
+            },
+            "ValidationExceptionFieldList" : {
+               "target" : "com.amazonaws.marketplacecatalog#ValidationExceptionFieldList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of detailed entries describing the request fields that failed\n            validation. Present when the failure can be attributed to one or more specific\n            fields.</p>"
+               }
             }
          },
          "traits" : {
@@ -6765,6 +7442,85 @@
             "smithy.api#httpError" : 422
          },
          "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#ValidationExceptionField" : {
+         "members" : {
+            "ChangeType" : {
+               "target" : "com.amazonaws.marketplacecatalog#ChangeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The change type the failing field applies to, if the field is part of a\n            change request. For example, <code>AddDeliveryOptions</code>.</p>"
+               }
+            },
+            "EntityId" : {
+               "target" : "com.amazonaws.marketplacecatalog#EntityId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The entity identifier the failing field applies to, if the field is on a\n            specific entity.</p>"
+               }
+            },
+            "EntityType" : {
+               "target" : "com.amazonaws.marketplacecatalog#EntityType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The entity type the failing field applies to, if the field is on a\n            specific entity. For example, <code>AmiProduct@1.0</code>.</p>"
+               }
+            },
+            "Field" : {
+               "target" : "com.amazonaws.marketplacecatalog#FieldName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the request field that failed validation, expressed as a\n            JSON path (for example, <code>Details.DeliveryOptions[0].Type</code>).</p>"
+               }
+            },
+            "Message" : {
+               "target" : "com.amazonaws.marketplacecatalog#ExceptionMessageContent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable message describing why the field failed\n            validation.</p>"
+               }
+            },
+            "Reason" : {
+               "target" : "com.amazonaws.marketplacecatalog#ValidationExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason the field failed validation.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Detailed information about a single request field that failed\n            validation, including the field's location, the reason it failed, and a\n            human-readable message.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacecatalog#ValidationExceptionFieldList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacecatalog#ValidationExceptionField"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacecatalog#ValidationExceptionReason" : {
+         "members" : {
+            "CANNOT_PARSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CannotParse"
+               }
+            },
+            "FIELD_VALIDATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FieldValidationFailed"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Other"
+               }
+            },
+            "UNKNOWN_OPERATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UnknownOperation"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.marketplacecatalog#ValueList" : {
          "member" : {
@@ -6777,6 +7533,16 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.marketplacecatalog#VersionedFrameworkId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\w\\-@.]+$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.marketplacecatalog#VisibilityValue" : {
          "traits" : {
