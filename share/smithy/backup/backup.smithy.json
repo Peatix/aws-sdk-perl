@@ -699,7 +699,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>This is a summary of jobs created \n         or running within the most recent 30 days.</p>\n         <p>The returned summary may contain the following:  \n         Region, Account, State, RestourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>"
+            "smithy.api#documentation" : "<p>This is a summary of jobs created \n         or running within the most recent 14 days.</p>\n         <p>The returned summary may contain the following:  \n         Region, Account, State, RestourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>"
          },
          "type" : "structure"
       },
@@ -2170,7 +2170,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>This is a summary of copy jobs created \n         or running within the most recent 30 days.</p>\n         <p>The returned summary may contain the following:  \n         Region, Account, State, RestourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>"
+            "smithy.api#documentation" : "<p>This is a summary of copy jobs created \n         or running within the most recent 14 days.</p>\n         <p>The returned summary may contain the following:  \n         Region, Account, State, RestourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>"
          },
          "type" : "structure"
       },
@@ -9848,7 +9848,7 @@
             "target" : "com.amazonaws.backup#ListBackupJobSummariesOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>This is a request for a summary of backup jobs created \n         or running within the most recent 30 days. You can \n         include parameters AccountID, State, ResourceType, MessageCategory, \n         AggregationPeriod, MaxResults, or NextToken to filter \n         results.</p>\n         <p>This request returns a summary that contains \n         Region, Account, State, ResourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>",
+            "smithy.api#documentation" : "<p>This is a request for a summary of backup jobs created \n         or running within the most recent 14 days. You can \n         include parameters AccountID, State, ResourceType, MessageCategory, \n         AggregationPeriod, MaxResults, or NextToken to filter \n         results.</p>\n         <p>This request returns a summary that contains \n         Region, Account, State, ResourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -10549,7 +10549,7 @@
             "target" : "com.amazonaws.backup#ListCopyJobSummariesOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>This request obtains a list of copy jobs created \n         or running within the the most recent 30 days. You can \n         include parameters AccountID, State, ResourceType, MessageCategory, \n         AggregationPeriod, MaxResults, or NextToken to filter \n         results.</p>\n         <p>This request returns a summary that contains \n         Region, Account, State, RestourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>",
+            "smithy.api#documentation" : "<p>This request obtains a list of copy jobs created \n         or running within the the most recent 14 days. You can \n         include parameters AccountID, State, ResourceType, MessageCategory, \n         AggregationPeriod, MaxResults, or NextToken to filter \n         results.</p>\n         <p>This request returns a summary that contains \n         Region, Account, State, RestourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -11828,7 +11828,7 @@
             "target" : "com.amazonaws.backup#ListRestoreJobSummariesOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>This request obtains a summary of restore jobs created \n         or running within the the most recent 30 days. You can \n         include parameters AccountID, State, ResourceType,  \n         AggregationPeriod, MaxResults, or NextToken to filter \n         results.</p>\n         <p>This request returns a summary that contains \n         Region, Account, State, RestourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>",
+            "smithy.api#documentation" : "<p>This request obtains a summary of restore jobs created \n         or running within the the most recent 14 days. You can \n         include parameters AccountID, State, ResourceType,  \n         AggregationPeriod, MaxResults, or NextToken to filter \n         results.</p>\n         <p>This request returns a summary that contains \n         Region, Account, State, RestourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -12362,7 +12362,7 @@
             "target" : "com.amazonaws.backup#ListScanJobSummariesOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>This is a request for a summary of scan jobs created or running within the most recent 30 days.</p>",
+            "smithy.api#documentation" : "<p>This is a request for a summary of scan jobs created or running within the most recent 14 days.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -14292,7 +14292,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>This is a summary of restore jobs created \n         or running within the most recent 30 days.</p>\n         <p>The returned summary may contain the following:  \n         Region, Account, State, ResourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>"
+            "smithy.api#documentation" : "<p>This is a summary of restore jobs created \n         or running within the most recent 14 days.</p>\n         <p>The returned summary may contain the following:  \n         Region, Account, State, ResourceType, MessageCategory, \n         StartTime, EndTime, and Count of included jobs.</p>"
          },
          "type" : "structure"
       },
@@ -14701,7 +14701,7 @@
                "target" : "com.amazonaws.backup#integer",
                "traits" : {
                   "smithy.api#default" : 0,
-                  "smithy.api#documentation" : "<p>Accepted values are integers from 1 to 365.</p>"
+                  "smithy.api#documentation" : "<p>Accepted values are integers from 1 to 365. If not included, the value defaults to 30.\n         The selection window is calculated from the actual job execution time, not the plan's\n         scheduled start time.</p>"
                }
             }
          },
