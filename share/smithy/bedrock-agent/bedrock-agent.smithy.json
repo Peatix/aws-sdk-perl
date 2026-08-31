@@ -5003,6 +5003,13 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.bedrockagent#DailySchedule" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>A daily sync. The run time is system-chosen (off-peak) and not configurable.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.bedrockagent#Data" : {
          "traits" : {
             "smithy.api#length" : {
@@ -5342,6 +5349,86 @@
             "smithy.api#timestampFormat" : "date-time"
          },
          "type" : "timestamp"
+      },
+      "com.amazonaws.bedrockagent#DayOfMonth" : {
+         "members" : {
+            "dayNumber" : {
+               "target" : "com.amazonaws.bedrockagent#DayOfMonthNumber",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A specific day of the month, from 1 to 28. Values are capped at 28, so a monthly sync runs in every month, including February.</p>"
+               }
+            },
+            "lastDayOfMonth" : {
+               "target" : "com.amazonaws.bedrockagent#LastDayOfMonth",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Set this option to run the monthly sync on the last calendar day of each month.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The day of the month on which a monthly sync runs. Specify exactly one of <code>dayNumber</code> or <code>lastDayOfMonth</code>.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.bedrockagent#DayOfMonthNumber" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A specific day of the month, from 1 to 28.</p>",
+            "smithy.api#range" : {
+               "max" : 28,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.bedrockagent#DayOfWeek" : {
+         "members" : {
+            "FRIDAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FRIDAY"
+               }
+            },
+            "MONDAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MONDAY"
+               }
+            },
+            "SATURDAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SATURDAY"
+               }
+            },
+            "SUNDAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUNDAY"
+               }
+            },
+            "THURSDAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "THURSDAY"
+               }
+            },
+            "TUESDAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TUESDAY"
+               }
+            },
+            "WEDNESDAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WEDNESDAY"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The day of the week on which a weekly sync runs. Valid values are the standard English day names, for example, MONDAY or TUESDAY.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.bedrockagent#DeleteAgent" : {
          "errors" : [
@@ -11830,6 +11917,13 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.bedrockagent#LastDayOfMonth" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>The option to run the monthly sync on the last calendar day of each month.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.bedrockagent#LexFlowNodeConfiguration" : {
          "members" : {
             "botAliasArn" : {
@@ -13429,6 +13523,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>Configuration for extracting media (images, audio, video) from data source files.</p>"
                }
+            },
+            "syncSchedule" : {
+               "target" : "com.amazonaws.bedrockagent#SyncSchedule",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The recurring schedule on which the connector automatically syncs this data source. If not specified, the data source is not synced automatically and you start each sync yourself. Not supported for the Custom connector.</p>"
+               }
             }
          },
          "traits" : {
@@ -14039,6 +14139,21 @@
             "smithy.api#pattern" : "^.*$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.bedrockagent#MonthlySchedule" : {
+         "members" : {
+            "dayOfMonth" : {
+               "target" : "com.amazonaws.bedrockagent#DayOfMonth",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The day of the month on which the monthly sync runs.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A monthly sync on a specified day of the month.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.bedrockagent#MultipleLoopControllerNodesFlowValidationDetails" : {
          "members" : {
@@ -17451,6 +17566,32 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.bedrockagent#SyncSchedule" : {
+         "members" : {
+            "daily" : {
+               "target" : "com.amazonaws.bedrockagent#DailySchedule",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A daily sync that runs once a day at a system-chosen off-peak time. The run time is not configurable.</p>"
+               }
+            },
+            "monthly" : {
+               "target" : "com.amazonaws.bedrockagent#MonthlySchedule",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A monthly sync that runs once a month on the specified day of the month.</p>"
+               }
+            },
+            "weekly" : {
+               "target" : "com.amazonaws.bedrockagent#WeeklySchedule",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A weekly sync that runs once a week on the specified day of the week.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The recurring schedule on which a managed knowledge base connector automatically syncs its data source. Specify exactly one of <code>daily</code>, <code>weekly</code>, or <code>monthly</code>.</p>"
+         },
+         "type" : "union"
+      },
       "com.amazonaws.bedrockagent#SystemContentBlock" : {
          "members" : {
             "cachePoint" : {
@@ -20042,6 +20183,21 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>The configuration of the URL/URLs for the web content that you want to crawl. You should be authorized to crawl the URLs.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagent#WeeklySchedule" : {
+         "members" : {
+            "dayOfWeek" : {
+               "target" : "com.amazonaws.bedrockagent#DayOfWeek",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The day of the week on which the weekly sync runs.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A weekly sync on a specified day of the week.</p>"
          },
          "type" : "structure"
       },
