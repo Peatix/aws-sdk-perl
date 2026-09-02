@@ -1024,6 +1024,151 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.connectcontactlens#ExtractedInformation" : {
+         "members" : {
+            "ExtractedValues" : {
+               "target" : "com.amazonaws.connectcontactlens#ExtractedInformationValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of values extracted from the conversation for this extraction definition.\n            This field is empty when a <code>FailureCode</code> is present.</p>"
+               }
+            },
+            "ExtractionDefinitionDisplayLabel" : {
+               "target" : "com.amazonaws.connectcontactlens#ExtractionDefinitionDisplayLabel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display label of the extraction definition that produced this result.</p>"
+               }
+            },
+            "ExtractionDefinitionId" : {
+               "target" : "com.amazonaws.connectcontactlens#ExtractionDefinitionId",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The identifier of the extraction definition that produced this result.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ExtractionDefinitionName" : {
+               "target" : "com.amazonaws.connectcontactlens#ExtractionDefinitionName",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The name of the extraction definition that produced this result.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "FailureCode" : {
+               "target" : "com.amazonaws.connectcontactlens#ExtractedInformationFailureCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the information failed to be extracted, one of the following failure codes\n            occurs:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>QUOTA_EXCEEDED</code>: The number of concurrent analytics jobs reached\n                    your service quota.</p>\n            </li>\n            <li>\n               <p>\n                  <code>INSUFFICIENT_CONVERSATION_CONTENT</code>: Information extraction requires a\n                    conversation with at least one turn from each participant.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED_SAFETY_GUIDELINES</code>: The extracted information cannot be\n                    provided because it failed to meet system safety guidelines.</p>\n            </li>\n            <li>\n               <p>\n                  <code>INTERNAL_ERROR</code>: Internal system error.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MAX_PACKAGE_FEATURE_ONLY</code>: Information extraction is only available\n                    in Amazon Connect Customer instances.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Segment containing information extracted from the conversation. Each segment\n            represents the results for a single extraction definition.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcontactlens#ExtractedInformationContent" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcontactlens#ExtractedInformationFailureCode" : {
+         "members" : {
+            "FAILED_SAFETY_GUIDELINES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED_SAFETY_GUIDELINES"
+               }
+            },
+            "INSUFFICIENT_CONVERSATION_CONTENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INSUFFICIENT_CONVERSATION_CONTENT"
+               }
+            },
+            "INTERNAL_ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INTERNAL_ERROR"
+               }
+            },
+            "MAX_PACKAGE_FEATURE_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MAX_PACKAGE_FEATURE_ONLY"
+               }
+            },
+            "QUOTA_EXCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "QUOTA_EXCEEDED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connectcontactlens#ExtractedInformationValue" : {
+         "members" : {
+            "Content" : {
+               "target" : "com.amazonaws.connectcontactlens#ExtractedInformationContent",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The text content of the extracted value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PointsOfInterest" : {
+               "target" : "com.amazonaws.connectcontactlens#PointsOfInterest",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The sections in the conversation that indicate where the extracted value was\n            found.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An individual value extracted from the conversation, including its content and the\n            locations where it was found.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcontactlens#ExtractedInformationValues" : {
+         "member" : {
+            "target" : "com.amazonaws.connectcontactlens#ExtractedInformationValue"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectcontactlens#ExtractionDefinitionDisplayLabel" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcontactlens#ExtractionDefinitionId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "\\S"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcontactlens#ExtractionDefinitionName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "\\S"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.connectcontactlens#InstanceId" : {
          "traits" : {
             "smithy.api#length" : {
@@ -1113,7 +1258,7 @@
             "target" : "com.amazonaws.connectcontactlens#ListRealtimeContactAnalysisSegmentsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Provides a list of analysis segments for a real-time analysis session.</p>",
+            "smithy.api#documentation" : "<p>Provides a list of analysis segments for a real-time analysis session for\n            voice.</p>\n         <note>\n            <p>Voice data is retained for 24 hours. You must invoke this API during that\n                time.</p>\n         </note>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -1268,7 +1413,7 @@
                "target" : "com.amazonaws.connectcontactlens#OffsetMillis",
                "traits" : {
                   "smithy.api#clientOptional" : {},
-                  "smithy.api#documentation" : "<p>The beginning offset in milliseconds where the category rule was detected.</p>",
+                  "smithy.api#documentation" : "<p>The beginning offset (in milliseconds) where the match was detected.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -1276,13 +1421,13 @@
                "target" : "com.amazonaws.connectcontactlens#OffsetMillis",
                "traits" : {
                   "smithy.api#clientOptional" : {},
-                  "smithy.api#documentation" : "<p>The ending offset in milliseconds where the category rule was detected.</p>",
+                  "smithy.api#documentation" : "<p>The ending offset (in milliseconds) where the match was detected.</p>",
                   "smithy.api#required" : {}
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The section of the contact audio where that category rule was detected.</p>"
+            "smithy.api#documentation" : "<p>The section of the contact audio where a match was detected.</p>"
          },
          "type" : "structure"
       },
@@ -1309,7 +1454,7 @@
             "FailureCode" : {
                "target" : "com.amazonaws.connectcontactlens#PostContactSummaryFailureCode",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If the summary failed to be generated, one of the following failure codes\n            occurs:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>QUOTA_EXCEEDED</code>: The number of concurrent analytics jobs reached\n                    your service quota.</p>\n            </li>\n            <li>\n               <p>\n                  <code>INSUFFICIENT_CONVERSATION_CONTENT</code>: The conversation needs to have\n                    at least one turn from both the participants in order to generate the\n                    summary.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED_SAFETY_GUIDELINES</code>: The generated summary cannot be\n                    provided because it failed to meet system safety guidelines.</p>\n            </li>\n            <li>\n               <p>\n                  <code>INVALID_ANALYSIS_CONFIGURATION</code>: This code occurs when, for\n                    example, you're using a \n                    <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/supported-languages.html#supported-languages-contact-lens\">language</a> \n                     that isn't supported by generative AI-powered post-contact summaries.\n                </p>\n            </li>\n            <li>\n               <p>\n                  <code>INTERNAL_ERROR</code>: Internal system error.</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>If the summary failed to be generated, one of the following failure codes\n            occurs:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>QUOTA_EXCEEDED</code>: The number of concurrent analytics jobs reached\n                    your service quota.</p>\n            </li>\n            <li>\n               <p>\n                  <code>INSUFFICIENT_CONVERSATION_CONTENT</code>: The conversation needs to have\n                    at least one turn from both the participants in order to generate the\n                    summary.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED_SAFETY_GUIDELINES</code>: The generated summary cannot be\n                    provided because it failed to meet system safety guidelines.</p>\n            </li>\n            <li>\n               <p>\n                  <code>INVALID_ANALYSIS_CONFIGURATION</code>: This code occurs when, for\n                    example, you're using a <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/supported-languages.html#supported-languages-contact-lens\">language</a> that isn't supported by generative AI-powered post-contact\n                    summaries. </p>\n            </li>\n            <li>\n               <p>\n                  <code>INTERNAL_ERROR</code>: Internal system error.</p>\n            </li>\n         </ul>"
                }
             },
             "Status" : {
@@ -1393,6 +1538,12 @@
                "target" : "com.amazonaws.connectcontactlens#Categories",
                "traits" : {
                   "smithy.api#documentation" : "<p>The matched category rules.</p>"
+               }
+            },
+            "ExtractedInformation" : {
+               "target" : "com.amazonaws.connectcontactlens#ExtractedInformation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The extracted information from the conversation.</p>"
                }
             },
             "PostContactSummary" : {
