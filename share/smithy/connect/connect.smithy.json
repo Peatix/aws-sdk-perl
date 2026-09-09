@@ -28,6 +28,34 @@
       ]
    },
    "shapes" : {
+      "com.amazonaws.connect#ACGRInstanceArn" : {
+         "traits" : {
+            "smithy.api#pattern" : "^arn:([a-zA-Z0-9-]+):connect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/[a-zA-Z0-9_-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connect#ACGRInstanceIdOrArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 250,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(arn:([a-zA-Z0-9-]+):connect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/)?[a-zA-Z0-9_-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connect#ACGRTrafficDistributionGroupArn" : {
+         "traits" : {
+            "smithy.api#pattern" : "^arn:([a-zA-Z0-9-]+):connect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:traffic-distribution-group/[a-zA-Z0-9_-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connect#ACGRTrafficDistributionGroupId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-zA-Z0-9_-]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.connect#ARN" : {
          "type" : "string"
       },
@@ -534,6 +562,12 @@
                "target" : "com.amazonaws.connect#Timestamp",
                "traits" : {
                   "smithy.api#documentation" : "<p>The timestamp when the contact was accepted by the agent.</p>"
+               }
+            },
+            "ActiveRegion" : {
+               "target" : "com.amazonaws.connect#ActiveRegion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Region where the agent was active when they handled the contact. For Amazon Connect Global Resiliency\n   instances enabled for global routing, this indicates the Region in which the agent's session was established\n   at the time of the contact.</p>"
                }
             },
             "AfterContactWorkDuration" : {
@@ -1823,6 +1857,9 @@
                "target" : "com.amazonaws.connect#GetContactMetrics"
             },
             {
+               "target" : "com.amazonaws.connect#GetCrossRegionRouting"
+            },
+            {
                "target" : "com.amazonaws.connect#GetCurrentMetricData"
             },
             {
@@ -2322,6 +2359,9 @@
             },
             {
                "target" : "com.amazonaws.connect#UpdateContactTaskTemplate"
+            },
+            {
+               "target" : "com.amazonaws.connect#UpdateCrossRegionRouting"
             },
             {
                "target" : "com.amazonaws.connect#UpdateDataTableAttribute"
@@ -7821,6 +7861,29 @@
             "target" : "com.amazonaws.connect#IntegerCount"
          }
       },
+      "com.amazonaws.connect#ChannelWorkloadBehaviorType" : {
+         "members" : {
+            "ROUTE_ANY_CHANNEL_ANY_WORKLOAD_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ROUTE_ANY_CHANNEL_ANY_WORKLOAD_TYPE"
+               }
+            },
+            "ROUTE_CURRENT_CHANNEL_ANY_WORKLOADTYPE_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ROUTE_CURRENT_CHANNEL_ANY_WORKLOADTYPE_ONLY"
+               }
+            },
+            "ROUTE_CURRENT_CHANNEL_CURRENT_WORKLOADTYPE_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ROUTE_CURRENT_CHANNEL_CURRENT_WORKLOADTYPE_ONLY"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.connect#Channels" : {
          "member" : {
             "target" : "com.amazonaws.connect#Channel"
@@ -8408,7 +8471,7 @@
          "traits" : {
             "smithy.api#range" : {
                "max" : 10,
-               "min" : 1
+               "min" : 0
             }
          },
          "type" : "integer"
@@ -14135,11 +14198,23 @@
                   "smithy.api#required" : {}
                }
             },
+            "PreEvaluationFilters" : {
+               "target" : "com.amazonaws.connect#PreEvaluationFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based\n   on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before\n   rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.</p>"
+               }
+            },
             "PublishStatus" : {
                "target" : "com.amazonaws.connect#RulePublishStatus",
                "traits" : {
                   "smithy.api#documentation" : "<p>The publish status of the rule.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.connect#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags used to organize, track, or control access for this resource. For example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.</p>"
                }
             },
             "TriggerEventSource" : {
@@ -14674,7 +14749,7 @@
                }
             },
             "InstanceId" : {
-               "target" : "com.amazonaws.connect#InstanceIdOrArn",
+               "target" : "com.amazonaws.connect#ACGRInstanceIdOrArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance that has been replicated. You can find the\n    <code>instanceId</code> in the ARN of the instance.</p>",
                   "smithy.api#required" : {}
@@ -14702,13 +14777,13 @@
       "com.amazonaws.connect#CreateTrafficDistributionGroupResponse" : {
          "members" : {
             "Arn" : {
-               "target" : "com.amazonaws.connect#TrafficDistributionGroupArn",
+               "target" : "com.amazonaws.connect#ACGRTrafficDistributionGroupArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the traffic distribution group.</p>"
                }
             },
             "Id" : {
-               "target" : "com.amazonaws.connect#TrafficDistributionGroupId",
+               "target" : "com.amazonaws.connect#ACGRTrafficDistributionGroupId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The identifier of the traffic distribution group.\nThis can be the ID or the ARN of the traffic distribution group.</p>"
                }
@@ -15683,6 +15758,20 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Defines the cross-channel routing behavior that allows an agent working on a contact in one channel to be\n   offered a contact from a different channel.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#CrossChannelWorkloadBehavior" : {
+         "members" : {
+            "ChannelWorkloadBehaviorType" : {
+               "target" : "com.amazonaws.connect#ChannelWorkloadBehaviorType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the routing behavior for an agent handling their current channel and workload type.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the cross-channel and workload type routing behavior that allows an agent working on a contact to be\n   offered a contact from a different channel or workload type.</p>"
          },
          "type" : "structure"
       },
@@ -29881,6 +29970,70 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#GetCrossRegionRouting" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidRequestException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connect#GetCrossRegionRoutingRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connect#GetCrossRegionRoutingResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the current cross-region routing configuration for an Amazon Connect Global Resiliency instance\n   enabled for global routing. This operation returns whether cross-region routing is currently enabled or disabled\n   (isolated) for the instance.</p>\n         <note>\n            <p>This operation is available only for Amazon Connect Global Resiliency instances enabled for global routing.</p>\n         </note>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/cross-region-routing/{InstanceId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connect#GetCrossRegionRoutingRequest" : {
+         "members" : {
+            "InstanceId" : {
+               "target" : "com.amazonaws.connect#ACGRInstanceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#GetCrossRegionRoutingResponse" : {
+         "members" : {
+            "IsolatedRegions" : {
+               "target" : "com.amazonaws.connect#IsolatedRegionsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Regions for which cross-region routing is currently disabled (isolated). When a Region\n   appears in this list, contacts originating in that Region will not be routed to agents in other Regions,\n   and agents in that Region will not receive contacts from other Regions.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.connect#GetCurrentMetricData" : {
          "errors" : [
             {
@@ -31152,13 +31305,13 @@
                }
             },
             "Arn" : {
-               "target" : "com.amazonaws.connect#TrafficDistributionGroupArn",
+               "target" : "com.amazonaws.connect#ACGRTrafficDistributionGroupArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the traffic distribution group.</p>"
                }
             },
             "Id" : {
-               "target" : "com.amazonaws.connect#TrafficDistributionGroupId",
+               "target" : "com.amazonaws.connect#ACGRTrafficDistributionGroupId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The identifier of the traffic distribution group.\nThis can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.\nThe ARN must be provided if the call is from the replicated Region.</p>"
                }
@@ -32953,12 +33106,6 @@
          },
          "type" : "structure"
       },
-      "com.amazonaws.connect#InstanceArn" : {
-         "traits" : {
-            "smithy.api#pattern" : "^arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9-]{1}:[0-9]{1,20}:instance/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
-         },
-         "type" : "string"
-      },
       "com.amazonaws.connect#InstanceAttributeType" : {
          "members" : {
             "AUTO_RESOLVE_BEST_VOICES" : {
@@ -33770,6 +33917,12 @@
             "smithy.api#default" : false
          },
          "type" : "boolean"
+      },
+      "com.amazonaws.connect#IsolatedRegionsList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#AwsRegion"
+         },
+         "type" : "list"
       },
       "com.amazonaws.connect#IvrRecordingTrack" : {
          "members" : {
@@ -39985,7 +40138,7 @@
       "com.amazonaws.connect#ListTrafficDistributionGroupUsersRequest" : {
          "members" : {
             "MaxResults" : {
-               "target" : "com.amazonaws.connect#MaxResult10",
+               "target" : "com.amazonaws.connect#MaxResult1000",
                "traits" : {
                   "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
                   "smithy.api#httpQuery" : "maxResults"
@@ -40072,7 +40225,7 @@
       "com.amazonaws.connect#ListTrafficDistributionGroupsRequest" : {
          "members" : {
             "InstanceId" : {
-               "target" : "com.amazonaws.connect#InstanceIdOrArn",
+               "target" : "com.amazonaws.connect#ACGRInstanceIdOrArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
                   "smithy.api#httpQuery" : "instanceId"
@@ -41323,14 +41476,21 @@
             "Concurrency" : {
                "target" : "com.amazonaws.connect#Concurrency",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The number of contacts an agent can have on a channel simultaneously.</p>\n         <p>Valid Range for <code>VOICE</code>: Minimum value of 1. Maximum value of 1.</p>\n         <p>Valid Range for <code>CHAT</code>: Minimum value of 1. Maximum value of 10.</p>\n         <p>Valid Range for <code>TASK</code>: Minimum value of 1. Maximum value of 10.</p>",
-                  "smithy.api#required" : {}
+                  "smithy.api#addedDefault" : {},
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of contacts an agent can have on a channel simultaneously.</p>\n         <p>Valid Range for <code>VOICE</code>: Minimum value of 1. Maximum value of 1.</p>\n         <p>Valid Range for <code>CHAT</code>: Minimum value of 1. Maximum value of 10.</p>\n         <p>Valid Range for <code>TASK</code>: Minimum value of 1. Maximum value of 10.</p>"
                }
             },
             "CrossChannelBehavior" : {
                "target" : "com.amazonaws.connect#CrossChannelBehavior",
                "traits" : {
                   "smithy.api#documentation" : "<p>Defines the cross-channel routing behavior for each channel that is enabled for this Routing Profile. For\n   example, this allows you to offer an agent a different contact from another channel when they are currently working\n   with a contact from a Voice channel.</p>"
+               }
+            },
+            "WorkloadTypeConcurrencies" : {
+               "target" : "com.amazonaws.connect#WorkloadTypeConcurrencies",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Defines the list of workload type concurrency configurations for a channel. When provided, enables granular\n   concurrency control based on workload type values.</p>"
                }
             }
          },
@@ -46400,6 +46560,102 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.connect#PreEvaluationFilter" : {
+         "members" : {
+            "FilterKey" : {
+               "target" : "com.amazonaws.connect#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key of the attribute to filter on. For tag filters, this is the tag key.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "FilterType" : {
+               "target" : "com.amazonaws.connect#PreEvaluationFilterType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of filter to apply. Valid values: <code>TAG</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "FilterValue" : {
+               "target" : "com.amazonaws.connect#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to match against. For tag filters, this is the tag value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Operator" : {
+               "target" : "com.amazonaws.connect#PreEvaluationFilterOperator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The comparison operator for the filter condition. Valid values: <code>EQUALS</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.connect#PreEvaluationFilterResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of resource to filter on. Valid values: <code>CONTACT</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single pre-evaluation filter condition. Specifies a resource type, filter type, key, value, and operator\n   to match against a resource attribute.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#PreEvaluationFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#PreEvaluationFilter"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connect#PreEvaluationFilterOperator" : {
+         "members" : {
+            "EQUALS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EQUALS"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connect#PreEvaluationFilterResourceType" : {
+         "members" : {
+            "CONTACT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CONTACT"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connect#PreEvaluationFilterType" : {
+         "members" : {
+            "TAG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TAG"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connect#PreEvaluationFilters" : {
+         "members" : {
+            "AndConditions" : {
+               "target" : "com.amazonaws.connect#PreEvaluationFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of conditions that the rule evaluates together using AND logic. All conditions must be met for\n   the event to be evaluated by the rule.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The pre-evaluation filters for a rule, that restrict a rule to be applied to only certain resources based on\n   the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before\n   rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.connect#PreSignedAttachmentUrl" : {
          "traits" : {
             "smithy.api#length" : {
@@ -48171,6 +48427,78 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.connect#RealTimeContactAnalysisExtractedInformationContent" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connect#RealTimeContactAnalysisExtractedInformationFailureCode" : {
+         "members" : {
+            "FAILED_SAFETY_GUIDELINES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED_SAFETY_GUIDELINES"
+               }
+            },
+            "INSUFFICIENT_CONVERSATION_CONTENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INSUFFICIENT_CONVERSATION_CONTENT"
+               }
+            },
+            "INTERNAL_ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INTERNAL_ERROR"
+               }
+            },
+            "MAX_PACKAGE_FEATURE_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MAX_PACKAGE_FEATURE_ONLY"
+               }
+            },
+            "QUOTA_EXCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "QUOTA_EXCEEDED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connect#RealTimeContactAnalysisExtractedInformationValue" : {
+         "members" : {
+            "Content" : {
+               "target" : "com.amazonaws.connect#RealTimeContactAnalysisExtractedInformationContent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The text content of the extracted value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PointsOfInterest" : {
+               "target" : "com.amazonaws.connect#RealTimeContactAnalysisTranscriptItemsWithCharacterOffsets",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sections in the conversation that indicate where the extracted value was found.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An individual value extracted from the conversation, including its content and the locations where it\n   was found.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#RealTimeContactAnalysisExtractedInformationValues" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#RealTimeContactAnalysisExtractedInformationValue"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.connect#RealTimeContactAnalysisId256" : {
          "traits" : {
             "smithy.api#length" : {
@@ -48440,6 +48768,46 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.connect#RealTimeContactAnalysisSegmentExtractedInformation" : {
+         "members" : {
+            "ExtractedValues" : {
+               "target" : "com.amazonaws.connect#RealTimeContactAnalysisExtractedInformationValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of values extracted from the conversation for this extraction definition. This field is empty when a\n   <code>FailureCode</code> is present.</p>"
+               }
+            },
+            "ExtractionDefinitionDisplayLabel" : {
+               "target" : "com.amazonaws.connect#ExtractionDefinitionDisplayLabel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display label of the extraction definition that produced this result.</p>"
+               }
+            },
+            "ExtractionDefinitionId" : {
+               "target" : "com.amazonaws.connect#ExtractionDefinitionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the extraction definition that produced this result.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ExtractionDefinitionName" : {
+               "target" : "com.amazonaws.connect#ExtractionDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the extraction definition that produced this result.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "FailureCode" : {
+               "target" : "com.amazonaws.connect#RealTimeContactAnalysisExtractedInformationFailureCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the information failed to be extracted, one of the following failure codes occurs:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>QUOTA_EXCEEDED</code>: The number of concurrent analytics jobs reached your service quota.</p>\n            </li>\n            <li>\n               <p>\n                  <code>INSUFFICIENT_CONVERSATION_CONTENT</code>: Information extraction requires a conversation with at least\n     one turn from each participant.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED_SAFETY_GUIDELINES</code>: The extracted information cannot be provided because it failed to meet\n     system safety guidelines.</p>\n            </li>\n            <li>\n               <p>\n                  <code>INTERNAL_ERROR</code>: Internal system error.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MAX_PACKAGE_FEATURE_ONLY</code>: Information extraction is only available in Amazon Connect Customer instances.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Segment containing information extracted from the conversation. Each segment represents the results for a\n   single extraction definition.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.connect#RealTimeContactAnalysisSegmentIssues" : {
          "members" : {
             "IssuesDetected" : {
@@ -48569,6 +48937,12 @@
                   "smithy.api#enumValue" : "Event"
                }
             },
+            "ExtractedInformation" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ExtractedInformation"
+               }
+            },
             "Issues" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -48596,7 +48970,7 @@
          },
          "traits" : {
             "smithy.api#length" : {
-               "max" : 6,
+               "max" : 7,
                "min" : 0
             }
          },
@@ -48784,6 +49158,12 @@
             },
             "Event" : {
                "target" : "com.amazonaws.connect#RealTimeContactAnalysisSegmentEvent"
+            },
+            "ExtractedInformation" : {
+               "target" : "com.amazonaws.connect#RealTimeContactAnalysisSegmentExtractedInformation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The extracted information from the conversation.</p>"
+               }
             },
             "Issues" : {
                "target" : "com.amazonaws.connect#RealTimeContactAnalysisSegmentIssues"
@@ -49585,7 +49965,7 @@
                }
             },
             "InstanceId" : {
-               "target" : "com.amazonaws.connect#InstanceIdOrArn",
+               "target" : "com.amazonaws.connect#ACGRInstanceIdOrArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance. You can provide the <code>InstanceId</code>, or the entire ARN.</p>",
                   "smithy.api#httpLabel" : {},
@@ -50700,6 +51080,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "PreEvaluationFilters" : {
+               "target" : "com.amazonaws.connect#PreEvaluationFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based\n   on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before\n   rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.</p>"
+               }
+            },
             "PublishStatus" : {
                "target" : "com.amazonaws.connect#RulePublishStatus",
                "traits" : {
@@ -50961,6 +51347,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the rule.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "PreEvaluationFilters" : {
+               "target" : "com.amazonaws.connect#PreEvaluationFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based\n   on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before\n   rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.</p>"
                }
             },
             "PublishStatus" : {
@@ -60222,7 +60614,7 @@
       "com.amazonaws.connect#TrafficDistributionGroup" : {
          "members" : {
             "Arn" : {
-               "target" : "com.amazonaws.connect#TrafficDistributionGroupArn",
+               "target" : "com.amazonaws.connect#ACGRTrafficDistributionGroupArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the traffic distribution group.</p>"
                }
@@ -60234,13 +60626,13 @@
                }
             },
             "Id" : {
-               "target" : "com.amazonaws.connect#TrafficDistributionGroupId",
+               "target" : "com.amazonaws.connect#ACGRTrafficDistributionGroupId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The identifier of the traffic distribution group.\nThis can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.\nThe ARN must be provided if the call is from the replicated Region.</p>"
                }
             },
             "InstanceArn" : {
-               "target" : "com.amazonaws.connect#InstanceArn",
+               "target" : "com.amazonaws.connect#ACGRInstanceArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN).</p>"
                }
@@ -60275,12 +60667,6 @@
             "smithy.api#documentation" : "<p>Information about a traffic distribution group.</p>"
          },
          "type" : "structure"
-      },
-      "com.amazonaws.connect#TrafficDistributionGroupArn" : {
-         "traits" : {
-            "smithy.api#pattern" : "^arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:traffic-distribution-group/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
-         },
-         "type" : "string"
       },
       "com.amazonaws.connect#TrafficDistributionGroupId" : {
          "traits" : {
@@ -60338,21 +60724,21 @@
       "com.amazonaws.connect#TrafficDistributionGroupSummary" : {
          "members" : {
             "Arn" : {
-               "target" : "com.amazonaws.connect#TrafficDistributionGroupArn",
+               "target" : "com.amazonaws.connect#ACGRTrafficDistributionGroupArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the traffic distribution group.</p>"
                }
             },
             "Id" : {
-               "target" : "com.amazonaws.connect#TrafficDistributionGroupId",
+               "target" : "com.amazonaws.connect#ACGRTrafficDistributionGroupId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The identifier of the traffic distribution group.\nThis can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created.\nThe ARN must be provided if the call is from the replicated Region.</p>"
                }
             },
             "InstanceArn" : {
-               "target" : "com.amazonaws.connect#InstanceArn",
+               "target" : "com.amazonaws.connect#ACGRInstanceArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the traffic distribution group.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the instance.</p>"
                }
             },
             "IsDefault" : {
@@ -62182,6 +62568,74 @@
          "type" : "structure"
       },
       "com.amazonaws.connect#UpdateContactTaskTemplateResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#UpdateCrossRegionRouting" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.connect#InvalidRequestException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connect#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connect#UpdateCrossRegionRoutingRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connect#UpdateCrossRegionRoutingResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled\n   for global routing. When invoked with <code>IsolatedAll</code> set to <code>true</code>, this operation disables\n   cross-region routing, meaning contacts originating in one Region will no longer be routed to agents in\n   another Region.</p>\n         <note>\n            <p>This operation is available only for Amazon Connect Global Resiliency instances enabled for global routing. Reporting and contact\n   search continue to operate globally after you use this operation.</p>\n         </note>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/cross-region-routing/{InstanceId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connect#UpdateCrossRegionRoutingRequest" : {
+         "members" : {
+            "InstanceId" : {
+               "target" : "com.amazonaws.connect#ACGRInstanceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "IsolatedAll" : {
+               "target" : "com.amazonaws.connect#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Set to <code>true</code> to disable cross-region routing for all Regions associated with this instance.\n   Set to <code>false</code> to re-enable cross-region routing.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#UpdateCrossRegionRoutingResponse" : {
          "members" : {},
          "traits" : {
             "smithy.api#output" : {}
@@ -64963,6 +65417,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the rule. You can change the name only if <code>TriggerEventSource</code> is one of the following\n   values: <code>OnZendeskTicketCreate</code> | <code>OnZendeskTicketStatusUpdate</code> |\n    <code>OnSalesforceCaseCreate</code>\n         </p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "PreEvaluationFilters" : {
+               "target" : "com.amazonaws.connect#PreEvaluationFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based\n   on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before\n   rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.</p>"
                }
             },
             "PublishStatus" : {
@@ -68955,6 +69415,58 @@
             "smithy.api#documentation" : "<p>Information about Connect Customer Wisdom.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.connect#WorkloadType" : {
+         "type" : "string"
+      },
+      "com.amazonaws.connect#WorkloadTypeConcurrencies" : {
+         "member" : {
+            "target" : "com.amazonaws.connect#WorkloadTypeConcurrency"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connect#WorkloadTypeConcurrency" : {
+         "members" : {
+            "Concurrency" : {
+               "target" : "com.amazonaws.connect#WorkloadTypeConcurrencyType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of contacts an agent can handle simultaneously for a specific channel and workload type\n   combination.</p>\n         <p>Valid Range for <code>VOICE</code>: Minimum value of 1. Maximum value of 1.</p>\n         <p>Valid Range for <code>CHAT</code>: Minimum value of 1. Maximum value of 10.</p>\n         <p>Valid Range for <code>TASK</code>: Minimum value of 1. Maximum value of 10.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "CrossChannelWorkloadBehavior" : {
+               "target" : "com.amazonaws.connect#CrossChannelWorkloadBehavior",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Defines the cross-channel and workload type routing behavior for each channel and workload type combination\n   that is enabled for this Routing Profile.</p>"
+               }
+            },
+            "WorkloadType" : {
+               "target" : "com.amazonaws.connect#WorkloadType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value of the workload type.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the maximum number of contacts an agent can handle simultaneously for a specific channel and workload\n   type combination.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connect#WorkloadTypeConcurrencyType" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
       },
       "com.amazonaws.connect#Workspace" : {
          "members" : {
