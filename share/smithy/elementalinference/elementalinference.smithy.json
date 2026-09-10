@@ -220,6 +220,20 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.elementalinference#ContextualMetadataConfig" : {
+         "members" : {
+            "summaryGeneration" : {
+               "target" : "com.amazonaws.elementalinference#SummaryGenerationMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether Elemental Inference generates a descriptive summary of the media content for this output. </p> <p>Valid values:</p> <ul> <li> <p>ENABLED (default) – Elemental Inference generates a descriptive summary along with IAB taxonomy and GARM suitability classifications. </p> </li> <li> <p>DISABLED – No descriptive summary is generated.</p> </li> </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The output configuration settings for the contextual metadata feature. Use this structure when the feed output generates metadata that describes the media content. </p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.elementalinference#CreateDictionary" : {
          "errors" : [
             {
@@ -459,6 +473,12 @@
       },
       "com.amazonaws.elementalinference#CreateFeedResponse" : {
          "members" : {
+            "accessRoleArn" : {
+               "target" : "com.amazonaws.elementalinference#IamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that you specified in the request. This property is absent if you didn't specify an IAM role. </p>"
+               }
+            },
             "arn" : {
                "target" : "com.amazonaws.elementalinference#FeedArn",
                "traits" : {
@@ -740,6 +760,65 @@
             "smithy.api#idempotent" : {}
          },
          "type" : "operation"
+      },
+      "com.amazonaws.elementalinference#DeleteFeedPolicy" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elementalinference#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#InternalServerErrorException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#TooManyRequestException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elementalinference#DeleteFeedPolicyRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete the resource-based policy of a feed",
+               "resources" : {
+                  "required" : {
+                     "feed" : {}
+                  }
+               }
+            },
+            "smithy.api#documentation" : "<p>Deletes the resource-based policy attached to the specified feed. After you delete the policy, the operation revokes the cross-account access that the policy granted. </p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/v1/feed/{id}/policy"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elementalinference#DeleteFeedPolicyRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.elementalinference#FeedId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the feed whose policy you want to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.elementalinference#DeleteFeedRequest" : {
          "members" : {
@@ -1086,6 +1165,9 @@
       },
       "com.amazonaws.elementalinference#ElementalInference" : {
          "operations" : [
+            {
+               "target" : "com.amazonaws.elementalinference#GetFixture"
+            },
             {
                "target" : "com.amazonaws.elementalinference#ListTagsForResource"
             },
@@ -2088,7 +2170,16 @@
                "target" : "com.amazonaws.elementalinference#AssociateFeed"
             },
             {
+               "target" : "com.amazonaws.elementalinference#DeleteFeedPolicy"
+            },
+            {
                "target" : "com.amazonaws.elementalinference#DisassociateFeed"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#GetFeedPolicy"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#PutFeedPolicy"
             }
          ],
          "read" : {
@@ -2533,6 +2624,80 @@
          },
          "type" : "operation"
       },
+      "com.amazonaws.elementalinference#GetFeedPolicy" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elementalinference#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#InternalServerErrorException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#TooManyRequestException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elementalinference#GetFeedPolicyRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elementalinference#GetFeedPolicyResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to get the resource-based policy of a feed",
+               "resources" : {
+                  "required" : {
+                     "feed" : {}
+                  }
+               }
+            },
+            "smithy.api#documentation" : "<p>Retrieves the resource-based policy attached to the specified feed.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/feed/{id}/policy"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elementalinference#GetFeedPolicyRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.elementalinference#FeedId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the feed whose policy you want to retrieve.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elementalinference#GetFeedPolicyResponse" : {
+         "members" : {
+            "policy" : {
+               "target" : "com.amazonaws.elementalinference#PolicyDocument",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource-based policy document attached to the feed.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.elementalinference#GetFeedRequest" : {
          "members" : {
             "id" : {
@@ -2551,6 +2716,12 @@
       },
       "com.amazonaws.elementalinference#GetFeedResponse" : {
          "members" : {
+            "accessRoleArn" : {
+               "target" : "com.amazonaws.elementalinference#IamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that Elemental Inference assumes. Elemental Inference uses this role to access resources in your account on your behalf. This property is absent if the feed doesn't have an IAM role. </p>"
+               }
+            },
             "arn" : {
                "target" : "com.amazonaws.elementalinference#FeedArn",
                "traits" : {
@@ -2611,6 +2782,115 @@
                "target" : "com.amazonaws.elementalinference#TagMap",
                "traits" : {
                   "smithy.api#documentation" : "<p>A list of the tags, if any, for the feed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elementalinference#GetFixture" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elementalinference#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#GatewayTimedOutException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#InternalServerErrorException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#ServiceUnavailableException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#TooManyRequestException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elementalinference#GetFixtureRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elementalinference#GetFixtureResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to get a fixture"
+            },
+            "smithy.api#documentation" : "<p>Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFixtures, or from the clipping output of a feed. </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/fixtures/{fixtureId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elementalinference#GetFixtureRequest" : {
+         "members" : {
+            "fixtureId" : {
+               "target" : "com.amazonaws.elementalinference#FixtureId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the fixture to retrieve, as returned by SearchFixtures.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elementalinference#GetFixtureResponse" : {
+         "members" : {
+            "competitors" : {
+               "target" : "com.amazonaws.elementalinference#CompetitorList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of the competitors (the teams or individuals) in the fixture.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "fixtureGroup" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The group that the fixture belongs to, such as the competition, league, or tournament. The data source doesn't provide this information for every fixture. </p>"
+               }
+            },
+            "fixtureId" : {
+               "target" : "com.amazonaws.elementalinference#FixtureId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID that you specified in the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the fixture, as provided by the data source. For example, the names of the two competing teams. </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "scheduledStart" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scheduled start time of the fixture, as provided by the data source. The actual start time might differ. </p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "status" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the fixture in its lifecycle, as provided by the data source. For example, Scheduled or Completed. </p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -2967,6 +3247,12 @@
                   "smithy.api#documentation" : "<p>The output config type that applies to the clipping feature.</p>"
                }
             },
+            "contextualMetadata" : {
+               "target" : "com.amazonaws.elementalinference#ContextualMetadataConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output config type that applies to the contextual metadata feature.</p>"
+               }
+            },
             "cropping" : {
                "target" : "com.amazonaws.elementalinference#CroppingConfig",
                "traits" : {
@@ -3002,6 +3288,15 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.elementalinference#PolicyDocument" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.elementalinference#ProfanityFilterMode" : {
          "members" : {
             "CENSOR" : {
@@ -3024,6 +3319,82 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.elementalinference#PutFeedPolicy" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elementalinference#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#InternalServerErrorException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#TooManyRequestException"
+            },
+            {
+               "target" : "com.amazonaws.elementalinference#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elementalinference#PutFeedPolicyRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elementalinference#PutFeedPolicyResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to put a resource-based policy on a feed",
+               "resources" : {
+                  "required" : {
+                     "feed" : {}
+                  }
+               }
+            },
+            "smithy.api#documentation" : "<p>Attaches or replaces a resource-based policy on the specified feed. A resource-based policy grants cross-account access to the feed. </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/v1/feed/{id}/policy"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elementalinference#PutFeedPolicyRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.elementalinference#FeedId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the feed to attach the policy to.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "policy" : {
+               "target" : "com.amazonaws.elementalinference#PolicyDocument",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource-based policy document to attach to the feed.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elementalinference#PutFeedPolicyResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.elementalinference#ResourceArn" : {
          "traits" : {
@@ -3297,6 +3668,23 @@
             "smithy.api#documentation" : "<p>A type of OutputConfig, used when the output in a feed is for the smart subtitling feature. smart subtitling uses automatic speech recognition (ASR) to generate live TTML subtitles from the audio in your source media. </p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.elementalinference#SummaryGenerationMode" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLED"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.elementalinference#TagKey" : {
          "traits" : {
@@ -3823,6 +4211,12 @@
       },
       "com.amazonaws.elementalinference#UpdateFeedResponse" : {
          "members" : {
+            "accessRoleArn" : {
+               "target" : "com.amazonaws.elementalinference#IamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role for the feed, after the update. This property is absent if the feed doesn't have an IAM role. </p>"
+               }
+            },
             "arn" : {
                "target" : "com.amazonaws.elementalinference#FeedArn",
                "traits" : {
