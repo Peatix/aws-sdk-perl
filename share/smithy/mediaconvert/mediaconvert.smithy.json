@@ -144,6 +144,26 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.mediaconvert#AacPassthroughControl" : {
+         "members" : {
+            "NO_PASSTHROUGH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NO_PASSTHROUGH"
+               }
+            },
+            "WHEN_POSSIBLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WHEN_POSSIBLE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "When set to WHEN_POSSIBLE, input AAC audio will be passed through if it is present on the input. This detection is dynamic over the life of the transcode. Inputs that alternate between AAC and non-AAC content will have a consistent AAC output as the system alternates between passthrough and encoding."
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.mediaconvert#AacRateControlMode" : {
          "members" : {
             "CBR" : {
@@ -219,6 +239,13 @@
                "traits" : {
                   "smithy.api#documentation" : "Choose the loudness measurement mode for your audio content. For music or advertisements: We recommend that you keep the default value, Program. For speech or other content: We recommend that you choose Anchor. When you do, MediaConvert optimizes the loudness of your output for clarify by applying speech gates.",
                   "smithy.api#jsonName" : "loudnessMeasurementMode"
+               }
+            },
+            "PassthroughControl" : {
+               "target" : "com.amazonaws.mediaconvert#AacPassthroughControl",
+               "traits" : {
+                  "smithy.api#documentation" : "When set to WHEN_POSSIBLE, input AAC audio will be passed through if it is present on the input. This detection is dynamic over the life of the transcode. Inputs that alternate between AAC and non-AAC content will have a consistent AAC output as the system alternates between passthrough and encoding.",
+                  "smithy.api#jsonName" : "passthroughControl"
                }
             },
             "RapInterval" : {
@@ -1225,6 +1252,28 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.mediaconvert#AspectRatio" : {
+         "members" : {
+            "Denominator" : {
+               "target" : "com.amazonaws.mediaconvert#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "The denominator, or bottom number, in the fractional aspect ratio. For example, for a display aspect ratio of 16 / 9, the denominator would be 9.",
+                  "smithy.api#jsonName" : "denominator"
+               }
+            },
+            "Numerator" : {
+               "target" : "com.amazonaws.mediaconvert#__integer",
+               "traits" : {
+                  "smithy.api#documentation" : "The numerator, or top number, in the fractional aspect ratio. For example, for a display aspect ratio of 16 / 9, the numerator would be 16.",
+                  "smithy.api#jsonName" : "numerator"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9."
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.mediaconvert#AssociateCertificate" : {
          "errors" : [
             {
@@ -1569,7 +1618,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "Choose the audio codec for this output. Note that the option Dolby Digital passthrough applies only to Dolby Digital and Dolby Digital Plus audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output"
+            "smithy.api#documentation" : "Choose the audio codec for this output. Note that the option passthrough applies only to Dolby Digital, Dolby Digital Plus, AAC LC, AAC HEV1, and AAC HEV2 audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output"
          },
          "type" : "enum"
       },
@@ -1606,7 +1655,7 @@
             "Codec" : {
                "target" : "com.amazonaws.mediaconvert#AudioCodec",
                "traits" : {
-                  "smithy.api#documentation" : "Choose the audio codec for this output. Note that the option Dolby Digital passthrough applies only to Dolby Digital and Dolby Digital Plus audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output",
+                  "smithy.api#documentation" : "Choose the audio codec for this output. Note that the option passthrough applies only to Dolby Digital, Dolby Digital Plus, AAC LC, AAC HEV1, and AAC HEV2 audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output",
                   "smithy.api#jsonName" : "codec"
                }
             },
@@ -2020,6 +2069,13 @@
                "traits" : {
                   "smithy.api#documentation" : "The bit rate of the audio track, in bits per second.",
                   "smithy.api#jsonName" : "bitRate"
+               }
+            },
+            "ChannelLayout" : {
+               "target" : "com.amazonaws.mediaconvert#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "The audio channel layout of the track, such as \"mono\", \"stereo\", \"5.1\", or \"7.1\". Object-based or immersive audio is reported as \"5.1.4\" or \"7.1.4\".",
+                  "smithy.api#jsonName" : "channelLayout"
                }
             },
             "Channels" : {
@@ -5238,6 +5294,12 @@
       },
       "com.amazonaws.mediaconvert#CmfcScte35Source" : {
          "members" : {
+            "MANIFEST_CUES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANIFEST_CUES"
+               }
+            },
             "NONE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -5252,7 +5314,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output."
+            "smithy.api#documentation" : "Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output. When your input is an HLS manifest, choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest."
          },
          "type" : "enum"
       },
@@ -5338,7 +5400,7 @@
             "Scte35Source" : {
                "target" : "com.amazonaws.mediaconvert#CmfcScte35Source",
                "traits" : {
-                  "smithy.api#documentation" : "Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.",
+                  "smithy.api#documentation" : "Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output. When your input is an HLS manifest, choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest.",
                   "smithy.api#jsonName" : "scte35Source"
                }
             },
@@ -5437,6 +5499,12 @@
                   "smithy.api#enumValue" : "AC3"
                }
             },
+            "AMR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AMR"
+               }
+            },
             "AV1" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -5461,6 +5529,12 @@
                   "smithy.api#enumValue" : "C708"
                }
             },
+            "DV" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DV"
+               }
+            },
             "EAC3" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -5471,6 +5545,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "FLAC"
+               }
+            },
+            "H263" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "H263"
                }
             },
             "HEVC" : {
@@ -5563,6 +5643,18 @@
                   "smithy.api#enumValue" : "UNKNOWN"
                }
             },
+            "VC1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VC1"
+               }
+            },
+            "VC3" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VC3"
+               }
+            },
             "VFW" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -5591,6 +5683,24 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "WEBVTT"
+               }
+            },
+            "WMA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WMA"
+               }
+            },
+            "WMA2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WMA2"
+               }
+            },
+            "WMAPRO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WMAPRO"
                }
             }
          },
@@ -5638,6 +5748,13 @@
                "traits" : {
                   "smithy.api#documentation" : "The field order of interlaced video, which indicates whether the top or bottom field is displayed first. Use this to select the correct deinterlacing behavior. One of \"TopFieldFirst\" or \"BottomFieldFirst\". This field is present only for interlaced video; it is omitted for progressive video and when the field order is not indicated by the source.",
                   "smithy.api#jsonName" : "fieldOrder"
+               }
+            },
+            "Hdr10PlusPresence" : {
+               "target" : "com.amazonaws.mediaconvert#Hdr10PlusPresence",
+               "traits" : {
+                  "smithy.api#documentation" : "Indicates that HDR10+ (SMPTE ST 2094-40) dynamic metadata was detected in the HEVC bitstream. Present only when detected.",
+                  "smithy.api#jsonName" : "hdr10PlusPresence"
                }
             },
             "Height" : {
@@ -6135,7 +6252,7 @@
             "Format" : {
                "target" : "com.amazonaws.mediaconvert#Format",
                "traits" : {
-                  "smithy.api#documentation" : "The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, or MP3. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.",
+                  "smithy.api#documentation" : "The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, MP3, FLAC, ASF (Windows Media / WMA), OGG. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.",
                   "smithy.api#jsonName" : "format"
                }
             },
@@ -6990,7 +7107,7 @@
             "PlaybackDeviceCompatibility" : {
                "target" : "com.amazonaws.mediaconvert#DashIsoPlaybackDeviceCompatibility",
                "traits" : {
-                  "smithy.api#documentation" : "This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1. If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted.",
+                  "smithy.api#documentation" : "This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH outputs with DRM encryption. Choose Unencrypted SEI only to correct problems with playback on older H.264 devices. Choose CENC v1 unencrypted headers to leave NAL unit headers and slice headers unencrypted for H.265 outputs, improving compatibility with strict HEVC decoders. Otherwise, keep the default setting CENC v1.",
                   "smithy.api#jsonName" : "playbackDeviceCompatibility"
                }
             },
@@ -7428,6 +7545,12 @@
                   "smithy.api#enumValue" : "CENC_V1"
                }
             },
+            "CENC_V1_UNENCRYPTED_HEADERS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CENC_V1_UNENCRYPTED_HEADERS"
+               }
+            },
             "UNENCRYPTED_SEI" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -7436,7 +7559,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1. If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted."
+            "smithy.api#documentation" : "This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH outputs with DRM encryption. Choose Unencrypted SEI only to correct problems with playback on older H.264 devices. Choose CENC v1 unencrypted headers to leave NAL unit headers and slice headers unencrypted for H.265 outputs, improving compatibility with strict HEVC decoders. Otherwise, keep the default setting CENC v1."
          },
          "type" : "enum"
       },
@@ -10653,10 +10776,22 @@
       },
       "com.amazonaws.mediaconvert#Format" : {
          "members" : {
+            "asf" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "asf"
+               }
+            },
             "avi" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "avi"
+               }
+            },
+            "flac" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "flac"
                }
             },
             "matroska" : {
@@ -10693,6 +10828,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "mxf"
+               }
+            },
+            "ogg" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ogg"
                }
             },
             "quicktime" : {
@@ -13839,6 +13980,20 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.mediaconvert#Hdr10PlusPresence" : {
+         "members" : {
+            "PRESENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRESENT"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Indicates that HDR10+ (SMPTE ST 2094-40) dynamic metadata was detected in the HEVC bitstream. Present only when detected."
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.mediaconvert#HdrMetadata" : {
          "members" : {
             "ContentLightLevel" : {
@@ -16330,7 +16485,7 @@
             "FollowSource" : {
                "target" : "com.amazonaws.mediaconvert#__integerMin1Max150",
                "traits" : {
-                  "smithy.api#documentation" : "Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable \"Follow source\" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.",
+                  "smithy.api#documentation" : "Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable \"Follow source\" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.",
                   "smithy.api#jsonName" : "followSource"
                }
             },
@@ -16603,7 +16758,7 @@
             "FollowSource" : {
                "target" : "com.amazonaws.mediaconvert#__integerMin1Max150",
                "traits" : {
-                  "smithy.api#documentation" : "Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable \"Follow source\" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.",
+                  "smithy.api#documentation" : "Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable \"Follow source\" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.",
                   "smithy.api#jsonName" : "followSource"
                }
             },
@@ -16674,7 +16829,7 @@
             "Key" : {
                "target" : "com.amazonaws.mediaconvert#JobsQueryFilterKey",
                "traits" : {
-                  "smithy.api#documentation" : "Specify job details to filter for while performing a jobs query. You specify these filters as part of a key-value pair within the JobsQueryFilter array. The following list describes which keys are available and their possible values: * queue - Your Queue's name or ARN. * status - Your job's status. (SUBMITTED | PROGRESSING | COMPLETE | CANCELED | ERROR) * fileInput - Your input file URL, or partial input file name. * jobEngineVersionRequested - The Job engine version that you requested for your job. Valid versions are in a YYYY-MM-DD format. * jobEngineVersionUsed - The Job engine version that your job used. This may differ from the version that you requested. Valid versions are in a YYYY-MM-DD format. * audioCodec - Your output's audio codec. (AAC | MP2 | MP3 | WAV | AIFF | AC3| EAC3 | EAC3_ATMOS | VORBIS | OPUS | PASSTHROUGH | FLAC) * videoCodec - Your output's video codec. (AV1 | AVC_INTRA | FRAME_CAPTURE | H_264 | H_265 | MPEG2 | PASSTHROUGH | PRORES | UNCOMPRESSED | VC3 | VP8 | VP9 | XAVC)",
+                  "smithy.api#documentation" : "Specify job details to filter for while performing a jobs query. You specify these filters as part of a key-value pair within the JobsQueryFilter array. The following list describes which keys are available and their possible values: * queue - Your Queue's name or ARN. * status - Your job's status. (SUBMITTED | PROGRESSING | COMPLETE | CANCELED | ERROR) * fileInput - Your input file URL, or partial input file name. * jobEngineVersionRequested - The Job engine version that you requested for your job. Valid versions are in a YYYY-MM-DD format. * jobEngineVersionUsed - The Job engine version that your job used. This may differ from the version that you requested. Valid versions are in a YYYY-MM-DD format. * audioCodec - Your output's audio codec. (AAC | MP2 | MP3 | WAV | AIFF | AC3| EAC3 | EAC3_ATMOS | VORBIS | OPUS | PASSTHROUGH | FLAC) * videoCodec - Your output's video codec. (AV1 | AVC_INTRA | FRAME_CAPTURE | H_264 | H_265 | MPEG2 | PASSTHROUGH | PRORES | UNCOMPRESSED | VC3 | VP8 | VP9 | XAVC) * errorCode - The error code that your job failed with. For example, 1010. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/mediaconvert_error_codes.html",
                   "smithy.api#jsonName" : "key"
                }
             },
@@ -16697,6 +16852,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "audioCodec"
+               }
+            },
+            "errorCode" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "errorCode"
                }
             },
             "fileInput" : {
@@ -16737,7 +16898,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "Specify job details to filter for while performing a jobs query. You specify these filters as part of a key-value pair within the JobsQueryFilter array. The following list describes which keys are available and their possible values: * queue - Your Queue's name or ARN. * status - Your job's status. (SUBMITTED | PROGRESSING | COMPLETE | CANCELED | ERROR) * fileInput - Your input file URL, or partial input file name. * jobEngineVersionRequested - The Job engine version that you requested for your job. Valid versions are in a YYYY-MM-DD format. * jobEngineVersionUsed - The Job engine version that your job used. This may differ from the version that you requested. Valid versions are in a YYYY-MM-DD format. * audioCodec - Your output's audio codec. (AAC | MP2 | MP3 | WAV | AIFF | AC3| EAC3 | EAC3_ATMOS | VORBIS | OPUS | PASSTHROUGH | FLAC) * videoCodec - Your output's video codec. (AV1 | AVC_INTRA | FRAME_CAPTURE | H_264 | H_265 | MPEG2 | PASSTHROUGH | PRORES | UNCOMPRESSED | VC3 | VP8 | VP9 | XAVC)"
+            "smithy.api#documentation" : "Specify job details to filter for while performing a jobs query. You specify these filters as part of a key-value pair within the JobsQueryFilter array. The following list describes which keys are available and their possible values: * queue - Your Queue's name or ARN. * status - Your job's status. (SUBMITTED | PROGRESSING | COMPLETE | CANCELED | ERROR) * fileInput - Your input file URL, or partial input file name. * jobEngineVersionRequested - The Job engine version that you requested for your job. Valid versions are in a YYYY-MM-DD format. * jobEngineVersionUsed - The Job engine version that your job used. This may differ from the version that you requested. Valid versions are in a YYYY-MM-DD format. * audioCodec - Your output's audio codec. (AAC | MP2 | MP3 | WAV | AIFF | AC3| EAC3 | EAC3_ATMOS | VORBIS | OPUS | PASSTHROUGH | FLAC) * videoCodec - Your output's video codec. (AV1 | AVC_INTRA | FRAME_CAPTURE | H_264 | H_265 | MPEG2 | PASSTHROUGH | PRORES | UNCOMPRESSED | VC3 | VP8 | VP9 | XAVC) * errorCode - The error code that your job failed with. For example, 1010. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/mediaconvert_error_codes.html"
          },
          "type" : "enum"
       },
@@ -18921,6 +19082,12 @@
       },
       "com.amazonaws.mediaconvert#M2tsScte35Source" : {
          "members" : {
+            "MANIFEST_CUES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANIFEST_CUES"
+               }
+            },
             "NONE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -18935,7 +19102,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None. Also provide the ESAM XML as a string in the setting Signal processing notification XML. Also enable ESAM SCTE-35 (include the property scte35Esam)."
+            "smithy.api#documentation" : "For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. When your input is an HLS manifest, choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest. For SCTE-35 markers from an ESAM XML document-- Choose None. Also provide the ESAM XML as a string in the setting Signal processing notification XML. Also enable ESAM SCTE-35 (include the property scte35Esam)."
          },
          "type" : "enum"
       },
@@ -19260,7 +19427,7 @@
             "Scte35Source" : {
                "target" : "com.amazonaws.mediaconvert#M2tsScte35Source",
                "traits" : {
-                  "smithy.api#documentation" : "For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None. Also provide the ESAM XML as a string in the setting Signal processing notification XML. Also enable ESAM SCTE-35 (include the property scte35Esam).",
+                  "smithy.api#documentation" : "For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. When your input is an HLS manifest, choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest. For SCTE-35 markers from an ESAM XML document-- Choose None. Also provide the ESAM XML as a string in the setting Signal processing notification XML. Also enable ESAM SCTE-35 (include the property scte35Esam).",
                   "smithy.api#jsonName" : "scte35Source"
                }
             },
@@ -19394,6 +19561,12 @@
       },
       "com.amazonaws.mediaconvert#M3u8Scte35Source" : {
          "members" : {
+            "MANIFEST_CUES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANIFEST_CUES"
+               }
+            },
             "NONE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -19408,7 +19581,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None if you don't want manifest conditioning. Choose Passthrough and choose Ad markers if you do want manifest conditioning. In both cases, also provide the ESAM XML as a string in the setting Signal processing notification XML."
+            "smithy.api#documentation" : "For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None if you don't want manifest conditioning. Choose Passthrough and choose Ad markers if you do want manifest conditioning. In both cases, also provide the ESAM XML as a string in the setting Signal processing notification XML. For SCTE-35 markers from your input HLS manifest-- Choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest."
          },
          "type" : "enum"
       },
@@ -19536,7 +19709,7 @@
             "Scte35Source" : {
                "target" : "com.amazonaws.mediaconvert#M3u8Scte35Source",
                "traits" : {
-                  "smithy.api#documentation" : "For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None if you don't want manifest conditioning. Choose Passthrough and choose Ad markers if you do want manifest conditioning. In both cases, also provide the ESAM XML as a string in the setting Signal processing notification XML.",
+                  "smithy.api#documentation" : "For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None if you don't want manifest conditioning. Choose Passthrough and choose Ad markers if you do want manifest conditioning. In both cases, also provide the ESAM XML as a string in the setting Signal processing notification XML. For SCTE-35 markers from your input HLS manifest-- Choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest.",
                   "smithy.api#jsonName" : "scte35Source"
                }
             },
@@ -21814,6 +21987,12 @@
       },
       "com.amazonaws.mediaconvert#MpdScte35Source" : {
          "members" : {
+            "MANIFEST_CUES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANIFEST_CUES"
+               }
+            },
             "NONE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -21828,7 +22007,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output."
+            "smithy.api#documentation" : "Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output. When your input is an HLS manifest, choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest."
          },
          "type" : "enum"
       },
@@ -21893,7 +22072,7 @@
             "Scte35Source" : {
                "target" : "com.amazonaws.mediaconvert#MpdScte35Source",
                "traits" : {
-                  "smithy.api#documentation" : "Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.",
+                  "smithy.api#documentation" : "Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output. When your input is an HLS manifest, choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest.",
                   "smithy.api#jsonName" : "scte35Source"
                }
             },
@@ -26813,13 +26992,101 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.mediaconvert#TtmlBackgroundColor" : {
+         "members" : {
+            "AUTO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AUTO"
+               }
+            },
+            "BLACK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BLACK"
+               }
+            },
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NONE"
+               }
+            },
+            "WHITE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WHITE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Specify the background color for TTML captions output."
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.mediaconvert#TtmlDestinationSettings" : {
          "members" : {
+            "BackgroundColor" : {
+               "target" : "com.amazonaws.mediaconvert#TtmlBackgroundColor",
+               "traits" : {
+                  "smithy.api#documentation" : "Specify the color of the rectangle behind the captions. If Style passthrough is set to enabled, leave blank or set to Auto to pass through the background color from your input captions. If Style passthrough is set to disabled, leave blank or set to Auto to use the default black.",
+                  "smithy.api#jsonName" : "backgroundColor"
+               }
+            },
+            "BackgroundOpacity" : {
+               "target" : "com.amazonaws.mediaconvert#__integerMin0Max255",
+               "traits" : {
+                  "smithy.api#documentation" : "Specify the opacity of the background rectangle. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough is set to enabled, leave blank to pass through the background style information in your input captions to your output captions. If Style passthrough is set to disabled and backgroundColor is set, leave blank to use a value of 255 (opaque).",
+                  "smithy.api#jsonName" : "backgroundOpacity"
+               }
+            },
+            "FontColor" : {
+               "target" : "com.amazonaws.mediaconvert#TtmlFontColor",
+               "traits" : {
+                  "smithy.api#documentation" : "Specify the color of the captions text. If Style passthrough is set to enabled, leave blank or set to Auto to pass through the font color from your input captions. If Style passthrough is set to disabled, leave blank or set to Auto to use the default white.",
+                  "smithy.api#jsonName" : "fontColor"
+               }
+            },
+            "FontOpacity" : {
+               "target" : "com.amazonaws.mediaconvert#__integerMin0Max255",
+               "traits" : {
+                  "smithy.api#documentation" : "Specify the opacity of the captions. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough is set to enabled, leave blank to pass through the font opacity information in your input captions to your output captions. If Style passthrough is set to disabled and fontColor is set, leave blank to use a value of 255 (opaque).",
+                  "smithy.api#jsonName" : "fontOpacity"
+               }
+            },
+            "FontSize" : {
+               "target" : "com.amazonaws.mediaconvert#__integerMin0Max96",
+               "traits" : {
+                  "smithy.api#documentation" : "Specify the Font size in pixels. Must be a positive integer. Set to 0, or leave blank, for automatic font size.",
+                  "smithy.api#jsonName" : "fontSize"
+               }
+            },
+            "FontStyle" : {
+               "target" : "com.amazonaws.mediaconvert#TtmlFontStyle",
+               "traits" : {
+                  "smithy.api#documentation" : "Specify the font style of the caption text. If Style passthrough is set to enabled, leave blank to pass through the font style from your input captions. If Style passthrough is set to disabled, leave blank to use the default normal style.",
+                  "smithy.api#jsonName" : "fontStyle"
+               }
+            },
+            "FontWeight" : {
+               "target" : "com.amazonaws.mediaconvert#TtmlFontWeight",
+               "traits" : {
+                  "smithy.api#documentation" : "Specify the font weight of the caption text. If Style passthrough is set to enabled, leave blank to pass through the font weight from your input captions. If Style passthrough is set to disabled, leave blank to use the default normal weight.",
+                  "smithy.api#jsonName" : "fontWeight"
+               }
+            },
             "StylePassthrough" : {
                "target" : "com.amazonaws.mediaconvert#TtmlStylePassthrough",
                "traits" : {
                   "smithy.api#documentation" : "Pass through style and position information from a TTML-like input source (TTML, IMSC, SMPTE-TT) to the TTML output.",
                   "smithy.api#jsonName" : "stylePassthrough"
+               }
+            },
+            "TextDecoration" : {
+               "target" : "com.amazonaws.mediaconvert#TtmlTextDecoration",
+               "traits" : {
+                  "smithy.api#documentation" : "Specify the text decoration of the caption text. If Style passthrough is set to enabled, leave blank to pass through the text decoration from your input captions. If Style passthrough is set to disabled, leave blank to use the default of none.",
+                  "smithy.api#jsonName" : "textDecoration"
                }
             }
          },
@@ -26827,6 +27094,96 @@
             "smithy.api#documentation" : "Settings related to TTML captions. TTML is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html."
          },
          "type" : "structure"
+      },
+      "com.amazonaws.mediaconvert#TtmlFontColor" : {
+         "members" : {
+            "AUTO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AUTO"
+               }
+            },
+            "BLACK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BLACK"
+               }
+            },
+            "BLUE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BLUE"
+               }
+            },
+            "GREEN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GREEN"
+               }
+            },
+            "RED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RED"
+               }
+            },
+            "WHITE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WHITE"
+               }
+            },
+            "YELLOW" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "YELLOW"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Specify the font color for TTML captions output."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.mediaconvert#TtmlFontStyle" : {
+         "members" : {
+            "ITALIC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ITALIC"
+               }
+            },
+            "NORMAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NORMAL"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Specify the font style for TTML captions output."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.mediaconvert#TtmlFontWeight" : {
+         "members" : {
+            "BOLD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BOLD"
+               }
+            },
+            "NORMAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NORMAL"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Specify the font weight for TTML captions output."
+         },
+         "type" : "enum"
       },
       "com.amazonaws.mediaconvert#TtmlStylePassthrough" : {
          "members" : {
@@ -26845,6 +27202,26 @@
          },
          "traits" : {
             "smithy.api#documentation" : "Pass through style and position information from a TTML-like input source (TTML, IMSC, SMPTE-TT) to the TTML output."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.mediaconvert#TtmlTextDecoration" : {
+         "members" : {
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NONE"
+               }
+            },
+            "UNDERLINE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UNDERLINE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Specify the text decoration for TTML captions output."
          },
          "type" : "enum"
       },
@@ -28477,6 +28854,13 @@
                   "smithy.api#jsonName" : "colorPrimaries"
                }
             },
+            "DisplayAspectRatio" : {
+               "target" : "com.amazonaws.mediaconvert#AspectRatio",
+               "traits" : {
+                  "smithy.api#documentation" : "An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9.",
+                  "smithy.api#jsonName" : "displayAspectRatio"
+               }
+            },
             "FrameRate" : {
                "target" : "com.amazonaws.mediaconvert#FrameRate",
                "traits" : {
@@ -28510,6 +28894,13 @@
                "traits" : {
                   "smithy.api#documentation" : "The clockwise rotation angle of the video track, in degrees, as derived from container-level metadata (e.g. the MP4 tkhd transformation matrix or the Matroska ProjectionPoseRoll element). Common values are 90, 180, and 270. This field is null when no rotation metadata is present or when the rotation is 0 degrees. For MP4, non-standard transformation matrices also yield null.",
                   "smithy.api#jsonName" : "rotation"
+               }
+            },
+            "SampleAspectRatio" : {
+               "target" : "com.amazonaws.mediaconvert#AspectRatio",
+               "traits" : {
+                  "smithy.api#documentation" : "An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9.",
+                  "smithy.api#jsonName" : "sampleAspectRatio"
                }
             },
             "TransferCharacteristics" : {
@@ -29773,6 +30164,13 @@
       },
       "com.amazonaws.mediaconvert#XavcHdIntraCbgProfileSettings" : {
          "members" : {
+            "InterlaceMode" : {
+               "target" : "com.amazonaws.mediaconvert#XavcInterlaceMode",
+               "traits" : {
+                  "smithy.api#documentation" : "Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.",
+                  "smithy.api#jsonName" : "interlaceMode"
+               }
+            },
             "XavcClass" : {
                "target" : "com.amazonaws.mediaconvert#XavcHdIntraCbgProfileClass",
                "traits" : {
