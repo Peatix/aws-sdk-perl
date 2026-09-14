@@ -3371,7 +3371,7 @@
             "MixedInstancesPolicy" : {
                "target" : "com.amazonaws.autoscaling#MixedInstancesPolicy",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The mixed instances policy. For more information, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html\">Auto Scaling\n                groups with multiple instance types and purchase options</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>.</p>"
+                  "smithy.api#documentation" : "<p>The mixed instances policy. For more information, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html\">Auto Scaling\n                groups with multiple instance types and purchase options</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>. To learn how to prioritize multiple capacity\n            types, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/use-distribution-segments.html\">Use Distribution\n                Segments to target multiple capacity types</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>.</p>"
                }
             },
             "NewInstancesProtectedFromScaleIn" : {
@@ -5145,7 +5145,7 @@
             "MixedInstancesPolicy" : {
                "target" : "com.amazonaws.autoscaling#MixedInstancesPolicy",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use this structure to launch multiple instance types and On-Demand Instances and Spot\n            Instances within a single Auto Scaling group.</p>\n         <p>A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch\n            instances and help optimize your costs. For more information, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html\">Auto Scaling\n                groups with multiple instance types and purchase options</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>.</p>"
+                  "smithy.api#documentation" : "<p>Use this structure to launch multiple instance types and configure how capacity is\n            distributed across On-Demand, Spot, and supported Capacity Reservation types within a\n            single Auto Scaling group.</p>\n         <p>A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch\n            instances, prioritize capacity types, and help optimize your costs. For more\n            information, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html\">Auto Scaling\n                groups with multiple instance types and purchase options</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>.</p>"
                }
             }
          },
@@ -5373,6 +5373,26 @@
       },
       "com.amazonaws.autoscaling#DisableScaleIn" : {
          "type" : "boolean"
+      },
+      "com.amazonaws.autoscaling#DistributionSegment" : {
+         "members" : {
+            "TargetCapacityTypes" : {
+               "target" : "com.amazonaws.autoscaling#TargetCapacityTypes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The capacity types to prioritize, in order. Amazon EC2 Auto Scaling attempts to launch instances in\n            the priority order of the capacity types, and within each capacity type, in the order of\n            instance types listed in your launch template <code>Overrides</code>.</p>\n         <p>The following lists the valid values:</p>\n         <dl>\n            <dt>on-demand-capacity-reservation</dt>\n            <dd>\n               <p>On-Demand Capacity Reservations.</p>\n            </dd>\n            <dt>capacity-block</dt>\n            <dd>\n               <p>Capacity Blocks.</p>\n            </dd>\n            <dt>interruptible-capacity-reservation</dt>\n            <dd>\n               <p>Interruptible Capacity Reservations.</p>\n            </dd>\n            <dt>on-demand</dt>\n            <dd>\n               <p>On-Demand capacity. Include this value to allow the group to fall back to\n                        On-Demand capacity when the preceding capacity types are unavailable.</p>\n            </dd>\n         </dl>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Use this structure to specify the capacity types that Amazon EC2 Auto Scaling prioritizes when it\n            launches instances.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.autoscaling#DistributionSegments" : {
+         "member" : {
+            "target" : "com.amazonaws.autoscaling#DistributionSegment"
+         },
+         "type" : "list"
       },
       "com.amazonaws.autoscaling#Ebs" : {
          "members" : {
@@ -6613,6 +6633,12 @@
       },
       "com.amazonaws.autoscaling#InstancesDistribution" : {
          "members" : {
+            "DistributionSegments" : {
+               "target" : "com.amazonaws.autoscaling#DistributionSegments",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Distribution Segments configuration. Each segment contains an ordered list of\n            capacity types to prioritize.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/use-distribution-segments.html\">Use Distribution\n                Segments to target multiple capacity types</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>.</p>"
+               }
+            },
             "OnDemandAllocationStrategy" : {
                "target" : "com.amazonaws.autoscaling#XmlString",
                "traits" : {
@@ -6651,7 +6677,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Use this structure to specify the distribution of On-Demand Instances and Spot\n            Instances and the allocation strategies used to fulfill On-Demand and Spot capacities\n            for a mixed instances policy.</p>"
+            "smithy.api#documentation" : "<p>Use this structure to specify how a mixed instances policy distributes capacity across\n            On-Demand, Spot, and supported Capacity Reservation types, and to specify the allocation\n            strategies that are used to fulfill the capacity.</p>"
          },
          "type" : "structure"
       },
@@ -8075,12 +8101,12 @@
             "LaunchTemplate" : {
                "target" : "com.amazonaws.autoscaling#LaunchTemplate",
                "traits" : {
-                  "smithy.api#documentation" : "<p>One or more launch templates and the instance types (overrides) that are used to\n            launch EC2 instances to fulfill On-Demand and Spot capacities.</p>"
+                  "smithy.api#documentation" : "<p>One or more launch templates and the instance types (overrides) that are used to\n            launch EC2 instances to fulfill the configured capacities.</p>"
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Use this structure to launch multiple instance types and On-Demand Instances and Spot\n            Instances within a single Auto Scaling group.</p>\n         <p>A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch\n            instances and help optimize your costs. For more information, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html\">Auto Scaling\n                groups with multiple instance types and purchase options</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>.</p>"
+            "smithy.api#documentation" : "<p>Use this structure to launch multiple instance types and configure how capacity is\n            distributed across On-Demand, Spot, and supported Capacity Reservation types within a\n            single Auto Scaling group.</p>\n         <p>A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch\n            instances, prioritize capacity types, and help optimize your costs. For more\n            information, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html\">Auto Scaling\n                groups with multiple instance types and purchase options</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>. To learn how to prioritize multiple capacity\n            types, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/use-distribution-segments.html\">Use Distribution\n                Segments to target multiple capacity types</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>.</p>"
          },
          "type" : "structure"
       },
@@ -10463,6 +10489,41 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.autoscaling#TargetCapacityType" : {
+         "members" : {
+            "CAPACITY_BLOCK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "capacity-block"
+               }
+            },
+            "INTERRUPTIBLE_CAPACITY_RESERVATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "interruptible-capacity-reservation"
+               }
+            },
+            "ON_DEMAND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "on-demand"
+               }
+            },
+            "ON_DEMAND_CAPACITY_RESERVATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "on-demand-capacity-reservation"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.autoscaling#TargetCapacityTypes" : {
+         "member" : {
+            "target" : "com.amazonaws.autoscaling#TargetCapacityType"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.autoscaling#TargetGroupARNs" : {
          "member" : {
             "target" : "com.amazonaws.autoscaling#XmlStringMaxLen511"
@@ -10914,7 +10975,7 @@
             "MixedInstancesPolicy" : {
                "target" : "com.amazonaws.autoscaling#MixedInstancesPolicy",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The mixed instances policy. For more information, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html\">Auto Scaling\n                groups with multiple instance types and purchase options</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>.</p>"
+                  "smithy.api#documentation" : "<p>The mixed instances policy. For more information, see <a href=\"https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html\">Auto Scaling\n                groups with multiple instance types and purchase options</a> in the\n                <i>Amazon EC2 Auto Scaling User Guide</i>.</p>\n         <p>You can remove the Distribution Segments configuration by specifying\n                <code>OnDemandBaseCapacity</code> or\n                <code>OnDemandPercentageAboveBaseCapacity</code>. You can also remove it explicitly\n            by specifying an empty list for <code>DistributionSegments</code>.</p>"
                }
             },
             "NewInstancesProtectedFromScaleIn" : {

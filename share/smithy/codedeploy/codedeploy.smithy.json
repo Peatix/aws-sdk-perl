@@ -278,7 +278,8 @@
             "smithy.api#length" : {
                "max" : 100,
                "min" : 1
-            }
+            },
+            "smithy.api#pattern" : "^[A-Za-z0-9+=,.@_-]*$"
          },
          "type" : "string"
       },
@@ -2511,6 +2512,9 @@
             },
             {
                "target" : "com.amazonaws.codedeploy#InvalidTagsToAddException"
+            },
+            {
+               "target" : "com.amazonaws.codedeploy#ThrottlingException"
             }
          ],
          "input" : {
@@ -2606,10 +2610,16 @@
                "target" : "com.amazonaws.codedeploy#InvalidAutoScalingGroupException"
             },
             {
+               "target" : "com.amazonaws.codedeploy#InvalidComputePlatformException"
+            },
+            {
                "target" : "com.amazonaws.codedeploy#InvalidDeploymentConfigNameException"
             },
             {
                "target" : "com.amazonaws.codedeploy#InvalidDeploymentGroupNameException"
+            },
+            {
+               "target" : "com.amazonaws.codedeploy#InvalidECSServiceException"
             },
             {
                "target" : "com.amazonaws.codedeploy#InvalidFileExistsBehaviorException"
@@ -2619,6 +2629,9 @@
             },
             {
                "target" : "com.amazonaws.codedeploy#InvalidIgnoreApplicationStopFailuresValueException"
+            },
+            {
+               "target" : "com.amazonaws.codedeploy#InvalidInputException"
             },
             {
                "target" : "com.amazonaws.codedeploy#InvalidLoadBalancerInfoException"
@@ -3031,6 +3044,12 @@
                "target" : "com.amazonaws.codedeploy#DeploymentGroupName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the deployment group.</p>"
+               }
+            },
+            "deploymentMode" : {
+               "target" : "com.amazonaws.codedeploy#DeploymentMode",
+               "traits" : {
+                  "smithy.api#documentation" : "The deployment mode to use for the deployment. When set to STANDARD (the default), the deployment runs the standard set of deployment lifecycle events. When set to RESTART, an EC2/On-premises in-place deployment runs a shortened set of lifecycle events to quickly restart the application on the target instances."
                }
             },
             "description" : {
@@ -3472,7 +3491,8 @@
             "smithy.api#length" : {
                "max" : 100,
                "min" : 1
-            }
+            },
+            "smithy.api#pattern" : "^[A-Za-z0-9+=,.@_-]*$"
          },
          "type" : "string"
       },
@@ -3771,7 +3791,8 @@
             "smithy.api#length" : {
                "max" : 100,
                "min" : 1
-            }
+            },
+            "smithy.api#pattern" : "^[A-Za-z0-9+=,.@_-]*$"
          },
          "type" : "string"
       },
@@ -4028,6 +4049,23 @@
             "smithy.api#error" : "client"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.codedeploy#DeploymentMode" : {
+         "members" : {
+            "RESTART" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RESTART"
+               }
+            },
+            "STANDARD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STANDARD"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.codedeploy#DeploymentNotStartedException" : {
          "members" : {
@@ -7619,7 +7657,13 @@
       "com.amazonaws.codedeploy#ListDeploymentInstances" : {
          "errors" : [
             {
+               "target" : "com.amazonaws.codedeploy#ApplicationDoesNotExistException"
+            },
+            {
                "target" : "com.amazonaws.codedeploy#DeploymentDoesNotExistException"
+            },
+            {
+               "target" : "com.amazonaws.codedeploy#DeploymentGroupDoesNotExistException"
             },
             {
                "target" : "com.amazonaws.codedeploy#DeploymentIdRequiredException"
@@ -7726,7 +7770,13 @@
       "com.amazonaws.codedeploy#ListDeploymentTargets" : {
          "errors" : [
             {
+               "target" : "com.amazonaws.codedeploy#ApplicationDoesNotExistException"
+            },
+            {
                "target" : "com.amazonaws.codedeploy#DeploymentDoesNotExistException"
+            },
+            {
+               "target" : "com.amazonaws.codedeploy#DeploymentGroupDoesNotExistException"
             },
             {
                "target" : "com.amazonaws.codedeploy#DeploymentIdRequiredException"
