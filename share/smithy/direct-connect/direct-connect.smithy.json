@@ -1360,6 +1360,30 @@
                   "smithy.api#documentation" : "<p>The MAC Security (MACsec) port link status of the connection.</p>\n         <p>The valid values are <code>Encryption Up</code>, which means that there is an active Connection Key Name, or <code>Encryption Down</code>.</p>"
                }
             },
+            "prefixPoolSizeIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.</p>"
+               }
+            },
+            "prefixPoolSizeIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.</p>"
+               }
+            },
+            "prefixPoolUnallocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolUnallocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.</p>"
+               }
+            },
+            "prefixPoolUnallocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolUnallocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.</p>"
+               }
+            },
             "providerName" : {
                "target" : "com.amazonaws.directconnect#ProviderName",
                "traits" : {
@@ -3636,6 +3660,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>Information about a tag.</p>"
                }
+            },
+            "totalPrefixPoolAllocations" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of inbound route prefixes allocated to the attachments on the Direct Connect gateway. The count combines the IPv4 and IPv6 address families.</p>"
+               }
             }
          },
          "traits" : {
@@ -4490,6 +4520,30 @@
                   "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that owns the LAG.</p>"
                }
             },
+            "prefixPoolSizeIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.</p>"
+               }
+            },
+            "prefixPoolSizeIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.</p>"
+               }
+            },
+            "prefixPoolUnallocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolUnallocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.</p>"
+               }
+            },
+            "prefixPoolUnallocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolUnallocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.</p>"
+               }
+            },
             "providerName" : {
                "target" : "com.amazonaws.directconnect#ProviderName",
                "traits" : {
@@ -5027,6 +5081,18 @@
                   "smithy.api#documentation" : "<p>The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.</p>"
                }
             },
+            "prefixPoolAllocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes to allocate to the virtual interface.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes to allocate to the virtual interface.</p>"
+               }
+            },
             "rateLimit" : {
                "target" : "com.amazonaws.directconnect#RateLimit",
                "traits" : {
@@ -5355,6 +5421,18 @@
                "target" : "com.amazonaws.directconnect#MTU",
                "traits" : {
                   "smithy.api#documentation" : "<p>The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes to allocate to the virtual interface.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes to allocate to the virtual interface.</p>"
                }
             },
             "rateLimit" : {
@@ -6848,6 +6926,30 @@
       "com.amazonaws.directconnect#PortSpeed" : {
          "type" : "string"
       },
+      "com.amazonaws.directconnect#PrefixPoolAllocatedCount" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.directconnect#PrefixPoolSize" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.directconnect#PrefixPoolUnallocatedCount" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
       "com.amazonaws.directconnect#ProviderList" : {
          "member" : {
             "target" : "com.amazonaws.directconnect#ProviderName"
@@ -7709,6 +7811,18 @@
                   "smithy.api#documentation" : "<p>The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.</p>"
                }
             },
+            "prefixPoolAllocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.</p>"
+               }
+            },
             "rateLimit" : {
                "target" : "com.amazonaws.directconnect#RateLimit",
                "traits" : {
@@ -7895,6 +8009,18 @@
                "target" : "com.amazonaws.directconnect#OwnerAccount",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that owns the virtual interface.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.</p>"
                }
             },
             "rateLimit" : {
