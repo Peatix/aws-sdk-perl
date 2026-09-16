@@ -2293,6 +2293,12 @@
                   "smithy.api#documentation" : "<p>Send data to an HTTPS endpoint.</p>"
                }
             },
+            "influxDB" : {
+               "target" : "com.amazonaws.iot#InfluxDBAction",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Write data to an InfluxDB database.</p>"
+               }
+            },
             "iotAnalytics" : {
                "target" : "com.amazonaws.iot#IotAnalyticsAction",
                "traits" : {
@@ -3370,7 +3376,7 @@
             "target" : "com.amazonaws.iot#AttachSecurityProfileResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Associates a Device Defender security profile with a thing group or this account. Each \n        thing group or account can have up to five security profiles associated with it.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">AttachSecurityProfile</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Associates a Device Defender security profile with a thing group or this account. Each \n        thing group or account can have up to five security profiles associated with it.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">AttachSecurityProfile</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -5558,7 +5564,7 @@
             "target" : "com.amazonaws.iot#CancelDetectMitigationActionsTaskResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>\n        Cancels a Device Defender ML Detect mitigation action.\n      </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CancelDetectMitigationActionsTask</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>\n        Cancels a Device Defender ML Detect mitigation action.\n      </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CancelDetectMitigationActionsTask</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -8193,7 +8199,7 @@
             "target" : "com.amazonaws.iot#CreateCustomMetricResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p> Use this API to define a\n      Custom\n      Metric\n      published by your devices to Device Defender. </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateCustomMetric</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p> Use this API to define a\n      Custom\n      Metric\n      published by your devices to Device Defender. </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateCustomMetric</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -8290,7 +8296,7 @@
             "target" : "com.amazonaws.iot#CreateDimensionResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender. \n      For example, using a <code>TOPIC_FILTER</code> dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateDimension</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender. \n      For example, using a <code>TOPIC_FILTER</code> dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateDimension</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -10421,7 +10427,7 @@
             "target" : "com.amazonaws.iot#CreateSecurityProfileResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateSecurityProfile</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Creates a Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateSecurityProfile</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -11830,7 +11836,7 @@
             "target" : "com.amazonaws.iot#DeleteCustomMetricResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>\n      Deletes a Device Defender detect custom metric.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DeleteCustomMetric</a> action.</p>\n         <note>\n            <p>Before you can delete a custom metric, you must first remove the custom metric from all\n      security profiles it's a part of.\n      The\n      security\n      profile associated with the custom metric can be found using the <a href=\"https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html\">ListSecurityProfiles</a>\n      API with <code>metricName</code> set to your custom metric name.</p>\n         </note>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>\n      Deletes a Device Defender detect custom metric.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DeleteCustomMetric</a> action.</p>\n         <note>\n            <p>Before you can delete a custom metric, you must first remove the custom metric from all\n      security profiles it's a part of.\n      The\n      security\n      profile associated with the custom metric can be found using the <a href=\"https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html\">ListSecurityProfiles</a>\n      API with <code>metricName</code> set to your custom metric name.</p>\n         </note>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "DELETE",
@@ -11881,7 +11887,7 @@
             "target" : "com.amazonaws.iot#DeleteDimensionResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Removes the specified dimension from your Amazon Web Services accounts.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DeleteDimension</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Removes the specified dimension from your Amazon Web Services accounts.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DeleteDimension</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "DELETE",
@@ -13005,7 +13011,7 @@
             "target" : "com.amazonaws.iot#DeleteSecurityProfileResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Deletes a Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DeleteSecurityProfile</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Deletes a Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DeleteSecurityProfile</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "DELETE",
@@ -14375,7 +14381,7 @@
             "target" : "com.amazonaws.iot#DescribeCustomMetricResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>\n      Gets information about a Device Defender detect custom metric.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeCustomMetric</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>\n      Gets information about a Device Defender detect custom metric.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeCustomMetric</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -14524,7 +14530,7 @@
             "target" : "com.amazonaws.iot#DescribeDetectMitigationActionsTaskResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>\n      Gets information about a Device Defender ML Detect mitigation action.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeDetectMitigationActionsTask</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>\n      Gets information about a Device Defender ML Detect mitigation action.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeDetectMitigationActionsTask</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -14585,7 +14591,7 @@
             "target" : "com.amazonaws.iot#DescribeDimensionResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Provides details about a dimension that is defined in your Amazon Web Services accounts.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeDimension</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Provides details about a dimension that is defined in your Amazon Web Services accounts.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeDimension</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -16091,7 +16097,7 @@
             "target" : "com.amazonaws.iot#DescribeSecurityProfileResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets information about a Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeSecurityProfile</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Gets information about a Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DescribeSecurityProfile</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -16883,7 +16889,7 @@
             "target" : "com.amazonaws.iot#DetachSecurityProfileResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Disassociates a Device Defender security profile from a thing group or from this account.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DetachSecurityProfile</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Disassociates a Device Defender security profile from a thing group or from this account.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DetachSecurityProfile</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "DELETE",
@@ -18836,7 +18842,7 @@
             "target" : "com.amazonaws.iot#GetBehaviorModelTrainingSummariesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>\n      Returns a Device Defender's ML Detect Security Profile training model's status.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">GetBehaviorModelTrainingSummaries</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>\n      Returns a Device Defender's ML Detect Security Profile training model's status.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">GetBehaviorModelTrainingSummaries</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -21183,6 +21189,393 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.iot#InfluxDBAction" : {
+         "members" : {
+            "batchConfig" : {
+               "target" : "com.amazonaws.iot#InfluxDBBatchConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The batching configuration for the action. When present, IoT collects data points\n      from multiple messages and writes them to InfluxDB in a single request.</p>\n         <p>If omitted, each message is written to InfluxDB in its own request.</p>"
+               }
+            },
+            "databaseName" : {
+               "target" : "com.amazonaws.iot#InfluxDBDatabaseName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the InfluxDB database to write to. In InfluxDB 2, this is the name of the\n      bucket.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "destinationArn" : {
+               "target" : "com.amazonaws.iot#AwsArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the InfluxDB topic rule destination that identifies the InfluxDB instance to\n      write to.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "organization" : {
+               "target" : "com.amazonaws.iot#InfluxDBOrganization",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the InfluxDB organization that owns the database.</p>\n         <p>A write to an InfluxDB 2 instance fails if this value isn't set. This value isn't used\n      when the destination is an InfluxDB 3 instance.</p>"
+               }
+            },
+            "roleArn" : {
+               "target" : "com.amazonaws.iot#AwsArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the role that grants permission to retrieve the InfluxDB API token from\n      Amazon Web Services Secrets Manager.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tableName" : {
+               "target" : "com.amazonaws.iot#InfluxDBTableName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the table to write the data point to. This is the measurement name of the\n      InfluxDB line protocol record.</p>\n         <p>Accepts substitution templates.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.iot#InfluxDBTagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The set of tags to write with each data point. Tags are the indexed metadata of an\n      InfluxDB data point.</p>\n         <p>Tag names and tag values accept substitution templates. A tag name can't use the\n        <code>@{...}</code> per-element form. A tag name must resolve to the same value for every\n      element of an array payload.</p>"
+               }
+            },
+            "timestampUnit" : {
+               "target" : "com.amazonaws.iot#InfluxDBTimestampUnit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The precision of the timestamp written with each data point. Valid values are\n        <code>s</code> (seconds), <code>ms</code> (milliseconds), <code>us</code> (microseconds),\n      and <code>ns</code> (nanoseconds).</p>\n         <p>If omitted, the topic rule action uses <code>ms</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The InfluxDB rule action converts the message payload into InfluxDB line protocol. It\n      writes the result to a table in an InfluxDB database. The database can be an Amazon\n      Timestream for InfluxDB instance or a self-managed InfluxDB cluster.</p>\n         <p>The action connects to InfluxDB through an InfluxDB topic rule destination, which must\n      be in the <code>ENABLED</code> state before the action can write data.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iot#InfluxDBBatchAcrossTopics" : {
+         "traits" : {
+            "smithy.api#default" : false
+         },
+         "type" : "boolean"
+      },
+      "com.amazonaws.iot#InfluxDBBatchConfig" : {
+         "members" : {
+            "batchAcrossTopics" : {
+               "target" : "com.amazonaws.iot#InfluxDBBatchAcrossTopics",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether to collect data points from different topics into the same\n      batch.</p>\n         <p>If omitted or <code>false</code>, IoT batches data points for each topic\n      separately.</p>"
+               }
+            },
+            "maxBatchOpenMs" : {
+               "target" : "com.amazonaws.iot#InfluxDBMaxBatchOpenMs",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum length of time, in milliseconds, to keep a batch open before writing it to\n      InfluxDB.</p>\n         <p>If you don't specify a value, this limit doesn't apply. IoT then closes each batch\n      when another configured limit is reached.</p>"
+               }
+            },
+            "maxBatchSize" : {
+               "target" : "com.amazonaws.iot#InfluxDBMaxBatchSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of data points to collect in a batch.</p>\n         <p>If you don't specify a value, this limit doesn't apply. IoT then closes each batch\n      when another configured limit is reached.</p>"
+               }
+            },
+            "maxBatchSizeBytes" : {
+               "target" : "com.amazonaws.iot#InfluxDBMaxBatchSizeBytes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum size of a batch, in bytes, before IoT writes it to InfluxDB.</p>\n         <p>If you don't specify a value, this limit doesn't apply. IoT then closes each batch\n      when another configured limit is reached.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The batching configuration of an InfluxDB rule action. IoT closes a batch and writes\n      it to InfluxDB when the first of the configured limits is reached.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iot#InfluxDBDatabaseName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 2
+            },
+            "smithy.api#pattern" : "^[^_\\\"][^\\\"]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iot#InfluxDBDestinationConfiguration" : {
+         "members" : {
+            "endpoint" : {
+               "target" : "com.amazonaws.iot#Url",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL of the InfluxDB instance to write to.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "influxDBVersion" : {
+               "target" : "com.amazonaws.iot#InfluxDBVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The major version of the InfluxDB instance. Valid values are <code>V2</code> and\n        <code>V3</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "secretId" : {
+               "target" : "com.amazonaws.iot#InfluxDBSecretId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API\n      token.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "secretKey" : {
+               "target" : "com.amazonaws.iot#InfluxDBSecretKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key to read from the secret value when the secret contains a JSON object. If\n      omitted, IoT uses the entire secret value as the InfluxDB API token.</p>"
+               }
+            },
+            "secretType" : {
+               "target" : "com.amazonaws.iot#InfluxDBSecretType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the secret that contains the InfluxDB API token. Valid values are\n        <code>SecretString</code> and <code>SecretBinary</code>.</p>\n         <p>If omitted, IoT reads the secret as a string.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration of an InfluxDB topic rule destination.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iot#InfluxDBDestinationProperties" : {
+         "members" : {
+            "endpoint" : {
+               "target" : "com.amazonaws.iot#Url",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL of the InfluxDB instance that the destination writes to.</p>"
+               }
+            },
+            "influxDBVersion" : {
+               "target" : "com.amazonaws.iot#InfluxDBVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The major version of the InfluxDB instance. Valid values are <code>V2</code> and\n        <code>V3</code>.</p>"
+               }
+            },
+            "secretId" : {
+               "target" : "com.amazonaws.iot#InfluxDBSecretId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API\n      token.</p>"
+               }
+            },
+            "secretKey" : {
+               "target" : "com.amazonaws.iot#InfluxDBSecretKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key that is read from the secret value when the secret contains a JSON\n      object.</p>"
+               }
+            },
+            "secretType" : {
+               "target" : "com.amazonaws.iot#InfluxDBSecretType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the secret that contains the InfluxDB API token. Valid values are\n        <code>SecretString</code> and <code>SecretBinary</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The properties of an existing InfluxDB topic rule destination, as returned by\n        <code>CreateTopicRuleDestination</code> and\n      <code>GetTopicRuleDestination</code>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iot#InfluxDBDestinationSummary" : {
+         "members" : {
+            "endpoint" : {
+               "target" : "com.amazonaws.iot#Url",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL of the InfluxDB instance that the destination writes to.</p>"
+               }
+            },
+            "influxDBVersion" : {
+               "target" : "com.amazonaws.iot#InfluxDBVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The major version of the InfluxDB instance. Valid values are <code>V2</code> and\n        <code>V3</code>.</p>"
+               }
+            },
+            "secretId" : {
+               "target" : "com.amazonaws.iot#InfluxDBSecretId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API\n      token.</p>"
+               }
+            },
+            "secretKey" : {
+               "target" : "com.amazonaws.iot#InfluxDBSecretKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key that is read from the secret value when the secret contains a JSON\n      object.</p>"
+               }
+            },
+            "secretType" : {
+               "target" : "com.amazonaws.iot#InfluxDBSecretType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the secret that contains the InfluxDB API token. Valid values are\n        <code>SecretString</code> and <code>SecretBinary</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of an InfluxDB topic rule destination, as returned by\n        <code>ListTopicRuleDestinations</code>. For the full set of destination properties, see\n        <code>InfluxDBDestinationProperties</code>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iot#InfluxDBMaxBatchOpenMs" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 1000,
+               "min" : 5
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.iot#InfluxDBMaxBatchSize" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 500,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.iot#InfluxDBMaxBatchSizeBytes" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 131072,
+               "min" : 100
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.iot#InfluxDBOrganization" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iot#InfluxDBSecretId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iot#InfluxDBSecretKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iot#InfluxDBSecretType" : {
+         "members" : {
+            "SECRET_BINARY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SecretBinary"
+               }
+            },
+            "SECRET_STRING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SecretString"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.iot#InfluxDBTableName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[^_].*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iot#InfluxDBTagMap" : {
+         "key" : {
+            "target" : "com.amazonaws.iot#InfluxDBTagName"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 498,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.iot#InfluxDBTagValue"
+         }
+      },
+      "com.amazonaws.iot#InfluxDBTagName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[^_].*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iot#InfluxDBTagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iot#InfluxDBTimestampUnit" : {
+         "members" : {
+            "MICROSECONDS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "us"
+               }
+            },
+            "MILLISECONDS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ms"
+               }
+            },
+            "NANOSECONDS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ns"
+               }
+            },
+            "SECONDS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "s"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.iot#InfluxDBVersion" : {
+         "members" : {
+            "V2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "V2"
+               }
+            },
+            "V3" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "V3"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.iot#InlineDocument" : {
          "type" : "string"
       },
@@ -22499,7 +22892,7 @@
             "target" : "com.amazonaws.iot#ListActiveViolationsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Lists the active violations for a given Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListActiveViolations</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Lists the active violations for a given Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListActiveViolations</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -23999,7 +24392,7 @@
             "target" : "com.amazonaws.iot#ListCustomMetricsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>\n      Lists your Device Defender detect custom metrics.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListCustomMetrics</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>\n      Lists your Device Defender detect custom metrics.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListCustomMetrics</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -24075,7 +24468,7 @@
             "target" : "com.amazonaws.iot#ListDetectMitigationActionsExecutionsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>\n      Lists mitigation actions executions for a Device Defender ML Detect Security Profile.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListDetectMitigationActionsExecutions</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>\n      Lists mitigation actions executions for a Device Defender ML Detect Security Profile.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListDetectMitigationActionsExecutions</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -24186,7 +24579,7 @@
             "target" : "com.amazonaws.iot#ListDetectMitigationActionsTasksResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>\n      List of Device Defender ML Detect mitigation actions tasks.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListDetectMitigationActionsTasks</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>\n      List of Device Defender ML Detect mitigation actions tasks.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListDetectMitigationActionsTasks</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -24278,7 +24671,7 @@
             "target" : "com.amazonaws.iot#ListDimensionsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>List the set of dimensions that are defined for your Amazon Web Services accounts.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListDimensions</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>List the set of dimensions that are defined for your Amazon Web Services accounts.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListDimensions</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -26732,7 +27125,7 @@
             "target" : "com.amazonaws.iot#ListSecurityProfilesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Lists the Device Defender security profiles\n      you've\n      created. You can filter security profiles by dimension or custom metric.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListSecurityProfiles</a> action.</p>\n         <note>\n            <p>\n               <code>dimensionName</code> and <code>metricName</code> cannot be used in the same request.</p>\n         </note>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Lists the Device Defender security profiles\n      you've\n      created. You can filter security profiles by dimension or custom metric.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListSecurityProfiles</a> action.</p>\n         <note>\n            <p>\n               <code>dimensionName</code> and <code>metricName</code> cannot be used in the same request.</p>\n         </note>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -26769,7 +27162,7 @@
             "target" : "com.amazonaws.iot#ListSecurityProfilesForTargetResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Lists the Device Defender security profiles attached to a target (thing group).</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListSecurityProfilesForTarget</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Lists the Device Defender security profiles attached to a target (thing group).</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListSecurityProfilesForTarget</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -27194,7 +27587,7 @@
             "target" : "com.amazonaws.iot#ListTargetsForSecurityProfileResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Lists the targets (thing groups) associated with a given Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListTargetsForSecurityProfile</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Lists the targets (thing groups) associated with a given Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListTargetsForSecurityProfile</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -28493,7 +28886,7 @@
             "target" : "com.amazonaws.iot#ListViolationEventsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Lists the Device Defender security profile violations discovered during the given time period. \n      You can use filters to limit the results to those alerts issued for a particular security profile, \n      behavior, or thing (device).</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListViolationEvents</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Lists the Device Defender security profile violations discovered during the given time period. \n      You can use filters to limit the results to those alerts issued for a particular security profile, \n      behavior, or thing (device).</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListViolationEvents</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -31001,7 +31394,7 @@
             "target" : "com.amazonaws.iot#PutVerificationStateOnViolationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Set a verification state and provide a description of that verification state on a violation (detect alarm).</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Set a verification state and provide a description of that verification state on a violation (detect alarm).</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -33862,7 +34255,7 @@
             "target" : "com.amazonaws.iot#StartDetectMitigationActionsTaskResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>\n      Starts a Device Defender ML Detect mitigation actions task.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">StartDetectMitigationActionsTask</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>\n      Starts a Device Defender ML Detect mitigation actions task.\n    </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">StartDetectMitigationActionsTask</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -36207,6 +36600,12 @@
                   "smithy.api#documentation" : "<p>Properties of the HTTP URL.</p>"
                }
             },
+            "influxDBProperties" : {
+               "target" : "com.amazonaws.iot#InfluxDBDestinationProperties",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The properties of an InfluxDB topic rule destination, as returned by\n        <code>CreateTopicRuleDestination</code> and\n      <code>GetTopicRuleDestination</code>.</p>"
+               }
+            },
             "lastUpdatedAt" : {
                "target" : "com.amazonaws.iot#LastUpdatedAtDate",
                "traits" : {
@@ -36243,6 +36642,12 @@
                "target" : "com.amazonaws.iot#HttpUrlDestinationConfiguration",
                "traits" : {
                   "smithy.api#documentation" : "<p>Configuration of the HTTP URL.</p>"
+               }
+            },
+            "influxDBConfiguration" : {
+               "target" : "com.amazonaws.iot#InfluxDBDestinationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration of an InfluxDB topic rule destination, which you specify when you\n      call <code>CreateTopicRuleDestination</code>.</p>"
                }
             },
             "vpcConfiguration" : {
@@ -36325,6 +36730,12 @@
                "target" : "com.amazonaws.iot#HttpUrlDestinationSummary",
                "traits" : {
                   "smithy.api#documentation" : "<p>Information about the HTTP URL.</p>"
+               }
+            },
+            "influxDBSummary" : {
+               "target" : "com.amazonaws.iot#InfluxDBDestinationSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary of an InfluxDB topic rule destination, as returned by\n        <code>ListTopicRuleDestinations</code>.</p>"
                }
             },
             "lastUpdatedAt" : {
@@ -37422,7 +37833,7 @@
             "target" : "com.amazonaws.iot#UpdateCustomMetricResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates a\n      Device Defender detect custom metric. </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">UpdateCustomMetric</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Updates a\n      Device Defender detect custom metric. </p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">UpdateCustomMetric</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PATCH",
@@ -37535,7 +37946,7 @@
             "target" : "com.amazonaws.iot#UpdateDimensionResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates the definition for a dimension. You\n      cannot\n      change the type of a dimension after\n      it is created (you can delete it and\n      recreate\n      it).</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">UpdateDimension</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Updates the definition for a dimension. You\n      cannot\n      change the type of a dimension after\n      it is created (you can delete it and\n      recreate\n      it).</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">UpdateDimension</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PATCH",
@@ -38839,7 +39250,7 @@
             "target" : "com.amazonaws.iot#UpdateSecurityProfileResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates a Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">UpdateSecurityProfile</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Updates a Device Defender security profile.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">UpdateSecurityProfile</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PATCH",
@@ -39586,7 +39997,7 @@
             "target" : "com.amazonaws.iot#ValidateSecurityProfileBehaviorsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Validates a Device Defender security profile behaviors specification.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ValidateSecurityProfileBehaviors</a> action.</p>",
+            "smithy.api#documentation" : "<note>\n            <p>The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.</p>\n         </note>\n         <p>Validates a Device Defender security profile behaviors specification.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ValidateSecurityProfileBehaviors</a> action.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
