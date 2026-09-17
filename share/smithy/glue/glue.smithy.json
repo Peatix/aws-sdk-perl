@@ -658,6 +658,9 @@
                "target" : "com.amazonaws.glue#ListIntegrationResourceProperties"
             },
             {
+               "target" : "com.amazonaws.glue#ListIntegrationTableProperties"
+            },
+            {
                "target" : "com.amazonaws.glue#ListIterableForms"
             },
             {
@@ -32190,6 +32193,78 @@
       "com.amazonaws.glue#IntegrationString" : {
          "type" : "string"
       },
+      "com.amazonaws.glue#IntegrationTableProperties" : {
+         "members" : {
+            "ResourceArn" : {
+               "target" : "com.amazonaws.glue#String512",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The connection ARN of the source, or the database ARN of the target.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SourceTableConfig" : {
+               "target" : "com.amazonaws.glue#SourceTableConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A structure for the source table configuration.</p>"
+               }
+            },
+            "TableName" : {
+               "target" : "com.amazonaws.glue#String128",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the source table to be replicated.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TargetTableConfig" : {
+               "target" : "com.amazonaws.glue#TargetTableConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A structure for the target table configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The properties of a single integration table, including the resource ARN, the table name, and the source or target table configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#IntegrationTablePropertiesFilter" : {
+         "members" : {
+            "Name" : {
+               "target" : "com.amazonaws.glue#String128",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the filter. Supported filter keys are <code>SourceArn</code>, <code>TargetArn</code>, <code>SourceTableName</code>, and <code>TargetTableName</code>.</p>"
+               }
+            },
+            "Values" : {
+               "target" : "com.amazonaws.glue#IntegrationTablePropertiesFilterValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of filter values.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A key-value filter used to narrow the list of integration table properties returned by ListIntegrationTableProperties. Specify a filter key and one or more values to match.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#IntegrationTablePropertiesFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.glue#IntegrationTablePropertiesFilter"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.glue#IntegrationTablePropertiesFilterValues" : {
+         "member" : {
+            "target" : "com.amazonaws.glue#String128"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.glue#IntegrationTablePropertiesList" : {
+         "member" : {
+            "target" : "com.amazonaws.glue#IntegrationTableProperties"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.glue#IntegrationTagsList" : {
          "member" : {
             "target" : "com.amazonaws.glue#Tag"
@@ -36007,7 +36082,7 @@
                }
             },
             "Marker" : {
-               "target" : "com.amazonaws.glue#String1024",
+               "target" : "com.amazonaws.glue#String4096",
                "traits" : {
                   "smithy.api#documentation" : "<p>This is the pagination token for next page, initial value is <code>null</code>.</p>"
                }
@@ -36033,9 +36108,90 @@
                }
             },
             "Marker" : {
-               "target" : "com.amazonaws.glue#String1024",
+               "target" : "com.amazonaws.glue#String4096",
                "traits" : {
                   "smithy.api#documentation" : "<p>This is the pagination token for the next page.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#ListIntegrationTableProperties" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.glue#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.glue#EntityNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.glue#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.glue#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.glue#InvalidInputException"
+            },
+            {
+               "target" : "com.amazonaws.glue#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.glue#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.glue#ListIntegrationTablePropertiesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.glue#ListIntegrationTablePropertiesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the integration table properties in your account. This operation supports filtering and pagination.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.glue#ListIntegrationTablePropertiesRequest" : {
+         "members" : {
+            "Filters" : {
+               "target" : "com.amazonaws.glue#IntegrationTablePropertiesFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of filters. Supported filter keys are <code>SourceArn</code>, <code>TargetArn</code>, <code>SourceTableName</code>, and <code>TargetTableName</code>.</p>"
+               }
+            },
+            "Marker" : {
+               "target" : "com.amazonaws.glue#String4096",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token for the next page of results. The initial value is <code>null</code>.</p>"
+               }
+            },
+            "MaxRecords" : {
+               "target" : "com.amazonaws.glue#IntegrationInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of records to return in the response.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#ListIntegrationTablePropertiesResponse" : {
+         "members" : {
+            "IntegrationTablePropertiesList" : {
+               "target" : "com.amazonaws.glue#IntegrationTablePropertiesList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of integration table properties meeting the filter criteria.</p>"
+               }
+            },
+            "Marker" : {
+               "target" : "com.amazonaws.glue#String4096",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token for the next page. Returns <code>null</code> if there are no more results.</p>"
                }
             }
          },
@@ -48943,15 +49099,6 @@
          },
          "type" : "structure"
       },
-      "com.amazonaws.glue#String1024" : {
-         "traits" : {
-            "smithy.api#length" : {
-               "max" : 1024,
-               "min" : 1
-            }
-         },
-         "type" : "string"
-      },
       "com.amazonaws.glue#String128" : {
          "traits" : {
             "smithy.api#length" : {
@@ -48965,6 +49112,15 @@
          "traits" : {
             "smithy.api#length" : {
                "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.glue#String4096" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 4096,
                "min" : 1
             }
          },
@@ -50037,6 +50193,12 @@
       },
       "com.amazonaws.glue#TargetTableConfig" : {
          "members" : {
+            "IntegrationArn" : {
+               "target" : "com.amazonaws.glue#String128",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the integration that owns this target table configuration.</p>"
+               }
+            },
             "PartitionSpec" : {
                "target" : "com.amazonaws.glue#IntegrationPartitionSpecList",
                "traits" : {
