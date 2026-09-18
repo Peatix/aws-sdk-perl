@@ -4081,6 +4081,16 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.sagemaker#ApplicationArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:aws[a-z\\-]*:sso::[0-9]{12}:application/(sso)?ins-[a-zA-Z0-9.-]{16}/apl-[a-zA-Z0-9.-]{16}$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.sagemaker#ApprovalDescription" : {
          "traits" : {
             "smithy.api#length" : {
@@ -4810,6 +4820,98 @@
             "smithy.api#pattern" : "^[a-zA-Z0-9._-]+$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.sagemaker#AttachClusterNodeNetworkInterface" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.sagemaker#ResourceLimitExceeded"
+            },
+            {
+               "target" : "com.amazonaws.sagemaker#ResourceNotFound"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.sagemaker#AttachClusterNodeNetworkInterfaceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.sagemaker#AttachClusterNodeNetworkInterfaceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p> Attaches an elastic network interface (ENI) to a node in a HyperPod cluster. </p> <p> To use this operation, you must have the <code>sagemaker:AttachClusterNodeNetworkInterface</code> permission. </p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.sagemaker#AttachClusterNodeNetworkInterfaceRequest" : {
+         "members" : {
+            "ClusterName" : {
+               "target" : "com.amazonaws.sagemaker#ClusterNameOrArn",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p> The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that contains the target node. </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NetworkInterfaceId" : {
+               "target" : "com.amazonaws.sagemaker#ClusterNetworkInterfaceId",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p> The unique identifier of the elastic network interface (ENI) to attach. </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NodeId" : {
+               "target" : "com.amazonaws.sagemaker#ClusterNodeId",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p> The unique identifier of the cluster node to which you want to attach the network interface. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG). </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sagemaker#AttachClusterNodeNetworkInterfaceResponse" : {
+         "members" : {
+            "AttachmentId" : {
+               "target" : "com.amazonaws.sagemaker#ClusterNetworkInterfaceAttachmentId",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p> The unique identifier of the network interface attachment. Use this value to reference or detach the network interface later. </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ClusterArn" : {
+               "target" : "com.amazonaws.sagemaker#ClusterArn",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p> The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster where the network interface attachment operation was performed. </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NetworkInterfaceId" : {
+               "target" : "com.amazonaws.sagemaker#ClusterNetworkInterfaceId",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p> The unique identifier of the elastic network interface (ENI) that was attached. </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NodeId" : {
+               "target" : "com.amazonaws.sagemaker#ClusterNodeId",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p> The unique identifier of the cluster node where your network interface was attached. </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.sagemaker#AttachClusterNodeVolume" : {
          "errors" : [
@@ -12794,6 +12896,16 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.sagemaker#ClusterNetworkInterfaceAttachmentId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 28,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^eni-attach-[0-9a-f]{8}(?:[0-9a-f]{9})?$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.sagemaker#ClusterNetworkInterfaceDetails" : {
          "members" : {
             "InterfaceType" : {
@@ -12807,6 +12919,16 @@
             "smithy.api#documentation" : "<p>The network interface configuration details for a Amazon SageMaker HyperPod cluster instance group.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.sagemaker#ClusterNetworkInterfaceId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 21,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^eni-[0-9a-f]{8}(?:[0-9a-f]{9})?$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.sagemaker#ClusterNodeDetails" : {
          "members" : {
@@ -18881,6 +19003,12 @@
                   "smithy.api#documentation" : "<p>List of SageMaker domain IDs for which this MLflow App is used as the default.</p>"
                }
             },
+            "KmsKeyId" : {
+               "target" : "com.amazonaws.sagemaker#KmsKeyId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Web Services KMS key used to encrypt the data at rest associated with the MLflow App. If you don't specify a value, the MLflow App is not encrypted with a customer-managed key.</p>"
+               }
+            },
             "ModelRegistrationMode" : {
                "target" : "com.amazonaws.sagemaker#ModelRegistrationMode",
                "traits" : {
@@ -20378,7 +20506,7 @@
                "target" : "com.amazonaws.sagemaker#PartnerAppAuthType",
                "traits" : {
                   "smithy.api#clientOptional" : {},
-                  "smithy.api#documentation" : "<p>The authorization type that users use to access the SageMaker Partner AI App.</p>",
+                  "smithy.api#documentation" : "<p>The authorization type that users use to access the SageMaker Partner AI App. Valid values:</p> <ul> <li> <p> <code>IAM</code>: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.</p> </li> <li> <p> <code>IDC</code>: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in <code>IdcConfig</code>.</p> </li> </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -20407,6 +20535,12 @@
                   "smithy.api#clientOptional" : {},
                   "smithy.api#documentation" : "<p>The ARN of the IAM role that the partner application uses.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "IdcConfig" : {
+               "target" : "com.amazonaws.sagemaker#IdcConfigInput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App. Specify this parameter when <code>AuthType</code> is <code>IDC</code>. Apps that use <code>IAM</code> authorization don't use this parameter.</p>"
                }
             },
             "KmsKeyId" : {
@@ -22939,7 +23073,7 @@
          },
          "traits" : {
             "smithy.api#length" : {
-               "max" : 2,
+               "max" : 3,
                "min" : 1
             }
          },
@@ -31533,6 +31667,12 @@
                   "smithy.api#documentation" : "<p>List of SageMaker Domain IDs for which this MLflow App is the default.</p>"
                }
             },
+            "KmsKeyId" : {
+               "target" : "com.amazonaws.sagemaker#KmsKeyId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Web Services KMS key used to encrypt the data at rest associated with the MLflow App. This field is absent if the MLflow App is not encrypted with a customer-managed key.</p>"
+               }
+            },
             "LastModifiedBy" : {
                "target" : "com.amazonaws.sagemaker#UserContext"
             },
@@ -33427,7 +33567,7 @@
             "AuthType" : {
                "target" : "com.amazonaws.sagemaker#PartnerAppAuthType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The authorization type that users use to access the SageMaker Partner AI App.</p>"
+                  "smithy.api#documentation" : "<p>The authorization type that users use to access the SageMaker Partner AI App. Valid values:</p> <ul> <li> <p> <code>IAM</code>: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.</p> </li> <li> <p> <code>IDC</code>: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity.</p> </li> </ul>"
                }
             },
             "AvailableUpgrade" : {
@@ -33476,6 +33616,12 @@
                "target" : "com.amazonaws.sagemaker#RoleArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ARN of the IAM role associated with the SageMaker Partner AI App.</p>"
+               }
+            },
+            "IdcConfig" : {
+               "target" : "com.amazonaws.sagemaker#IdcConfigOutput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App, including the Identity Center instance and the Identity Center application that SageMaker creates for the app. The service returns this field for apps that use <code>IDC</code> authorization.</p>"
                }
             },
             "KmsKeyId" : {
@@ -43319,6 +43465,42 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.sagemaker#IdcConfigInput" : {
+         "members" : {
+            "InstanceArn" : {
+               "target" : "com.amazonaws.sagemaker#InstanceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Amazon Web Services IAM Identity Center instance that the SageMaker Partner AI App uses to authenticate users.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies the Amazon Web Services IAM Identity Center configuration to use for a SageMaker Partner AI App that uses <code>IDC</code> authorization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sagemaker#IdcConfigOutput" : {
+         "members" : {
+            "ApplicationArn" : {
+               "target" : "com.amazonaws.sagemaker#ApplicationArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Amazon Web Services IAM Identity Center application that SageMaker creates for the SageMaker Partner AI App.</p>"
+               }
+            },
+            "InstanceArn" : {
+               "target" : "com.amazonaws.sagemaker#InstanceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Amazon Web Services IAM Identity Center instance that the SageMaker Partner AI App uses to authenticate users.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the Amazon Web Services IAM Identity Center configuration of a SageMaker Partner AI App that uses <code>IDC</code> authorization.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.sagemaker#IdempotencyToken" : {
          "traits" : {
             "smithy.api#length" : {
@@ -45504,6 +45686,16 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.sagemaker#InstanceArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:aws[a-z\\-]*:sso:::instance/(sso)?ins-[a-zA-Z0-9.-]{16}$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.sagemaker#InstanceCount" : {
          "traits" : {
             "smithy.api#range" : {
@@ -45918,6 +46110,47 @@
          },
          "traits" : {
             "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.sagemaker#InstancePreference" : {
+         "members" : {
+            "InstanceCount" : {
+               "target" : "com.amazonaws.sagemaker#TrainingInstanceCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of instances to launch if this instance type is selected. Specify the instance count for the training job in one of the following two ways:</p> <ol> <li> <p> <b>Per preference</b> – Set <code>InstanceCount</code> on every preference in the <code>InstancePreferences</code> list and don't set <code>ResourceConfig$InstanceCount</code>. Use this when each instance type needs a different number of instances to deliver equivalent compute.</p> </li> <li> <p> <b>One count for the job</b> – Set <code>ResourceConfig$InstanceCount</code> and omit it from every preference. SageMaker applies this to all instance types in the list.</p> </li> </ol> <p>For example, in a list of five preferences, either all five specify <code>InstanceCount</code> or none of them do. SageMaker rejects requests that set <code>InstanceCount</code> on only some preferences, that set it both per preference and in <code>ResourceConfig</code>, or that omit it in both places.</p>"
+               }
+            },
+            "InstanceType" : {
+               "target" : "com.amazonaws.sagemaker#TrainingInstanceType",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The ML compute instance type. An instance type can appear only once in an <code>InstancePreferences</code> list.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TrainingPlanArns" : {
+               "target" : "com.amazonaws.sagemaker#TrainingPlanArnList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of a training plan to use if this instance type is selected. The plan's instance type must match <code>InstanceType</code>. A preference with a training plan uses that plan's reserved capacity; a preference without one uses on-demand capacity. Per-preference <code>TrainingPlanArns</code> is mutually exclusive with the job-level <code>TrainingPlanArn</code> in <code>ResourceConfig</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A candidate instance type preference in an <code>InstancePreferences</code> list.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sagemaker#InstancePreferenceList" : {
+         "member" : {
+            "target" : "com.amazonaws.sagemaker#InstancePreference"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Ordered list of candidate instance types, in priority order.",
+            "smithy.api#length" : {
+               "max" : 5,
                "min" : 1
             }
          },
@@ -58224,7 +58457,7 @@
             "smithy.api#documentation" : "Maximum job scheduler pending time in seconds.",
             "smithy.api#range" : {
                "max" : 2419200,
-               "min" : 7200
+               "min" : 1800
             }
          },
          "type" : "integer"
@@ -64310,7 +64543,7 @@
          },
          "traits" : {
             "smithy.api#length" : {
-               "max" : 2,
+               "max" : 3,
                "min" : 1
             }
          },
@@ -64333,7 +64566,7 @@
             "StorageType" : {
                "target" : "com.amazonaws.sagemaker#StorageType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Option for different tiers of low latency storage for real-time data retrieval.</p> <ul> <li> <p> <code>Standard</code>: A managed low latency data store for feature groups.</p> </li> <li> <p> <code>InMemory</code>: A managed data store for feature groups that supports very low latency retrieval. </p> </li> </ul>"
+                  "smithy.api#documentation" : "<p>Option for different tiers of low latency storage for real-time data retrieval.</p> <ul> <li> <p> <code>Standard</code>: A managed low latency data store for feature groups.</p> </li> <li> <p> <code>Standard_V2</code>: A managed low latency data store for feature groups that supports partial updates to individual features using the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_UpdateRecord.html\">UpdateRecord</a> operation. Choose this storage type at feature group creation time if your use case requires updating specific feature values without rewriting the entire record.</p> </li> <li> <p> <code>InMemory</code>: A managed data store for feature groups that supports very low latency retrieval.</p> </li> </ul>"
                }
             },
             "TtlDuration" : {
@@ -64350,6 +64583,12 @@
       },
       "com.amazonaws.sagemaker#OnlineStoreConfigUpdate" : {
          "members" : {
+            "StorageType" : {
+               "target" : "com.amazonaws.sagemaker#StorageType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The online store storage type to migrate the feature group to. Use this parameter to migrate an existing feature group from <code>Standard</code> to <code>Standard_V2</code> storage format, enabling support for the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_UpdateRecord.html\">UpdateRecord</a> operation. Migration is a one-way operation and cannot be reversed.</p>"
+               }
+            },
             "TtlDuration" : {
                "target" : "com.amazonaws.sagemaker#TtlDuration",
                "traits" : {
@@ -64724,6 +64963,42 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ml.g7e.8xlarge"
+               }
+            },
+            "ML_G7_12XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g7.12xlarge"
+               }
+            },
+            "ML_G7_24XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g7.24xlarge"
+               }
+            },
+            "ML_G7_2XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g7.2xlarge"
+               }
+            },
+            "ML_G7_48XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g7.48xlarge"
+               }
+            },
+            "ML_G7_4XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g7.4xlarge"
+               }
+            },
+            "ML_G7_8XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g7.8xlarge"
                }
             },
             "ML_INF2_24XLARGE" : {
@@ -65630,6 +65905,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "IAM"
+               }
+            },
+            "IDC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IDC"
                }
             }
          },
@@ -67117,11 +67398,29 @@
                   "smithy.api#documentation" : "<p>The number of ML compute instances to use in the processing job. For distributed processing jobs, specify a value greater than 1. The default value is 1.</p>"
                }
             },
+            "InstancePreferences" : {
+               "target" : "com.amazonaws.sagemaker#ProcessingInstancePreferenceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An ordered list of ML compute instance types for the processing job, in priority order. Amazon SageMaker launches the job on the first instance type in the list that has available capacity. If capacity is insufficient, Amazon SageMaker evaluates the next instance type in the list. Exactly one instance type is selected for the job.</p> <p> <code>InstancePreferences</code> is mutually exclusive with <code>InstanceType</code>.</p>"
+               }
+            },
             "InstanceType" : {
                "target" : "com.amazonaws.sagemaker#ProcessingInstanceType",
                "traits" : {
                   "smithy.api#clientOptional" : {},
                   "smithy.api#documentation" : "<p>The ML compute instance type for the processing job.</p>"
+               }
+            },
+            "SelectedInstanceCount" : {
+               "target" : "com.amazonaws.sagemaker#ProcessingInstanceCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of instances of <code>SelectedInstanceType</code> that the job launched with. The job is billed for this instance type and count. Returned by <code>DescribeProcessingJob</code> after an instance type is selected. This field is read-only and isn't accepted in <code>CreateProcessingJob</code> requests.</p>"
+               }
+            },
+            "SelectedInstanceType" : {
+               "target" : "com.amazonaws.sagemaker#ProcessingInstanceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The instance type that Amazon SageMaker selected for the job from <code>InstancePreferences</code>. Returned by <code> <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeProcessingJob.html\">DescribeProcessingJob</a> </code> after an instance type is selected. This field is read-only and isn't accepted in <code>CreateProcessingJob</code> requests.</p>"
                }
             },
             "VolumeKmsKeyId" : {
@@ -67249,6 +67548,41 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.sagemaker#ProcessingInstancePreference" : {
+         "members" : {
+            "InstanceCount" : {
+               "target" : "com.amazonaws.sagemaker#ProcessingInstanceCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of instances to launch if this instance type is selected. Specify the instance count for the processing job in one of the following two ways:</p> <ol> <li> <p> <b>Per preference</b> – Set <code>InstanceCount</code> on every preference in the <code>InstancePreferences</code> list and don't set <code>ProcessingClusterConfig$InstanceCount</code>. Use this when each instance type needs a different number of instances to deliver equivalent compute.</p> </li> <li> <p> <b>One count for the job</b> – Set <code>ProcessingClusterConfig$InstanceCount</code> and omit it from every preference. Amazon SageMaker applies this to all instance types in the list.</p> </li> </ol> <p>For example, in a list of five preferences, either all five specify <code>InstanceCount</code> or none of them do. Amazon SageMaker rejects requests that set <code>InstanceCount</code> on only some preferences, that set it both per preference and in <code>ProcessingClusterConfig</code>, or that omit it in both places.</p>"
+               }
+            },
+            "InstanceType" : {
+               "target" : "com.amazonaws.sagemaker#ProcessingInstanceType",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The ML compute instance type. An instance type can appear only once in an <code>InstancePreferences</code> list.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A candidate instance type preference in a processing <code>InstancePreferences</code> list.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sagemaker#ProcessingInstancePreferenceList" : {
+         "member" : {
+            "target" : "com.amazonaws.sagemaker#ProcessingInstancePreference"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Ordered list of candidate instance types, in priority order.",
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.sagemaker#ProcessingInstanceType" : {
          "members" : {
@@ -73716,6 +74050,12 @@
                   "smithy.api#documentation" : "<p>Configuration for how training job instances are placed and allocated within UltraServers. Only applicable for UltraServer capacity.</p>"
                }
             },
+            "InstancePreferences" : {
+               "target" : "com.amazonaws.sagemaker#InstancePreferenceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An ordered list of ML compute instance types for the training job, in priority order. SageMaker launches the training job on the first instance type in the list that has available capacity. If capacity is insufficient, SageMaker evaluates the next instance type in the preferred list. Exactly one instance type is selected for the job.</p> <p> <code>InstancePreferences</code> is mutually exclusive with <code>InstanceType</code>, <code>InstanceGroups</code>, <code>InstancePlacementConfig</code>, and <code>EnableManagedSpotTraining</code>, and supports only Flexible Training Plans (FTP) and On-Demand capacity.</p>"
+               }
+            },
             "InstanceType" : {
                "target" : "com.amazonaws.sagemaker#TrainingInstanceType",
                "traits" : {
@@ -73726,6 +74066,18 @@
                "target" : "com.amazonaws.sagemaker#KeepAlivePeriodInSeconds",
                "traits" : {
                   "smithy.api#documentation" : "<p>The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.</p>"
+               }
+            },
+            "SelectedInstanceCount" : {
+               "target" : "com.amazonaws.sagemaker#TrainingInstanceCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of instances of <code>SelectedInstanceType</code> that the training job launched with. The job is billed for this instance type and count. Returned by <code>DescribeTrainingJob</code> after an instance type is selected. This field is read-only and isn't accepted in <code>CreateTrainingJob</code> requests.</p>"
+               }
+            },
+            "SelectedInstanceType" : {
+               "target" : "com.amazonaws.sagemaker#TrainingInstanceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The instance type that SageMaker selected for the job from the provided <code>InstancePreferences</code>. The job is billed for this instance type and count. Returned by <code> <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrainingJob.html\">DescribeTrainingJob</a> </code> after an instance type is selected. This field is read-only and isn't accepted in <code>CreateTrainingJob</code> requests.</p>"
                }
             },
             "TrainingPlanArn" : {
@@ -74739,6 +75091,9 @@
             },
             {
                "target" : "com.amazonaws.sagemaker#AssociateTrialComponent"
+            },
+            {
+               "target" : "com.amazonaws.sagemaker#AttachClusterNodeNetworkInterface"
             },
             {
                "target" : "com.amazonaws.sagemaker#AttachClusterNodeVolume"
@@ -80976,7 +81331,7 @@
             "MaxPendingTimeInSeconds" : {
                "target" : "com.amazonaws.sagemaker#MaxPendingTimeInSeconds",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The maximum length of time, in seconds, that a training or compilation job can be pending before it is stopped.</p> <note> <p>When working with training jobs that use capacity from <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/reserve-capacity-with-training-plans.html\">training plans</a>, not all <code>Pending</code> job states count against the <code>MaxPendingTimeInSeconds</code> limit. The following scenarios do not increment the <code>MaxPendingTimeInSeconds</code> counter:</p> <ul> <li> <p>The plan is in a <code>Scheduled</code> state: Jobs queued (in <code>Pending</code> status) before a plan's start date (waiting for scheduled start time)</p> </li> <li> <p>Between capacity reservations: Jobs temporarily back to <code>Pending</code> status between two capacity reservation periods</p> </li> </ul> <p> <code>MaxPendingTimeInSeconds</code> only increments when jobs are actively waiting for capacity in an <code>Active</code> plan.</p> </note>"
+                  "smithy.api#documentation" : "<p>The maximum length of time, in seconds, that a training or compilation job can be pending before it is stopped.</p> <note> <p>When working with training jobs that use capacity from <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/reserve-capacity-with-training-plans.html\">training plans</a>, not all <code>Pending</code> job states count against the <code>MaxPendingTimeInSeconds</code> limit. The following scenarios do not increment the <code>MaxPendingTimeInSeconds</code> counter:</p> <ul> <li> <p>The plan is in a <code>Scheduled</code> state: Jobs queued (in <code>Pending</code> status) before a plan's start date (waiting for scheduled start time)</p> </li> <li> <p>Between capacity reservations: Jobs temporarily back to <code>Pending</code> status between two capacity reservation periods</p> </li> </ul> <p> <code>MaxPendingTimeInSeconds</code> only increments when jobs are actively waiting for capacity in an <code>Active</code> plan.</p> </note> <note> <ul> <li> <p> <code>MaxPendingTimeInSeconds</code> takes effect only for jobs that request accelerated computing instance types, such as instances in the <code>ml.p</code>, <code>ml.g</code>, and <code>ml.trn</code> families. It has no effect on jobs that request CPU-only instance types.</p> </li> <li> <p>If the job specifies <code>InstancePreferences</code>, <code>MaxPendingTimeInSeconds</code> bounds the total time SageMaker spends working through your list of instance types. It is not applied per instance type preference, and takes effect only when the list includes at least one accelerated computing instance type.</p> </li> </ul> </note>"
                }
             },
             "MaxRuntimeInSeconds" : {
@@ -81009,6 +81364,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "Standard"
+               }
+            },
+            "STANDARD_V2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Standard_V2"
                }
             }
          },
@@ -84528,6 +84889,19 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.sagemaker#TrainingPlanArnList" : {
+         "member" : {
+            "target" : "com.amazonaws.sagemaker#TrainingPlanArn"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Training plan ARNs for a single instance preference.",
+            "smithy.api#length" : {
+               "max" : 1,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.sagemaker#TrainingPlanArns" : {
          "member" : {
             "target" : "com.amazonaws.sagemaker#TrainingPlanArn"
@@ -85575,6 +85949,54 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ml.g5.xlarge"
+               }
+            },
+            "ML_G6E_12XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g6e.12xlarge"
+               }
+            },
+            "ML_G6E_16XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g6e.16xlarge"
+               }
+            },
+            "ML_G6E_24XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g6e.24xlarge"
+               }
+            },
+            "ML_G6E_2XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g6e.2xlarge"
+               }
+            },
+            "ML_G6E_48XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g6e.48xlarge"
+               }
+            },
+            "ML_G6E_4XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g6e.4xlarge"
+               }
+            },
+            "ML_G6E_8XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g6e.8xlarge"
+               }
+            },
+            "ML_G6E_XLARGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ml.g6e.xlarge"
                }
             },
             "ML_G6_12XLARGE" : {
@@ -90261,6 +90683,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "AuthType" : {
+               "target" : "com.amazonaws.sagemaker#PartnerAppAuthType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authorization type that users use to access the SageMaker Partner AI App. Use this parameter to migrate an existing SageMaker Partner AI App from <code>IAM</code> authorization to <code>IDC</code> authorization. Valid values:</p> <ul> <li> <p> <code>IAM</code>: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.</p> </li> <li> <p> <code>IDC</code>: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in <code>IdcConfig</code>.</p> </li> </ul>"
+               }
+            },
             "ClientToken" : {
                "target" : "com.amazonaws.sagemaker#ClientToken",
                "traits" : {
@@ -90278,6 +90706,12 @@
                "target" : "com.amazonaws.sagemaker#Boolean",
                "traits" : {
                   "smithy.api#documentation" : "<p>When set to <code>TRUE</code>, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.</p>"
+               }
+            },
+            "IdcConfig" : {
+               "target" : "com.amazonaws.sagemaker#IdcConfigInput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App. Specify this parameter when <code>AuthType</code> is <code>IDC</code>. Apps that use <code>IAM</code> authorization don't use this parameter.</p>"
                }
             },
             "MaintenanceConfig" : {
