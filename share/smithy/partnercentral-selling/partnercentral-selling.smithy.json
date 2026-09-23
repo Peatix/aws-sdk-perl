@@ -1423,6 +1423,12 @@
                   "smithy.api#enumValue" : "PSM"
                }
             },
+            "SIGNATORY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Signatory"
+               }
+            },
             "WWPSPDM" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -1780,6 +1786,12 @@
                   "smithy.api#documentation" : "<p>Identifier of the related partner opportunity.</p>"
                }
             },
+            "SoftwareRevenue" : {
+               "target" : "com.amazonaws.partnercentralselling#AwsSoftwareRevenue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Seller-provided PARC deal terms: commitment value, discount, and contract dates.</p>"
+               }
+            },
             "Visibility" : {
                "target" : "com.amazonaws.partnercentralselling#Visibility",
                "traits" : {
@@ -1997,6 +2009,35 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.partnercentralselling#AwsSoftwareRevenue" : {
+         "members" : {
+            "Discount" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Discount percentage offered on the software revenue. Percent convention: 15.00 means 15%.</p>"
+               }
+            },
+            "EffectiveDate" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contract effective (start) date in YYYY-MM-DD format.</p>"
+               }
+            },
+            "ExpirationDate" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contract expiration (end) date in YYYY-MM-DD format.</p>"
+               }
+            },
+            "Value" : {
+               "target" : "com.amazonaws.partnercentralselling#MonetaryValue"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Seller-provided PARC deal terms for the opportunity, including commitment value, discount percentage, and contract dates.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.partnercentralselling#AwsSubmission" : {
          "members" : {
             "InvolvementType" : {
@@ -2054,6 +2095,7 @@
       },
       "com.amazonaws.partnercentralselling#CatalogIdentifier" : {
          "traits" : {
+            "smithy.api#documentation" : "Value space is validated at runtime against an allowlist, so the model keeps only a coarse character-class pattern.",
             "smithy.api#pattern" : "^[a-zA-Z]+$"
          },
          "type" : "string"
@@ -7120,6 +7162,12 @@
                   "smithy.api#documentation" : "<p>Provides the unique identifier of the related partner opportunity, allowing partners to link the AWS Opportunity to their corresponding opportunity in their CRM system.</p>"
                }
             },
+            "SoftwareRevenue" : {
+               "target" : "com.amazonaws.partnercentralselling#AwsSoftwareRevenue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Seller-provided PARC deal terms: commitment value, discount, and contract dates.</p>"
+               }
+            },
             "Visibility" : {
                "target" : "com.amazonaws.partnercentralselling#Visibility",
                "traits" : {
@@ -8866,7 +8914,8 @@
       "com.amazonaws.partnercentralselling#LeadJobTitle" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 255
+               "max" : 255,
+               "min" : 1
             },
             "smithy.api#sensitive" : {}
          },

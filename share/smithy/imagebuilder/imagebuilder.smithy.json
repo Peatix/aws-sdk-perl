@@ -333,7 +333,7 @@
             "target" : "com.amazonaws.imagebuilder#CancelImageCreationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>CancelImageCreation cancels the creation of Image. This operation can only be used on\n\t\t\timages in a non-terminal state.</p>",
+            "smithy.api#documentation" : "<p>Cancels the creation of an image. This operation can only be used on\n\t\t\timages in a non-terminal state.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -347,7 +347,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -425,7 +425,7 @@
             "target" : "com.amazonaws.imagebuilder#CancelLifecycleExecutionResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Cancel a specific image lifecycle policy runtime instance.</p>",
+            "smithy.api#documentation" : "<p>Cancels a specific image lifecycle policy runtime instance.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -439,7 +439,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -656,6 +656,44 @@
       },
       "com.amazonaws.imagebuilder#ComponentData" : {
          "type" : "string"
+      },
+      "com.amazonaws.imagebuilder#ComponentFailureContext" : {
+         "members" : {
+            "action" : {
+               "target" : "com.amazonaws.imagebuilder#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The action that the failed step runs, for example <code>ExecuteBash</code>.</p>"
+               }
+            },
+            "componentArn" : {
+               "target" : "com.amazonaws.imagebuilder#ComponentBuildVersionArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the component build version that failed.</p>"
+               }
+            },
+            "errorMessage" : {
+               "target" : "com.amazonaws.imagebuilder#NonEmptyMaxLengthString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error message from the step that failed. Image Builder truncates messages that are\n\t\t\tlonger than 1024 characters. The component log in Amazon CloudWatch Logs contains\n\t\t\tthe full output.</p>"
+               }
+            },
+            "phaseName" : {
+               "target" : "com.amazonaws.imagebuilder#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the phase in the component document where the failure occurred, such\n\t\t\tas <code>build</code>, <code>validate</code>, or <code>test</code>.</p>"
+               }
+            },
+            "stepName" : {
+               "target" : "com.amazonaws.imagebuilder#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the step in the component document that failed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about the component that caused the image creation process to\n\t\t\tfail. The details identify the first step that failed when the component ran.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.imagebuilder#ComponentFormat" : {
          "members" : {
@@ -998,7 +1036,7 @@
             "supportedOsVersions" : {
                "target" : "com.amazonaws.imagebuilder#OsVersionList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>he operating system (OS) version supported by the component. If the OS information is\n\t\t\tavailable, a prefix match is performed against the base image OS version during image\n\t\t\trecipe creation.</p>"
+                  "smithy.api#documentation" : "<p>The operating system (OS) version supported by the component. If OS information is\n\t\t\tavailable, Image Builder performs a prefix match against the base image OS version during image\n\t\t\trecipe creation.</p>"
                }
             },
             "type" : {
@@ -1010,7 +1048,7 @@
             "version" : {
                "target" : "com.amazonaws.imagebuilder#VersionNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The semantic version of the component.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes you can assign any positive integer value, including \n\tzero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n            <p>\n               <b>Filtering:</b> With semantic versioning, you have the flexibility to use wildcards (x) \n\tto specify the most recent versions or nodes when selecting the base image or components for your \n\trecipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be \n\twildcards.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>The semantic version of the component.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes, you can assign any positive integer value, including \n\tzero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n            <p>\n               <b>Filtering:</b> You can use wildcards (x) to specify the most recent versions or nodes when \n\tselecting the base image or components for your recipe. When you use a wildcard in any node, all nodes \n\tto the right of the first wildcard must also be wildcards.</p>\n         </note>"
                }
             }
          },
@@ -1193,7 +1231,7 @@
             "version" : {
                "target" : "com.amazonaws.imagebuilder#VersionNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The semantic version of the container recipe.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes you can assign any positive integer value, including \n\tzero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n            <p>\n               <b>Filtering:</b> With semantic versioning, you have the flexibility to use wildcards (x) \n\tto specify the most recent versions or nodes when selecting the base image or components for your \n\trecipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be \n\twildcards.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>The semantic version of the container recipe.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes, you can assign any positive integer value, including \n\tzero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n            <p>\n               <b>Filtering:</b> You can use wildcards (x) to specify the most recent versions or nodes when \n\tselecting the base image or components for your recipe. When you use a wildcard in any node, all nodes \n\tto the right of the first wildcard must also be wildcards.</p>\n         </note>"
                }
             },
             "workingDirectory" : {
@@ -1370,7 +1408,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -1391,7 +1429,7 @@
                "target" : "com.amazonaws.imagebuilder#Boolean",
                "traits" : {
                   "smithy.api#default" : false,
-                  "smithy.api#documentation" : "<p>Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is <code>DryRunOperationException</code>.</p>"
+                  "smithy.api#documentation" : "<p>Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a <code>DryRunOperationException</code> error response.</p>"
                }
             },
             "kmsKeyId" : {
@@ -1417,7 +1455,7 @@
             "semanticVersion" : {
                "target" : "com.amazonaws.imagebuilder#VersionNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The semantic version of the component. This version follows the semantic version\n\t\t\tsyntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes you can assign any positive integer value, including \n\tzero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The semantic version of the component. This version follows the semantic version\n\t\t\tsyntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes, you can assign any positive integer value, including \n\tzero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n         </note>",
                   "smithy.api#required" : {}
                }
             },
@@ -1436,7 +1474,7 @@
             "uri" : {
                "target" : "com.amazonaws.imagebuilder#Uri",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The <code>uri</code> of a YAML component document file. This must be an S3 URL\n\t\t\t\t(<code>s3://bucket/key</code>), and the requester must have permission to access the\n\t\t\tS3 bucket it points to. If you use Amazon S3, you can specify component content up to your\n\t\t\tservice quota.</p>\n         <p>Alternatively, you can specify the YAML document inline, using the component\n\t\t\t\t<code>data</code> property. You cannot specify both properties.</p>"
+                  "smithy.api#documentation" : "<p>The <code>uri</code> of a YAML component document file. This must be an S3 URL\n\t\t\t\t(<code>s3://bucket/key</code>), and you must have permission to access the\n\t\t\tS3 bucket it points to. If you use Amazon S3, you can specify component content up to your\n\t\t\tservice quota.</p>\n         <p>Alternatively, you can specify the YAML document inline, using the component\n\t\t\t\t<code>data</code> property. You cannot specify both properties.</p>"
                }
             }
          },
@@ -1484,6 +1522,9 @@
             },
             {
                "target" : "com.amazonaws.imagebuilder#ClientException"
+            },
+            {
+               "target" : "com.amazonaws.imagebuilder#DryRunOperationException"
             },
             {
                "target" : "com.amazonaws.imagebuilder#ForbiddenException"
@@ -1534,7 +1575,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -1567,7 +1608,14 @@
             "dockerfileTemplateUri" : {
                "target" : "com.amazonaws.imagebuilder#Uri",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon S3 URI for the Dockerfile that will be used to build your container\n\t\t\timage.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon S3 URI for the Dockerfile that is used to build your container\n\t\t\timage.</p>"
+               }
+            },
+            "dryRun" : {
+               "target" : "com.amazonaws.imagebuilder#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a <code>DryRunOperationException</code> error response.</p>"
                }
             },
             "imageOsVersionOverride" : {
@@ -1611,7 +1659,7 @@
             "semanticVersion" : {
                "target" : "com.amazonaws.imagebuilder#WildcardVersionNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The semantic version of the container recipe. This version follows the semantic\n\t\t\tversion syntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes you can assign any positive integer value, including \n\tzero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The semantic version of the container recipe. This version follows the semantic\n\t\t\tversion syntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes, you can assign any positive integer value, including \n\tzero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n         </note>",
                   "smithy.api#required" : {}
                }
             },
@@ -1681,6 +1729,9 @@
                "target" : "com.amazonaws.imagebuilder#ClientException"
             },
             {
+               "target" : "com.amazonaws.imagebuilder#DryRunOperationException"
+            },
+            {
                "target" : "com.amazonaws.imagebuilder#ForbiddenException"
             },
             {
@@ -1729,7 +1780,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -1745,6 +1796,13 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The distributions of the distribution configuration.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "dryRun" : {
+               "target" : "com.amazonaws.imagebuilder#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a <code>DryRunOperationException</code> error response.</p>"
                }
             },
             "name" : {
@@ -1829,7 +1887,7 @@
             "target" : "com.amazonaws.imagebuilder#CreateImageResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a new image. This request will create a new image along with all of the\n\t\t\tconfigured output resources defined in the distribution configuration. You must specify\n\t\t\texactly one recipe for your image, using either a ContainerRecipeArn or an\n\t\t\tImageRecipeArn.</p>",
+            "smithy.api#documentation" : "<p>Creates a new image along with all configured output resources defined in the\n\t\t\tdistribution configuration. You must specify exactly one recipe for your image, using\n\t\t\teither a ContainerRecipeArn or an ImageRecipeArn.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -1845,6 +1903,9 @@
             },
             {
                "target" : "com.amazonaws.imagebuilder#ClientException"
+            },
+            {
+               "target" : "com.amazonaws.imagebuilder#DryRunOperationException"
             },
             {
                "target" : "com.amazonaws.imagebuilder#ForbiddenException"
@@ -1878,7 +1939,7 @@
             "target" : "com.amazonaws.imagebuilder#CreateImagePipelineResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a new image pipeline. Image pipelines enable you to automate the creation and\n\t\t\tdistribution of images.</p>",
+            "smithy.api#documentation" : "<p>Creates a new image pipeline. Use image pipelines to automate the creation and\n\t\t\tdistribution of images.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -1892,7 +1953,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -1912,13 +1973,20 @@
             "distributionConfigurationArn" : {
                "target" : "com.amazonaws.imagebuilder#DistributionConfigurationArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the distribution configuration that will be used to\n\t\t\tconfigure and distribute images created by this image pipeline.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the distribution configuration that configures and\n\t\t\tdistributes images created by this image pipeline.</p>"
+               }
+            },
+            "dryRun" : {
+               "target" : "com.amazonaws.imagebuilder#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a <code>DryRunOperationException</code> error response.</p>"
                }
             },
             "enhancedImageMetadataEnabled" : {
                "target" : "com.amazonaws.imagebuilder#NullableBoolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Collects additional information about the image being created, including the operating\n\t\t\tsystem (OS) version and package list. This information is used to enhance the overall\n\t\t\texperience of using EC2 Image Builder. Enabled by default.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether to collect additional information about the image being created, including the operating\n\t\t\tsystem (OS) version and package list. Defaults to <code>true</code>.</p>"
                }
             },
             "executionRole" : {
@@ -1930,7 +1998,7 @@
             "imageRecipeArn" : {
                "target" : "com.amazonaws.imagebuilder#ImageRecipeArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the image recipe that will be used to configure\n\t\t\timages created by this image pipeline.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the image recipe that configures\n\t\t\timages created by this image pipeline.</p>"
                }
             },
             "imageScanningConfiguration" : {
@@ -1954,7 +2022,7 @@
             "infrastructureConfigurationArn" : {
                "target" : "com.amazonaws.imagebuilder#InfrastructureConfigurationArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the infrastructure configuration that will be used\n\t\t\tto build images created by this image pipeline.</p>",
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the infrastructure configuration that \n\t\t\tbuilds images created by this image pipeline.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -2036,6 +2104,9 @@
                "target" : "com.amazonaws.imagebuilder#ClientException"
             },
             {
+               "target" : "com.amazonaws.imagebuilder#DryRunOperationException"
+            },
+            {
                "target" : "com.amazonaws.imagebuilder#ForbiddenException"
             },
             {
@@ -2084,7 +2155,7 @@
             "additionalInstanceConfiguration" : {
                "target" : "com.amazonaws.imagebuilder#AdditionalInstanceConfiguration",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify additional settings and launch scripts for your build instances.</p>"
+                  "smithy.api#documentation" : "<p>The additional settings and launch scripts for your build instances.</p>"
                }
             },
             "amiTags" : {
@@ -2108,7 +2179,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -2123,6 +2194,13 @@
                "target" : "com.amazonaws.imagebuilder#NonEmptyString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The description of the image recipe.</p>"
+               }
+            },
+            "dryRun" : {
+               "target" : "com.amazonaws.imagebuilder#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a <code>DryRunOperationException</code> error response.</p>"
                }
             },
             "name" : {
@@ -2142,7 +2220,7 @@
             "semanticVersion" : {
                "target" : "com.amazonaws.imagebuilder#WildcardVersionNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The semantic version of the image recipe. This version follows the semantic version\n\t\t\tsyntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes you can assign any positive integer value, including \n\tzero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The semantic version of the image recipe. This version follows the semantic version\n\t\t\tsyntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes, you can assign any positive integer value, including \n\tzero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n         </note>",
                   "smithy.api#required" : {}
                }
             },
@@ -2201,7 +2279,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -2221,7 +2299,7 @@
             "enhancedImageMetadataEnabled" : {
                "target" : "com.amazonaws.imagebuilder#NullableBoolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Collects additional information about the image being created, including the operating\n\t\t\tsystem (OS) version and package list. This information is used to enhance the overall\n\t\t\texperience of using EC2 Image Builder. Enabled by default.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether to collect additional information about the image being created, including the operating\n\t\t\tsystem (OS) version and package list. Defaults to <code>true</code>.</p>"
                }
             },
             "executionRole" : {
@@ -2258,7 +2336,7 @@
             "loggingConfiguration" : {
                "target" : "com.amazonaws.imagebuilder#ImageLoggingConfiguration",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Define logging configuration for the image build process.</p>"
+                  "smithy.api#documentation" : "<p>The logging configuration for the image build process.</p>"
                }
             },
             "tags" : {
@@ -2320,6 +2398,9 @@
                "target" : "com.amazonaws.imagebuilder#ClientException"
             },
             {
+               "target" : "com.amazonaws.imagebuilder#DryRunOperationException"
+            },
+            {
                "target" : "com.amazonaws.imagebuilder#ForbiddenException"
             },
             {
@@ -2365,7 +2446,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -2374,6 +2455,13 @@
                "target" : "com.amazonaws.imagebuilder#NonEmptyString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The description of the infrastructure configuration.</p>"
+               }
+            },
+            "dryRun" : {
+               "target" : "com.amazonaws.imagebuilder#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a <code>DryRunOperationException</code> error response.</p>"
                }
             },
             "instanceMetadataOptions" : {
@@ -2392,7 +2480,7 @@
             "instanceTypes" : {
                "target" : "com.amazonaws.imagebuilder#InstanceTypeList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The instance types of the infrastructure configuration. You can specify one or more\n\t\t\tinstance types to use for this build. The service will pick one of these instance types\n\t\t\tbased on availability.</p>"
+                  "smithy.api#documentation" : "<p>The instance types of the infrastructure configuration. You can specify one or more\n\t\t\tinstance types to use for this build. Image Builder picks one of these instance types\n\t\t\tbased on availability.</p>"
                }
             },
             "keyPair" : {
@@ -2417,7 +2505,7 @@
             "placement" : {
                "target" : "com.amazonaws.imagebuilder#Placement",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The instance placement settings that define where the instances that are launched \n\t\t\tfrom your image will run.</p>"
+                  "smithy.api#documentation" : "<p>The instance placement settings that define where the instances that are launched \n\t\t\tfrom your image run.</p>"
                }
             },
             "resourceTags" : {
@@ -2435,7 +2523,7 @@
             "snsTopicArn" : {
                "target" : "com.amazonaws.imagebuilder#SnsTopicArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) for the SNS topic to which we send image build event\n\t\t\tnotifications.</p>\n         <note>\n            <p>EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys \n\t\t\t\tfrom other accounts. The key that is used to encrypt the SNS topic must reside in the \n\t\t\t\taccount that the Image Builder service runs under.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the SNS topic to which Image Builder sends image build event notifications.</p>\n         <note>\n            <p>EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys \n\t\t\t\tfrom other accounts. The key that is used to encrypt the SNS topic must reside in the \n\t\t\t\taccount that the Image Builder service runs under.</p>\n         </note>"
                }
             },
             "subnetId" : {
@@ -2453,7 +2541,7 @@
             "terminateInstanceOnFailure" : {
                "target" : "com.amazonaws.imagebuilder#NullableBoolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The terminate instance on failure setting of the infrastructure configuration. Set to\n\t\t\tfalse if you want Image Builder to retain the instance used to configure your AMI if the build or\n\t\t\ttest phase of your workflow fails.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether to terminate the instance on failure. Set to\n\t\t\tfalse if you want Image Builder to retain the instance used to configure your AMI if the build or\n\t\t\ttest phase of your workflow fails. Defaults to <code>true</code>.</p>"
                }
             }
          },
@@ -2497,6 +2585,9 @@
                "target" : "com.amazonaws.imagebuilder#ClientException"
             },
             {
+               "target" : "com.amazonaws.imagebuilder#DryRunOperationException"
+            },
+            {
                "target" : "com.amazonaws.imagebuilder#ForbiddenException"
             },
             {
@@ -2528,7 +2619,7 @@
             "target" : "com.amazonaws.imagebuilder#CreateLifecyclePolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Create a lifecycle policy resource.</p>",
+            "smithy.api#documentation" : "<p>Creates a lifecycle policy resource.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -2542,7 +2633,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -2551,6 +2642,13 @@
                "target" : "com.amazonaws.imagebuilder#NonEmptyString",
                "traits" : {
                   "smithy.api#documentation" : "<p>Optional description for the lifecycle policy.</p>"
+               }
+            },
+            "dryRun" : {
+               "target" : "com.amazonaws.imagebuilder#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a <code>DryRunOperationException</code> error response.</p>"
                }
             },
             "executionRole" : {
@@ -2563,7 +2661,7 @@
             "name" : {
                "target" : "com.amazonaws.imagebuilder#ResourceName",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the  lifecycle policy to create.</p>",
+                  "smithy.api#documentation" : "<p>The name of the lifecycle policy to create.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -2672,7 +2770,7 @@
             "target" : "com.amazonaws.imagebuilder#CreateWorkflowResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Create a new workflow or a new version of an existing workflow.</p>",
+            "smithy.api#documentation" : "<p>Creates a new workflow or a new version of an existing workflow.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -2692,7 +2790,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -2713,7 +2811,7 @@
                "target" : "com.amazonaws.imagebuilder#Boolean",
                "traits" : {
                   "smithy.api#default" : false,
-                  "smithy.api#documentation" : "<p>Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is <code>DryRunOperationException</code>.</p>"
+                  "smithy.api#documentation" : "<p>Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a <code>DryRunOperationException</code> error response.</p>"
                }
             },
             "kmsKeyId" : {
@@ -2732,7 +2830,7 @@
             "semanticVersion" : {
                "target" : "com.amazonaws.imagebuilder#VersionNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The semantic version of this workflow resource. The semantic version syntax \n\t\t\tadheres to the following rules.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes you can assign any positive integer value, including \n\tzero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The semantic version of this workflow resource. The semantic version syntax \n\t\t\tadheres to the following rules.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes, you can assign any positive integer value, including \n\tzero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n         </note>",
                   "smithy.api#required" : {}
                }
             },
@@ -2752,7 +2850,7 @@
             "uri" : {
                "target" : "com.amazonaws.imagebuilder#Uri",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The <code>uri</code> of a YAML component document file. This must be an S3 URL\n\t\t\t(<code>s3://bucket/key</code>), and the requester must have permission to access the\n\t\t\tS3 bucket it points to. If you use Amazon S3, you can specify component content up to your\n\t\t\tservice quota.</p>\n         <p>Alternatively, you can specify the YAML document inline, using the component\n\t\t\t<code>data</code> property. You cannot specify both properties.</p>"
+                  "smithy.api#documentation" : "<p>The <code>uri</code> of a YAML component document file. This must be an S3 URL\n\t\t\t(<code>s3://bucket/key</code>), and you must have permission to access the\n\t\t\tS3 bucket it points to. If you use Amazon S3, you can specify component content up to your\n\t\t\tservice quota.</p>\n         <p>Alternatively, you can specify the YAML document inline, using the component\n\t\t\t<code>data</code> property. You cannot specify both properties.</p>"
                }
             }
          },
@@ -3464,7 +3562,7 @@
             "target" : "com.amazonaws.imagebuilder#DeleteLifecyclePolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Delete the specified lifecycle policy resource.</p>",
+            "smithy.api#documentation" : "<p>Deletes the specified lifecycle policy resource.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "DELETE",
@@ -3656,7 +3754,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -3896,6 +3994,26 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.imagebuilder#DistributionFailureContext" : {
+         "members" : {
+            "errorMessage" : {
+               "target" : "com.amazonaws.imagebuilder#NonEmptyMaxLengthString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error message for the distribution failure.</p>"
+               }
+            },
+            "regionFailures" : {
+               "target" : "com.amazonaws.imagebuilder#RegionFailureList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The details about the failure for each Region where the image didn't finish\n\t\t\tdistribution or configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about a failure that occurred while Image Builder distributed the image\n\t\t\tor applied configuration to the distributed image.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.imagebuilder#DistributionList" : {
          "member" : {
             "target" : "com.amazonaws.imagebuilder#Distribution"
@@ -3932,19 +4050,19 @@
             "deleteOnTermination" : {
                "target" : "com.amazonaws.imagebuilder#NullableBoolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use to configure delete on termination of the associated device.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether to delete the associated device on termination.</p>"
                }
             },
             "encrypted" : {
                "target" : "com.amazonaws.imagebuilder#NullableBoolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use to configure device encryption.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether to encrypt the device.</p>"
                }
             },
             "iops" : {
                "target" : "com.amazonaws.imagebuilder#EbsIopsInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use to configure device IOPS.</p>"
+                  "smithy.api#documentation" : "<p>The IOPS value for the device. Required only when volumeType is io1 or io2.</p>"
                }
             },
             "kmsKeyId" : {
@@ -3968,13 +4086,13 @@
             "volumeSize" : {
                "target" : "com.amazonaws.imagebuilder#EbsVolumeSizeInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use to override the device's volume size.</p>"
+                  "smithy.api#documentation" : "<p>Overrides the volume size for the device.</p>"
                }
             },
             "volumeType" : {
                "target" : "com.amazonaws.imagebuilder#EbsVolumeType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use to override the device's volume type.</p>"
+                  "smithy.api#documentation" : "<p>Overrides the volume type for the device.</p>"
                }
             }
          },
@@ -4278,7 +4396,7 @@
             "target" : "com.amazonaws.imagebuilder#GetComponentResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets a component object.</p>",
+            "smithy.api#documentation" : "<p>Retrieves a component object.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -4315,7 +4433,7 @@
             "target" : "com.amazonaws.imagebuilder#GetComponentPolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets a component policy.</p>",
+            "smithy.api#documentation" : "<p>Retrieves a component policy.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -4582,7 +4700,7 @@
             "target" : "com.amazonaws.imagebuilder#GetDistributionConfigurationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets a distribution configuration.</p>",
+            "smithy.api#documentation" : "<p>Retrieves a distribution configuration.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -4655,7 +4773,7 @@
             "target" : "com.amazonaws.imagebuilder#GetImageResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets an image.</p>",
+            "smithy.api#documentation" : "<p>Retrieves an image.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -4692,7 +4810,7 @@
             "target" : "com.amazonaws.imagebuilder#GetImagePipelineResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets an image pipeline.</p>",
+            "smithy.api#documentation" : "<p>Retrieves an image pipeline.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -4765,7 +4883,7 @@
             "target" : "com.amazonaws.imagebuilder#GetImagePolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets an image policy.</p>",
+            "smithy.api#documentation" : "<p>Retrieves an image policy.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -4838,7 +4956,7 @@
             "target" : "com.amazonaws.imagebuilder#GetImageRecipeResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets an image recipe.</p>",
+            "smithy.api#documentation" : "<p>Retrieves an image recipe.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -4875,7 +4993,7 @@
             "target" : "com.amazonaws.imagebuilder#GetImageRecipePolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets an image recipe policy.</p>",
+            "smithy.api#documentation" : "<p>Retrieves an image recipe policy.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -5032,7 +5150,7 @@
             "target" : "com.amazonaws.imagebuilder#GetInfrastructureConfigurationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets an infrastructure configuration.</p>",
+            "smithy.api#documentation" : "<p>Retrieves an infrastructure configuration.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -5107,7 +5225,7 @@
             "target" : "com.amazonaws.imagebuilder#GetLifecycleExecutionResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Get the runtime information that was logged for a specific runtime instance of the lifecycle policy.</p>",
+            "smithy.api#documentation" : "<p>Retrieves the runtime information for a specific runtime instance of the lifecycle policy.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -5121,7 +5239,7 @@
             "lifecycleExecutionId" : {
                "target" : "com.amazonaws.imagebuilder#LifecycleExecutionId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.</p>",
+                  "smithy.api#documentation" : "<p>The unique identifier for a runtime instance of the lifecycle policy.</p>",
                   "smithy.api#httpQuery" : "lifecycleExecutionId",
                   "smithy.api#required" : {}
                }
@@ -5174,7 +5292,7 @@
             "target" : "com.amazonaws.imagebuilder#GetLifecyclePolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Get details for the specified image lifecycle policy.</p>",
+            "smithy.api#documentation" : "<p>Retrieves details for the specified image lifecycle policy.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -5241,7 +5359,7 @@
             "target" : "com.amazonaws.imagebuilder#GetMarketplaceResourceResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Verify the subscription and perform resource dependency checks on the requested \n\t\t\tAmazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the \n\t\t\tcomponents and their artifacts.</p>",
+            "smithy.api#documentation" : "<p>Verifies the subscription and performs resource dependency checks on the requested \n\t\t\tAmazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the \n\t\t\tcomponents and their artifacts.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -5332,7 +5450,7 @@
             "target" : "com.amazonaws.imagebuilder#GetWorkflowResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Get a workflow resource object.</p>",
+            "smithy.api#documentation" : "<p>Retrieves a workflow resource object.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -5369,7 +5487,7 @@
             "target" : "com.amazonaws.imagebuilder#GetWorkflowExecutionResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Get the runtime information that was logged for a specific runtime instance \n\t\t\tof the workflow.</p>",
+            "smithy.api#documentation" : "<p>Retrieves runtime information for a specific runtime instance \n\t\t\tof the workflow.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -5554,7 +5672,7 @@
             "target" : "com.amazonaws.imagebuilder#GetWorkflowStepExecutionResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Get the runtime information that was logged for a specific runtime instance of \n\t\t\tthe workflow step.</p>",
+            "smithy.api#documentation" : "<p>Retrieves runtime information for a specific runtime instance of \n\t\t\tthe workflow step.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -5587,6 +5705,12 @@
                   "smithy.api#documentation" : "<p>The name of the action that the specified step performs.</p>"
                }
             },
+            "attemptNumber" : {
+               "target" : "com.amazonaws.imagebuilder#WorkflowStepAttemptCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current attempt number for the specified runtime instance of the workflow\n\t\t\tstep. The first run is attempt one. The number increases by one for each retry.</p>"
+               }
+            },
             "description" : {
                "target" : "com.amazonaws.imagebuilder#WorkflowStepDescription",
                "traits" : {
@@ -5609,6 +5733,12 @@
                "target" : "com.amazonaws.imagebuilder#WorkflowStepInputs",
                "traits" : {
                   "smithy.api#documentation" : "<p>Input parameters that Image Builder provided for the specified runtime instance of \n\t\t\tthe workflow step.</p>"
+               }
+            },
+            "maxAttempts" : {
+               "target" : "com.amazonaws.imagebuilder#WorkflowStepAttemptCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of attempts allowed for the specified runtime instance of\n\t\t\tthe workflow step, based on the retry configuration in the workflow document.\n\t\t\tIf the step doesn't configure retries, the maximum is one attempt.</p>"
                }
             },
             "message" : {
@@ -5872,7 +6002,7 @@
             "version" : {
                "target" : "com.amazonaws.imagebuilder#VersionNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The semantic version of the image.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes you can assign any positive integer value, including \n\tzero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n            <p>\n               <b>Filtering:</b> With semantic versioning, you have the flexibility to use wildcards (x) \n\tto specify the most recent versions or nodes when selecting the base image or components for your \n\trecipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be \n\twildcards.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>The semantic version of the image.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes, you can assign any positive integer value, including \n\tzero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n            <p>\n               <b>Filtering:</b> You can use wildcards (x) to specify the most recent versions or nodes when \n\tselecting the base image or components for your recipe. When you use a wildcard in any node, all nodes \n\tto the right of the first wildcard must also be wildcards.</p>\n         </note>"
                }
             },
             "workflows" : {
@@ -5927,6 +6057,91 @@
             "smithy.api#pattern" : "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.imagebuilder#ImageConfigurationStep" : {
+         "members" : {
+            "ASSOCIATE_LICENSES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ASSOCIATE_LICENSES"
+               }
+            },
+            "EXPORT_AMI" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EXPORT_AMI"
+               }
+            },
+            "PUT_SSM_PARAMETERS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PUT_SSM_PARAMETERS"
+               }
+            },
+            "UPDATE_FAST_LAUNCH_CONFIGURATIONS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATE_FAST_LAUNCH_CONFIGURATIONS"
+               }
+            },
+            "UPDATE_LAUNCH_TEMPLATES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATE_LAUNCH_TEMPLATES"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.imagebuilder#ImageFailureContext" : {
+         "members" : {
+            "componentFailure" : {
+               "target" : "com.amazonaws.imagebuilder#ComponentFailureContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The details about the component that failed, if the failure occurred while a\n\t\t\tcomponent was running.</p>"
+               }
+            },
+            "distributionFailure" : {
+               "target" : "com.amazonaws.imagebuilder#DistributionFailureContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The details about the distribution failure, if the failure occurred while Image Builder\n\t\t\tdistributed or configured the image.</p>"
+               }
+            },
+            "failedStep" : {
+               "target" : "com.amazonaws.imagebuilder#WorkflowStepName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow step that failed, as it appears in the workflow\n\t\t\tdocument.</p>"
+               }
+            },
+            "imageStatus" : {
+               "target" : "com.amazonaws.imagebuilder#ImageStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status that the image had when the failure occurred. This indicates the stage\n\t\t\tof the image creation process where the image failed, for example\n\t\t\t<code>BUILDING</code> or <code>DISTRIBUTING</code>.</p>"
+               }
+            },
+            "stepExecutionId" : {
+               "target" : "com.amazonaws.imagebuilder#WorkflowStepExecutionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow step execution that failed.</p>"
+               }
+            },
+            "workflowArn" : {
+               "target" : "com.amazonaws.imagebuilder#WorkflowBuildVersionArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the workflow build version that was running when the image\n\t\t\tfailed.</p>"
+               }
+            },
+            "workflowExecutionId" : {
+               "target" : "com.amazonaws.imagebuilder#WorkflowExecutionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow execution that was running when the image\n\t\t\tfailed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about the failure when the image creation process fails.\n\t\t\tProperties appear in the failure context when the related information is available\n\t\t\tfor the failure.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.imagebuilder#ImageLoggingConfiguration" : {
          "members" : {
@@ -6027,7 +6242,7 @@
             "enhancedImageMetadataEnabled" : {
                "target" : "com.amazonaws.imagebuilder#NullableBoolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Collects additional information about the image being created, including the operating\n\t\t\tsystem (OS) version and package list. This information is used to enhance the overall\n\t\t\texperience of using EC2 Image Builder. Enabled by default.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether to collect additional information about the image being created, including the operating\n\t\t\tsystem (OS) version and package list. Defaults to <code>true</code>.</p>"
                }
             },
             "executionRole" : {
@@ -6622,6 +6837,12 @@
       },
       "com.amazonaws.imagebuilder#ImageState" : {
          "members" : {
+            "failureContext" : {
+               "target" : "com.amazonaws.imagebuilder#ImageFailureContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The details about the failure, for images that failed to complete. Image Builder only\n\t\t\tsets this property when the image status is <code>FAILED</code>.</p>"
+               }
+            },
             "reason" : {
                "target" : "com.amazonaws.imagebuilder#NonEmptyString",
                "traits" : {
@@ -6832,7 +7053,7 @@
             "imageTestsEnabled" : {
                "target" : "com.amazonaws.imagebuilder#NullableBoolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Determines if tests should run after building the image. Image Builder defaults to enable tests\n\t\t\tto run following the image build, before image distribution.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether tests run after building the image. \n\t\t\tWhen enabled, tests run after the image build and before image distribution.\n\t\t\tDefaults to <code>true</code>.</p>"
                }
             },
             "timeoutMinutes" : {
@@ -6932,7 +7153,7 @@
             "version" : {
                "target" : "com.amazonaws.imagebuilder#VersionNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Details for a specific version of an Image Builder image. This version follows the semantic\n\t\t\tversion syntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes you can assign any positive integer value, including \n\tzero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n            <p>\n               <b>Filtering:</b> With semantic versioning, you have the flexibility to use wildcards (x) \n\tto specify the most recent versions or nodes when selecting the base image or components for your \n\trecipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be \n\twildcards.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>Details for a specific version of an Image Builder image. This version follows the semantic\n\t\t\tversion syntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes, you can assign any positive integer value, including \n\tzero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n            <p>\n               <b>Filtering:</b> You can use wildcards (x) to specify the most recent versions or nodes when \n\tselecting the base image or components for your recipe. When you use a wildcard in any node, all nodes \n\tto the right of the first wildcard must also be wildcards.</p>\n         </note>"
                }
             }
          },
@@ -7019,7 +7240,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -7066,7 +7287,7 @@
             "semanticVersion" : {
                "target" : "com.amazonaws.imagebuilder#VersionNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The semantic version of the component. This version follows the semantic version\n\t\t\tsyntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Filtering:</b> With semantic versioning, you have the flexibility to use wildcards (x) \n\tto specify the most recent versions or nodes when selecting the base image or components for your \n\trecipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be \n\twildcards.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The semantic version of the component. This version follows the semantic version\n\t\t\tsyntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Filtering:</b> You can use wildcards (x) to specify the most recent versions or nodes when \n\tselecting the base image or components for your recipe. When you use a wildcard in any node, all nodes \n\tto the right of the first wildcard must also be wildcards.</p>\n         </note>",
                   "smithy.api#required" : {}
                }
             },
@@ -7086,7 +7307,7 @@
             "uri" : {
                "target" : "com.amazonaws.imagebuilder#Uri",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The uri of the component. Must be an Amazon S3 URL and the requester must have permission\n\t\t\tto access the Amazon S3 bucket. If you use Amazon S3, you can specify component content up to your\n\t\t\tservice quota. Either <code>data</code> or <code>uri</code> can be used to specify the\n\t\t\tdata within the component.</p>"
+                  "smithy.api#documentation" : "<p>The uri of the component. Must be an Amazon S3 URL and you must have permission\n\t\t\tto access the Amazon S3 bucket. If you use Amazon S3, you can specify component content up to your\n\t\t\tservice quota. Either <code>data</code> or <code>uri</code> can be used to specify the\n\t\t\tdata within the component.</p>"
                }
             }
          },
@@ -7146,7 +7367,7 @@
             "target" : "com.amazonaws.imagebuilder#ImportDiskImageResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Import a Windows operating system image from a verified Microsoft ISO disk \n\t\t\tfile. The following disk images are supported:</p>\n         <ul>\n            <li>\n               <p>Windows 11 Enterprise</p>\n            </li>\n         </ul>",
+            "smithy.api#documentation" : "<p>Imports a Windows operating system image from a verified Microsoft ISO disk \n\t\t\tfile. The following disk images are supported:</p>\n         <ul>\n            <li>\n               <p>Windows 11 Enterprise</p>\n            </li>\n         </ul>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -7160,7 +7381,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -7187,7 +7408,7 @@
             "loggingConfiguration" : {
                "target" : "com.amazonaws.imagebuilder#ImageLoggingConfiguration",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Define logging configuration for the image build process.</p>"
+                  "smithy.api#documentation" : "<p>The logging configuration for the image build process.</p>"
                }
             },
             "name" : {
@@ -7302,7 +7523,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -7316,7 +7537,7 @@
             "loggingConfiguration" : {
                "target" : "com.amazonaws.imagebuilder#ImageLoggingConfiguration",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Define logging configuration for the image build process.</p>"
+                  "smithy.api#documentation" : "<p>The logging configuration for the image build process.</p>"
                }
             },
             "name" : {
@@ -7342,7 +7563,7 @@
             "semanticVersion" : {
                "target" : "com.amazonaws.imagebuilder#VersionNumber",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The semantic version to attach to the base image that was created during the import\n\t\t\tprocess. This version follows the semantic version syntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes you can assign any positive integer value, including \n\tzero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n         </note>",
+                  "smithy.api#documentation" : "<p>The semantic version to attach to the base image that was created during the import\n\t\t\tprocess. This version follows the semantic version syntax.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Assignment:</b> For the first three nodes, you can assign any positive integer value, including \n\tzero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the \n\tbuild number to the fourth node.</p>\n            <p>\n               <b>Patterns:</b> You can use any numeric pattern that adheres to the assignment requirements for \n\tthe nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or \n\ta date, such as 2021.01.01.</p>\n         </note>",
                   "smithy.api#required" : {}
                }
             },
@@ -7456,7 +7677,7 @@
             "placement" : {
                "target" : "com.amazonaws.imagebuilder#Placement",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The instance placement settings that define where the instances that are launched \n\t\t\tfrom your image will run.</p>"
+                  "smithy.api#documentation" : "<p>The instance placement settings that define where the instances that are launched \n\t\t\tfrom your image run.</p>"
                }
             },
             "resourceTags" : {
@@ -7474,7 +7695,7 @@
             "snsTopicArn" : {
                "target" : "com.amazonaws.imagebuilder#NonEmptyString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) for the SNS topic to which we send image build event\n\t\t\tnotifications.</p>\n         <note>\n            <p>EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys \n\t\t\t\tfrom other accounts. The key that is used to encrypt the SNS topic must reside in the \n\t\t\t\taccount that the Image Builder service runs under.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the SNS topic to which Image Builder\n\t\t\tsends image build event notifications.</p>\n         <note>\n            <p>EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys \n\t\t\t\tfrom other accounts. The key that is used to encrypt the SNS topic must reside in the \n\t\t\t\taccount that the Image Builder service runs under.</p>\n         </note>"
                }
             },
             "subnetId" : {
@@ -7554,7 +7775,7 @@
             "placement" : {
                "target" : "com.amazonaws.imagebuilder#Placement",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The instance placement settings that define where the instances that are launched \n\t\t\tfrom your image will run.</p>"
+                  "smithy.api#documentation" : "<p>The instance placement settings that define where the instances that are launched \n\t\t\tfrom your image run.</p>"
                }
             },
             "resourceTags" : {
@@ -7636,19 +7857,19 @@
             "ebs" : {
                "target" : "com.amazonaws.imagebuilder#EbsInstanceBlockDeviceSpecification",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use to manage Amazon EBS-specific configuration for this mapping.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon EBS-specific configuration for this mapping.</p>"
                }
             },
             "noDevice" : {
                "target" : "com.amazonaws.imagebuilder#EmptyString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use to remove a mapping from the base image.</p>"
+                  "smithy.api#documentation" : "<p>Specifies a mapping to remove from the base image.</p>"
                }
             },
             "virtualName" : {
                "target" : "com.amazonaws.imagebuilder#NonEmptyString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use to manage instance ephemeral devices.</p>"
+                  "smithy.api#documentation" : "<p>The virtual device name for instance ephemeral devices.</p>"
                }
             }
          },
@@ -8862,13 +9083,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -8934,7 +9155,7 @@
             "target" : "com.amazonaws.imagebuilder#ListComponentsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns the list of components that can be filtered by name, or by using the listed\n\t\t\t\t<code>filters</code> to streamline results. Newly created components can take up to\n\t\t\ttwo minutes to appear in the ListComponents API Results.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Filtering:</b> With semantic versioning, you have the flexibility to use wildcards (x) \n\tto specify the most recent versions or nodes when selecting the base image or components for your \n\trecipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be \n\twildcards.</p>\n         </note>",
+            "smithy.api#documentation" : "<p>Returns the list of components that can be filtered by name, or by using the listed\n\t\t\t\t<code>filters</code> to streamline results. Newly created components can take up to\n\t\t\ttwo minutes to appear in the ListComponents API Results.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Filtering:</b> You can use wildcards (x) to specify the most recent versions or nodes when \n\tselecting the base image or components for your recipe. When you use a wildcard in any node, all nodes \n\tto the right of the first wildcard must also be wildcards.</p>\n         </note>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -8967,13 +9188,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             },
             "owner" : {
@@ -9071,13 +9292,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             },
             "owner" : {
@@ -9175,13 +9396,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -9279,13 +9500,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -9354,7 +9575,7 @@
             "target" : "com.amazonaws.imagebuilder#ListImagePackagesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>List the Packages that are associated with an Image Build Version, as determined by\n\t\t\tAmazon Web Services Systems Manager Inventory at build time.</p>",
+            "smithy.api#documentation" : "<p>Lists the packages that are associated with an image build version, as determined by\n\t\t\tAmazon Web Services Systems Manager Inventory at build time.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -9381,13 +9602,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -9489,13 +9710,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -9587,13 +9808,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -9685,13 +9906,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             },
             "owner" : {
@@ -9785,7 +10006,7 @@
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -9883,13 +10104,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -9994,19 +10215,19 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             },
             "owner" : {
                "target" : "com.amazonaws.imagebuilder#Ownership",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The owner defines which images you want to list. By default, this request will only\n\t\t\tshow images owned by your account. You can use this field to specify if you want to view\n\t\t\timages owned by yourself, by Amazon, or those images that have been shared with you by\n\t\t\tother customers.</p>"
+                  "smithy.api#documentation" : "<p>Filters the list to images owned by you, by Amazon, or shared with you by other accounts. \n\t\tBy default, only your account's images are returned.</p>"
                }
             }
          },
@@ -10020,7 +10241,7 @@
             "imageVersionList" : {
                "target" : "com.amazonaws.imagebuilder#ImageVersionList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The list of image semantic versions.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Filtering:</b> With semantic versioning, you have the flexibility to use wildcards (x) \n\tto specify the most recent versions or nodes when selecting the base image or components for your \n\trecipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be \n\twildcards.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>The list of image semantic versions.</p>\n         <note>\n            <p>The semantic version has four nodes: <major>.<minor>.<patch>/<build>. \n\tYou can assign values for the first three, and can filter on all of them.</p>\n            <p>\n               <b>Filtering:</b> You can use wildcards (x) to specify the most recent versions or nodes when \n\tselecting the base image or components for your recipe. When you use a wildcard in any node, all nodes \n\tto the right of the first wildcard must also be wildcards.</p>\n         </note>"
                }
             },
             "nextToken" : {
@@ -10098,13 +10319,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -10170,7 +10391,7 @@
             "target" : "com.amazonaws.imagebuilder#ListLifecycleExecutionResourcesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>List resources that the runtime instance of the image lifecycle identified for lifecycle actions.</p>",
+            "smithy.api#documentation" : "<p>Lists resources that the runtime instance of the image lifecycle identified for lifecycle actions.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -10190,26 +10411,26 @@
             "lifecycleExecutionId" : {
                "target" : "com.amazonaws.imagebuilder#LifecycleExecutionId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.</p>",
+                  "smithy.api#documentation" : "<p>The unique identifier for a runtime instance of the lifecycle policy.</p>",
                   "smithy.api#required" : {}
                }
             },
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             },
             "parentResourceId" : {
                "target" : "com.amazonaws.imagebuilder#NonEmptyString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>You can  leave this empty to get a list of Image Builder resources that were identified for lifecycle actions.</p>\n         <p>To get a list of associated resources that are impacted for an individual resource (the parent), specify \n\t\t\tits Amazon Resource Name (ARN). Associated resources are produced from your image and distributed when you run a build, such as \n\t\t\tAMIs or container images stored in ECR repositories.</p>"
+                  "smithy.api#documentation" : "<p>You can leave this empty to get a list of Image Builder resources that were identified for lifecycle actions.</p>\n         <p>To get a list of associated resources that are impacted for an individual resource (the parent), specify \n\t\t\tits Amazon Resource Name (ARN). Associated resources are produced from your image and distributed when you run a build, such as \n\t\t\tAMIs or container images stored in ECR repositories.</p>"
                }
             }
          },
@@ -10281,7 +10502,7 @@
             "target" : "com.amazonaws.imagebuilder#ListLifecycleExecutionsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Get the lifecycle runtime history for the specified resource.</p>",
+            "smithy.api#documentation" : "<p>Retrieves the lifecycle runtime history for the specified resource.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -10301,13 +10522,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             },
             "resourceArn" : {
@@ -10374,7 +10595,7 @@
             "target" : "com.amazonaws.imagebuilder#ListLifecyclePoliciesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Get a list of lifecycle policies in your Amazon Web Services account.</p>",
+            "smithy.api#documentation" : "<p>Retrieves a list of lifecycle policies in your Amazon Web Services account.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -10400,13 +10621,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -10524,7 +10745,7 @@
             "target" : "com.amazonaws.imagebuilder#ListWaitingWorkflowStepsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Get a list of workflow steps that are waiting for action for workflows \n\t\t\tin your Amazon Web Services account.</p>",
+            "smithy.api#documentation" : "<p>Retrieves a list of workflow steps that are waiting for action for workflows \n\t\t\tin your Amazon Web Services account.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -10544,13 +10765,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -10630,13 +10851,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             },
             "workflowVersionArn" : {
@@ -10729,13 +10950,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             }
          },
@@ -10833,13 +11054,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             },
             "workflowExecutionId" : {
@@ -10969,13 +11190,13 @@
             "maxResults" : {
                "target" : "com.amazonaws.imagebuilder#RestrictedInteger",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the maximum number of items to return in a request.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in a single request.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.imagebuilder#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. This is the nextToken \n\tfrom a previously truncated response.</p>"
+                  "smithy.api#documentation" : "<p>A token to specify where to start paginating. Use the <code>nextToken</code> value \n\tfrom a previously truncated response.</p>"
                }
             },
             "owner" : {
@@ -11068,6 +11289,15 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.imagebuilder#NonEmptyMaxLengthString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 384000,
+               "min" : 1
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.imagebuilder#NonEmptyString" : {
          "traits" : {
@@ -11510,7 +11740,7 @@
             "target" : "com.amazonaws.imagebuilder#PutComponentPolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Applies a policy to a component. We recommend that you call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html\">CreateResourceShare</a> to share resources. If you call the Image Builder API\n\t\t\t\t<code>PutComponentPolicy</code>, you must also call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html\">PromoteResourceShareCreatedFromPolicy</a> in order for the resource to be\n\t\t\tvisible to all principals with whom the resource is shared.</p>",
+            "smithy.api#documentation" : "<p>Applies a policy to a component. To share resources, call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html\">CreateResourceShare</a>. If you call this API, you must also call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html\">PromoteResourceShareCreatedFromPolicy</a> so that the resource is\n\t\t\tvisible to all principals with whom the resource is shared.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -11595,7 +11825,7 @@
             "target" : "com.amazonaws.imagebuilder#PutContainerRecipePolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Applies a policy to a container image. We recommend that you call the RAM API\n\t\t\tCreateResourceShare\n\t\t\t(https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share\n\t\t\tresources. If you call the Image Builder API <code>PutContainerImagePolicy</code>, you must also\n\t\t\tcall the RAM API PromoteResourceShareCreatedFromPolicy\n\t\t\t(https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)\n\t\t\tin order for the resource to be visible to all principals with whom the resource is\n\t\t\tshared.</p>",
+            "smithy.api#documentation" : "<p>Applies a policy to a container image. To share resources, call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html\">CreateResourceShare</a>. If you call this API, you must also\n\t\t\tcall the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html\">PromoteResourceShareCreatedFromPolicy</a>\n\t\t\tso that the resource is visible to all principals with whom the resource is\n\t\t\tshared.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -11680,7 +11910,7 @@
             "target" : "com.amazonaws.imagebuilder#PutImagePolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Applies a policy to an image. We recommend that you call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html\">CreateResourceShare</a> to share resources. If you call the Image Builder API\n\t\t\t\t<code>PutImagePolicy</code>, you must also call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html\">PromoteResourceShareCreatedFromPolicy</a> in order for the resource to be\n\t\t\tvisible to all principals with whom the resource is shared.</p>",
+            "smithy.api#documentation" : "<p>Applies a policy to an image. To share resources, call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html\">CreateResourceShare</a>. If you call this API, you must also call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html\">PromoteResourceShareCreatedFromPolicy</a> so that the resource is\n\t\t\tvisible to all principals with whom the resource is shared.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -11765,7 +11995,7 @@
             "target" : "com.amazonaws.imagebuilder#PutImageRecipePolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Applies a policy to an image recipe. We recommend that you call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html\">CreateResourceShare</a> to share resources. If you call the Image Builder API\n\t\t\t\t<code>PutImageRecipePolicy</code>, you must also call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html\">PromoteResourceShareCreatedFromPolicy</a> in order for the resource to be\n\t\t\tvisible to all principals with whom the resource is shared.</p>",
+            "smithy.api#documentation" : "<p>Applies a policy to an image recipe. To share resources, call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html\">CreateResourceShare</a>. If you call this API, you must also call the RAM API <a href=\"https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html\">PromoteResourceShareCreatedFromPolicy</a> so that the resource is\n\t\t\tvisible to all principals with whom the resource is shared.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -11815,6 +12045,79 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.imagebuilder#RegionFailure" : {
+         "members" : {
+            "errorMessage" : {
+               "target" : "com.amazonaws.imagebuilder#NonEmptyMaxLengthString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error message for the failure in the Region.</p>"
+               }
+            },
+            "imageConfigurationStep" : {
+               "target" : "com.amazonaws.imagebuilder#ImageConfigurationStep",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The image configuration step where the failure occurred. Image Builder sets this property\n\t\t\twhen the failure happened during post-distribution configuration, such as launch\n\t\t\ttemplate updates or virtual machine (VM) export. This property doesn't appear\n\t\t\tfor failures that occurred while Image Builder copied the image to the Region.</p>"
+               }
+            },
+            "region" : {
+               "target" : "com.amazonaws.imagebuilder#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Region where the failure occurred.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.imagebuilder#RegionFailureStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The failure status for the Region. Indicates whether the process failed, was\n\t\t\tcanceled, or timed out.</p>"
+               }
+            },
+            "targetAccountId" : {
+               "target" : "com.amazonaws.imagebuilder#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the account that the image was distributed to in the\n\t\t\tRegion.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about a distribution or image configuration failure for a single\n\t\t\tRegion.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.imagebuilder#RegionFailureList" : {
+         "member" : {
+            "target" : "com.amazonaws.imagebuilder#RegionFailure"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.imagebuilder#RegionFailureStatus" : {
+         "members" : {
+            "CANCELLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CANCELLED"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "TIMED_OUT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TIMED_OUT"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.imagebuilder#RegionList" : {
          "member" : {
@@ -12084,7 +12387,7 @@
             "target" : "com.amazonaws.imagebuilder#RetryImageResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>RetryImage retries an image distribution without rebuilding the image.</p>",
+            "smithy.api#documentation" : "<p>Retries an image distribution or test without rebuilding the image.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -12098,7 +12401,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -12300,7 +12603,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -12451,7 +12754,7 @@
             "dataType" : {
                "target" : "com.amazonaws.imagebuilder#SsmParameterDataType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The data type specifies what type of value the Parameter contains. We recommend that \n\t\t\tyou use data type <code>aws:ec2:image</code>.</p>"
+                  "smithy.api#documentation" : "<p>The type of value the parameter contains.\n\t\tWe recommend the <code>aws:ec2:image</code> data type.</p>"
                }
             },
             "parameterName" : {
@@ -12551,7 +12854,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -12566,7 +12869,7 @@
             "tags" : {
                "target" : "com.amazonaws.imagebuilder#TagMap",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify tags for Image Builder to apply to the image resource that's created \n\t\t\tWhen it starts pipeline execution.</p>"
+                  "smithy.api#documentation" : "<p>The tags for Image Builder to apply to the image resource that's created \n\t\t\twhen pipeline execution starts.</p>"
                }
             }
          },
@@ -12638,7 +12941,7 @@
             "target" : "com.amazonaws.imagebuilder#StartResourceStateUpdateResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Begin asynchronous resource state update for lifecycle changes to the \n\t\t\tspecified image resources.</p>",
+            "smithy.api#documentation" : "<p>Begins an asynchronous resource state update for lifecycle changes to the \n\t\t\tspecified image resources.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -12652,7 +12955,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -13027,7 +13330,7 @@
             "target" : "com.amazonaws.imagebuilder#UpdateDistributionConfigurationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates a new distribution configuration. Distribution configurations define and\n\t\t\tconfigure the outputs of your pipeline.</p>",
+            "smithy.api#documentation" : "<p>Updates a distribution configuration. Distribution configurations define and\n\t\t\tconfigure the outputs of your pipeline.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -13041,7 +13344,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -13132,7 +13435,7 @@
             "target" : "com.amazonaws.imagebuilder#UpdateImagePipelineResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates an image pipeline. Image pipelines enable you to automate the creation and\n\t\t\tdistribution of images. You must specify exactly one recipe for your image, using either \n\t\t\ta <code>containerRecipeArn</code> or an <code>imageRecipeArn</code>.</p>\n         <note>\n            <p>UpdateImagePipeline does not support selective updates for the pipeline. You must\n\t\t\t\tspecify all of the required properties in the update request, not just the\n\t\t\t\tproperties that have changed.</p>\n         </note>",
+            "smithy.api#documentation" : "<p>Updates an image pipeline. Use image pipelines to automate the creation and\n\t\t\tdistribution of images. You must specify exactly one recipe for your image, using either \n\t\t\ta <code>containerRecipeArn</code> or an <code>imageRecipeArn</code>.</p>\n         <note>\n            <p>UpdateImagePipeline does not support selective updates for the pipeline. You must\n\t\t\t\tspecify all of the required properties in the update request, not just the\n\t\t\t\tproperties that have changed.</p>\n         </note>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -13146,7 +13449,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -13172,7 +13475,7 @@
             "enhancedImageMetadataEnabled" : {
                "target" : "com.amazonaws.imagebuilder#NullableBoolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Collects additional information about the image being created, including the operating\n\t\t\tsystem (OS) version and package list. This information is used to enhance the overall\n\t\t\texperience of using EC2 Image Builder. Enabled by default.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether to collect additional information about the image being created, including the operating\n\t\t\tsystem (OS) version and package list. Defaults to <code>true</code>.</p>"
                }
             },
             "executionRole" : {
@@ -13191,7 +13494,7 @@
             "imageRecipeArn" : {
                "target" : "com.amazonaws.imagebuilder#ImageRecipeArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the image recipe that will be used to configure\n\t\t\timages updated by this image pipeline.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the image recipe that configures\n\t\t\timages updated by this image pipeline.</p>"
                }
             },
             "imageScanningConfiguration" : {
@@ -13309,7 +13612,7 @@
             "target" : "com.amazonaws.imagebuilder#UpdateInfrastructureConfigurationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates a new infrastructure configuration. An infrastructure configuration defines\n\t\t\tthe environment in which your image will be built and tested.</p>",
+            "smithy.api#documentation" : "<p>Updates an infrastructure configuration. An infrastructure configuration defines\n\t\t\tthe environment in which Image Builder builds and tests your image.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -13323,7 +13626,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -13357,7 +13660,7 @@
             "instanceTypes" : {
                "target" : "com.amazonaws.imagebuilder#InstanceTypeList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The instance types of the infrastructure configuration. You can specify one or more\n\t\t\tinstance types to use for this build. The service will pick one of these instance types\n\t\t\tbased on availability.</p>"
+                  "smithy.api#documentation" : "<p>The instance types of the infrastructure configuration. You can specify one or more\n\t\t\tinstance types to use for this build. Image Builder picks one of these instance types\n\t\t\tbased on availability.</p>"
                }
             },
             "keyPair" : {
@@ -13375,7 +13678,7 @@
             "placement" : {
                "target" : "com.amazonaws.imagebuilder#Placement",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The instance placement settings that define where the instances that are launched \n\t\t\tfrom your image will run.</p>"
+                  "smithy.api#documentation" : "<p>The instance placement settings that define where the instances that are launched \n\t\t\tfrom your image run.</p>"
                }
             },
             "resourceTags" : {
@@ -13393,7 +13696,7 @@
             "snsTopicArn" : {
                "target" : "com.amazonaws.imagebuilder#SnsTopicArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) for the SNS topic to which we send image build event\n\t\t\tnotifications.</p>\n         <note>\n            <p>EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys \n\t\t\t\tfrom other accounts. The key that is used to encrypt the SNS topic must reside in the \n\t\t\t\taccount that the Image Builder service runs under.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the SNS topic to which Image Builder\n\t\t\tsends image build event notifications.</p>\n         <note>\n            <p>EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys \n\t\t\t\tfrom other accounts. The key that is used to encrypt the SNS topic must reside in the \n\t\t\t\taccount that the Image Builder service runs under.</p>\n         </note>"
                }
             },
             "subnetId" : {
@@ -13405,7 +13708,7 @@
             "terminateInstanceOnFailure" : {
                "target" : "com.amazonaws.imagebuilder#NullableBoolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The terminate instance on failure setting of the infrastructure configuration. Set to\n\t\t\tfalse if you want Image Builder to retain the instance used to configure your AMI if the build or\n\t\t\ttest phase of your workflow fails.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether to terminate the instance on failure. Set to\n\t\t\tfalse if you want Image Builder to retain the instance used to configure your AMI if the build or\n\t\t\ttest phase of your workflow fails. Defaults to <code>true</code>.</p>"
                }
             }
          },
@@ -13477,7 +13780,7 @@
             "target" : "com.amazonaws.imagebuilder#UpdateLifecyclePolicyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Update the specified lifecycle policy.</p>",
+            "smithy.api#documentation" : "<p>Updates the specified lifecycle policy.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -13491,7 +13794,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.imagebuilder#ClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier you provide to ensure\n       idempotency of the request. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier you provide to ensure\n       that the operation completes no more than one time. If this token matches a previous request, \n\t   the service ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a> \n       in the <i>Amazon EC2 API Reference</i>.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#required" : {}
                }
@@ -14195,6 +14498,14 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.imagebuilder#WorkflowStepAttemptCount" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
       "com.amazonaws.imagebuilder#WorkflowStepCount" : {
          "traits" : {
             "smithy.api#default" : 0
@@ -14368,6 +14679,12 @@
                   "smithy.api#documentation" : "<p>The step action name.</p>"
                }
             },
+            "attemptNumber" : {
+               "target" : "com.amazonaws.imagebuilder#WorkflowStepAttemptCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current attempt number for the workflow step. The first run is attempt one.\n\t\t\tThe number increases by one for each retry.</p>"
+               }
+            },
             "description" : {
                "target" : "com.amazonaws.imagebuilder#WorkflowStepDescription",
                "traits" : {
@@ -14384,6 +14701,12 @@
                "target" : "com.amazonaws.imagebuilder#WorkflowStepInputs",
                "traits" : {
                   "smithy.api#documentation" : "<p>Input parameters that Image Builder provides for the workflow step.</p>"
+               }
+            },
+            "maxAttempts" : {
+               "target" : "com.amazonaws.imagebuilder#WorkflowStepAttemptCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of attempts allowed for the workflow step, based on the\n\t\t\tretry configuration in the workflow document. If the step doesn't configure\n\t\t\tretries, the maximum is one attempt.</p>"
                }
             },
             "message" : {
@@ -14869,7 +15192,7 @@
                "name" : "imagebuilder"
             },
             "aws.protocols#restJson1" : {},
-            "smithy.api#documentation" : "<p>EC2 Image Builder is a fully managed Amazon Web Services service that makes it easier to automate the\n\t\t\tcreation, management, and deployment of customized, secure, and up-to-date\n\t\t\t\"golden\" server images that are pre-installed and pre-configured with software\n\t\t\tand settings to meet specific IT standards.</p>",
+            "smithy.api#documentation" : "<p>EC2 Image Builder automates the\n\t\t\tcreation, management, and deployment of customized, secure, and up-to-date\n\t\t\t\"golden\" server images that are pre-installed and pre-configured with software\n\t\t\tand settings to meet specific IT standards.</p>",
             "smithy.api#title" : "EC2 Image Builder",
             "smithy.rules#endpointBdd" : {
                "conditions" : [
