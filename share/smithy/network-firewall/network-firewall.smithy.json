@@ -5329,6 +5329,12 @@
                   "smithy.api#enumValue" : "DELETING"
                }
             },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
             "PROVISIONING" : {
                "target" : "smithy.api#Unit",
                "traits" : {

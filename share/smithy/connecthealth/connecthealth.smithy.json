@@ -2336,6 +2336,12 @@
                "traits" : {
                   "smithy.api#enumValue" : "en-US"
                }
+            },
+            "MULTI" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "multi"
+               }
             }
          },
          "type" : "enum"
@@ -2904,13 +2910,6 @@
          },
          "type" : "string"
       },
-      "com.amazonaws.connecthealth#SensitiveAlphanumericString" : {
-         "traits" : {
-            "smithy.api#pattern" : "^[a-zA-Z0-9]+$",
-            "smithy.api#sensitive" : {}
-         },
-         "type" : "string"
-      },
       "com.amazonaws.connecthealth#SensitiveIsoDateString" : {
          "traits" : {
             "smithy.api#pattern" : "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
@@ -2928,6 +2927,13 @@
       "com.amazonaws.connecthealth#SensitiveNonEmptyString" : {
          "traits" : {
             "smithy.api#pattern" : "[\\s\\S]*\\S[\\s\\S]*",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#SensitiveSectionHeaderString" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-zA-Z0-9_]+$",
             "smithy.api#sensitive" : {}
          },
          "type" : "string"
@@ -3474,7 +3480,7 @@
       "com.amazonaws.connecthealth#TemplateSectionInstruction" : {
          "members" : {
             "sectionHeader" : {
-               "target" : "com.amazonaws.connecthealth#SensitiveAlphanumericString",
+               "target" : "com.amazonaws.connecthealth#SensitiveSectionHeaderString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The header for this section of the template</p>",
                   "smithy.api#required" : {}

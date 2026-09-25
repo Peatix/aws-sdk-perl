@@ -561,6 +561,71 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.directconnect#AssociateConnectionsToResiliencyGroup" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectClientException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectServerException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#LimitExceededException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.directconnect#AssociateConnectionsToResiliencyGroupRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.directconnect#AssociateConnectionsToResiliencyGroupResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Associates one or more connections with the specified resiliency group. This operation is\n      atomic: either all of the specified connections are associated, or the operation fails and no\n      changes are made.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.directconnect#AssociateConnectionsToResiliencyGroupRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.directconnect#IdempotencyToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the\n      request.</p>"
+               }
+            },
+            "connectionIdentifiers" : {
+               "target" : "com.amazonaws.directconnect#ConnectionIdentifierList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IDs or ARNs of the connections to associate with the resiliency group.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resiliencyGroupId" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resiliency group.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#AssociateConnectionsToResiliencyGroupResult" : {
+         "members" : {
+            "resiliencyGroupAssociations" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupAssociationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The connection associations for the resiliency group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.directconnect#AssociateHostedConnection" : {
          "errors" : [
             {
@@ -779,6 +844,38 @@
       "com.amazonaws.directconnect#AssociatedGatewayId" : {
          "type" : "string"
       },
+      "com.amazonaws.directconnect#AvailableBillingMode" : {
+         "members" : {
+            "availablePortSpeeds" : {
+               "target" : "com.amazonaws.directconnect#AvailablePortSpeeds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The port speeds available for the billing mode.</p>"
+               }
+            },
+            "billingMode" : {
+               "target" : "com.amazonaws.directconnect#BillingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing mode.</p>"
+               }
+            },
+            "includedRegions" : {
+               "target" : "com.amazonaws.directconnect#IncludedRegionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Regions included with the billing mode.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about a billing mode available at an Direct Connect location.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#AvailableBillingModeList" : {
+         "member" : {
+            "target" : "com.amazonaws.directconnect#AvailableBillingMode"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.directconnect#AvailableMacSecPortSpeeds" : {
          "member" : {
             "target" : "com.amazonaws.directconnect#PortSpeed"
@@ -956,6 +1053,77 @@
       },
       "com.amazonaws.directconnect#Bandwidth" : {
          "type" : "string"
+      },
+      "com.amazonaws.directconnect#BillingMode" : {
+         "members" : {
+            "FlatRateTier1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FlatRateTier1"
+               }
+            },
+            "FlatRateTier2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FlatRateTier2"
+               }
+            },
+            "FlatRateTier3" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FlatRateTier3"
+               }
+            },
+            "FlatRateTier4" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FlatRateTier4"
+               }
+            },
+            "FlatRateTier5" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FlatRateTier5"
+               }
+            },
+            "PayAsYouGo" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PayAsYouGo"
+               }
+            },
+            "PortPairFlatRateTier1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PortPairFlatRateTier1"
+               }
+            },
+            "PortPairFlatRateTier2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PortPairFlatRateTier2"
+               }
+            },
+            "PortPairFlatRateTier3" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PortPairFlatRateTier3"
+               }
+            },
+            "PortPairFlatRateTier4" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PortPairFlatRateTier4"
+               }
+            },
+            "PortPairFlatRateTier5" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PortPairFlatRateTier5"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.directconnect#BooleanFlag" : {
          "traits" : {
@@ -1270,6 +1438,12 @@
                   "smithy.api#documentation" : "<p>The bandwidth of the connection.</p>"
                }
             },
+            "billingMode" : {
+               "target" : "com.amazonaws.directconnect#BillingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing mode of the connection.</p>"
+               }
+            },
             "connectionId" : {
                "target" : "com.amazonaws.directconnect#ConnectionId",
                "traits" : {
@@ -1360,6 +1534,30 @@
                   "smithy.api#documentation" : "<p>The MAC Security (MACsec) port link status of the connection.</p>\n         <p>The valid values are <code>Encryption Up</code>, which means that there is an active Connection Key Name, or <code>Encryption Down</code>.</p>"
                }
             },
+            "prefixPoolSizeIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.</p>"
+               }
+            },
+            "prefixPoolSizeIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.</p>"
+               }
+            },
+            "prefixPoolUnallocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolUnallocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.</p>"
+               }
+            },
+            "prefixPoolUnallocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolUnallocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.</p>"
+               }
+            },
             "providerName" : {
                "target" : "com.amazonaws.directconnect#ProviderName",
                "traits" : {
@@ -1397,8 +1595,50 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.directconnect#ConnectionArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.directconnect#ConnectionId" : {
          "type" : "string"
+      },
+      "com.amazonaws.directconnect#ConnectionIdList" : {
+         "member" : {
+            "target" : "com.amazonaws.directconnect#ConnectionId"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.directconnect#ConnectionIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.directconnect#ConnectionIdentifierList" : {
+         "member" : {
+            "target" : "com.amazonaws.directconnect#ConnectionIdentifier"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.directconnect#ConnectionList" : {
          "member" : {
@@ -1598,6 +1838,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The bandwidth of the connection.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "billingMode" : {
+               "target" : "com.amazonaws.directconnect#RequestBillingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing mode for the connection.</p>"
                }
             },
             "connectionName" : {
@@ -1954,6 +2200,12 @@
       },
       "com.amazonaws.directconnect#CreateLagRequest" : {
          "members" : {
+            "billingMode" : {
+               "target" : "com.amazonaws.directconnect#RequestBillingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing mode for the LAG.</p>"
+               }
+            },
             "childConnectionTags" : {
                "target" : "com.amazonaws.directconnect#TagList",
                "traits" : {
@@ -2118,6 +2370,83 @@
          },
          "traits" : {
             "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#CreateResiliencyGroup" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectClientException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectServerException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DuplicateTagKeysException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#TooManyTagsException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.directconnect#CreateResiliencyGroupRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.directconnect#CreateResiliencyGroupResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a resiliency group. A resiliency group lets you group Direct Connect connections together\n      and manage them as a single unit to meet a target resiliency model.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.directconnect#CreateResiliencyGroupRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.directconnect#IdempotencyToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the\n      request.</p>"
+               }
+            },
+            "intendedResiliencyModel" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyModel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resiliency model that the resiliency group is intended to meet. The valid values are\n      <code>maximum-resiliency</code>, <code>high-resiliency</code>, and\n      <code>basic-resiliency</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resiliencyGroupName" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the resiliency group.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.directconnect#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to associate with the resiliency group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#CreateResiliencyGroupResult" : {
+         "members" : {
+            "resiliencyGroup" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroup",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the resiliency group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -2556,6 +2885,55 @@
          },
          "traits" : {
             "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#DeleteResiliencyGroup" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectClientException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectServerException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.directconnect#DeleteResiliencyGroupRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.directconnect#DeleteResiliencyGroupResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes the specified resiliency group. Deletion is asynchronous: the resiliency group\n      transitions through the <code>deleting</code> state before it reaches the\n      <code>deleted</code> state. The response returns the resiliency group so you can observe its\n      current state without a subsequent <a>GetResiliencyGroup</a> call.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.directconnect#DeleteResiliencyGroupRequest" : {
+         "members" : {
+            "resiliencyGroupId" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resiliency group.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#DeleteResiliencyGroupResult" : {
+         "members" : {
+            "resiliencyGroup" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroup",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the resiliency group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -3636,6 +4014,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>Information about a tag.</p>"
                }
+            },
+            "totalPrefixPoolAllocations" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of inbound route prefixes allocated to the attachments on the Direct Connect gateway. The count combines the IPv4 and IPv6 address families.</p>"
+               }
             }
          },
          "traits" : {
@@ -4041,6 +4425,68 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.directconnect#DisassociateConnectionsFromResiliencyGroup" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectClientException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectServerException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.directconnect#DisassociateConnectionsFromResiliencyGroupRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.directconnect#DisassociateConnectionsFromResiliencyGroupResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Disassociates one or more connections from the specified resiliency group. This operation\n      is atomic: either all of the specified connections are disassociated, or the operation fails\n      and no changes are made.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.directconnect#DisassociateConnectionsFromResiliencyGroupRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.directconnect#IdempotencyToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the\n      request.</p>"
+               }
+            },
+            "connectionIdentifiers" : {
+               "target" : "com.amazonaws.directconnect#ConnectionIdentifierList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IDs or ARNs of the connections to disassociate from the resiliency group.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resiliencyGroupId" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resiliency group.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#DisassociateConnectionsFromResiliencyGroupResult" : {
+         "members" : {
+            "resiliencyGroupAssociations" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupAssociationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The connection associations for the resiliency group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.directconnect#DisassociateMacSecKey" : {
          "errors" : [
             {
@@ -4153,6 +4599,55 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.directconnect#GetResiliencyGroup" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectClientException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectServerException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.directconnect#GetResiliencyGroupRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.directconnect#GetResiliencyGroupResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets information about the specified resiliency group.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.directconnect#GetResiliencyGroupRequest" : {
+         "members" : {
+            "resiliencyGroupId" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resiliency group.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#GetResiliencyGroupResult" : {
+         "members" : {
+            "resiliencyGroup" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroup",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the resiliency group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.directconnect#HasLogicalRedundancy" : {
          "members" : {
             "No" : {
@@ -4175,6 +4670,21 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.directconnect#IdempotencyToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.directconnect#IncludedRegionList" : {
+         "member" : {
+            "target" : "com.amazonaws.directconnect#Region"
+         },
+         "type" : "list"
       },
       "com.amazonaws.directconnect#Interconnect" : {
          "members" : {
@@ -4404,6 +4914,12 @@
                   "smithy.api#documentation" : "<p>The Direct Connect endpoint that terminates the logical connection. This device might be\n      different than the device that terminates the physical connection.</p>"
                }
             },
+            "billingMode" : {
+               "target" : "com.amazonaws.directconnect#BillingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing mode of the LAG.</p>"
+               }
+            },
             "connections" : {
                "target" : "com.amazonaws.directconnect#ConnectionList",
                "traits" : {
@@ -4488,6 +5004,30 @@
                "target" : "com.amazonaws.directconnect#OwnerAccount",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that owns the LAG.</p>"
+               }
+            },
+            "prefixPoolSizeIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.</p>"
+               }
+            },
+            "prefixPoolSizeIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.</p>"
+               }
+            },
+            "prefixPoolUnallocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolUnallocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.</p>"
+               }
+            },
+            "prefixPoolUnallocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolUnallocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.</p>"
                }
             },
             "providerName" : {
@@ -4606,6 +5146,133 @@
             "smithy.api#documentation" : "<p>The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#ListResiliencyGroupAssociations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectClientException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectServerException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.directconnect#ListResiliencyGroupAssociationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.directconnect#ListResiliencyGroupAssociationsResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the connection associations for the specified resiliency group.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.directconnect#ListResiliencyGroupAssociationsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.directconnect#MaxResultSetSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return with a single call.\n\tTo retrieve the remaining results, make another call with the returned <code>nextToken</code> value.</p>\n         <p>If <code>MaxResults</code> is given a value larger than 100, only 100 results are\n      returned.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.directconnect#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            },
+            "resiliencyGroupId" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resiliency group.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#ListResiliencyGroupAssociationsResult" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupAssociationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The connection associations for the resiliency group.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.directconnect#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to use to retrieve the next page of results. This value is <code>null</code> when there are no more results to return.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#ListResiliencyGroups" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectClientException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectServerException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.directconnect#ListResiliencyGroupsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.directconnect#ListResiliencyGroupsResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the resiliency groups owned by your Amazon Web Services account in the current\n      Amazon Web Services Region.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.directconnect#ListResiliencyGroupsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.directconnect#MaxResultSetSize",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return with a single call.\n\tTo retrieve the remaining results, make another call with the returned <code>nextToken</code> value.</p>\n         <p>If <code>MaxResults</code> is given a value larger than 100, only 100 results are\n      returned.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.directconnect#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#ListResiliencyGroupsResult" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Summary information about the resiliency groups.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.directconnect#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to use to retrieve the next page of results. This value is <code>null</code> when there are no more results to return.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -4810,6 +5477,12 @@
       },
       "com.amazonaws.directconnect#Location" : {
          "members" : {
+            "availableBillingModes" : {
+               "target" : "com.amazonaws.directconnect#AvailableBillingModeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing modes available at the location, including the port speeds and\n      Amazon Web Services Regions supported by each mode.</p>"
+               }
+            },
             "availableMacSecPortSpeeds" : {
                "target" : "com.amazonaws.directconnect#AvailableMacSecPortSpeeds",
                "traits" : {
@@ -5025,6 +5698,18 @@
                "target" : "com.amazonaws.directconnect#MTU",
                "traits" : {
                   "smithy.api#documentation" : "<p>The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes to allocate to the virtual interface.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes to allocate to the virtual interface.</p>"
                }
             },
             "rateLimit" : {
@@ -5357,6 +6042,18 @@
                   "smithy.api#documentation" : "<p>The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.</p>"
                }
             },
+            "prefixPoolAllocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes to allocate to the virtual interface.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes to allocate to the virtual interface.</p>"
+               }
+            },
             "rateLimit" : {
                "target" : "com.amazonaws.directconnect#RateLimit",
                "traits" : {
@@ -5508,6 +6205,9 @@
                "target" : "com.amazonaws.directconnect#AllocateTransitVirtualInterface"
             },
             {
+               "target" : "com.amazonaws.directconnect#AssociateConnectionsToResiliencyGroup"
+            },
+            {
                "target" : "com.amazonaws.directconnect#AssociateConnectionWithLag"
             },
             {
@@ -5562,6 +6262,9 @@
                "target" : "com.amazonaws.directconnect#CreatePublicVirtualInterface"
             },
             {
+               "target" : "com.amazonaws.directconnect#CreateResiliencyGroup"
+            },
+            {
                "target" : "com.amazonaws.directconnect#CreateTransitVirtualInterface"
             },
             {
@@ -5584,6 +6287,9 @@
             },
             {
                "target" : "com.amazonaws.directconnect#DeleteLag"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DeleteResiliencyGroup"
             },
             {
                "target" : "com.amazonaws.directconnect#DeleteVirtualInterface"
@@ -5646,7 +6352,19 @@
                "target" : "com.amazonaws.directconnect#DisassociateConnectionFromLag"
             },
             {
+               "target" : "com.amazonaws.directconnect#DisassociateConnectionsFromResiliencyGroup"
+            },
+            {
                "target" : "com.amazonaws.directconnect#DisassociateMacSecKey"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#GetResiliencyGroup"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#ListResiliencyGroupAssociations"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#ListResiliencyGroups"
             },
             {
                "target" : "com.amazonaws.directconnect#ListVirtualInterfaceRoutes"
@@ -5670,6 +6388,9 @@
                "target" : "com.amazonaws.directconnect#UpdateConnection"
             },
             {
+               "target" : "com.amazonaws.directconnect#UpdateConnectionsBillingMode"
+            },
+            {
                "target" : "com.amazonaws.directconnect#UpdateDirectConnectGateway"
             },
             {
@@ -5677,6 +6398,9 @@
             },
             {
                "target" : "com.amazonaws.directconnect#UpdateLag"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#UpdateResiliencyGroup"
             },
             {
                "target" : "com.amazonaws.directconnect#UpdateVirtualInterfaceAttributes"
@@ -6848,6 +7572,30 @@
       "com.amazonaws.directconnect#PortSpeed" : {
          "type" : "string"
       },
+      "com.amazonaws.directconnect#PrefixPoolAllocatedCount" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.directconnect#PrefixPoolSize" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.directconnect#PrefixPoolUnallocatedCount" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
       "com.amazonaws.directconnect#ProviderList" : {
          "member" : {
             "target" : "com.amazonaws.directconnect#ProviderName"
@@ -6898,8 +7646,303 @@
       "com.amazonaws.directconnect#Region" : {
          "type" : "string"
       },
+      "com.amazonaws.directconnect#RequestBillingMode" : {
+         "members" : {
+            "FlatRateTier1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FlatRateTier1"
+               }
+            },
+            "FlatRateTier2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FlatRateTier2"
+               }
+            },
+            "FlatRateTier3" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FlatRateTier3"
+               }
+            },
+            "FlatRateTier4" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FlatRateTier4"
+               }
+            },
+            "FlatRateTier5" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FlatRateTier5"
+               }
+            },
+            "PayAsYouGo" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PayAsYouGo"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.directconnect#RequestMACSec" : {
          "type" : "boolean"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroup" : {
+         "members" : {
+            "ownerAccount" : {
+               "target" : "com.amazonaws.directconnect#OwnerAccount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that owns the resiliency group.</p>"
+               }
+            },
+            "resiliencyGroupArn" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resiliency group.</p>"
+               }
+            },
+            "resiliencyGroupId" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resiliency group.</p>"
+               }
+            },
+            "resiliencyGroupName" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the resiliency group.</p>"
+               }
+            },
+            "resiliencyGroupType" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resiliency group. The valid value is <code>Managed</code>.</p>"
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the resiliency group. The valid values are <code>pending</code>,\n      <code>available</code>, <code>deleting</code>, and <code>deleted</code>.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.directconnect#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags associated with the resiliency group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about a resiliency group.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroupArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:(aws|aws-cn|aws-us-gov):directconnect::[0-9]{12}:dx-resiliency-group/dxrg-[0-9a-z]{17}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroupAssociation" : {
+         "members" : {
+            "connectionArn" : {
+               "target" : "com.amazonaws.directconnect#ConnectionArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the associated connection.</p>"
+               }
+            },
+            "resiliencyGroupId" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resiliency group.</p>"
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupAssociationState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the association. The valid values are <code>associating</code>,\n      <code>associated</code>, <code>disassociating</code>, and <code>disassociated</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about an association between a connection and a resiliency group.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroupAssociationList" : {
+         "member" : {
+            "target" : "com.amazonaws.directconnect#ResiliencyGroupAssociation"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroupAssociationState" : {
+         "members" : {
+            "Associated" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "associated"
+               }
+            },
+            "Associating" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "associating"
+               }
+            },
+            "Disassociated" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "disassociated"
+               }
+            },
+            "Disassociating" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "disassociating"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroupId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 22,
+               "min" : 22
+            },
+            "smithy.api#pattern" : "^(dxrg|DXRG)-[0-9a-zA-Z]{17}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroupName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_\\-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroupState" : {
+         "members" : {
+            "Available" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "available"
+               }
+            },
+            "Deleted" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "deleted"
+               }
+            },
+            "Deleting" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "deleting"
+               }
+            },
+            "Pending" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "pending"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroupSummary" : {
+         "members" : {
+            "ownerAccount" : {
+               "target" : "com.amazonaws.directconnect#OwnerAccount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that owns the resiliency group.</p>"
+               }
+            },
+            "resiliencyGroupArn" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resiliency group.</p>"
+               }
+            },
+            "resiliencyGroupId" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resiliency group.</p>"
+               }
+            },
+            "resiliencyGroupName" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the resiliency group.</p>"
+               }
+            },
+            "resiliencyGroupType" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resiliency group. The valid value is <code>Managed</code>.</p>"
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the resiliency group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a resiliency group.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroupSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.directconnect#ResiliencyGroupSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.directconnect#ResiliencyGroupType" : {
+         "members" : {
+            "Managed" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Managed"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.directconnect#ResiliencyModel" : {
+         "members" : {
+            "BasicResiliency" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "basic-resiliency"
+               }
+            },
+            "HighResiliency" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "high-resiliency"
+               }
+            },
+            "MaximumResiliency" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "maximum-resiliency"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.directconnect#ResourceArn" : {
          "type" : "string"
@@ -7505,6 +8548,68 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.directconnect#UpdateConnectionsBillingMode" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectClientException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectServerException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.directconnect#UpdateConnectionsBillingModeRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.directconnect#UpdateConnectionsBillingModeResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the billing mode for the specified Direct Connect connections. You can update the billing\n      mode for up to 200 connections in a single request.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.directconnect#UpdateConnectionsBillingModeRequest" : {
+         "members" : {
+            "billingMode" : {
+               "target" : "com.amazonaws.directconnect#RequestBillingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing mode to apply to the specified connections. The valid values are\n      <code>PayAsYouGo</code>, <code>FlatRateTier1</code>, <code>FlatRateTier2</code>,\n      <code>FlatRateTier3</code>, <code>FlatRateTier4</code>, and\n      <code>FlatRateTier5</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "connectionIds" : {
+               "target" : "com.amazonaws.directconnect#ConnectionIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IDs of the connections to update. You can specify from 1 to 200 connections.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#UpdateConnectionsBillingModeResponse" : {
+         "members" : {
+            "billingMode" : {
+               "target" : "com.amazonaws.directconnect#BillingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing mode applied to the connections.</p>"
+               }
+            },
+            "connections" : {
+               "target" : "com.amazonaws.directconnect#ConnectionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The connections with the updated billing mode.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.directconnect#UpdateDirectConnectGateway" : {
          "errors" : [
             {
@@ -7675,6 +8780,68 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.directconnect#UpdateResiliencyGroup" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectClientException"
+            },
+            {
+               "target" : "com.amazonaws.directconnect#DirectConnectServerException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.directconnect#UpdateResiliencyGroupRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.directconnect#UpdateResiliencyGroupResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the name of the specified resiliency group.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.directconnect#UpdateResiliencyGroupRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.directconnect#IdempotencyToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the\n      request.</p>"
+               }
+            },
+            "resiliencyGroupId" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resiliency group.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resiliencyGroupName" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new name of the resiliency group.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.directconnect#UpdateResiliencyGroupResult" : {
+         "members" : {
+            "resiliencyGroup" : {
+               "target" : "com.amazonaws.directconnect#ResiliencyGroup",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the resiliency group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.directconnect#UpdateVirtualInterfaceAttributes" : {
          "errors" : [
             {
@@ -7707,6 +8874,18 @@
                "target" : "com.amazonaws.directconnect#MTU",
                "traits" : {
                   "smithy.api#documentation" : "<p>The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.</p>"
                }
             },
             "rateLimit" : {
@@ -7895,6 +9074,18 @@
                "target" : "com.amazonaws.directconnect#OwnerAccount",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that owns the virtual interface.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv4" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv4 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.</p>"
+               }
+            },
+            "prefixPoolAllocatedCountIpv6" : {
+               "target" : "com.amazonaws.directconnect#PrefixPoolAllocatedCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of inbound IPv6 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.</p>"
                }
             },
             "rateLimit" : {
