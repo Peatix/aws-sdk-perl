@@ -1829,5 +1829,18 @@
       {
          "uri" : "https://waf.{region}.amazonaws.com"
       }
+   ],
+   "wellarchitected" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "wellarchitected"
+            }
+         },
+         "uri" : "https://wellarchitected-agent.{region}.amazonaws.com"
+      },
+      {
+         "uri" : "https://wellarchitected.{region}.amazonaws.com"
+      }
    ]
 }
