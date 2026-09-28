@@ -11370,6 +11370,12 @@
                   "smithy.api#documentation" : "<p>Specifies the version of the database engine.</p>"
                }
             },
+            "FullSnapshotSizeInBytes" : {
+               "target" : "com.amazonaws.rds#LongOptional",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The full size of the DB snapshot, in bytes.</p> <important> <p>This is not the incremental size of the snapshot. This is the full snapshot size and represents the size of all the blocks that were written to the source volume at the time the snapshot was created.</p> </important>"
+               }
+            },
             "IAMDatabaseAuthenticationEnabled" : {
                "target" : "com.amazonaws.rds#Boolean",
                "traits" : {

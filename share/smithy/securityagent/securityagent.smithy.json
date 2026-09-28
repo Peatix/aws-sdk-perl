@@ -140,6 +140,45 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.securityagent#ActorMessage" : {
+         "members" : {
+            "body" : {
+               "target" : "com.amazonaws.securityagent#SensitiveMessageBody",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The plain-text body of the message, containing the MFA code or verification link.</p>"
+               }
+            },
+            "receivedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time the message was received.</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "sender" : {
+               "target" : "com.amazonaws.securityagent#SensitiveMessageSender",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The address the message was sent from.</p>"
+               }
+            },
+            "subject" : {
+               "target" : "com.amazonaws.securityagent#SensitiveMessageSubject",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The subject line of the message.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A message received at an actor's server-generated email MFA address.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityagent#ActorMessageList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityagent#ActorMessage"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.securityagent#AddArtifact" : {
          "errors" : [
             {
@@ -720,6 +759,12 @@
                "target" : "com.amazonaws.securityagent#SourceCodeRepositoryList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The list of source code repositories to analyze during the pentest.</p>"
+               }
+            },
+            "trustedCaCertificates" : {
+               "target" : "com.amazonaws.securityagent#TrustedCaCertificateList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The trust anchors used to validate target endpoint TLS certificates. Provide these for endpoints served by a private or internal certificate authority (CA), an intermediate CA, or a self-signed certificate.</p>"
                }
             }
          },
@@ -2443,6 +2488,43 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.securityagent#CaCertificatePem" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A PEM-encoded X.509 certificate.</p>",
+            "smithy.api#length" : {
+               "max" : 8192,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.securityagent#CaCertificateSource" : {
+         "members" : {
+            "artifactId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The artifact ID of an uploaded certificate file.</p>"
+               }
+            },
+            "inlinePem" : {
+               "target" : "com.amazonaws.securityagent#CaCertificatePem",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A PEM-encoded X.509 certificate supplied inline.</p>"
+               }
+            },
+            "s3Location" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 location URI of a customer-staged certificate.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The source of a trusted CA certificate. Exactly one member must be set.</p>"
+         },
+         "type" : "union"
+      },
       "com.amazonaws.securityagent#Category" : {
          "members" : {
             "isPrimary" : {
@@ -2715,6 +2797,18 @@
                   "smithy.api#documentation" : "<p>The maximum number of billable task hours allowed for jobs started from this code review. If a job reaches the configured limit, it is gracefully stopped. If not set, jobs run to completion with no budget cap.</p>"
                }
             },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
+            "reportFilters" : {
+               "target" : "com.amazonaws.securityagent#ReportFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The report-generation filters applied when the report is exported.</p>"
+               }
+            },
             "serviceRole" : {
                "target" : "com.amazonaws.securityagent#ServiceRole",
                "traits" : {
@@ -2823,6 +2917,12 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>An overview of the code review job results.</p>"
+               }
+            },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
                }
             },
             "serviceRole" : {
@@ -3229,6 +3329,18 @@
             "smithy.api#documentation" : "<p>Finding confidence level.</p>"
          },
          "type" : "enum"
+      },
+      "com.amazonaws.securityagent#ConfidenceLevelFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityagent#ConfidenceLevel"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of confidence levels for a report filter.</p>",
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.securityagent#ConflictException" : {
          "members" : {
@@ -3695,6 +3807,18 @@
                   "smithy.api#documentation" : "<p>The maximum number of billable task hours allowed for jobs started from this code review. Must be a positive number. If not set, jobs run to completion with no budget cap.</p>"
                }
             },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
+            "reportFilters" : {
+               "target" : "com.amazonaws.securityagent#ReportFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The report-generation filters applied when the report is exported.</p>"
+               }
+            },
             "serviceRole" : {
                "target" : "com.amazonaws.securityagent#ServiceRole",
                "traits" : {
@@ -3765,6 +3889,18 @@
                "target" : "smithy.api#Double",
                "traits" : {
                   "smithy.api#documentation" : "<p>The maximum number of billable task hours configured for jobs started from this code review. Null if no budget cap is set.</p>"
+               }
+            },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
+            "reportFilters" : {
+               "target" : "com.amazonaws.securityagent#ReportFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The report-generation filters applied when the report is exported.</p>"
                }
             },
             "serviceRole" : {
@@ -4037,6 +4173,18 @@
                   "smithy.api#documentation" : "<p>The network traffic configuration for the pentest, including custom headers and traffic rules.</p>"
                }
             },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
+            "reportFilters" : {
+               "target" : "com.amazonaws.securityagent#ReportFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The report-generation filters applied when the report is exported.</p>"
+               }
+            },
             "serviceRole" : {
                "target" : "com.amazonaws.securityagent#ServiceRole",
                "traits" : {
@@ -4100,6 +4248,18 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier of the created pentest.</p>"
+               }
+            },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
+            "reportFilters" : {
+               "target" : "com.amazonaws.securityagent#ReportFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The report-generation filters applied when the report is exported.</p>"
                }
             },
             "serviceRole" : {
@@ -4765,6 +4925,12 @@
                "target" : "com.amazonaws.securityagent#CloudWatchLog",
                "traits" : {
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the threat model.</p>"
+               }
+            },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
                }
             },
             "scopeDocs" : {
@@ -6198,6 +6364,18 @@
             "smithy.api#documentation" : "<p>Finding status.</p>"
          },
          "type" : "enum"
+      },
+      "com.amazonaws.securityagent#FindingStatusFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityagent#FindingStatus"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of finding statuses for a report filter.</p>",
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.securityagent#FindingSummary" : {
          "members" : {
@@ -7638,6 +7816,89 @@
             "target" : "com.amazonaws.securityagent#LambdaFunctionArn"
          },
          "type" : "list"
+      },
+      "com.amazonaws.securityagent#ListActorMessages" : {
+         "input" : {
+            "target" : "com.amazonaws.securityagent#ListActorMessagesInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.securityagent#ListActorMessagesOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a paginated list of the email MFA messages received for an actor at its server-generated email address, most recent first.</p>",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/ListActorMessages"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "messages",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.securityagent#ListActorMessagesInput" : {
+         "members" : {
+            "actorIdentifier" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the actor whose messages to list. The identifier is case-insensitive.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "agentSpaceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the agent space that owns the pentest.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.securityagent#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return in a single call.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.securityagent#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.</p>"
+               }
+            },
+            "pentestId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the pentest that the actor belongs to.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityagent#ListActorMessagesOutput" : {
+         "members" : {
+            "messages" : {
+               "target" : "com.amazonaws.securityagent#ActorMessageList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of messages received for the actor, most recent first.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.securityagent#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.securityagent#ListAgentSpaces" : {
          "input" : {
@@ -9920,6 +10181,18 @@
                   "smithy.api#required" : {}
                }
             },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
+            "reportFilters" : {
+               "target" : "com.amazonaws.securityagent#ReportFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The report-generation filters applied when the report is exported.</p>"
+               }
+            },
             "serviceRole" : {
                "target" : "com.amazonaws.securityagent#ServiceRole",
                "traits" : {
@@ -10081,6 +10354,12 @@
                   "smithy.api#documentation" : "<p>The unique identifier of the pentest job.</p>"
                }
             },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
             "selectedFindingIds" : {
                "target" : "com.amazonaws.securityagent#StringList",
                "traits" : {
@@ -10115,6 +10394,12 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The title of the pentest job.</p>"
+               }
+            },
+            "trustedCaCertificates" : {
+               "target" : "com.amazonaws.securityagent#TrustedCaCertificateList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The trust anchors used to validate target endpoint TLS certificates during the pentest job.</p>"
                }
             },
             "updatedAt" : {
@@ -10660,6 +10945,84 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityagent#ReportFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityagent#ReportFilterValue"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A bounded list of report-filter values for an open-ended filter dimension.</p>",
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.securityagent#ReportFilterValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single report-filter value for one filter dimension.</p>",
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.securityagent#ReportFilters" : {
+         "members" : {
+            "annotationNotes" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether to include reviewer annotation notes under each finding.</p>"
+               }
+            },
+            "complianceReport" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether to include the compliance-ready report additions.</p>"
+               }
+            },
+            "confidenceLevels" : {
+               "target" : "com.amazonaws.securityagent#ConfidenceLevelFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The confidence levels to include in the report.</p>"
+               }
+            },
+            "findingTypes" : {
+               "target" : "com.amazonaws.securityagent#ReportFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The finding types to include in the report.</p>"
+               }
+            },
+            "riskLevels" : {
+               "target" : "com.amazonaws.securityagent#RiskLevelFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The severity levels to include in the report.</p>"
+               }
+            },
+            "riskTypes" : {
+               "target" : "com.amazonaws.securityagent#RiskTypeFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The risk types to include in the report.</p>"
+               }
+            },
+            "statuses" : {
+               "target" : "com.amazonaws.securityagent#FindingStatusFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The finding statuses to include in the report.</p>"
+               }
+            },
+            "taskStatuses" : {
+               "target" : "com.amazonaws.securityagent#TaskExecutionStatusFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The task execution statuses to include in the report's task table.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The report-generation filters applied when a pentest or code review report is exported.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityagent#ResourceArn" : {
          "traits" : {
             "smithy.api#documentation" : "<p>ARN of a taggable resource.</p>"
@@ -10778,6 +11141,18 @@
             "smithy.api#documentation" : "<p>Risk severity level.</p>"
          },
          "type" : "enum"
+      },
+      "com.amazonaws.securityagent#RiskLevelFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityagent#RiskLevel"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of severity levels for a report filter.</p>",
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.securityagent#RiskType" : {
          "members" : {
@@ -10983,6 +11358,18 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.securityagent#RiskTypeFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityagent#RiskType"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of risk types for a report filter.</p>",
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.securityagent#RiskTypeList" : {
          "member" : {
             "target" : "com.amazonaws.securityagent#RiskType"
@@ -11110,6 +11497,9 @@
             },
             {
                "target" : "com.amazonaws.securityagent#InitiateProviderRegistration"
+            },
+            {
+               "target" : "com.amazonaws.securityagent#ListActorMessages"
             },
             {
                "target" : "com.amazonaws.securityagent#ListArtifacts"
@@ -11979,6 +12369,24 @@
          "type" : "string"
       },
       "com.amazonaws.securityagent#SensitiveEmailAddress" : {
+         "traits" : {
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.securityagent#SensitiveMessageBody" : {
+         "traits" : {
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.securityagent#SensitiveMessageSender" : {
+         "traits" : {
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.securityagent#SensitiveMessageSubject" : {
          "traits" : {
             "smithy.api#sensitive" : {}
          },
@@ -13244,6 +13652,18 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.securityagent#TaskExecutionStatusFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityagent#TaskExecutionStatus"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of task execution statuses for a report filter.</p>",
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.securityagent#TaskIdList" : {
          "member" : {
             "target" : "smithy.api#String"
@@ -13599,6 +14019,12 @@
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the threat model.</p>"
                }
             },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
             "scopeDocs" : {
                "target" : "com.amazonaws.securityagent#DocumentList",
                "traits" : {
@@ -13692,6 +14118,12 @@
                "target" : "com.amazonaws.securityagent#IntegratedRepositoryList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The list of integrated repositories used for threat modeling.</p>"
+               }
+            },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
                }
             },
             "scopeDocs" : {
@@ -14217,6 +14649,28 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityagent#TrustedCaCertificate" : {
+         "members" : {
+            "source" : {
+               "target" : "com.amazonaws.securityagent#CaCertificateSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source that Security Agent reads the certificate from.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A trust anchor used when validating a target endpoint's TLS certificate.</p>",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityagent#TrustedCaCertificateList" : {
+         "member" : {
+            "target" : "com.amazonaws.securityagent#TrustedCaCertificate"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.securityagent#UntagResource" : {
          "input" : {
             "target" : "com.amazonaws.securityagent#UntagResourceInput"
@@ -14513,6 +14967,18 @@
                   "smithy.api#documentation" : "<p>The updated maximum number of billable task hours allowed for jobs started from this code review.</p>"
                }
             },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
+            "reportFilters" : {
+               "target" : "com.amazonaws.securityagent#ReportFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The report-generation filters applied when the report is exported.</p>"
+               }
+            },
             "serviceRole" : {
                "target" : "com.amazonaws.securityagent#ServiceRole",
                "traits" : {
@@ -14582,6 +15048,18 @@
                "target" : "smithy.api#Double",
                "traits" : {
                   "smithy.api#documentation" : "<p>The maximum number of billable task hours configured for jobs started from this code review. Null if no budget cap is set.</p>"
+               }
+            },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
+            "reportFilters" : {
+               "target" : "com.amazonaws.securityagent#ReportFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The report-generation filters applied when the report is exported.</p>"
                }
             },
             "serviceRole" : {
@@ -14863,6 +15341,18 @@
                   "smithy.api#required" : {}
                }
             },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
+            "reportFilters" : {
+               "target" : "com.amazonaws.securityagent#ReportFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The report-generation filters applied when the report is exported.</p>"
+               }
+            },
             "serviceRole" : {
                "target" : "com.amazonaws.securityagent#ServiceRole",
                "traits" : {
@@ -14925,6 +15415,18 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier of the pentest.</p>"
+               }
+            },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
+            "reportFilters" : {
+               "target" : "com.amazonaws.securityagent#ReportFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The report-generation filters applied when the report is exported.</p>"
                }
             },
             "serviceRole" : {
@@ -15504,6 +16006,12 @@
                   "smithy.api#documentation" : "<p>The updated CloudWatch Logs configuration for the threat model.</p>"
                }
             },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
+               }
+            },
             "scopeDocs" : {
                "target" : "com.amazonaws.securityagent#DocumentList",
                "traits" : {
@@ -15567,6 +16075,12 @@
                "target" : "com.amazonaws.securityagent#CloudWatchLog",
                "traits" : {
                   "smithy.api#documentation" : "<p>The CloudWatch Logs configuration for the threat model.</p>"
+               }
+            },
+            "reportDestination" : {
+               "target" : "com.amazonaws.securityagent#ReportDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The destination for publishing scan reports to an integrated document provider.</p>"
                }
             },
             "scopeDocs" : {
@@ -16096,19 +16610,19 @@
             "securityGroupArns" : {
                "target" : "com.amazonaws.securityagent#SecurityGroupArns",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Names (ARNs) of the security groups for the VPC configuration.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Names (ARNs) or IDs of the security groups for the VPC configuration.</p>"
                }
             },
             "subnetArns" : {
                "target" : "com.amazonaws.securityagent#SubnetArns",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Names (ARNs) of the subnets for the VPC configuration.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Names (ARNs) or IDs of the subnets for the VPC configuration.</p>"
                }
             },
             "vpcArn" : {
                "target" : "com.amazonaws.securityagent#VpcArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the VPC.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or ID of the VPC.</p>"
                }
             }
          },
