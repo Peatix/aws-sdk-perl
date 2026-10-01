@@ -363,7 +363,7 @@
       "com.amazonaws.pinpointsmsvoicev2#AttachmentBody" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 1572864,
+               "max" : 6990508,
                "min" : 1
             }
          },
@@ -412,6 +412,18 @@
             "smithy.api#pattern" : "^\\S+$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#AvailablePhoneNumberList" : {
+         "member" : {
+            "target" : "com.amazonaws.pinpointsmsvoicev2#PhoneNumber"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "List of available phone numbers returned by the search.\nMax aligns with ListAvailablePhoneNumbersMaxResults (page size bound).",
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.pinpointsmsvoicev2#CarrierLookup" : {
          "errors" : [
@@ -602,6 +614,152 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Contains the destination configuration to use when publishing message sending events. </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ConditionOperator" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The operator used to compare a dependency field's value in a <b>FieldCondition</b>. Valid values are <b>EQUALS</b>, <b>NOT_EQUALS</b>, <b>IN</b>, <b>NOT_IN</b>, <b>HAS_VALUE</b>, and <b>NO_VALUE</b>. Unknown operators evaluate to false, which causes the containing rule to be skipped.</p>",
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[A-Za-z0-9_]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ConditionValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ConditionValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.pinpointsmsvoicev2#ConditionValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ConditionalBehavior" : {
+         "members" : {
+            "DefaultBehavior" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ConditionalFieldBehavior",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field behavior that applies when no conditional rule in <b>Rules</b> matches. Valid values are <b>REQUIRED</b>, <b>OPTIONAL</b>, and <b>DISALLOWED</b>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Rules" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ConditionalRuleList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An ordered list of conditional rules. Rules are evaluated top-to-bottom and the first rule whose conditions all evaluate to true determines the field's behavior. Rules whose conditions do not all match are skipped and evaluation continues to the next rule.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The set of conditional rules that determine a field's resolved requirement based on the values of other fields in the same registration form. Attached to fields whose <b>FieldRequirement</b> is <b>CONDITIONAL</b>.</p> <p>Evaluation proceeds top-to-bottom through <b>Rules</b>. The first rule whose conditions all evaluate to true wins and its behavior is returned. If no rule matches, the <b>DefaultBehavior</b> is returned.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ConditionalFieldBehavior" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The resolved requirement for a field when a conditional rule matches. Valid values are:</p> <p> <b>REQUIRED</b> — the field must be present; absence causes a validation error at submission time.</p> <p> <b>OPTIONAL</b> — the field may be present.</p> <p> <b>DISALLOWED</b> — the field must not be present; a submitted value is rejected with a validation error.</p>",
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[A-Za-z0-9_]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ConditionalRule" : {
+         "members" : {
+            "ConditionalValidation" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ConditionalValidation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional per-rule validation constraints (minimum length, maximum length, regex pattern, allowed select values) that override the field's default validation when this rule matches.</p>"
+               }
+            },
+            "Conditions" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#FieldConditionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The conditions that must all evaluate to true for this rule to match. Conditions are combined with logical AND. Use multiple rules with the same <b>RuleBehavior</b> to express logical OR.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RuleBehavior" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ConditionalFieldBehavior",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field behavior that applies when all conditions in this rule match. Valid values are <b>REQUIRED</b>, <b>OPTIONAL</b>, and <b>DISALLOWED</b>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single conditional rule that resolves to a field behavior when all of its conditions evaluate to true. Conditions within a rule are combined with logical AND: all conditions must match for the rule to fire.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ConditionalRuleList" : {
+         "member" : {
+            "target" : "com.amazonaws.pinpointsmsvoicev2#ConditionalRule"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ConditionalValidation" : {
+         "members" : {
+            "AllowedValues" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#SelectChoiceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The allowed values for a select field when this rule applies. A subset of the field's full option list.</p>"
+               }
+            },
+            "MaxLength" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum length for the field value when this rule applies.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            },
+            "MinLength" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum length for the field value when this rule applies.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            },
+            "Pattern" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A regular expression that the field value must match when this rule applies.</p>",
+                  "smithy.api#length" : {
+                     "max" : 2048,
+                     "min" : 1
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Per-rule validation constraints that override the field's default validation when the containing rule matches. All fields are optional; only the constraints that need to differ from the field's default validation are provided.</p>"
          },
          "type" : "structure"
       },
@@ -2268,7 +2426,7 @@
             "target" : "com.amazonaws.pinpointsmsvoicev2#CreateRegistrationAttachmentResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.</p> <p>Use either <code>AttachmentUrl</code> or <code>AttachmentBody</code> to upload your attachment. If both are specified then an exception is returned.</p>"
+            "smithy.api#documentation" : "<p>Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.</p> <p>Use either <code>AttachmentUrl</code> or <code>AttachmentBody</code> to upload your attachment. If both are specified then an exception is returned.</p>"
          },
          "type" : "operation"
       },
@@ -2277,7 +2435,7 @@
             "AttachmentBody" : {
                "target" : "com.amazonaws.pinpointsmsvoicev2#AttachmentBody",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The registration file to upload. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG.</p>"
+                  "smithy.api#documentation" : "<p>The registration file to upload. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG.</p>"
                }
             },
             "AttachmentUrl" : {
@@ -7291,6 +7449,46 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.pinpointsmsvoicev2#FieldCondition" : {
+         "members" : {
+            "DependsOnFieldPath" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#FieldPath",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The path of the field whose value determines this condition, for example <b>companyInfo.businessType</b>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Operator" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ConditionOperator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The comparison operator to apply between the dependency field's value and <b>Values</b>. Valid values are <b>EQUALS</b>, <b>NOT_EQUALS</b>, <b>IN</b>, <b>NOT_IN</b>, <b>HAS_VALUE</b>, and <b>NO_VALUE</b>. Operators not in this list are treated as evaluating to false, which causes the containing rule to be skipped. This allows forward-compatible additions of new operators without breaking older SDK clients.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Values" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ConditionValueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The values to compare the dependency field's value against. Required for the <b>EQUALS</b>, <b>NOT_EQUALS</b>, <b>IN</b>, and <b>NOT_IN</b> operators. Omitted for <b>HAS_VALUE</b> and <b>NO_VALUE</b>, which test only presence.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single condition on a dependency field's value. Conditions are combined into a <b>ConditionalRule</b> and evaluated together with logical AND.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#FieldConditionList" : {
+         "member" : {
+            "target" : "com.amazonaws.pinpointsmsvoicev2#FieldCondition"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.pinpointsmsvoicev2#FieldPath" : {
          "traits" : {
             "smithy.api#length" : {
@@ -7801,6 +7999,126 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.pinpointsmsvoicev2#ListAvailablePhoneNumbers" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.pinpointsmsvoicev2#ListAvailablePhoneNumbersRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.pinpointsmsvoicev2#ListAvailablePhoneNumbersResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Search available phone numbers from aggregator inventory, optionally filtered by pattern.\nIf NumberPreference is omitted, returns unfiltered available numbers.\nReturns empty list (not an exception) when no numbers match.\nResourceNotFoundException is thrown only for invalid RegistrationId (campaign not found).",
+            "smithy.api#paginated" : {
+               "items" : "AvailablePhoneNumbers"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ListAvailablePhoneNumbersMaxResults" : {
+         "traits" : {
+            "smithy.api#documentation" : "Maximum number of results per page for ListAvailablePhoneNumbers.\nAligned with AvailablePhoneNumberList max of 10.",
+            "smithy.api#range" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ListAvailablePhoneNumbersRequest" : {
+         "members" : {
+            "IsoCountryCode" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#IsoCountryCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The two-character code, in ISO 3166-1 alpha-2 format, for the country or region in which to search for available phone numbers. This operation currently supports only <code>US</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ListAvailablePhoneNumbersMaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page. If you don't specify a value, the default is 10.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token returned from a previous request to retrieve the next page of results.</p>"
+               }
+            },
+            "NumberCapabilities" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#NumberCapabilityList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NumberPreference" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#NumberPreferenceList",
+               "traits" : {
+                  "smithy.api#documentation" : "Optional. If omitted, returns unfiltered available numbers.\nMax 1 element for List API."
+               }
+            },
+            "NumberType" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#SearchableNumberType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of phone number to search for.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RegistrationId" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#RegistrationIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The registration associated with the request. A registration is required for regulated number types. You can specify either:</p> <ul> <li> <p>The unique identifier of the registration.</p> </li> <li> <p>The Amazon Resource Name (ARN) of the registration.</p> </li> </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#ListAvailablePhoneNumbersResult" : {
+         "members" : {
+            "AvailablePhoneNumbers" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#AvailablePhoneNumberList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of phone numbers, in E.164 format, that are available to request based on the specified filters.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to include in the next request to retrieve the next page of results. This value is null when there are no more results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.pinpointsmsvoicev2#ListNotifyCountries" : {
          "errors" : [
             {
@@ -8277,6 +8595,15 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.pinpointsmsvoicev2#LongMap" : {
+         "key" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "smithy.api#PrimitiveLong"
+         }
+      },
       "com.amazonaws.pinpointsmsvoicev2#MCCType" : {
          "traits" : {
             "smithy.api#length" : {
@@ -8398,6 +8725,26 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#MessagingLimits" : {
+         "members" : {
+            "DailyMessageCaps" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#LongMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The advisory maximum number of messages that can be sent per day, keyed by provider (for example, <code>T-MOBILE</code>). Applies to 10DLC phone numbers and is omitted when no daily cap applies.</p>"
+               }
+            },
+            "RateLimits" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#LongMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum send rate for each supported capability, in messages per second. The map is keyed by capability, such as <code>SMS</code>, <code>MMS</code>, <code>VOICE</code>, or <code>RCS</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The messaging limits that apply to an origination identity, such as a phone number, sender ID, or RCS agent. Includes the per-capability send rates and, for supported origination identities, advisory per-provider daily message caps.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.pinpointsmsvoicev2#MonthlyLimit" : {
          "traits" : {
@@ -9113,6 +9460,65 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.pinpointsmsvoicev2#NumberFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.pinpointsmsvoicev2#NumberFilterValue"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "List of filter values. Max 1 for pattern types (StartsWith/EndsWith/Contains), max 10 for ExactMatch.",
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#NumberFilterValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "A filter value — either a pattern (e.g., \"+1510\") or full E.164 number.",
+            "smithy.api#length" : {
+               "max" : 16,
+               "min" : 2
+            },
+            "smithy.api#pattern" : "^\\+?[0-9]{1,15}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#NumberPreferenceItem" : {
+         "members" : {
+            "Filter" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#NumberFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The digit pattern values to match against available phone numbers, using the specified preference type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PreferenceType" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#PreferenceTypeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of match to apply to the filter values.</p> <ul> <li> <p> <code>StartsWith</code>: Returns numbers that begin with the filter value.</p> </li> <li> <p> <code>EndsWith</code>: Returns numbers that end with the filter value.</p> </li> <li> <p> <code>Contains</code>: Returns numbers that contain the filter value.</p> </li> <li> <p> <code>ExactMatch</code>: Returns the number that exactly matches the filter value.</p> </li> </ul>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A single number preference — specifies a pattern type and filter value."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#NumberPreferenceList" : {
+         "member" : {
+            "target" : "com.amazonaws.pinpointsmsvoicev2#NumberPreferenceItem"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "List of number preference objects. Max 1 element.",
+            "smithy.api#length" : {
+               "max" : 1,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.pinpointsmsvoicev2#NumberStatus" : {
          "traits" : {
             "smithy.api#enum" : [
@@ -9536,6 +9942,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "MessagingLimits" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#MessagingLimits",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The messaging limits that apply to the phone number, including the per-capability send rates and any advisory per-provider daily message caps.</p>"
+               }
+            },
             "MonthlyLeasingPrice" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -9885,6 +10297,9 @@
             },
             {
                "target" : "com.amazonaws.pinpointsmsvoicev2#GetResourcePolicy"
+            },
+            {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ListAvailablePhoneNumbers"
             },
             {
                "target" : "com.amazonaws.pinpointsmsvoicev2#ListNotifyCountries"
@@ -11199,6 +11614,43 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.pinpointsmsvoicev2#PreferenceType" : {
+         "traits" : {
+            "smithy.api#documentation" : "The type of pattern matching to apply.",
+            "smithy.api#enum" : [
+               {
+                  "name" : "STARTS_WITH",
+                  "value" : "StartsWith"
+               },
+               {
+                  "name" : "ENDS_WITH",
+                  "value" : "EndsWith"
+               },
+               {
+                  "name" : "CONTAINS",
+                  "value" : "Contains"
+               },
+               {
+                  "name" : "EXACT_MATCH",
+                  "value" : "ExactMatch"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#PreferenceTypeList" : {
+         "member" : {
+            "target" : "com.amazonaws.pinpointsmsvoicev2#PreferenceType"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "List of preference types. Max 1 at launch.\nModeled as list for forward compatibility — will support multiple types in future phases.",
+            "smithy.api#length" : {
+               "max" : 1,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.pinpointsmsvoicev2#ProtectConfigurationArn" : {
          "traits" : {
             "smithy.api#length" : {
@@ -12230,6 +12682,12 @@
                   "smithy.api#default" : false,
                   "smithy.api#documentation" : "<p>When set to true the RCS agent can't be deleted.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "MessagingLimits" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#MessagingLimits",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The messaging limits that apply to the RCS agent, including the per-capability send rates.</p>"
                }
             },
             "OptOutListName" : {
@@ -13462,6 +13920,12 @@
       },
       "com.amazonaws.pinpointsmsvoicev2#RegistrationFieldDefinition" : {
          "members" : {
+            "ConditionalBehavior" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#ConditionalBehavior",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The conditional behavior rules for this field. Only present when <b>FieldRequirement</b> is <b>CONDITIONAL</b>. Rules are evaluated in order and the first matching rule determines the field's resolved requirement. If no rule matches, the <b>DefaultBehavior</b> applies.</p>"
+               }
+            },
             "DisplayHints" : {
                "target" : "com.amazonaws.pinpointsmsvoicev2#RegistrationFieldDisplayHints",
                "traits" : {
@@ -14602,6 +15066,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "NumberPreference" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#NumberPreferenceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional selection preference used to request a specific phone number, such as a number that starts with, ends with, or contains a particular digit pattern. You can specify at most one preference. Number preferences apply only to <code>TEN_DLC</code> requests in the <code>US</code>.</p>"
+               }
+            },
             "NumberType" : {
                "target" : "com.amazonaws.pinpointsmsvoicev2#RequestableNumberType",
                "traits" : {
@@ -15060,6 +15530,18 @@
                {
                   "name" : "RCS_AGENT",
                   "value" : "rcs-agent"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.pinpointsmsvoicev2#SearchableNumberType" : {
+         "traits" : {
+            "smithy.api#documentation" : "The type of phone number to search for with ListAvailablePhoneNumbers.\nCurrently only TEN_DLC is supported; additional number types (for example\nTOLL_FREE) will be added in future phases. Modeled as a dedicated enum rather\nthan RequestableNumberType so this operation advertises only the values it\nactually supports. New values may be added over time (backward compatible).",
+            "smithy.api#enum" : [
+               {
+                  "name" : "TEN_DLC",
+                  "value" : "TEN_DLC"
                }
             ]
          },
@@ -16171,6 +16653,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "MessagingLimits" : {
+               "target" : "com.amazonaws.pinpointsmsvoicev2#MessagingLimits",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The messaging limits that apply to the sender ID, including the per-capability send rates.</p>"
                }
             },
             "MonthlyLeasingPrice" : {

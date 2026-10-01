@@ -17716,6 +17716,30 @@
                {
                   "name" : "JAVA_25",
                   "value" : "JAVA_25"
+               },
+               {
+                  "name" : "PYTHON_3_12",
+                  "value" : "PYTHON_3_12"
+               },
+               {
+                  "name" : "PYTHON_3_13",
+                  "value" : "PYTHON_3_13"
+               },
+               {
+                  "name" : "PYTHON_3_14",
+                  "value" : "PYTHON_3_14"
+               },
+               {
+                  "name" : "RUBY_3_3",
+                  "value" : "RUBY_3_3"
+               },
+               {
+                  "name" : "DOTNET_8",
+                  "value" : "DOTNET_8"
+               },
+               {
+                  "name" : "NODEJS_20_X",
+                  "value" : "NODEJS_20_X"
                }
             ]
          },
@@ -18789,10 +18813,28 @@
                   "smithy.api#documentation" : "<p>The total count of high severity findings.</p>"
                }
             },
+            "informational" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total count of informational severity findings.</p>"
+               }
+            },
+            "low" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total count of low severity findings.</p>"
+               }
+            },
             "medium" : {
                "target" : "smithy.api#Long",
                "traits" : {
                   "smithy.api#documentation" : "<p>The total count of medium severity findings.</p>"
+               }
+            },
+            "untriaged" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total count of untriaged findings.</p>"
                }
             }
          },
@@ -21278,7 +21320,7 @@
       },
       "com.amazonaws.inspector2#Version" : {
          "traits" : {
-            "smithy.api#pattern" : "^\\$LATEST|[0-9]+$"
+            "smithy.api#pattern" : "^(\\$LATEST|[0-9]+)$"
          },
          "type" : "string"
       },
