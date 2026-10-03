@@ -2921,6 +2921,12 @@
                   "smithy.api#documentation" : "<p>Contains the encryption configuration for your IAM Identity Center instance, including the encryption status, KMS key type, and KMS key ARN.</p>"
                }
             },
+            "IdentityStoreArn" : {
+               "target" : "com.amazonaws.ssoadmin#InstanceIdentityStoreArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the identity store that is connected to the instance of IAM Identity Center.</p>"
+               }
+            },
             "IdentityStoreId" : {
                "target" : "com.amazonaws.ssoadmin#Id",
                "traits" : {
@@ -2949,6 +2955,18 @@
                "target" : "smithy.api#Boolean",
                "traits" : {
                   "smithy.api#documentation" : "<p>Indicates whether permission sets are enabled for this Identity Center instance.</p>"
+               }
+            },
+            "PrimaryRegion" : {
+               "target" : "com.amazonaws.ssoadmin#RegionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The primary Region where the IAM Identity Center instance was originally enabled. The primary Region cannot be removed.</p>"
+               }
+            },
+            "Regions" : {
+               "target" : "com.amazonaws.ssoadmin#RegionMetadataList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Regions enabled in the IAM Identity Center instance, including Regions with ACTIVE, ADDING, or REMOVING status.</p>"
                }
             },
             "Status" : {
@@ -4144,6 +4162,16 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.ssoadmin#InstanceIdentityStoreArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 93,
+               "min" : 62
+            },
+            "smithy.api#pattern" : "^arn:aws(-[a-z]{1,5}){0,3}:identitystore::\\d{12}:identitystore/(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.ssoadmin#InstanceList" : {
          "member" : {
             "target" : "com.amazonaws.ssoadmin#InstanceMetadata"
@@ -4162,6 +4190,12 @@
                "target" : "com.amazonaws.ssoadmin#Date",
                "traits" : {
                   "smithy.api#documentation" : "<p>The date and time that the Identity Center instance was created.</p>"
+               }
+            },
+            "IdentityStoreArn" : {
+               "target" : "com.amazonaws.ssoadmin#InstanceIdentityStoreArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the identity store that is connected to the Identity Center instance.</p>"
                }
             },
             "IdentityStoreId" : {
