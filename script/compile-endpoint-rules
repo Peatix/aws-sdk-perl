@@ -96,7 +96,8 @@ for my $smithy_file (sort @smithy_files) {
     next unless $ruleset;
     $services_processed++;
 
-    my @rules = extract_default_rules($ruleset->{rules}, {});
+    my @rules = extract_default_rules($ruleset->{rules},
+        { _client_params => client_params($ruleset) });
     next unless @rules;
 
     @rules = dedup_rules(\@rules);
@@ -165,6 +166,19 @@ sub extract_default_rules {
     return @result;
 }
 
+# The ruleset parameters an SDK sets from client configuration, named by
+# their `builtIn`. Everything else is supplied per operation (a Smithy
+# contextParam or staticContextParam) and so is unknowable to a resolver
+# that picks one endpoint per client.
+sub client_params {
+    my ($ruleset) = @_;
+
+    my $params = $ruleset->{parameters} // {};
+    return { map { $_ => 1 }
+             grep { defined $params->{$_}{builtIn} }
+             keys %$params };
+}
+
 sub should_skip_branch {
     my ($conditions, $env) = @_;
 
@@ -174,17 +188,29 @@ sub should_skip_branch {
         if ($fn eq 'booleanEquals') {
             my @argv = @{ $cond->{argv} // [] };
             my ($ref_arg, $bool_arg) = identify_ref_and_literal(\@argv);
-            if ($ref_arg) {
+            if ($ref_arg && $bool_arg) {
                 my $param = $ref_arg->{ref} // '';
-                if ($param eq 'UseFIPS' && $bool_arg) {
-                    return 1;
-                }
-                if ($param eq 'UseDualStack' && $bool_arg) {
-                    return 1;
-                }
-                if ($param eq 'UseObjectLambdaEndpoint' && $bool_arg) {
-                    return 1;
-                }
+
+                # Client-level features Paws does not offer, so their
+                # endpoints are never the ones a caller wants.
+                return 1 if $param eq 'UseFIPS';
+                return 1 if $param eq 'UseDualStack';
+
+                # A parameter with no builtIn is not client configuration:
+                # the ruleset expects it per operation, from a context
+                # param. A compiled rule is chosen once per service client
+                # and selected on region alone, so such a branch describes
+                # an endpoint this resolver can never legitimately pick --
+                # and because the branch usually precedes the regional one,
+                # _match_rules prefers it for every call.
+                #
+                # Deriving this from the ruleset rather than naming the
+                # parameters is what stops a vendored-IR refresh from
+                # introducing another one unnoticed. DynamoDB's
+                # IsSearchOperation arrived that way and compiled to an
+                # unconstrained search-dynamodb.{region} rule that shadowed
+                # the real endpoint for every DynamoDB call in every region.
+                return 1 if !$env->{ _client_params }{ $param };
             }
         }
 

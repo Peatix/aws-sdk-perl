@@ -92,27 +92,6 @@
          "uri" : "https://api.ecr.{region}.amazonaws.eu"
       }
    ],
-   "arc-region-switch" : [
-      {
-         "constraints" : [
-            [
-               "region",
-               "startsWith",
-               "cn-"
-            ]
-         ],
-         "properties" : {
-            "credentialScope" : {
-               "region" : "cn-north-1",
-               "service" : "arc-region-switch"
-            }
-         },
-         "uri" : "https://arc-region-switch-control-plane.cn-north-1.amazonaws.com.cn"
-      },
-      {
-         "uri" : "https://arc-region-switch.{region}.amazonaws.com"
-      }
-   ],
    "bcm-data-exports" : [
       {
          "constraints" : [
@@ -441,9 +420,6 @@
             }
          },
          "uri" : "http://localhost:8000"
-      },
-      {
-         "uri" : "https://search-dynamodb.{region}.amazonaws.com"
       },
       {
          "uri" : "https://dynamodb.{region}.amazonaws.com"
@@ -1298,45 +1274,6 @@
       }
    ],
    "signin" : [
-      {
-         "properties" : {
-            "credentialScope" : {
-               "service" : "signin"
-            }
-         },
-         "uri" : "https://signin.{region}.api.aws"
-      },
-      {
-         "constraints" : [
-            [
-               "region",
-               "startsWith",
-               "cn-"
-            ]
-         ],
-         "properties" : {
-            "credentialScope" : {
-               "service" : "signin"
-            }
-         },
-         "uri" : "https://signin.{region}.api.amazonwebservices.com.cn"
-      },
-      {
-         "properties" : {
-            "credentialScope" : {
-               "service" : "signin"
-            }
-         },
-         "uri" : "https://signin.{region}.amazonaws.com"
-      },
-      {
-         "properties" : {
-            "credentialScope" : {
-               "service" : "signin"
-            }
-         },
-         "uri" : "https://{region}.oauth.signin.aws"
-      },
       {
          "uri" : "https://{region}.signin.aws.amazon.com"
       },
