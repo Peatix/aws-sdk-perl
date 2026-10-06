@@ -67,6 +67,9 @@
                "target" : "com.amazonaws.health#DescribeHealthServiceStatusForOrganization"
             },
             {
+               "target" : "com.amazonaws.health#DescribeServiceLifecycle"
+            },
+            {
                "target" : "com.amazonaws.health#DisableHealthServiceAccessForOrganization"
             },
             {
@@ -2805,6 +2808,76 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.health#DescribeServiceLifecycle" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.health#InvalidPaginationToken"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.health#DescribeServiceLifecycleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.health#DescribeServiceLifecycleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns lifecycle information for Amazon Web Services services, including end-of-life dates, version recommendations, and lifecycle events.</p>",
+            "smithy.api#idempotent" : {},
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "serviceLifecycles",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#DescribeServiceLifecycleRequest" : {
+         "members" : {
+            "filter" : {
+               "target" : "com.amazonaws.health#ServiceLifecycleFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Values to narrow the results returned.</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.health#LifecycleMaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in one batch, between 1 and 20, inclusive.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.health#nextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the results of a search are large, only a portion of the\nresults are returned, and a <code>nextToken</code> pagination token is returned in the response. To\nretrieve the next batch of results, reissue the search request and include the returned token.\nWhen all results have been returned, the response does not contain a pagination token value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeServiceLifecycleResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.health#nextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the results of a search are large, only a portion of the\nresults are returned, and a <code>nextToken</code> pagination token is returned in the response. To\nretrieve the next batch of results, reissue the search request and include the returned token.\nWhen all results have been returned, the response does not contain a pagination token value.</p>"
+               }
+            },
+            "serviceLifecycles" : {
+               "target" : "com.amazonaws.health#ServiceLifecycleList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of service lifecycle entries matching the filter criteria.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.health#DisableHealthServiceAccessForOrganization" : {
          "errors" : [
             {
@@ -3527,6 +3600,12 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.health#ImpactRiskList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#string"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.health#InvalidPaginationToken" : {
          "members" : {
             "message" : {
@@ -3538,6 +3617,59 @@
             "smithy.api#error" : "client"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.health#LifecycleEvent" : {
+         "members" : {
+            "date" : {
+               "target" : "com.amazonaws.health#timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date of the lifecycle event.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.health#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the lifecycle event.</p>"
+               }
+            },
+            "impactRisks" : {
+               "target" : "com.amazonaws.health#ImpactRiskList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The potential impact risks associated with this lifecycle event.</p>"
+               }
+            },
+            "lifecycleEventType" : {
+               "target" : "com.amazonaws.health#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of lifecycle event (for example, end-of-support, end-of-life).</p>"
+               }
+            },
+            "regions" : {
+               "target" : "com.amazonaws.health#regionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Regions affected by this lifecycle event.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A lifecycle event for an Amazon Web Services service version, such as end-of-support or end-of-life.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#LifecycleEventList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#LifecycleEvent"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#LifecycleMaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 20,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
       },
       "com.amazonaws.health#OrganizationAccountIdsList" : {
          "member" : {
@@ -3888,6 +4020,64 @@
       "com.amazonaws.health#OrganizationEventList" : {
          "member" : {
             "target" : "com.amazonaws.health#OrganizationEvent"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#ServiceLifecycle" : {
+         "members" : {
+            "lifecycleEvents" : {
+               "target" : "com.amazonaws.health#LifecycleEventList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of lifecycle events for this service version.</p>"
+               }
+            },
+            "recommendedVersion" : {
+               "target" : "com.amazonaws.health#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The recommended version to upgrade to.</p>"
+               }
+            },
+            "service" : {
+               "target" : "com.amazonaws.health#service",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Amazon Web Services service.</p>"
+               }
+            },
+            "title" : {
+               "target" : "com.amazonaws.health#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable title for the lifecycle entry.</p>"
+               }
+            },
+            "version" : {
+               "target" : "com.amazonaws.health#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the service.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains lifecycle information for an Amazon Web Services service version, including lifecycle events and version recommendations.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#ServiceLifecycleFilter" : {
+         "members" : {
+            "service" : {
+               "target" : "com.amazonaws.health#service",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services service name to filter by.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter for narrowing down service lifecycle results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#ServiceLifecycleList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#ServiceLifecycle"
          },
          "type" : "list"
       },
