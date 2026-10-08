@@ -387,7 +387,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "The image type is the type of AppStream image resource."
+            "smithy.api#documentation" : "<p>The image type is the type of AppStream image resource.</p>"
          },
          "type" : "enum"
       },
@@ -7339,6 +7339,12 @@
                   "smithy.api#documentation" : "<p>Indicates whether the image is shared with another account ID.</p>"
                }
             },
+            "ImageSoftwareMetadata" : {
+               "target" : "com.amazonaws.appstream#ImageSoftwareMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The software metadata associated with the image.</p>"
+               }
+            },
             "ImageType" : {
                "target" : "com.amazonaws.appstream#ImageType",
                "traits" : {
@@ -7735,6 +7741,20 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.appstream#ImageSoftwareMetadata" : {
+         "members" : {
+            "nvidiaGridDriverVersion" : {
+               "target" : "com.amazonaws.appstream#NvidiaGridDriverVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the NVIDIA GRID driver installed on the image. This field is empty if no NVIDIA GRID driver is installed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the software metadata for an image, such as the installed NVIDIA GRID driver version.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.appstream#ImageState" : {
          "members" : {
             "AVAILABLE" : {
@@ -7865,7 +7885,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "The image type is the type of AppStream image resource."
+            "smithy.api#documentation" : "<p>The image type is the type of AppStream image resource.</p>"
          },
          "type" : "enum"
       },
@@ -8389,6 +8409,16 @@
             "smithy.api#documentation" : "<p>Describes the network details of the fleet or image builder instance.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.appstream#NvidiaGridDriverVersion" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[0-9]+(\\.[0-9]+){1,2}$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.appstream#OperationNotPermittedException" : {
          "members" : {
@@ -12938,6 +12968,7 @@
       },
       "com.amazonaws.appstream#WorkspaceImageId" : {
          "traits" : {
+            "smithy.api#documentation" : "<p>WorkspaceImageId type with validation pattern</p>",
             "smithy.api#length" : {
                "max" : 67,
                "min" : 12
