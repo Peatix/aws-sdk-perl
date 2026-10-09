@@ -225,6 +225,18 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearch#AcceptedWarningsList" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearch#String"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.opensearch#AccessDeniedException" : {
          "members" : {
             "message" : {
@@ -2715,7 +2727,7 @@
             "target" : "com.amazonaws.opensearch#AttachDataSourceResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Attaches a data source to an OpenSearch application. The data source can be an Amazon OpenSearch Service domain or an Amazon OpenSearch Serverless collection. If both the application and data source are in the <code>ACTIVE</code> state, the attachment completes immediately and returns a status of <code>ATTACHED</code>. If either resource is not yet active, the operation stores the request and returns a status of <code>PENDING</code>. A background process then completes the attachment when both resources become active. Pending attachments that are not completed within 24 hours are marked as <code>FAILED</code>. This operation is idempotent. If a data source is already attached or pending for the same application, the existing attachment is returned.</p>",
+            "smithy.api#documentation" : "<p>Attaches a data source to an OpenSearch application. The data source must be an Amazon OpenSearch Service domain. If both the application and the data source are active, the attachment completes immediately with a status of <code>ATTACHED</code>. Otherwise, the operation returns <code>PENDING</code> and completes the attachment automatically once both become active. If the attachment cannot be completed, its status becomes <code>FAILED</code>. This operation is idempotent: If the data source is already attached or pending, the operation returns the existing attachment.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -3846,6 +3858,12 @@
       },
       "com.amazonaws.opensearch#ChangeProgressStatusDetails" : {
          "members" : {
+            "AcceptedWarnings" : {
+               "target" : "com.amazonaws.opensearch#AcceptedWarningsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of advisory warning codes that were accepted for the configuration change.</p>"
+               }
+            },
             "ChangeId" : {
                "target" : "com.amazonaws.opensearch#GUID",
                "traits" : {
@@ -3905,6 +3923,12 @@
                "traits" : {
                   "smithy.api#default" : 0,
                   "smithy.api#documentation" : "<p>The total number of stages required for the configuration change.</p>"
+               }
+            },
+            "ValidationFailures" : {
+               "target" : "com.amazonaws.opensearch#ValidationFailures",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The validation failures that occurred as a result of the configuration change.</p>"
                }
             }
          },
@@ -8809,6 +8833,12 @@
       },
       "com.amazonaws.opensearch#DryRunProgressStatus" : {
          "members" : {
+            "AcceptedWarnings" : {
+               "target" : "com.amazonaws.opensearch#AcceptedWarningsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of advisory warning codes that were accepted for the configuration change.</p>"
+               }
+            },
             "CreationDate" : {
                "target" : "com.amazonaws.opensearch#String",
                "traits" : {
@@ -8840,7 +8870,7 @@
             "ValidationFailures" : {
                "target" : "com.amazonaws.opensearch#ValidationFailures",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Any validation failures that occurred as a result of the dry run.</p>"
+                  "smithy.api#documentation" : "<p>The validation failures that occurred as a result of the dry run.</p>"
                }
             }
          },
@@ -8967,6 +8997,12 @@
                   "smithy.api#documentation" : "<p>True to enable encryption at rest.</p>"
                }
             },
+            "EncryptionMode" : {
+               "target" : "com.amazonaws.opensearch#EncryptionMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of encryption at rest applied to the domain's data. Valid values are\n            <code>DISK</code> and <code>NATIVE</code>. <code>DISK</code> is the default and uses\n            volume-level encryption. <code>NATIVE</code> uses engine-native, index-level encryption\n            and requires encryption at rest to be enabled and OpenSearch version 3.3 or later. After\n            the mode is set to <code>NATIVE</code>, it can't be changed back to\n            <code>DISK</code>.</p>"
+               }
+            },
             "KmsKeyId" : {
                "target" : "com.amazonaws.opensearch#KmsKeyId",
                "traits" : {
@@ -9000,6 +9036,26 @@
             "smithy.api#documentation" : "<p>Status of the encryption at rest options for the specified OpenSearch Service\n            domain.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.opensearch#EncryptionMode" : {
+         "members" : {
+            "Disk" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISK"
+               }
+            },
+            "Native" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NATIVE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of encryption at rest applied to a domain's data: <code>DISK</code> for\n            volume-level encryption or <code>NATIVE</code> for engine-native, index-level\n            encryption.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.opensearch#Endpoint" : {
          "traits" : {
@@ -17780,6 +17836,12 @@
                   "smithy.api#documentation" : "<p>Options for all machine learning features for the specified domain.</p>"
                }
             },
+            "AcceptedWarnings" : {
+               "target" : "com.amazonaws.opensearch#AcceptedWarningsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of advisory warning codes to accept for this configuration change. By default, any advisory warning blocks the change. Include the code of each warning you want to accept so the change can proceed. You can find warning codes in the <code>ValidationFailures</code> list returned by <code>DescribeDomainChangeProgress</code> and <code>DescribeDryRunProgress</code>. Critical validation failures cannot be accepted and always block the change. If you omit this parameter or pass an empty list, all warnings block the change. For more information, see <a href=\"https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check\">Validating a domain update</a>.</p>"
+               }
+            },
             "AccessPolicies" : {
                "target" : "com.amazonaws.opensearch#PolicyDocument",
                "traits" : {
@@ -18811,12 +18873,35 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A message corresponding to the failure.</p>"
                }
+            },
+            "Severity" : {
+               "target" : "com.amazonaws.opensearch#ValidationFailureSeverity",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The severity of the validation failure.</p>"
+               }
             }
          },
          "traits" : {
             "smithy.api#documentation" : "<p>A validation failure that occurred as the result of a pre-update validation check\n            (verbose dry run) on a domain.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.opensearch#ValidationFailureSeverity" : {
+         "members" : {
+            "CRITICAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Critical"
+               }
+            },
+            "WARNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Warning"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.opensearch#ValidationFailures" : {
          "member" : {
