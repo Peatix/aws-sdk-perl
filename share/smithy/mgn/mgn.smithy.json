@@ -20,7 +20,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Operating denied due to a file permission or access check error.</p>",
+            "smithy.api#documentation" : "<p>Operation denied due to a file permission or access check error.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 403
          },
@@ -429,7 +429,7 @@
                   "x-amz-apigw-id"
                ]
             },
-            "smithy.api#documentation" : "<p>The Application Migration Service service.</p>",
+            "smithy.api#documentation" : "<p>Application Migration Service.</p>",
             "smithy.api#title" : "Application Migration Service",
             "smithy.rules#endpointBdd" : {
                "conditions" : [
@@ -1958,6 +1958,40 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.mgn#CidrMapping" : {
+         "members" : {
+            "originalCidr" : {
+               "target" : "com.amazonaws.mgn#Cidr",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The original CIDR range in the source network.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedCidr" : {
+               "target" : "com.amazonaws.mgn#Cidr",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated CIDR range to use in the target network.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Maps a source CIDR range to the corresponding target CIDR range to use in the target network.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.mgn#CidrMappingsList" : {
+         "member" : {
+            "target" : "com.amazonaws.mgn#CidrMapping"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.mgn#ClientIdempotencyToken" : {
          "traits" : {
             "smithy.api#length" : {
@@ -2578,6 +2612,12 @@
       },
       "com.amazonaws.mgn#CreateNetworkMigrationDefinitionRequest" : {
          "members" : {
+            "cidrMappings" : {
+               "target" : "com.amazonaws.mgn#CidrMappingsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when <code>vpcProvisioningStrategy</code> is set to <code>USE_EXISTING</code>.</p>"
+               }
+            },
             "description" : {
                "target" : "com.amazonaws.mgn#NetworkMigrationDefinitionDescription",
                "traits" : {
@@ -2627,6 +2667,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The S3 configuration for storing the target network artifacts.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "vpcProvisioningStrategy" : {
+               "target" : "com.amazonaws.mgn#VpcProvisioningStrategy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to create new target VPCs or use existing ones. Set to <code>CREATE_NEW</code> to provision new target VPCs as part of the migration, or <code>USE_EXISTING</code> to migrate into existing VPCs in the target account.</p>"
                }
             }
          },
@@ -3771,7 +3817,7 @@
             "target" : "com.amazonaws.mgn#DescribeJobsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.</p>",
+            "smithy.api#documentation" : "<p>Returns a list of Jobs. Use the jobIDs and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDateTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -3965,7 +4011,7 @@
             "target" : "com.amazonaws.mgn#DescribeReplicationConfigurationTemplatesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.</p>",
+            "smithy.api#documentation" : "<p>Lists all ReplicationConfigurationTemplates, filtered by replication configuration template IDs.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -4058,7 +4104,7 @@
             "accountID" : {
                "target" : "com.amazonaws.mgn#AccountID",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Request to filter Source Servers list by Accoun ID.</p>"
+                  "smithy.api#documentation" : "<p>Request to filter Source Servers list by Account ID.</p>"
                }
             },
             "filters" : {
@@ -4149,13 +4195,13 @@
             "items" : {
                "target" : "com.amazonaws.mgn#SourceServersList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Request to filter Source Servers list by item.</p>"
+                  "smithy.api#documentation" : "<p>The list of returned Source Servers.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.mgn#PaginationToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Request to filter Source Servers next token.</p>"
+                  "smithy.api#documentation" : "<p>The token of the next Source Server to retrieve.</p>"
                }
             }
          },
@@ -4379,7 +4425,7 @@
             "target" : "com.amazonaws.mgn#SourceServer"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.</p>",
+            "smithy.api#documentation" : "<p>Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -4884,7 +4930,7 @@
             "target" : "com.amazonaws.mgn#SourceServer"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.</p>",
+            "smithy.api#documentation" : "<p>Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -5664,19 +5710,19 @@
                "target" : "com.amazonaws.mgn#PositiveInteger",
                "traits" : {
                   "smithy.api#default" : 0,
-                  "smithy.api#documentation" : "<p>Import task summery waves created count.</p>"
+                  "smithy.api#documentation" : "<p>Import task summary waves created count.</p>"
                }
             },
             "modifiedCount" : {
                "target" : "com.amazonaws.mgn#PositiveInteger",
                "traits" : {
                   "smithy.api#default" : 0,
-                  "smithy.api#documentation" : "<p>Import task summery waves modified count.</p>"
+                  "smithy.api#documentation" : "<p>Import task summary waves modified count.</p>"
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Import task summery waves.</p>"
+            "smithy.api#documentation" : "<p>Import task summary waves.</p>"
          },
          "type" : "structure"
       },
@@ -6035,7 +6081,7 @@
             "executionID" : {
                "target" : "com.amazonaws.mgn#BoundedString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>AWS Systems Manager Document's execution ID of the of the Job Post Launch Actions.</p>"
+                  "smithy.api#documentation" : "<p>AWS Systems Manager Document's execution ID of the Job Post Launch Actions.</p>"
                }
             },
             "executionStatus" : {
@@ -6053,7 +6099,7 @@
             "ssmDocument" : {
                "target" : "com.amazonaws.mgn#SsmDocument",
                "traits" : {
-                  "smithy.api#documentation" : "<p>AWS Systems Manager's Document of the of the Job Post Launch Actions.</p>"
+                  "smithy.api#documentation" : "<p>AWS Systems Manager's Document of the Job Post Launch Actions.</p>"
                }
             },
             "ssmDocumentType" : {
@@ -6542,6 +6588,12 @@
       },
       "com.amazonaws.mgn#LaunchTemplateDiskConf" : {
          "members" : {
+            "deleteOnTermination" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Launch template disk delete on termination configuration.</p>"
+               }
+            },
             "iops" : {
                "target" : "com.amazonaws.mgn#Iops",
                "traits" : {
@@ -6552,6 +6604,12 @@
                "target" : "com.amazonaws.mgn#Throughput",
                "traits" : {
                   "smithy.api#documentation" : "<p>Launch template disk throughput configuration.</p>"
+               }
+            },
+            "volumeInitializationRate" : {
+               "target" : "com.amazonaws.mgn#VolumeInitializationRate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Launch template disk volume initialization rate configuration.</p>"
                }
             },
             "volumeType" : {
@@ -6623,7 +6681,7 @@
             "addedToServiceDateTime" : {
                "target" : "com.amazonaws.mgn#ISO8601DatetimeString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Lifecycle added to service data and time.</p>"
+                  "smithy.api#documentation" : "<p>Lifecycle added to service date and time.</p>"
                }
             },
             "elapsedReplicationDuration" : {
@@ -6773,7 +6831,7 @@
             "apiCallDateTime" : {
                "target" : "com.amazonaws.mgn#ISO8601DatetimeString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Lifecycle Test failed API call date and time.</p>"
+                  "smithy.api#documentation" : "<p>Lifecycle Test finalized API call date and time.</p>"
                }
             }
          },
@@ -9364,7 +9422,7 @@
             "target" : "com.amazonaws.mgn#SourceServer"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.</p>",
+            "smithy.api#documentation" : "<p>Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle state that equals DISCONNECTED or CUTOVER.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -9703,7 +9761,7 @@
             "artifactType" : {
                "target" : "com.amazonaws.mgn#NetworkMigrationCodeGenerationArtifactType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of the artifact, such as CLOUDFORMATION_TEMPLATE or TERRAFORM_MODULE.</p>"
+                  "smithy.api#documentation" : "<p>The type of the generated artifact.</p>"
                }
             },
             "checksum" : {
@@ -9973,6 +10031,12 @@
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the network migration definition.</p>"
                }
             },
+            "cidrMappings" : {
+               "target" : "com.amazonaws.mgn#CidrMappingsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings apply only when <code>vpcProvisioningStrategy</code> is set to <code>USE_EXISTING</code>.</p>"
+               }
+            },
             "createdAt" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
@@ -10037,6 +10101,12 @@
                "target" : "smithy.api#Timestamp",
                "traits" : {
                   "smithy.api#documentation" : "<p>The timestamp when the network migration definition was last updated.</p>"
+               }
+            },
+            "vpcProvisioningStrategy" : {
+               "target" : "com.amazonaws.mgn#VpcProvisioningStrategy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the migration creates new target VPCs or uses existing ones. <code>CREATE_NEW</code> provisions new target VPCs; <code>USE_EXISTING</code> migrates into existing VPCs in the target account.</p>"
                }
             }
          },
@@ -10633,7 +10703,7 @@
             "segmentType" : {
                "target" : "com.amazonaws.mgn#NetworkMigrationMapperSegmentType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of the segment, such as VPC, subnet, or security group.</p>"
+                  "smithy.api#documentation" : "<p>The category of the network migration segment. A segment groups the network constructs (such as VPCs, subnets, and security groups) that are migrated together. Valid values: <code>WORKLOAD</code>, <code>APPLIANCE</code>.</p>"
                }
             },
             "targetAccount" : {
@@ -11122,7 +11192,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Post Launch Actions to executed on the Test or Cutover instance.</p>"
+            "smithy.api#documentation" : "<p>Post Launch Actions to be executed on the Test or Cutover instance.</p>"
          },
          "type" : "structure"
       },
@@ -12391,7 +12461,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The request could not be completed because its exceeded the service quota.</p>",
+            "smithy.api#documentation" : "<p>The request could not be completed because it exceeded the service quota.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 402
          },
@@ -13260,7 +13330,7 @@
             "tags" : {
                "target" : "com.amazonaws.mgn#TagsMap",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Start import request tags.</p>"
+                  "smithy.api#documentation" : "<p>Start export request tags.</p>"
                }
             }
          },
@@ -14637,7 +14707,7 @@
       "com.amazonaws.mgn#Throughput" : {
          "traits" : {
             "smithy.api#range" : {
-               "max" : 1000,
+               "max" : 2000,
                "min" : 125
             }
          },
@@ -14943,7 +15013,7 @@
             "target" : "com.amazonaws.mgn#LaunchConfiguration"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates multiple LaunchConfigurations by Source Server ID.</p> <note> <p>bootMode valid values are <code>LEGACY_BIOS | UEFI</code> </p> </note>",
+            "smithy.api#documentation" : "<p>Updates multiple LaunchConfigurations by Source Server ID.</p> <note> <p>bootMode valid values are <code>LEGACY_BIOS | UEFI | USE_SOURCE</code> </p> </note>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -15190,6 +15260,12 @@
       },
       "com.amazonaws.mgn#UpdateNetworkMigrationDefinitionRequest" : {
          "members" : {
+            "cidrMappings" : {
+               "target" : "com.amazonaws.mgn#CidrMappingsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when <code>vpcProvisioningStrategy</code> is set to <code>USE_EXISTING</code>.</p>"
+               }
+            },
             "description" : {
                "target" : "com.amazonaws.mgn#NetworkMigrationDefinitionDescription",
                "traits" : {
@@ -15237,6 +15313,12 @@
                "target" : "com.amazonaws.mgn#TargetS3ConfigurationUpdate",
                "traits" : {
                   "smithy.api#documentation" : "<p>The updated S3 configuration for storing the target network artifacts.</p>"
+               }
+            },
+            "vpcProvisioningStrategy" : {
+               "target" : "com.amazonaws.mgn#VpcProvisioningStrategy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Updates whether the migration creates new target VPCs or uses existing ones. Set to <code>USE_EXISTING</code> to migrate into existing VPCs in the target account, or to <code>CREATE_NEW</code> to provision new target VPCs.</p>"
                }
             }
          },
@@ -15519,7 +15601,7 @@
             "target" : "com.amazonaws.mgn#ReplicationConfigurationTemplate"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates multiple ReplicationConfigurationTemplates by ID.</p>",
+            "smithy.api#documentation" : "<p>Updates a ReplicationConfigurationTemplate by ID.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -16010,6 +16092,15 @@
          },
          "type" : "resource"
       },
+      "com.amazonaws.mgn#VolumeInitializationRate" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 300,
+               "min" : 100
+            }
+         },
+         "type" : "long"
+      },
       "com.amazonaws.mgn#VolumeType" : {
          "traits" : {
             "smithy.api#enum" : [
@@ -16062,6 +16153,21 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.mgn#VpcProvisioningStrategy" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "name" : "CREATE_NEW",
+                  "value" : "CREATE_NEW"
+               },
+               {
+                  "name" : "USE_EXISTING",
+                  "value" : "USE_EXISTING"
+               }
+            ]
+         },
+         "type" : "string"
       },
       "com.amazonaws.mgn#Wave" : {
          "members" : {
