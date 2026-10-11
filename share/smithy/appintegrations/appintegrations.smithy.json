@@ -1191,6 +1191,12 @@
       },
       "com.amazonaws.appintegrations#ApplicationType" : {
          "members" : {
+            "A2A_SERVER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "A2A_SERVER"
+               }
+            },
             "MCP_SERVER" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -1247,6 +1253,37 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.appintegrations#AuthConfig" : {
+         "members" : {
+            "AuthType" : {
+               "target" : "com.amazonaws.appintegrations#AuthType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of authentication used when calling the external application.</p>"
+               }
+            },
+            "CredentialProviderIdentifier" : {
+               "target" : "com.amazonaws.appintegrations#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Secrets Manager secret that stores the credentials. The secret must be accessible to Connect Customer.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the authentication settings that Connect Customer uses to call an external application endpoint. The configuration includes the authentication type and credential location.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appintegrations#AuthType" : {
+         "members" : {
+            "API_KEY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "API_KEY"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.appintegrations#Boolean" : {
          "traits" : {
             "smithy.api#default" : false
@@ -1271,6 +1308,19 @@
             "smithy.api#pattern" : ".*"
          },
          "type" : "string"
+      },
+      "com.amazonaws.appintegrations#ConflictException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.appintegrations#Message"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request conflicts with the current state of the resource. Verify the application's current state and retry the request.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
       },
       "com.amazonaws.appintegrations#ContactHandling" : {
          "members" : {
@@ -1362,6 +1412,12 @@
                "target" : "com.amazonaws.appintegrations#ApplicationType",
                "traits" : {
                   "smithy.api#documentation" : "<p>The type of application.</p>"
+               }
+            },
+            "AuthConfig" : {
+               "target" : "com.amazonaws.appintegrations#AuthConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authentication settings that Connect Customer uses when calling the external application.</p>"
                }
             },
             "ClientToken" : {
@@ -1968,7 +2024,7 @@
             "target" : "com.amazonaws.appintegrations#DeleteApplicationResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Deletes the Application. Only Applications that don't have any Application Associations\n      can be deleted.</p>",
+            "smithy.api#documentation" : "<p>Deletes an application. If the application has associations, you must delete them first.\n      Alternatively, use the <code>force</code> option to delete the application and remove its\n      associations.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "DELETE",
@@ -1985,6 +2041,14 @@
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Application.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
+               }
+            },
+            "Force" : {
+               "target" : "com.amazonaws.appintegrations#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether to delete the application even if it still has application associations.\n      If <code>true</code>, the operation removes the application and its associations. If\n      <code>false</code> or absent, the delete fails when associations exist.</p>\n         <important>\n            <p>Setting this parameter to <code>true</code> permanently removes all of the\n        application's associations. Doing so might impact other resources that rely on and\n        reference the application. This action can't be undone.</p>\n         </important>",
+                  "smithy.api#httpQuery" : "force"
                }
             }
          },
@@ -2534,6 +2598,12 @@
                "target" : "com.amazonaws.appintegrations#Arn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Application.</p>"
+               }
+            },
+            "AuthConfig" : {
+               "target" : "com.amazonaws.appintegrations#AuthConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authentication settings that Connect Customer uses when calling the external application.</p>"
                }
             },
             "CreatedTime" : {
@@ -4021,6 +4091,9 @@
                "target" : "com.amazonaws.appintegrations#AccessDeniedException"
             },
             {
+               "target" : "com.amazonaws.appintegrations#ConflictException"
+            },
+            {
                "target" : "com.amazonaws.appintegrations#InternalServiceError"
             },
             {
@@ -4078,6 +4151,12 @@
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Application.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
+               }
+            },
+            "AuthConfig" : {
+               "target" : "com.amazonaws.appintegrations#AuthConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authentication settings that Connect Customer uses when calling the external application.</p>"
                }
             },
             "Description" : {

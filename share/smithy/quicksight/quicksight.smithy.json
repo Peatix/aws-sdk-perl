@@ -68,7 +68,7 @@
                "target" : "com.amazonaws.quicksight#Boolean",
                "traits" : {
                   "smithy.api#default" : null,
-                  "smithy.api#documentation" : "<p>Specifies whether ACLs are enabled for the knowledge base.</p>"
+                  "smithy.api#documentation" : "<p>Specifies whether ACLs are enabled for the knowledge base.</p>\n         <p>This setting works together with the data source connector's ACL crawling. To enforce document-level access control end to end, set <code>isACLEnabled</code> to <code>true</code> and enable ACL crawling on the connector. For example, for an Amazon S3 data source, set <code>accessControlConfiguration.crawlAcl</code> to <code>true</code> in the connector template. For more information, see <code>KbTemplateConfiguration</code>. Enabling only one of the two settings does not produce a fully ACL-enforced knowledge base.</p>"
                }
             }
          },
@@ -2385,6 +2385,92 @@
             "target" : "com.amazonaws.quicksight#AnswerId"
          },
          "type" : "list"
+      },
+      "com.amazonaws.quicksight#AppId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.quicksight#AppName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\S\\s]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.quicksight#AppSummary" : {
+         "members" : {
+            "AppId" : {
+               "target" : "com.amazonaws.quicksight#AppId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app.</p>"
+               }
+            },
+            "Arn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the app.</p>"
+               }
+            },
+            "CreatedTime" : {
+               "target" : "com.amazonaws.quicksight#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time that the app was created.</p>"
+               }
+            },
+            "LastUpdatedTime" : {
+               "target" : "com.amazonaws.quicksight#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time that the app was last updated.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.quicksight#AppName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the app.</p>"
+               }
+            },
+            "Visibility" : {
+               "target" : "com.amazonaws.quicksight#AppVisibility",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sharing status of the app: <code>PUBLIC</code> if the app is shared publicly, or <code>PRIVATE</code> if it is private.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of an app, including its identifier, name, and metadata.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#AppSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.quicksight#AppSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.quicksight#AppVisibility" : {
+         "members" : {
+            "PRIVATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRIVATE"
+               }
+            },
+            "PUBLIC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PUBLIC"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The visibility of an app. Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>PRIVATE</code> – The app is reachable only by authorized Amazon QuickSight principals.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PUBLIC</code> – The published app is reachable by anyone on the internet without signing in.</p>\n            </li>\n         </ul>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.quicksight#AppendOperation" : {
          "members" : {
@@ -8182,6 +8268,24 @@
                   "smithy.api#documentation" : "<p>The ability to add or run anomaly detection.</p>"
                }
             },
+            "AdobeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Adobe Marketing Agent connectors.</p>"
+               }
+            },
+            "AdobeAnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Adobe Analytics data sources.</p>"
+               }
+            },
+            "AirtableAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Airtable connectors.</p>"
+               }
+            },
             "AmazonBedrockARSAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8230,6 +8334,18 @@
                   "smithy.api#documentation" : "<p>The ability to perform actions using Asana connectors.</p>"
                }
             },
+            "AthenaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Amazon Athena data sources.</p>"
+               }
+            },
+            "AuroraDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Amazon Aurora data sources.</p>"
+               }
+            },
             "Automate" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8244,6 +8360,12 @@
             },
             "BedrockManagedKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "BeeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Bee connectors.</p>"
+               }
             },
             "BoxAgentAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -8272,6 +8394,18 @@
                   "smithy.api#documentation" : "<p>The ability to perform chat-related actions.</p>"
                }
             },
+            "CiscoWebexMeetingsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Cisco Webex Meetings connectors.</p>"
+               }
+            },
+            "CiscoWebexVidcastAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Cisco Webex Video Messaging Agent connectors.</p>"
+               }
+            },
             "ComprehendAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8292,6 +8426,24 @@
             },
             "ConfluenceKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "CreateAdobeAnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Adobe Analytics data sources.</p>"
+               }
+            },
+            "CreateAndUpdateAdobeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Adobe Marketing Agent actions.</p>"
+               }
+            },
+            "CreateAndUpdateAirtableAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Airtable actions.</p>"
+               }
             },
             "CreateAndUpdateAmazonBedrockARSAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -8338,6 +8490,12 @@
             "CreateAndUpdateBedrockManagedKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "CreateAndUpdateBeeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Bee actions.</p>"
+               }
+            },
             "CreateAndUpdateBoxAgentAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8351,6 +8509,18 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to create and update Canva Agent actions.</p>"
+               }
+            },
+            "CreateAndUpdateCiscoWebexMeetingsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Cisco Webex Meetings actions.</p>"
+               }
+            },
+            "CreateAndUpdateCiscoWebexVidcastAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Cisco Webex Video Messaging Agent actions.</p>"
                }
             },
             "CreateAndUpdateComprehendAction" : {
@@ -8392,10 +8562,28 @@
                   "smithy.api#documentation" : "<p>The ability to create and update datasets.</p>"
                }
             },
+            "CreateAndUpdateDropboxAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Dropbox actions.</p>"
+               }
+            },
+            "CreateAndUpdateDunAndBradstreetAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Dun and Bradstreet actions.</p>"
+               }
+            },
             "CreateAndUpdateFactSetAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to create and update FactSet actions.</p>"
+               }
+            },
+            "CreateAndUpdateFigmaAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Figma actions.</p>"
                }
             },
             "CreateAndUpdateGenericHTTPAction" : {
@@ -8410,14 +8598,74 @@
                   "smithy.api#documentation" : "<p>The ability to create and update GitHub actions.</p>"
                }
             },
+            "CreateAndUpdateGmailAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Gmail actions.</p>"
+               }
+            },
+            "CreateAndUpdateGongAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Gong actions.</p>"
+               }
+            },
+            "CreateAndUpdateGoogleAnalyticsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Google Analytics actions.</p>"
+               }
+            },
             "CreateAndUpdateGoogleCalendarAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to create and update Google Calendar actions.</p>"
                }
             },
+            "CreateAndUpdateGoogleChatAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Google Chat actions.</p>"
+               }
+            },
+            "CreateAndUpdateGoogleDocsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Google Docs actions.</p>"
+               }
+            },
+            "CreateAndUpdateGoogleDriveAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Google Drive actions.</p>"
+               }
+            },
             "CreateAndUpdateGoogleDriveKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "CreateAndUpdateGoogleMeetAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Google Meet actions.</p>"
+               }
+            },
+            "CreateAndUpdateGoogleSheetsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Google Sheets actions.</p>"
+               }
+            },
+            "CreateAndUpdateGoogleSlidesAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Google Slides actions.</p>"
+               }
+            },
+            "CreateAndUpdateHGInsightsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update HG Insights Agent actions.</p>"
+               }
             },
             "CreateAndUpdateHubspotAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -8479,6 +8727,12 @@
                   "smithy.api#documentation" : "<p>The ability to create and update Monday actions.</p>"
                }
             },
+            "CreateAndUpdateMoodysAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Moody's GenAI Ready Data actions.</p>"
+               }
+            },
             "CreateAndUpdateNewRelicAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8500,6 +8754,12 @@
             "CreateAndUpdateOneDriveKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "CreateAndUpdateOneNoteAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Microsoft OneNote actions.</p>"
+               }
+            },
             "CreateAndUpdateOpenAPIAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8512,8 +8772,20 @@
                   "smithy.api#documentation" : "<p>The ability to create and update PagerDuty Advance actions.</p>"
                }
             },
+            "CreateAndUpdatePagerDutyAgentAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update PagerDuty Agent actions.</p>"
+               }
+            },
             "CreateAndUpdateQBusinessKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "CreateAndUpdateQuickBooksAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update QuickBooks actions.</p>"
+               }
             },
             "CreateAndUpdateS3KnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
@@ -8581,6 +8853,12 @@
             "CreateAndUpdateSharePointKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "CreateAndUpdateShopifyAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Shopify actions.</p>"
+               }
+            },
             "CreateAndUpdateSlackAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8591,6 +8869,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to create and update Smartsheet actions.</p>"
+               }
+            },
+            "CreateAndUpdateSnowFlakeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Snowflake Cortex Agent actions.</p>"
                }
             },
             "CreateAndUpdateTextractAction" : {
@@ -8611,13 +8895,55 @@
                   "smithy.api#documentation" : "<p>The ability to create and update threshold alerts.</p>"
                }
             },
+            "CreateAndUpdateVisierAgentAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Visier Agent actions.</p>"
+               }
+            },
             "CreateAndUpdateWebCrawlerKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "CreateAndUpdateWhatsAppAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update WhatsApp actions.</p>"
+               }
+            },
+            "CreateAndUpdateZapierAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Zapier Agent actions.</p>"
+               }
             },
             "CreateAndUpdateZendeskAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to create and update Zendesk actions.</p>"
+               }
+            },
+            "CreateAndUpdateZoomAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update Zoom actions.</p>"
+               }
+            },
+            "CreateAndUpdateZoomInfoAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create and update ZoomInfo Agent actions.</p>"
+               }
+            },
+            "CreateAthenaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Amazon Athena data sources.</p>"
+               }
+            },
+            "CreateAuroraDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Amazon Aurora data sources.</p>"
                }
             },
             "CreateChatAgents" : {
@@ -8632,10 +8958,208 @@
                   "smithy.api#documentation" : "<p>The ability to Create Executive Summary</p>"
                }
             },
+            "CreateDatabricksDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Databricks data sources.</p>"
+               }
+            },
+            "CreateDb2DataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Db2 data sources.</p>"
+               }
+            },
+            "CreateDenodoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Denodo data sources.</p>"
+               }
+            },
+            "CreateDocumentDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Amazon DocumentDB data sources.</p>"
+               }
+            },
+            "CreateDremioDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Dremio data sources.</p>"
+               }
+            },
+            "CreateDynamoDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Amazon DynamoDB data sources.</p>"
+               }
+            },
+            "CreateExasolDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Exasol data sources.</p>"
+               }
+            },
+            "CreateFileDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create file data sources.</p>"
+               }
+            },
+            "CreateGitHubDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create GitHub data sources.</p>"
+               }
+            },
+            "CreateGoogleAnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Google Analytics data sources.</p>"
+               }
+            },
+            "CreateGoogleBigQueryDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Google BigQuery data sources.</p>"
+               }
+            },
+            "CreateGoogleSheetsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Google Sheets data sources.</p>"
+               }
+            },
+            "CreateImpalaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Impala data sources.</p>"
+               }
+            },
+            "CreateJiraDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Jira data sources.</p>"
+               }
+            },
+            "CreateMariaDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create MariaDB data sources.</p>"
+               }
+            },
+            "CreateMongoAtlasDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create MongoDB Atlas data sources.</p>"
+               }
+            },
+            "CreateMongoDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create MongoDB data sources.</p>"
+               }
+            },
+            "CreateMySqlDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create MySQL data sources.</p>"
+               }
+            },
+            "CreateOpenSearchDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Amazon OpenSearch Service data sources.</p>"
+               }
+            },
+            "CreateOracleDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Oracle data sources.</p>"
+               }
+            },
+            "CreatePayPalDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create PayPal data sources.</p>"
+               }
+            },
+            "CreatePostgreSqlDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create PostgreSQL data sources.</p>"
+               }
+            },
+            "CreatePrestoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Presto data sources.</p>"
+               }
+            },
+            "CreateRadiantDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Amazon QuickSight data sources.</p>"
+               }
+            },
+            "CreateRdsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create auto-discovered Amazon RDS data sources.</p>"
+               }
+            },
+            "CreateRedshiftAutoDiscoveredDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create auto-discovered Amazon Redshift data sources.</p>"
+               }
+            },
+            "CreateRedshiftManualDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create manually configured Amazon Redshift data sources.</p>"
+               }
+            },
+            "CreateS3AnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Amazon S3 Analytics data sources.</p>"
+               }
+            },
+            "CreateS3DataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Amazon S3 data sources.</p>"
+               }
+            },
+            "CreateS3TablesDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Amazon S3 Tables data sources.</p>"
+               }
+            },
             "CreateSPICEDataset" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to create a SPICE dataset.</p>"
+               }
+            },
+            "CreateSalesforceDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Salesforce data sources.</p>"
+               }
+            },
+            "CreateSapHanaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create SAP HANA data sources.</p>"
+               }
+            },
+            "CreateServiceNowDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create ServiceNow data sources.</p>"
                }
             },
             "CreateSharedFolders" : {
@@ -8644,10 +9168,64 @@
                   "smithy.api#documentation" : "<p>The ability to create shared folders.</p>"
                }
             },
+            "CreateSnowflakeDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Snowflake data sources.</p>"
+               }
+            },
             "CreateSpaces" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to create spaces.</p>"
+               }
+            },
+            "CreateSparkDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Spark data sources.</p>"
+               }
+            },
+            "CreateSqlServerDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create SQL Server data sources.</p>"
+               }
+            },
+            "CreateSquareDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Square data sources.</p>"
+               }
+            },
+            "CreateStarburstDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Starburst data sources.</p>"
+               }
+            },
+            "CreateTeradataDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Teradata data sources.</p>"
+               }
+            },
+            "CreateTimestreamDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Amazon Timestream data sources.</p>"
+               }
+            },
+            "CreateTrinoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Trino data sources.</p>"
+               }
+            },
+            "CreateTwitterDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create Twitter data sources.</p>"
                }
             },
             "Dashboard" : {
@@ -8656,10 +9234,64 @@
                   "smithy.api#documentation" : "<p>The ability to perform dashboard-related actions.</p>"
                }
             },
+            "DatabricksDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Databricks data sources.</p>"
+               }
+            },
+            "Db2DataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Db2 data sources.</p>"
+               }
+            },
+            "DenodoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Denodo data sources.</p>"
+               }
+            },
+            "DocumentDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Amazon DocumentDB data sources.</p>"
+               }
+            },
+            "DremioDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Dremio data sources.</p>"
+               }
+            },
+            "DropboxAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Dropbox connectors.</p>"
+               }
+            },
+            "DunAndBradstreetAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Dun and Bradstreet connectors.</p>"
+               }
+            },
+            "DynamoDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Amazon DynamoDB data sources.</p>"
+               }
+            },
             "EditVisualWithQ" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to Edit Visual with AI</p>"
+               }
+            },
+            "ExasolDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Exasol data sources.</p>"
                }
             },
             "ExportToCsv" : {
@@ -8710,6 +9342,18 @@
                   "smithy.api#documentation" : "<p>The ability to perform actions using FactSet connectors.</p>"
                }
             },
+            "FigmaAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Figma connectors.</p>"
+               }
+            },
+            "FileDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share file data sources.</p>"
+               }
+            },
             "Flow" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8728,10 +9372,46 @@
                   "smithy.api#documentation" : "<p>The ability to perform actions using REST API connection connectors.</p>"
                }
             },
+            "GitHubDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share GitHub data sources.</p>"
+               }
+            },
             "GithubAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform actions using GitHub connectors.</p>"
+               }
+            },
+            "GmailAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Gmail connectors.</p>"
+               }
+            },
+            "GongAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Gong connectors.</p>"
+               }
+            },
+            "GoogleAnalyticsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Google Analytics connectors.</p>"
+               }
+            },
+            "GoogleAnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Google Analytics data sources.</p>"
+               }
+            },
+            "GoogleBigQueryDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Google BigQuery data sources.</p>"
                }
             },
             "GoogleCalendarAction" : {
@@ -8740,8 +9420,56 @@
                   "smithy.api#documentation" : "<p>The ability to perform actions using Google Calendar connectors.</p>"
                }
             },
+            "GoogleChatAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Google Chat connectors.</p>"
+               }
+            },
+            "GoogleDocsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Google Docs connectors.</p>"
+               }
+            },
+            "GoogleDriveAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Google Drive connectors.</p>"
+               }
+            },
             "GoogleDriveKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "GoogleMeetAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Google Meet connectors.</p>"
+               }
+            },
+            "GoogleSheetsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Google Sheets connectors.</p>"
+               }
+            },
+            "GoogleSheetsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Google Sheets data sources.</p>"
+               }
+            },
+            "GoogleSlidesAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Google Slides connectors.</p>"
+               }
+            },
+            "HGInsightsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using HG Insights Agent connectors.</p>"
+               }
             },
             "HubspotAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -8757,6 +9485,12 @@
             },
             "IDCKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "ImpalaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Impala data sources.</p>"
+               }
             },
             "InboundEmailTrigger" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -8786,6 +9520,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform actions using Jira connectors.</p>"
+               }
+            },
+            "JiraDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Jira data sources.</p>"
                }
             },
             "KnowledgeBase" : {
@@ -8824,10 +9564,40 @@
                   "smithy.api#documentation" : "<p>The ability to create, update, delete and view shared folders (both restricted and unrestricted), ability to add any asset to shared folders, and ability to share the folders.</p>\n         <p>\n            <b>Note:</b> This does <i>not</i> prevent inheriting access to assets that others share with them through folder membership.</p>"
                }
             },
+            "MariaDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share MariaDB data sources.</p>"
+               }
+            },
             "MondayAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform actions using Monday connectors.</p>"
+               }
+            },
+            "MongoAtlasDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share MongoDB Atlas data sources.</p>"
+               }
+            },
+            "MongoDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share MongoDB data sources.</p>"
+               }
+            },
+            "MoodysAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Moody's GenAI Ready Data connectors.</p>"
+               }
+            },
+            "MySqlDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share MySQL data sources.</p>"
                }
             },
             "NewRelicAction" : {
@@ -8851,10 +9621,28 @@
             "OneDriveKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "OneNoteAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Microsoft OneNote connectors.</p>"
+               }
+            },
             "OpenAPIAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform actions using OpenAPI Specification connectors.</p>"
+               }
+            },
+            "OpenSearchDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Amazon OpenSearch Service data sources.</p>"
+               }
+            },
+            "OracleDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Oracle data sources.</p>"
                }
             },
             "PagerDutyAction" : {
@@ -8863,10 +9651,34 @@
                   "smithy.api#documentation" : "<p>The ability to perform actions using PagerDuty Advance connectors.</p>"
                }
             },
+            "PagerDutyAgentAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using PagerDuty Agent connectors.</p>"
+               }
+            },
+            "PayPalDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share PayPal data sources.</p>"
+               }
+            },
             "PerformFlowUiTask" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use UI Agent step to perform tasks on public websites.</p>"
+               }
+            },
+            "PostgreSqlDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share PostgreSQL data sources.</p>"
+               }
+            },
+            "PrestoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Presto data sources.</p>"
                }
             },
             "PrintReports" : {
@@ -8884,10 +9696,40 @@
             "QBusinessKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "QuickBooksAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using QuickBooks connectors.</p>"
+               }
+            },
             "QuickEventTrigger" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to create, view, edit, delete, and run Quick event triggers for flows and automations.</p>"
+               }
+            },
+            "RadiantDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Amazon QuickSight data sources.</p>"
+               }
+            },
+            "RdsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share auto-discovered Amazon RDS data sources.</p>"
+               }
+            },
+            "RedshiftAutoDiscoveredDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share auto-discovered Amazon Redshift data sources.</p>"
+               }
+            },
+            "RedshiftManualDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share manually configured Amazon Redshift data sources.</p>"
                }
             },
             "RenameSharedFolders" : {
@@ -8902,8 +9744,26 @@
                   "smithy.api#documentation" : "<p>The ability to perform research-related actions.</p>"
                }
             },
+            "S3AnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Amazon S3 Analytics data sources.</p>"
+               }
+            },
+            "S3DataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Amazon S3 data sources.</p>"
+               }
+            },
             "S3KnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "S3TablesDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Amazon S3 Tables data sources.</p>"
+               }
             },
             "SAPBillOfMaterialAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -8941,6 +9801,12 @@
                   "smithy.api#documentation" : "<p>The ability to perform actions using Salesforce connectors.</p>"
                }
             },
+            "SalesforceDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Salesforce data sources.</p>"
+               }
+            },
             "SandPGMIAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -8951,6 +9817,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform actions using S&P Global Energy connectors.</p>"
+               }
+            },
+            "SapHanaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share SAP HANA data sources.</p>"
                }
             },
             "Scenario" : {
@@ -8975,6 +9847,30 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform actions using ServiceNow connectors.</p>"
+               }
+            },
+            "ServiceNowDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share ServiceNow data sources.</p>"
+               }
+            },
+            "ShareAdobeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Adobe Marketing Agent actions.</p>"
+               }
+            },
+            "ShareAdobeAnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Adobe Analytics data sources.</p>"
+               }
+            },
+            "ShareAirtableAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Airtable actions.</p>"
                }
             },
             "ShareAmazonBedrockARSAction" : {
@@ -9019,6 +9915,18 @@
                   "smithy.api#documentation" : "<p>The ability to share Asana actions.</p>"
                }
             },
+            "ShareAthenaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Amazon Athena data sources.</p>"
+               }
+            },
+            "ShareAuroraDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Amazon Aurora data sources.</p>"
+               }
+            },
             "ShareBambooHRAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -9027,6 +9935,12 @@
             },
             "ShareBedrockManagedKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "ShareBeeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Bee actions.</p>"
+               }
             },
             "ShareBoxAgentAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -9047,6 +9961,18 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share chat agents with other users and groups.</p>"
+               }
+            },
+            "ShareCiscoWebexMeetingsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Cisco Webex Meetings actions.</p>"
+               }
+            },
+            "ShareCiscoWebexVidcastAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Cisco Webex Video Messaging Agent actions.</p>"
                }
             },
             "ShareComprehendAction" : {
@@ -9082,10 +10008,64 @@
                   "smithy.api#documentation" : "<p>The ability to share data sources.</p>"
                }
             },
+            "ShareDatabricksDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Databricks data sources.</p>"
+               }
+            },
             "ShareDatasets" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share datasets.</p>"
+               }
+            },
+            "ShareDb2DataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Db2 data sources.</p>"
+               }
+            },
+            "ShareDenodoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Denodo data sources.</p>"
+               }
+            },
+            "ShareDocumentDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Amazon DocumentDB data sources.</p>"
+               }
+            },
+            "ShareDremioDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Dremio data sources.</p>"
+               }
+            },
+            "ShareDropboxAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Dropbox actions.</p>"
+               }
+            },
+            "ShareDunAndBradstreetAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Dun and Bradstreet actions.</p>"
+               }
+            },
+            "ShareDynamoDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Amazon DynamoDB data sources.</p>"
+               }
+            },
+            "ShareExasolDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Exasol data sources.</p>"
                }
             },
             "ShareFactSetAction" : {
@@ -9094,10 +10074,28 @@
                   "smithy.api#documentation" : "<p>The ability to share FactSet actions.</p>"
                }
             },
+            "ShareFigmaAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Figma actions.</p>"
+               }
+            },
+            "ShareFileDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share file data sources.</p>"
+               }
+            },
             "ShareGenericHTTPAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share REST API connection actions.</p>"
+               }
+            },
+            "ShareGitHubDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share GitHub data sources.</p>"
                }
             },
             "ShareGithubAction" : {
@@ -9106,14 +10104,92 @@
                   "smithy.api#documentation" : "<p>The ability to share GitHub actions.</p>"
                }
             },
+            "ShareGmailAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Gmail actions.</p>"
+               }
+            },
+            "ShareGongAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Gong actions.</p>"
+               }
+            },
+            "ShareGoogleAnalyticsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Google Analytics actions.</p>"
+               }
+            },
+            "ShareGoogleAnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Google Analytics data sources.</p>"
+               }
+            },
+            "ShareGoogleBigQueryDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Google BigQuery data sources.</p>"
+               }
+            },
             "ShareGoogleCalendarAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share Google Calendar actions.</p>"
                }
             },
+            "ShareGoogleChatAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Google Chat actions.</p>"
+               }
+            },
+            "ShareGoogleDocsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Google Docs actions.</p>"
+               }
+            },
+            "ShareGoogleDriveAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Google Drive actions.</p>"
+               }
+            },
             "ShareGoogleDriveKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "ShareGoogleMeetAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Google Meet actions.</p>"
+               }
+            },
+            "ShareGoogleSheetsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Google Sheets actions.</p>"
+               }
+            },
+            "ShareGoogleSheetsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Google Sheets data sources.</p>"
+               }
+            },
+            "ShareGoogleSlidesAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Google Slides actions.</p>"
+               }
+            },
+            "ShareHGInsightsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share HG Insights Agent actions.</p>"
+               }
             },
             "ShareHubspotAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -9130,6 +10206,12 @@
             "ShareIDCKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "ShareImpalaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Impala data sources.</p>"
+               }
+            },
             "ShareIntercomAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -9140,6 +10222,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share Jira actions.</p>"
+               }
+            },
+            "ShareJiraDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Jira data sources.</p>"
                }
             },
             "ShareKnowledgeBases" : {
@@ -9169,10 +10257,40 @@
                   "smithy.api#documentation" : "<p>The ability to share Microsoft Teams actions.</p>"
                }
             },
+            "ShareMariaDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share MariaDB data sources.</p>"
+               }
+            },
             "ShareMondayAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share Monday actions.</p>"
+               }
+            },
+            "ShareMongoAtlasDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share MongoDB Atlas data sources.</p>"
+               }
+            },
+            "ShareMongoDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share MongoDB data sources.</p>"
+               }
+            },
+            "ShareMoodysAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Moody's GenAI Ready Data actions.</p>"
+               }
+            },
+            "ShareMySqlDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share MySQL data sources.</p>"
                }
             },
             "ShareNewRelicAction" : {
@@ -9196,16 +10314,46 @@
             "ShareOneDriveKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "ShareOneNoteAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Microsoft OneNote actions.</p>"
+               }
+            },
             "ShareOpenAPIAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share OpenAPI Specification actions.</p>"
                }
             },
+            "ShareOpenSearchDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Amazon OpenSearch Service data sources.</p>"
+               }
+            },
+            "ShareOracleDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Oracle data sources.</p>"
+               }
+            },
             "SharePagerDutyAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share PagerDuty Advance actions.</p>"
+               }
+            },
+            "SharePagerDutyAgentAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share PagerDuty Agent actions.</p>"
+               }
+            },
+            "SharePayPalDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share PayPal data sources.</p>"
                }
             },
             "SharePointAction" : {
@@ -9217,11 +10365,71 @@
             "SharePointKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "SharePostgreSqlDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share PostgreSQL data sources.</p>"
+               }
+            },
+            "SharePrestoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Presto data sources.</p>"
+               }
+            },
             "ShareQBusinessKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "ShareQuickBooksAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share QuickBooks actions.</p>"
+               }
+            },
+            "ShareRadiantDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Amazon QuickSight data sources.</p>"
+               }
+            },
+            "ShareRdsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share auto-discovered Amazon RDS data sources.</p>"
+               }
+            },
+            "ShareRedshiftAutoDiscoveredDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share auto-discovered Amazon Redshift data sources.</p>"
+               }
+            },
+            "ShareRedshiftManualDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share manually configured Amazon Redshift data sources.</p>"
+               }
+            },
+            "ShareS3AnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Amazon S3 Analytics data sources.</p>"
+               }
+            },
+            "ShareS3DataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Amazon S3 data sources.</p>"
+               }
+            },
             "ShareS3KnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "ShareS3TablesDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Amazon S3 Tables data sources.</p>"
+               }
             },
             "ShareSAPBillOfMaterialAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -9259,6 +10467,12 @@
                   "smithy.api#documentation" : "<p>The ability to share Salesforce actions.</p>"
                }
             },
+            "ShareSalesforceDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Salesforce data sources.</p>"
+               }
+            },
             "ShareSandPGMIAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -9271,10 +10485,22 @@
                   "smithy.api#documentation" : "<p>The ability to share S&P Global Energy actions.</p>"
                }
             },
+            "ShareSapHanaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share SAP HANA data sources.</p>"
+               }
+            },
             "ShareServiceNowAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share ServiceNow actions.</p>"
+               }
+            },
+            "ShareServiceNowDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share ServiceNow data sources.</p>"
                }
             },
             "ShareSharePointAction" : {
@@ -9285,6 +10511,12 @@
             },
             "ShareSharePointKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "ShareShopifyAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Shopify actions.</p>"
+               }
             },
             "ShareSlackAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -9298,10 +10530,52 @@
                   "smithy.api#documentation" : "<p>The ability to share Smartsheet actions.</p>"
                }
             },
+            "ShareSnowFlakeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Snowflake Cortex Agent actions.</p>"
+               }
+            },
+            "ShareSnowflakeDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Snowflake data sources.</p>"
+               }
+            },
             "ShareSpaces" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share spaces with other users and groups.</p>"
+               }
+            },
+            "ShareSparkDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Spark data sources.</p>"
+               }
+            },
+            "ShareSqlServerDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share SQL Server data sources.</p>"
+               }
+            },
+            "ShareSquareDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Square data sources.</p>"
+               }
+            },
+            "ShareStarburstDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Starburst data sources.</p>"
+               }
+            },
+            "ShareTeradataDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Teradata data sources.</p>"
                }
             },
             "ShareTextractAction" : {
@@ -9310,13 +10584,67 @@
                   "smithy.api#documentation" : "<p>The ability to share Textract actions.</p>"
                }
             },
+            "ShareTimestreamDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Amazon Timestream data sources.</p>"
+               }
+            },
+            "ShareTrinoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Trino data sources.</p>"
+               }
+            },
+            "ShareTwitterDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Twitter data sources.</p>"
+               }
+            },
+            "ShareVisierAgentAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Visier Agent actions.</p>"
+               }
+            },
             "ShareWebCrawlerKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "ShareWhatsAppAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share WhatsApp actions.</p>"
+               }
+            },
+            "ShareZapierAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Zapier Agent actions.</p>"
+               }
             },
             "ShareZendeskAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share Zendesk actions.</p>"
+               }
+            },
+            "ShareZoomAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share Zoom actions.</p>"
+               }
+            },
+            "ShareZoomInfoAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share ZoomInfo Agent actions.</p>"
+               }
+            },
+            "ShopifyAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Shopify connectors.</p>"
                }
             },
             "SlackAction" : {
@@ -9331,10 +10659,46 @@
                   "smithy.api#documentation" : "<p>The ability to perform actions using Smartsheet connectors.</p>"
                }
             },
+            "SnowFlakeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Snowflake Cortex Agent connectors.</p>"
+               }
+            },
+            "SnowflakeDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Snowflake data sources.</p>"
+               }
+            },
             "Space" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform space-related actions.</p>"
+               }
+            },
+            "SparkDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Spark data sources.</p>"
+               }
+            },
+            "SqlServerDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share SQL Server data sources.</p>"
+               }
+            },
+            "SquareDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Square data sources.</p>"
+               }
+            },
+            "StarburstDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Starburst data sources.</p>"
                }
             },
             "Story" : {
@@ -9349,10 +10713,22 @@
                   "smithy.api#documentation" : "<p>The ability to subscribe to email reports.</p>"
                }
             },
+            "TeradataDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Teradata data sources.</p>"
+               }
+            },
             "TextractAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform actions using Textract connectors.</p>"
+               }
+            },
+            "TimestreamDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Amazon Timestream data sources.</p>"
                }
             },
             "Topic" : {
@@ -9367,10 +10743,304 @@
                   "smithy.api#documentation" : "<p>The ability to manage trigger-related settings for flows and automations.</p>"
                }
             },
+            "TrinoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Trino data sources.</p>"
+               }
+            },
+            "TwitterDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create, update, and share Twitter data sources.</p>"
+               }
+            },
+            "UpdateAdobeAnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Adobe Analytics data sources.</p>"
+               }
+            },
+            "UpdateAthenaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Amazon Athena data sources.</p>"
+               }
+            },
+            "UpdateAuroraDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Amazon Aurora data sources.</p>"
+               }
+            },
+            "UpdateDatabricksDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Databricks data sources.</p>"
+               }
+            },
+            "UpdateDb2DataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Db2 data sources.</p>"
+               }
+            },
+            "UpdateDenodoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Denodo data sources.</p>"
+               }
+            },
+            "UpdateDocumentDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Amazon DocumentDB data sources.</p>"
+               }
+            },
+            "UpdateDremioDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Dremio data sources.</p>"
+               }
+            },
+            "UpdateDynamoDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Amazon DynamoDB data sources.</p>"
+               }
+            },
+            "UpdateExasolDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Exasol data sources.</p>"
+               }
+            },
+            "UpdateFileDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update file data sources.</p>"
+               }
+            },
+            "UpdateGitHubDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update GitHub data sources.</p>"
+               }
+            },
+            "UpdateGoogleAnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Google Analytics data sources.</p>"
+               }
+            },
+            "UpdateGoogleBigQueryDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Google BigQuery data sources.</p>"
+               }
+            },
+            "UpdateGoogleSheetsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Google Sheets data sources.</p>"
+               }
+            },
+            "UpdateImpalaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Impala data sources.</p>"
+               }
+            },
+            "UpdateJiraDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Jira data sources.</p>"
+               }
+            },
+            "UpdateMariaDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update MariaDB data sources.</p>"
+               }
+            },
+            "UpdateMongoAtlasDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update MongoDB Atlas data sources.</p>"
+               }
+            },
+            "UpdateMongoDbDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update MongoDB data sources.</p>"
+               }
+            },
+            "UpdateMySqlDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update MySQL data sources.</p>"
+               }
+            },
+            "UpdateOpenSearchDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Amazon OpenSearch Service data sources.</p>"
+               }
+            },
+            "UpdateOracleDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Oracle data sources.</p>"
+               }
+            },
+            "UpdatePayPalDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update PayPal data sources.</p>"
+               }
+            },
+            "UpdatePostgreSqlDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update PostgreSQL data sources.</p>"
+               }
+            },
+            "UpdatePrestoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Presto data sources.</p>"
+               }
+            },
+            "UpdateRadiantDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Amazon QuickSight data sources.</p>"
+               }
+            },
+            "UpdateRdsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update auto-discovered Amazon RDS data sources.</p>"
+               }
+            },
+            "UpdateRedshiftAutoDiscoveredDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update auto-discovered Amazon Redshift data sources.</p>"
+               }
+            },
+            "UpdateRedshiftManualDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update manually configured Amazon Redshift data sources.</p>"
+               }
+            },
+            "UpdateS3AnalyticsDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Amazon S3 Analytics data sources.</p>"
+               }
+            },
+            "UpdateS3DataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Amazon S3 data sources.</p>"
+               }
+            },
+            "UpdateS3TablesDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Amazon S3 Tables data sources.</p>"
+               }
+            },
+            "UpdateSalesforceDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Salesforce data sources.</p>"
+               }
+            },
+            "UpdateSapHanaDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update SAP HANA data sources.</p>"
+               }
+            },
+            "UpdateServiceNowDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update ServiceNow data sources.</p>"
+               }
+            },
+            "UpdateSnowflakeDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Snowflake data sources.</p>"
+               }
+            },
+            "UpdateSparkDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Spark data sources.</p>"
+               }
+            },
+            "UpdateSqlServerDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update SQL Server data sources.</p>"
+               }
+            },
+            "UpdateSquareDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Square data sources.</p>"
+               }
+            },
+            "UpdateStarburstDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Starburst data sources.</p>"
+               }
+            },
+            "UpdateTeradataDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Teradata data sources.</p>"
+               }
+            },
+            "UpdateTimestreamDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Amazon Timestream data sources.</p>"
+               }
+            },
+            "UpdateTrinoDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Trino data sources.</p>"
+               }
+            },
+            "UpdateTwitterDataSource" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to update Twitter data sources.</p>"
+               }
+            },
+            "UseAdobeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Adobe Marketing Agent actions.</p>"
+               }
+            },
             "UseAgentWebSearch" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research. \n\t          Web search queries will be processed securely in an Amazon Web Services region <code>us-east-1</code>.</p>"
+               }
+            },
+            "UseAirtableAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Airtable actions.</p>"
                }
             },
             "UseAmazonBedrockARSAction" : {
@@ -9418,6 +11088,12 @@
                   "smithy.api#documentation" : "<p>The ability to use Bedrock models for general knowledge step in flows.</p>"
                }
             },
+            "UseBeeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Bee actions.</p>"
+               }
+            },
             "UseBoxAgentAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -9437,6 +11113,18 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use Canva Agent actions.</p>"
+               }
+            },
+            "UseCiscoWebexMeetingsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Cisco Webex Meetings actions.</p>"
+               }
+            },
+            "UseCiscoWebexVidcastAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Cisco Webex Video Messaging Agent actions.</p>"
                }
             },
             "UseComprehendAction" : {
@@ -9460,6 +11148,18 @@
             "UseConfluenceKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "UseDropboxAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Dropbox actions.</p>"
+               }
+            },
+            "UseDunAndBradstreetAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Dun and Bradstreet actions.</p>"
+               }
+            },
             "UseExcelAddInExtension" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -9470,6 +11170,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use FactSet actions.</p>"
+               }
+            },
+            "UseFigmaAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Figma actions.</p>"
                }
             },
             "UseGenericHTTPAction" : {
@@ -9484,14 +11190,74 @@
                   "smithy.api#documentation" : "<p>The ability to use GitHub actions.</p>"
                }
             },
+            "UseGmailAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Gmail actions.</p>"
+               }
+            },
+            "UseGongAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Gong actions.</p>"
+               }
+            },
+            "UseGoogleAnalyticsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Google Analytics actions.</p>"
+               }
+            },
             "UseGoogleCalendarAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use Google Calendar actions.</p>"
                }
             },
+            "UseGoogleChatAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Google Chat actions.</p>"
+               }
+            },
+            "UseGoogleDocsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Google Docs actions.</p>"
+               }
+            },
+            "UseGoogleDriveAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Google Drive actions.</p>"
+               }
+            },
             "UseGoogleDriveKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "UseGoogleMeetAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Google Meet actions.</p>"
+               }
+            },
+            "UseGoogleSheetsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Google Sheets actions.</p>"
+               }
+            },
+            "UseGoogleSlidesAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Google Slides actions.</p>"
+               }
+            },
+            "UseHGInsightsAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use HG Insights Agent actions.</p>"
+               }
             },
             "UseHubspotAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
@@ -9550,6 +11316,12 @@
                   "smithy.api#documentation" : "<p>The ability to use Monday actions.</p>"
                }
             },
+            "UseMoodysAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Moody's GenAI Ready Data actions.</p>"
+               }
+            },
             "UseNewRelicAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -9571,6 +11343,12 @@
             "UseOneDriveKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "UseOneNoteAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Microsoft OneNote actions.</p>"
+               }
+            },
             "UseOpenAPIAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -9589,6 +11367,12 @@
                   "smithy.api#documentation" : "<p>The ability to use PagerDuty Advance actions.</p>"
                }
             },
+            "UsePagerDutyAgentAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use PagerDuty Agent actions.</p>"
+               }
+            },
             "UsePowerpointAddInExtension" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -9597,6 +11381,12 @@
             },
             "UseQBusinessKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "UseQuickBooksAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use QuickBooks actions.</p>"
+               }
             },
             "UseS3KnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
@@ -9664,6 +11454,12 @@
             "UseSharePointKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
             },
+            "UseShopifyAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Shopify actions.</p>"
+               }
+            },
             "UseSlackAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -9676,19 +11472,43 @@
                   "smithy.api#documentation" : "<p>The ability to use Smartsheet actions.</p>"
                }
             },
+            "UseSnowFlakeAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Snowflake Cortex Agent actions.</p>"
+               }
+            },
             "UseTextractAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use Textract actions.</p>"
                }
             },
+            "UseVisierAgentAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Visier Agent actions.</p>"
+               }
+            },
             "UseWebCrawlerKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "UseWhatsAppAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use WhatsApp actions.</p>"
+               }
             },
             "UseWordAddInExtension" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to use Amazon Quick through the Microsoft Word add-in.</p>"
+               }
+            },
+            "UseZapierAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Zapier Agent actions.</p>"
                }
             },
             "UseZendeskAction" : {
@@ -9697,19 +11517,61 @@
                   "smithy.api#documentation" : "<p>The ability to use Zendesk actions.</p>"
                }
             },
+            "UseZoomAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use Zoom actions.</p>"
+               }
+            },
+            "UseZoomInfoAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to use ZoomInfo Agent actions.</p>"
+               }
+            },
             "ViewAccountSPICECapacity" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to view account SPICE capacity.</p>"
                }
             },
+            "VisierAgentAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Visier Agent connectors.</p>"
+               }
+            },
             "WebCrawlerKnowledgeBase" : {
                "target" : "com.amazonaws.quicksight#CapabilityState"
+            },
+            "WhatsAppAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using WhatsApp connectors.</p>"
+               }
+            },
+            "ZapierAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Zapier Agent connectors.</p>"
+               }
             },
             "ZendeskAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to perform actions using Zendesk connectors.</p>"
+               }
+            },
+            "ZoomAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using Zoom connectors.</p>"
+               }
+            },
+            "ZoomInfoAction" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform actions using ZoomInfo Agent connectors.</p>"
                }
             }
          },
@@ -13947,7 +15809,7 @@
             "target" : "com.amazonaws.quicksight#CreateDataSetResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a dataset. This operation doesn't support datasets that include uploaded files\n\t\t\tas a source.</p>",
+            "smithy.api#documentation" : "<p>Creates a dataset.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -15419,7 +17281,7 @@
             "PrimaryOwnerArn" : {
                "target" : "com.amazonaws.quicksight#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the primary owner for the knowledge base. The specified user is always granted owner access, regardless of what is specified in the <code>Permissions</code> field. If you don't specify a primary owner, the knowledge base is created without one.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon QuickSight user or group to set as the primary owner of the knowledge base. The specified principal is always granted owner access, regardless of what is specified in the <code>Permissions</code> field.</p>\n         <p>This must be an Amazon QuickSight principal ARN, not an IAM user or role ARN. The API caller is never assigned as the owner automatically. If you don't specify a primary owner and don't grant owner access in <code>Permissions</code>, the knowledge base is created without an owner, even when you call the operation as an Amazon QuickSight user.</p>\n         <p>When you call <code>CreateKnowledgeBase</code> as an IAM user or an assumed IAM role, specify <code>PrimaryOwnerArn</code> (as an Amazon QuickSight principal ARN) or an owner entry in <code>Permissions</code> so that the knowledge base has an owner. Although optional, specifying a primary owner is recommended.</p>"
                }
             },
             "Tags" : {
@@ -21816,11 +23678,23 @@
       },
       "com.amazonaws.quicksight#DatabricksParameters" : {
          "members" : {
+            "AuthenticationType" : {
+               "target" : "com.amazonaws.quicksight#AuthenticationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authentication type that you want to use for your connection. This parameter accepts OAuth and non-OAuth authentication types.</p>"
+               }
+            },
             "Host" : {
                "target" : "com.amazonaws.quicksight#Host",
                "traits" : {
                   "smithy.api#documentation" : "<p>The host name of the Databricks data source.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "OAuthParameters" : {
+               "target" : "com.amazonaws.quicksight#OAuthParameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An object that contains information needed to create a data source connection between an Quick Sight account and Databricks.</p>"
                }
             },
             "Port" : {
@@ -23118,6 +24992,18 @@
                   "smithy.api#documentation" : "<p>The default options that correspond to the <code>Dropdown</code> filter control type.</p>"
                }
             },
+            "DefaultHierarchyDropdown" : {
+               "target" : "com.amazonaws.quicksight#DefaultHierarchyFilterDropDownControlOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default options that correspond to the <code>HierarchyDropdown</code> filter control type.</p>"
+               }
+            },
+            "DefaultHierarchyList" : {
+               "target" : "com.amazonaws.quicksight#DefaultHierarchyFilterListControlOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default options that correspond to the <code>HierarchyList</code> filter control type.</p>"
+               }
+            },
             "DefaultListOptions" : {
                "target" : "com.amazonaws.quicksight#DefaultFilterListControlOptions",
                "traits" : {
@@ -23271,6 +25157,82 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>The options that determine the default settings for a grid layout configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#DefaultHierarchyFilterDropDownControlOptions" : {
+         "members" : {
+            "CommitMode" : {
+               "target" : "com.amazonaws.quicksight#CommitMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The visibility configuration of the Apply button on a <code>HierarchyFilterDropDownControl</code>.</p>"
+               }
+            },
+            "ControlSortConfigurations" : {
+               "target" : "com.amazonaws.quicksight#ControlSortConfigurationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.</p>"
+               }
+            },
+            "ControlTitleFormatText" : {
+               "target" : "com.amazonaws.quicksight#ControlTitleFormatText",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The title text format configuration for the control.</p>"
+               }
+            },
+            "DisplayOptions" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterDropDownControlDisplayOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display options of a control.</p>"
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.quicksight#SheetControlListType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the <code>DefaultHierarchyFilterDropDownControlOptions</code>. Choose one of the following options:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>MULTI_SELECT</code>: The user can select multiple entries from a dropdown menu.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SINGLE_SELECT</code>: The user can select a single entry from a dropdown menu.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The default options that correspond to the <code>HierarchyDropdown</code> filter control type.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#DefaultHierarchyFilterListControlOptions" : {
+         "members" : {
+            "CommitMode" : {
+               "target" : "com.amazonaws.quicksight#CommitMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The visibility configuration of the Apply button on a <code>HierarchyFilterListControl</code>.</p>"
+               }
+            },
+            "ControlSortConfigurations" : {
+               "target" : "com.amazonaws.quicksight#ControlSortConfigurationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.</p>"
+               }
+            },
+            "ControlTitleFormatText" : {
+               "target" : "com.amazonaws.quicksight#ControlTitleFormatText",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The title text format configuration for the control.</p>"
+               }
+            },
+            "DisplayOptions" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterListControlDisplayOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display options of a control.</p>"
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.quicksight#SheetControlListType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the <code>DefaultHierarchyFilterListControlOptions</code>. Choose one of the following options:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>MULTI_SELECT</code>: The user can select multiple entries from the list.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SINGLE_SELECT</code>: The user can select a single entry from the list.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The default options that correspond to the <code>HierarchyList</code> filter control type.</p>"
          },
          "type" : "structure"
       },
@@ -23963,6 +25925,79 @@
                   "smithy.api#default" : 0,
                   "smithy.api#documentation" : "<p>The HTTP status of the request.</p>",
                   "smithy.api#httpResponseCode" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#DeleteApp" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.quicksight#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InternalFailureException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.quicksight#DeleteAppRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.quicksight#DeleteAppResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes an app.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/accounts/{AwsAccountId}/apps/{AppId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.quicksight#DeleteAppRequest" : {
+         "members" : {
+            "AppId" : {
+               "target" : "com.amazonaws.quicksight#AppId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app that you want to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "AwsAccountId" : {
+               "target" : "com.amazonaws.quicksight#AwsAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that contains the app.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#DeleteAppResponse" : {
+         "members" : {
+            "RequestId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services request ID for this operation.</p>"
                }
             }
          },
@@ -28382,6 +30417,177 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.quicksight#DescribeApp" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.quicksight#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InternalFailureException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.quicksight#DescribeAppRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.quicksight#DescribeAppResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes an app.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/accounts/{AwsAccountId}/apps/{AppId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.quicksight#DescribeAppPermissions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.quicksight#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InternalFailureException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.quicksight#DescribeAppPermissionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.quicksight#DescribeAppPermissionsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the resource permissions for an app.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/accounts/{AwsAccountId}/apps/{AppId}/permissions"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.quicksight#DescribeAppPermissionsRequest" : {
+         "members" : {
+            "AppId" : {
+               "target" : "com.amazonaws.quicksight#AppId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "AwsAccountId" : {
+               "target" : "com.amazonaws.quicksight#AwsAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that contains the app.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#DescribeAppPermissionsResponse" : {
+         "members" : {
+            "AppId" : {
+               "target" : "com.amazonaws.quicksight#AppId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app.</p>"
+               }
+            },
+            "Arn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the app.</p>"
+               }
+            },
+            "Permissions" : {
+               "target" : "com.amazonaws.quicksight#ResourcePermissionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource permissions for the app.</p>"
+               }
+            },
+            "RequestId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services request ID for this operation.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#DescribeAppRequest" : {
+         "members" : {
+            "AppId" : {
+               "target" : "com.amazonaws.quicksight#AppId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app that you want to describe.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "AwsAccountId" : {
+               "target" : "com.amazonaws.quicksight#AwsAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that contains the app.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#DescribeAppResponse" : {
+         "members" : {
+            "App" : {
+               "target" : "com.amazonaws.quicksight#AppSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The information about the app.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RequestId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services request ID for this operation.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.quicksight#DescribeApprovalPolicy" : {
          "errors" : [
             {
@@ -30012,7 +32218,7 @@
             "target" : "com.amazonaws.quicksight#DescribeDataSetResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Describes a dataset. This operation doesn't support datasets that include uploaded\n\t\t\tfiles as a source.</p>",
+            "smithy.api#documentation" : "<p>Describes a dataset.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -36269,6 +38475,12 @@
                   "smithy.api#documentation" : "<p>A <code>CategoryFilter</code> filters text values.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html\">Adding text filters</a> in the <i>Amazon Quick Suite User Guide</i>.</p>"
                }
             },
+            "HierarchyFilter" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A <code>HierarchyFilter</code> filters data by drilling down through an ordered list of columns. Each level in the list narrows the data by one column, and the selected values at each level determine which values are available at the next.</p>"
+               }
+            },
             "NestedFilter" : {
                "target" : "com.amazonaws.quicksight#NestedFilter",
                "traits" : {
@@ -36402,6 +38614,18 @@
                "target" : "com.amazonaws.quicksight#FilterDropDownControl",
                "traits" : {
                   "smithy.api#documentation" : "<p>A control to display a dropdown list with buttons that are used to select a single value.</p>"
+               }
+            },
+            "HierarchyDropdown" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterDropDownControl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A control from a hierarchy filter that displays the hierarchy as a dropdown list. You can expand a value to see and select the values beneath it, and select either a single value or multiple values.</p>"
+               }
+            },
+            "HierarchyList" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterListControl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A control from a hierarchy filter that displays the hierarchy as a list. You can expand a value to see and select the values beneath it, and select either a single value or multiple values.</p>"
                }
             },
             "List" : {
@@ -42089,6 +44313,336 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.quicksight#HierarchyFilter" : {
+         "members" : {
+            "Column" : {
+               "target" : "com.amazonaws.quicksight#ColumnIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The column that anchors the filter. This column determines the dataset that the whole\n            filter applies to, so every column in <code>HierarchyLevels</code> and in\n            <code>HierarchyTree</code> must belong to the same dataset.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "DefaultFilterControlConfiguration" : {
+               "target" : "com.amazonaws.quicksight#DefaultFilterControlConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.</p>"
+               }
+            },
+            "FilterId" : {
+               "target" : "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An identifier that uniquely identifies a filter within a dashboard, analysis, or template.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "HierarchyLevels" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterLevelList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ordered list of columns that defines the drill-down path of the filter. The first level is the top of the hierarchy. You can specify a maximum of 5 levels.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "HierarchyTree" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterNode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tree of selected values for the filter. Each node records the values that are selected at one level of the hierarchy, and its children record the selections beneath those values. Omit this attribute to define the drill-down path without restricting any values.</p>"
+               }
+            },
+            "MatchOperator" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterMatchOperator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Determines whether the values selected in <code>HierarchyTree</code> are kept or\n            removed. Choose one of the following options:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>INCLUDE</code>: Keep only the selected values.</p>\n            </li>\n            <li>\n               <p>\n                  <code>EXCLUDE</code>: Remove the selected values.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NullOption" : {
+               "target" : "com.amazonaws.quicksight#FilterNullOption",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>This option determines how null values should be treated when filtering data.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ALL_VALUES</code>: Include null values in filtered results.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NULLS_ONLY</code>: Only include null values in filtered results.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NON_NULLS_ONLY</code>: Exclude null values from filtered results.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A <code>HierarchyFilter</code> filters data by drilling down through an ordered list of columns. Each level in the list narrows the data by one column, and the selected values at each level determine which values are available at the next.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterDropDownControl" : {
+         "members" : {
+            "CommitMode" : {
+               "target" : "com.amazonaws.quicksight#CommitMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The visibility configuration of the Apply button on a <code>HierarchyFilterDropDownControl</code>.</p>"
+               }
+            },
+            "ControlSortConfigurations" : {
+               "target" : "com.amazonaws.quicksight#ControlSortConfigurationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.</p>"
+               }
+            },
+            "ControlTitleFormatText" : {
+               "target" : "com.amazonaws.quicksight#ControlTitleFormatText",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The title text format configuration for the control.</p>"
+               }
+            },
+            "DisplayOptions" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterDropDownControlDisplayOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display options of a control.</p>"
+               }
+            },
+            "FilterControlId" : {
+               "target" : "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the <code>HierarchyFilterDropDownControl</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SourceFilterId" : {
+               "target" : "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source filter ID of the <code>HierarchyFilterDropDownControl</code>. This must be\n            the <code>FilterId</code> of a <code>HierarchyFilter</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Title" : {
+               "target" : "com.amazonaws.quicksight#SheetControlTitle",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The title of the <code>HierarchyFilterDropDownControl</code>.</p>"
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.quicksight#SheetControlListType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the <code>HierarchyFilterDropDownControl</code>. Choose one of the following options:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>MULTI_SELECT</code>: The user can select multiple entries from a dropdown menu.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SINGLE_SELECT</code>: The user can select a single entry from a dropdown menu.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A control from a hierarchy filter that displays the hierarchy as a dropdown list. You can expand a value to see and select the values beneath it, and select either a single value or multiple values.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterDropDownControlDisplayOptions" : {
+         "members" : {
+            "InfoIconLabelOptions" : {
+               "target" : "com.amazonaws.quicksight#SheetControlInfoIconLabelOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration of info icon label options.</p>"
+               }
+            },
+            "TitleOptions" : {
+               "target" : "com.amazonaws.quicksight#LabelOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The options to configure the title visibility, name, and font size.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The display options of a control.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterLevel" : {
+         "members" : {
+            "Column" : {
+               "target" : "com.amazonaws.quicksight#ColumnIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The column that this level of the hierarchy drills down by. This column must belong to\n            the same dataset as <code>HierarchyFilter$Column</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>One level of the drill-down path of a <code>HierarchyFilter</code>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterLevelList" : {
+         "member" : {
+            "target" : "com.amazonaws.quicksight#HierarchyFilterLevel"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterListControl" : {
+         "members" : {
+            "CommitMode" : {
+               "target" : "com.amazonaws.quicksight#CommitMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The visibility configuration of the Apply button on a <code>HierarchyFilterListControl</code>.</p>"
+               }
+            },
+            "ControlSortConfigurations" : {
+               "target" : "com.amazonaws.quicksight#ControlSortConfigurationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.</p>"
+               }
+            },
+            "ControlTitleFormatText" : {
+               "target" : "com.amazonaws.quicksight#ControlTitleFormatText",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The title text format configuration for the control.</p>"
+               }
+            },
+            "DisplayOptions" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterListControlDisplayOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display options of a control.</p>"
+               }
+            },
+            "FilterControlId" : {
+               "target" : "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the <code>HierarchyFilterListControl</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SourceFilterId" : {
+               "target" : "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source filter ID of the <code>HierarchyFilterListControl</code>. This must be the\n            <code>FilterId</code> of a <code>HierarchyFilter</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Title" : {
+               "target" : "com.amazonaws.quicksight#SheetControlTitle",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The title of the <code>HierarchyFilterListControl</code>.</p>"
+               }
+            },
+            "Type" : {
+               "target" : "com.amazonaws.quicksight#SheetControlListType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the <code>HierarchyFilterListControl</code>. Choose one of the following options:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>MULTI_SELECT</code>: The user can select multiple entries from the list.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SINGLE_SELECT</code>: The user can select a single entry from the list.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A control from a hierarchy filter that displays the hierarchy as a list. You can expand a value to see and select the values beneath it, and select either a single value or multiple values.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterListControlDisplayOptions" : {
+         "members" : {
+            "InfoIconLabelOptions" : {
+               "target" : "com.amazonaws.quicksight#SheetControlInfoIconLabelOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration of info icon label options.</p>"
+               }
+            },
+            "SearchOptions" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterListControlSearchOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration of the search options in a hierarchy list control.</p>"
+               }
+            },
+            "TitleOptions" : {
+               "target" : "com.amazonaws.quicksight#LabelOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The options to configure the title visibility, name, and font size.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The display options of a control.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterListControlSearchOptions" : {
+         "members" : {
+            "Visibility" : {
+               "target" : "com.amazonaws.quicksight#Visibility",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The visibility configuration of the search options in a hierarchy list control.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration of the search options in a hierarchy list control.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterMatchOperator" : {
+         "members" : {
+            "EXCLUDE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EXCLUDE"
+               }
+            },
+            "INCLUDE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INCLUDE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterNode" : {
+         "members" : {
+            "Children" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterNodeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The nodes that record the selections at the next level of the hierarchy. You can\n            specify a maximum of 1,000 children per node.</p>"
+               }
+            },
+            "Column" : {
+               "target" : "com.amazonaws.quicksight#ColumnIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The column that this node selects values from. This column must match the column of the\n            corresponding level in <code>HierarchyFilter$HierarchyLevels</code>. The node at depth 1\n            must match the first level, the node at depth 2 must match the second level, and so on.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "HierarchyValues" : {
+               "target" : "com.amazonaws.quicksight#HierarchyValuesList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The values that are selected at this level of the hierarchy. You can specify a maximum\n            of 2,000 values per node.</p>"
+               }
+            },
+            "ParentValue" : {
+               "target" : "com.amazonaws.quicksight#HierarchyFilterValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value in the parent node's <code>HierarchyValues</code> that this node belongs to.\n            When a parent selects several values, each of its children repeats one of them here to\n            identify which branch of the hierarchy that child describes.</p>\n         <p>Omit this attribute on the root node of <code>HierarchyTree</code>, which has no\n            parent.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A node in the selection tree of a <code>HierarchyFilter</code>. Each node records the\n            values that are selected at one level of the hierarchy. Nodes nest through\n            <code>Children</code> to record selections at deeper levels.</p>\n         <p>The tree cannot be deeper than the number of levels declared in\n            <code>HierarchyLevels</code>. A tree can be a maximum of 5 levels deep, and a node can\n            have a maximum of 1,000 children.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterNodeList" : {
+         "member" : {
+            "target" : "com.amazonaws.quicksight#HierarchyFilterNode"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1000,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.quicksight#HierarchyFilterValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
       "com.amazonaws.quicksight#HierarchyId" : {
          "traits" : {
             "smithy.api#length" : {
@@ -42097,6 +44651,18 @@
             }
          },
          "type" : "string"
+      },
+      "com.amazonaws.quicksight#HierarchyValuesList" : {
+         "member" : {
+            "target" : "com.amazonaws.quicksight#HierarchyFilterValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2000,
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.quicksight#HistogramAggregatedFieldWells" : {
          "members" : {
@@ -44991,7 +47557,7 @@
             "template" : {
                "target" : "com.amazonaws.quicksight#KbTemplate",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The connector configuration for the knowledge base data source. The structure depends on the connector type of the data source referenced by <code>DataSourceArn</code>.</p>\n         <p>The template must be a JSON object. The required fields vary by connector type:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>Amazon S3</b> (<code>S3V2</code>) – Requires <code>connectionConfiguration</code> with <code>bucketName</code>. Supports <code>filterConfiguration</code> for inclusion and exclusion prefixes and patterns. Supports <code>accessControlConfiguration</code> and <code>deletionProtectionConfiguration</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>Google Drive</b> (<code>GOOGLEDRIVEV3</code>) – Requires <code>connectionConfiguration</code> with <code>authType</code> set to <code>SERVICE_ACCOUNT</code>. Supports <code>dataEntityConfiguration</code> with <code>crawlMyDrive</code>, <code>crawlSharedWithMe</code>, and <code>crawlSharedDrives</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>OneDrive</b> (<code>ONEDRIVEV3</code>) – Requires <code>authType</code> at the template root level set to <code>TWO_LEGGED_OAUTH</code>. Requires <code>connectionConfiguration</code> with <code>tenantId</code> in UUID format. Supports <code>dataEntityConfiguration</code> with <code>crawlPersonalDrives</code> and <code>crawlSharedWithMe</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>SharePoint</b> (<code>SHAREPOINTV3</code>) – Requires <code>connectionConfiguration</code> with <code>tenantId</code> in UUID format. Supports <code>dataEntityConfiguration</code> with <code>siteUrls</code>, <code>crawlFiles</code>, and <code>crawlPages</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>Web Crawler</b> (<code>WEBCRAWLERV3</code>) – Requires <code>connectionConfiguration</code> with <code>seedUrls</code> or <code>siteMapUrls</code> (mutually exclusive) and <code>authType</code>. Supports <code>crawlConfiguration</code> for crawl depth, rate limits, and scope. Supports <code>filterConfiguration</code> for file size limits and URL patterns. Valid values for <code>authType</code>: <code>NO_AUTH</code>, <code>BASIC_AUTH</code>, <code>FORM</code>, <code>SAML</code>.</p>\n            </li>\n         </ul>\n         <p>The optional <code>deletionProtectionConfiguration</code> object is supported by all connector types. It contains <code>enableDeletionProtection</code> and <code>deletionProtectionThreshold</code>.</p>"
+                  "smithy.api#documentation" : "<p>The connector configuration for the knowledge base data source. The structure depends on the connector type of the data source referenced by <code>DataSourceArn</code>.</p>\n         <p>The template must be a JSON object. All connector types share the following top-level keys. The value of <code>type</code> and the contents of <code>connectionConfiguration</code> vary by connector type.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>type</code> – (Required) The connector type of the data source. This value identifies the connector. Valid values: <code>S3V2</code>, <code>WEBCRAWLERV3</code>, <code>GOOGLEDRIVEV3</code>, <code>ONEDRIVEV3</code>, <code>SHAREPOINTV3</code>. For the fields required by each connector, see the connector-specific list that follows.</p>\n            </li>\n            <li>\n               <p>\n                  <code>connectionConfiguration</code> – (Required) The connection details for the data source. The keys in this object vary by connector type; see the connector-specific list that follows.</p>\n            </li>\n            <li>\n               <p>\n                  <code>filterConfiguration</code> – (Optional) Rules that determine which content is crawled, such as inclusion and exclusion prefixes, patterns, or file-size limits.</p>\n            </li>\n            <li>\n               <p>\n                  <code>accessControlConfiguration</code> – (Optional) Document-level access control (ACL) settings. Supported by all connector types except Web Crawler (<code>WEBCRAWLERV3</code>). The available fields depend on the connector type.</p>\n            </li>\n            <li>\n               <p>\n                  <code>deletionProtectionConfiguration</code> – (Optional) Deletion-protection settings, supported by all connector types. Contains <code>enableDeletionProtection</code> (Boolean) and <code>deletionProtectionThreshold</code> (String; a value from 1 to 100).</p>\n            </li>\n         </ul>\n         <p>The following list describes the valid <code>type</code> value, the <code>connectionConfiguration</code> contents, and any connector-specific fields for each connector type:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>Amazon S3</b> (<code>type</code>: <code>S3V2</code>) – The <code>type</code> value must be <code>S3V2</code>. <code>connectionConfiguration</code> is required and contains:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>bucketName</code> – (Required) The name of the Amazon S3 bucket to crawl. Type: String. Length: 3–63 characters. Pattern: <code>^[a-z0-9][.\\-a-z0-9]{1,61}[a-z0-9]$</code>.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>bucketOwnerAccountId</code> – (Required) The ID of the AWS account that owns the bucket. Type: String. Pattern: <code>^\\d{12}$</code>.</p>\n                  </li>\n               </ul>\n               <p>Amazon S3 supports the following optional <code>filterConfiguration</code> fields:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>inclusionPrefixes</code> or <code>exclusionPrefixes</code> – Amazon S3 key prefixes to include or exclude. Type: Array of String. Up to 350 items, each 1–1,024 characters.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>inclusionPatterns</code> or <code>exclusionPatterns</code> – Patterns to include or exclude objects. Type: Array of String. Up to 350 items, each 1–1,024 characters.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>maxFileSizeInMegaBytes</code> – The maximum size, in MB, of a file to ingest. Type: String. Pattern: <code>^\\d+$</code>.</p>\n                  </li>\n               </ul>\n               <p>For Amazon S3, <code>accessControlConfiguration</code> supports the following fields:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>crawlAcl</code> – Specifies whether the connector crawls and enforces document access control lists (ACLs). Type: Boolean. When set to <code>true</code>, provide ACLs either in a global ACL configuration file (<code>aclConfigurationFilePath</code>) or in per-document metadata files.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>aclConfigurationFilePath</code> – The Amazon S3 URI of the global ACL configuration file. Type: String. Length: 1–1,024 characters. Optional. If you don't provide a global ACL configuration file, define ACLs in per-document metadata files.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>defaultAccessType</code> – The access behavior applied to Amazon S3 prefixes that are not listed in the ACL configuration. Type: String. The only supported value is <code>ALLOW</code>.</p>\n                  </li>\n               </ul>\n               <p>\n                  <code>metadataFilesPrefix</code> – (Optional) The Amazon S3 prefix under which per-document metadata files are stored. Each metadata file describes a single source document and its indexable attributes. This is not the global ACL configuration file. For a single global ACL file, use <code>accessControlConfiguration.aclConfigurationFilePath</code>. Type: String. Length: 1–1,024 characters.</p>\n            </li>\n            <li>\n               <p>\n                  <b>Google Drive</b> (<code>type</code>: <code>GOOGLEDRIVEV3</code>) – Requires <code>connectionConfiguration</code> with <code>authType</code> set to <code>SERVICE_ACCOUNT</code>. Supports <code>dataEntityConfiguration</code> with <code>crawlMyDrive</code>, <code>crawlSharedWithMe</code>, and <code>crawlSharedDrives</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>OneDrive</b> (<code>type</code>: <code>ONEDRIVEV3</code>) – Requires <code>authType</code> at the template root level set to <code>TWO_LEGGED_OAUTH</code>. Requires <code>connectionConfiguration</code> with <code>tenantId</code> in UUID format. Supports <code>dataEntityConfiguration</code> with <code>crawlPersonalDrives</code> and <code>crawlSharedWithMe</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>SharePoint</b> (<code>type</code>: <code>SHAREPOINTV3</code>) – Requires <code>connectionConfiguration</code> with <code>tenantId</code> in UUID format. Supports <code>dataEntityConfiguration</code> with <code>siteUrls</code>, <code>crawlFiles</code>, and <code>crawlPages</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <b>Web Crawler</b> (<code>type</code>: <code>WEBCRAWLERV3</code>) – Requires <code>connectionConfiguration</code> with <code>seedUrls</code> or <code>siteMapUrls</code> (mutually exclusive) and <code>authType</code>. Supports <code>crawlConfiguration</code> for crawl depth, rate limits, and scope. Supports <code>filterConfiguration</code> for file size limits and URL patterns. Valid values for <code>authType</code>: <code>NO_AUTH</code>, <code>BASIC_AUTH</code>, <code>FORM</code>, <code>SAML</code>.</p>\n            </li>\n         </ul>\n         <p>\n            <b>Enabling document-level access control for Amazon S3</b>\n         </p>\n         <p>For an Amazon S3 (<code>S3V2</code>) knowledge base, document-level access control is governed by two settings that must both be enabled:</p>\n         <ol>\n            <li>\n               <p>In this template, set <code>accessControlConfiguration.crawlAcl</code> to <code>true</code>. Define ACLs either in a global ACL configuration file, referenced by <code>accessControlConfiguration.aclConfigurationFilePath</code>, or in per-document metadata files. To control access for prefixes that are not listed in the ACL file, you can also set <code>accessControlConfiguration.defaultAccessType</code>.</p>\n            </li>\n            <li>\n               <p>In the <code>CreateKnowledgeBase</code> or <code>UpdateKnowledgeBase</code> request, set the top-level <code>AccessControlConfiguration.isACLEnabled</code> to <code>true</code>.</p>\n            </li>\n         </ol>"
                }
             }
          },
@@ -47078,6 +49644,101 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The list of approval policies.</p>",
                   "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#ListApps" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.quicksight#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InternalFailureException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.quicksight#ListAppsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.quicksight#ListAppsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the apps in an Amazon Web Services account. Results are paginated; use the <code>NextToken</code> parameter to retrieve additional results.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/accounts/{AwsAccountId}/apps"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "AppSummaryList",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.quicksight#ListAppsRequest" : {
+         "members" : {
+            "AwsAccountId" : {
+               "target" : "com.amazonaws.quicksight#AwsAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that contains the apps.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.quicksight#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return in a single request. Valid range is 1 to 100. If you don't specify a value, the default is 20.</p>",
+                  "smithy.api#httpQuery" : "max-results"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.quicksight#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results, or null if there are no more results.</p>",
+                  "smithy.api#httpQuery" : "next-token"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#ListAppsResponse" : {
+         "members" : {
+            "AppSummaryList" : {
+               "target" : "com.amazonaws.quicksight#AppSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of app summaries.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.quicksight#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results, or null if there are no more results.</p>"
+               }
+            },
+            "RequestId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services request ID for this operation.</p>"
                }
             }
          },
@@ -54331,7 +56992,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>An object that contains information needed to create a data source connection that uses OAuth client credentials. This option is available for data source connections that are made with Snowflake and Starburst.</p>"
+            "smithy.api#documentation" : "<p>An object that contains information needed to create a data source connection that uses OAuth client credentials. This option is available for data source connections that are made with Snowflake, Starburst, and Databricks.</p>"
          },
          "type" : "structure"
       },
@@ -58245,6 +60906,9 @@
                "target" : "com.amazonaws.quicksight#DeleteAnalysis"
             },
             {
+               "target" : "com.amazonaws.quicksight#DeleteApp"
+            },
+            {
                "target" : "com.amazonaws.quicksight#DeleteApprovalPolicy"
             },
             {
@@ -58384,6 +61048,12 @@
             },
             {
                "target" : "com.amazonaws.quicksight#DescribeAnalysisPermissions"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#DescribeApp"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#DescribeAppPermissions"
             },
             {
                "target" : "com.amazonaws.quicksight#DescribeApprovalPolicy"
@@ -58596,6 +61266,9 @@
                "target" : "com.amazonaws.quicksight#ListApprovalPolicies"
             },
             {
+               "target" : "com.amazonaws.quicksight#ListApps"
+            },
+            {
                "target" : "com.amazonaws.quicksight#ListAssetBundleExportJobs"
             },
             {
@@ -58746,6 +61419,9 @@
                "target" : "com.amazonaws.quicksight#SearchAnalyses"
             },
             {
+               "target" : "com.amazonaws.quicksight#SearchApps"
+            },
+            {
                "target" : "com.amazonaws.quicksight#SearchDashboards"
             },
             {
@@ -58825,6 +61501,9 @@
             },
             {
                "target" : "com.amazonaws.quicksight#UpdateApplicationWithTokenExchangeGrant"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#UpdateAppPermissions"
             },
             {
                "target" : "com.amazonaws.quicksight#UpdateApprovalPolicy"
@@ -62872,7 +65551,7 @@
             "MetadataFilesLocation" : {
                "target" : "com.amazonaws.quicksight#MetadataFilesLocation",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The location of metadata files within the S3 bucket that describe the structure and content of the knowledge base.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon S3 location (prefix) of per-document metadata files. Each metadata file describes a single source document and its indexable attributes, such as title, category, and version. This is not the global ACL configuration file. To apply a single global ACL file to the entire knowledge base, use the access control configuration instead.</p>"
                }
             },
             "RoleArn" : {
@@ -62883,7 +65562,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The parameters that are required to connect to a S3 Knowledge Base data source.</p>"
+            "smithy.api#documentation" : "<p>The parameters that are required to connect to an S3 knowledge base data source.</p>\n         <p>\n            <b>Prerequisites: Amazon S3 bucket access</b>\n         </p>\n         <p>Before you call <code>CreateKnowledgeBase</code> for an Amazon S3 knowledge base, an administrator must grant Amazon QuickSight access to the source S3 bucket. If access has not been granted for the bucket, knowledge base creation fails.</p>\n         <p>To grant access, an administrator adds the bucket in the Amazon QuickSight admin console, under Permissions, Amazon Web Services resources, Amazon S3, Select S3 buckets. This authorizes the Amazon QuickSight service role to read the bucket. The bucket can be in the same Amazon Web Services account or, when the bucket owner has authorized your account, in a different account.</p>\n         <p>The service role requires at least the following permissions on the bucket:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>s3:GetObject</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>s3:ListBucket</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>s3:GetBucketLocation</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>s3:GetObjectVersion</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>s3:ListBucketVersions</code>\n               </p>\n            </li>\n         </ul>\n         <p>For the full procedure, including cross-account buckets and KMS-encrypted buckets, see the Amazon S3 knowledge base administrator setup guide.</p>\n         <note>\n            <p>To grant access for a specific S3 knowledge base data source without granting account-wide S3 access, provide a custom IAM role on the data source by using <code>RoleArn</code>.</p>\n         </note>"
          },
          "type" : "structure"
       },
@@ -63767,6 +66446,178 @@
                   "smithy.api#default" : 0,
                   "smithy.api#documentation" : "<p>The HTTP status of the request.</p>",
                   "smithy.api#httpResponseCode" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#SearchApps" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.quicksight#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InternalFailureException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.quicksight#SearchAppsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.quicksight#SearchAppsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Searches for apps in an Amazon Web Services account using the specified filters. This operation is eventually consistent; the results might not reflect very recent updates. Results are paginated; use the <code>NextToken</code> parameter to retrieve additional results.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/accounts/{AwsAccountId}/search/apps"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "AppSummaryList",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.quicksight#SearchAppsFilter" : {
+         "members" : {
+            "Name" : {
+               "target" : "com.amazonaws.quicksight#SearchAppsFilterName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the filter attribute.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Operator" : {
+               "target" : "com.amazonaws.quicksight#FilterOperator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The comparison operator for the filter.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Value" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value to filter on.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter to apply when searching for apps.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#SearchAppsFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.quicksight#SearchAppsFilter"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.quicksight#SearchAppsFilterName" : {
+         "members" : {
+            "APP_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "APP_ID"
+               }
+            },
+            "APP_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "APP_NAME"
+               }
+            },
+            "DIRECT_QUICKSIGHT_OWNER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DIRECT_QUICKSIGHT_OWNER"
+               }
+            },
+            "DIRECT_QUICKSIGHT_SOLE_OWNER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DIRECT_QUICKSIGHT_SOLE_OWNER"
+               }
+            },
+            "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name of a field that you can use to filter app search results. Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>APP_ID</code> – The unique identifier of the app.</p>\n            </li>\n            <li>\n               <p>\n                  <code>APP_NAME</code> – The display name of the app.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DIRECT_QUICKSIGHT_SOLE_OWNER</code> – An Amazon QuickSight user or group that is the sole direct owner.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DIRECT_QUICKSIGHT_OWNER</code> – An Amazon QuickSight user or group with direct owner permissions.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DIRECT_QUICKSIGHT_VIEWER_OR_OWNER</code> – An Amazon QuickSight user or group with direct viewer or owner permissions.</p>\n            </li>\n         </ul>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.quicksight#SearchAppsRequest" : {
+         "members" : {
+            "AwsAccountId" : {
+               "target" : "com.amazonaws.quicksight#AwsAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that contains the apps to search.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Filters" : {
+               "target" : "com.amazonaws.quicksight#SearchAppsFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The filters to apply to the search.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.quicksight#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return in a single request. Valid range is 1 to 100. If you don't specify a value, the default is 20.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.quicksight#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results, or null if there are no more results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#SearchAppsResponse" : {
+         "members" : {
+            "AppSummaryList" : {
+               "target" : "com.amazonaws.quicksight#AppSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of app summaries that match the search criteria.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.quicksight#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results, or null if there are no more results.</p>"
+               }
+            },
+            "RequestId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services request ID for this operation.</p>"
                }
             }
          },
@@ -77325,6 +80176,124 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.quicksight#UpdateAppPermissions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.quicksight#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InternalFailureException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.quicksight#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.quicksight#UpdateAppPermissionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.quicksight#UpdateAppPermissionsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the resource permissions for an app. You can grant or revoke permissions and, optionally, change the app's visibility.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/accounts/{AwsAccountId}/apps/{AppId}/permissions"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.quicksight#UpdateAppPermissionsRequest" : {
+         "members" : {
+            "AppId" : {
+               "target" : "com.amazonaws.quicksight#AppId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "AwsAccountId" : {
+               "target" : "com.amazonaws.quicksight#AwsAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Web Services account that contains the app.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "GrantPermissions" : {
+               "target" : "com.amazonaws.quicksight#ResourcePermissionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The permissions that you want to grant on the app.</p>"
+               }
+            },
+            "RevokePermissions" : {
+               "target" : "com.amazonaws.quicksight#ResourcePermissionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The permissions that you want to revoke from the app.</p>"
+               }
+            },
+            "Visibility" : {
+               "target" : "com.amazonaws.quicksight#AppVisibility",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The visibility to set for the app. Currently, only <code>PRIVATE</code> is accepted, which removes public (anonymous) access from the app. If you don't specify a value, the app's visibility is unchanged. Setting an app to <code>PUBLIC</code> through this operation is not supported.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#UpdateAppPermissionsResponse" : {
+         "members" : {
+            "AppId" : {
+               "target" : "com.amazonaws.quicksight#AppId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app.</p>"
+               }
+            },
+            "Arn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the app.</p>"
+               }
+            },
+            "Permissions" : {
+               "target" : "com.amazonaws.quicksight#ResourcePermissionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated resource permissions for the app.</p>"
+               }
+            },
+            "RequestId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services request ID for this operation.</p>"
+               }
+            },
+            "Visibility" : {
+               "target" : "com.amazonaws.quicksight#AppVisibility",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The visibility of the app after the update (<code>PRIVATE</code> or <code>PUBLIC</code>).</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.quicksight#UpdateApplicationWithTokenExchangeGrant" : {
          "errors" : [
             {
@@ -78510,7 +81479,7 @@
             "target" : "com.amazonaws.quicksight#UpdateDataSetResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates a dataset. This operation doesn't support datasets that include uploaded files\n\t\t\tas a source. Partial updates are not supported by this operation.</p>",
+            "smithy.api#documentation" : "<p>Updates a dataset. Partial updates are not supported by this operation.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
