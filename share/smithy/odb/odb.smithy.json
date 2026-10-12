@@ -5891,7 +5891,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.odb#GeneralInputString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates one and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#length" : {
                      "max" : 64,
@@ -5979,7 +5979,7 @@
             "scanListenerPortTcp" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections to the single client access name (SCAN) listener.</p>",
+                  "smithy.api#documentation" : "<p>The port number for TCP connections to the Single Client Access Name (SCAN) listener.</p>",
                   "smithy.api#range" : {
                      "max" : 8999,
                      "min" : 1024
@@ -5989,7 +5989,7 @@
             "scanListenerPortTcpSsl" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections with SSL to the single client access name (SCAN) listener.</p>",
+                  "smithy.api#documentation" : "<p>The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener.</p>",
                   "smithy.api#range" : {
                      "max" : 8999,
                      "min" : 1024
@@ -6193,7 +6193,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.odb#GeneralInputString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates one and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#length" : {
                      "max" : 64,
@@ -9288,13 +9288,13 @@
             "scanListenerPortTcp" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections to the single client access name (SCAN) listener for the Exascale VM cluster.</p>"
+                  "smithy.api#documentation" : "<p>The port number for TCP connections to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.</p>"
                }
             },
             "scanListenerPortTcpSsl" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections with SSL to the single client access name (SCAN) listener for the Exascale VM cluster.</p>"
+                  "smithy.api#documentation" : "<p>The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.</p>"
                }
             },
             "shape" : {
@@ -9621,13 +9621,13 @@
             "scanListenerPortTcp" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections to the single client access name (SCAN) listener for the Exascale VM cluster.</p>"
+                  "smithy.api#documentation" : "<p>The port number for TCP connections to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.</p>"
                }
             },
             "scanListenerPortTcpSsl" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections with SSL to the single client access name (SCAN) listener for the Exascale VM cluster.</p>"
+                  "smithy.api#documentation" : "<p>The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.</p>"
                }
             },
             "shape" : {
@@ -10160,6 +10160,86 @@
          },
          "traits" : {
             "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#FlexComponentList" : {
+         "member" : {
+            "target" : "com.amazonaws.odb#FlexComponentSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.odb#FlexComponentSummary" : {
+         "members" : {
+            "availableCoreCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of CPU cores that can be enabled for the flex component.</p>"
+               }
+            },
+            "availableDbStorageInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum amount of database storage, in gigabytes (GB), that can be enabled for the flex component.</p>"
+               }
+            },
+            "availableLocalStorageInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum amount of local storage, in gigabytes (GB), that can be enabled for the flex component.</p>"
+               }
+            },
+            "availableMemoryInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum amount of memory, in gigabytes (GB), that can be enabled for the flex component.</p>"
+               }
+            },
+            "computeModel" : {
+               "target" : "com.amazonaws.odb#ComputeModel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The OCI model compute model used when you create or clone an instance: ECPU or OCPU. An ECPU is an abstracted measure of compute resources. ECPUs are based on the number of cores elastically allocated from a pool of compute and storage servers. An OCPU is a legacy physical measure of compute resources. OCPUs are based on the physical core of a processor with hyper-threading enabled. </p>"
+               }
+            },
+            "descriptionSummary" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary description of the flex component.</p>"
+               }
+            },
+            "hardwareType" : {
+               "target" : "com.amazonaws.odb#HardwareType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of hardware for the flex component. Valid values are <code>COMPUTE</code> for compute servers and <code>CELL</code> for storage servers.</p>"
+               }
+            },
+            "minimumCoreCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum number of CPU cores that can be enabled for the flex component.</p>"
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the flex component.</p>"
+               }
+            },
+            "runtimeMinimumCoreCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The runtime minimum number of CPU cores that can be enabled for the flex component.</p>"
+               }
+            },
+            "shape" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The shape that uses the flex component.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about a flex component that's available for an Exadata infrastructure. A flex component defines the hardware resources, such as CPU cores, memory, and storage, that can be allocated to a shape.</p>"
          },
          "type" : "structure"
       },
@@ -11148,6 +11228,23 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A release update grid image.</p>",
                   "smithy.api#enumValue" : "RELEASE_UPDATE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.odb#HardwareType" : {
+         "members" : {
+            "CELL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CELL"
+               }
+            },
+            "COMPUTE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COMPUTE"
                }
             }
          },
@@ -12878,6 +12975,100 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.odb#ListFlexComponents" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.odb#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.odb#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.odb#ListFlexComponentsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.odb#ListFlexComponentsOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about the flex components that are available for an Exadata infrastructure.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "flexComponents",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.odb#ListFlexComponentsInput" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 1000,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.</p>",
+                  "smithy.api#httpQuery" : "nextToken",
+                  "smithy.api#length" : {
+                     "max" : 8192,
+                     "min" : 1
+                  }
+               }
+            },
+            "shape" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The shape to return flex components for. For a list of valid shapes, use the <code>ListDbSystemShapes</code> operation.</p>",
+                  "smithy.api#length" : {
+                     "max" : 256,
+                     "min" : 1
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#ListFlexComponentsOutput" : {
+         "members" : {
+            "flexComponents" : {
+               "target" : "com.amazonaws.odb#FlexComponentList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of flex components along with their properties.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to include in another request to get the next page of items. This value is <code>null</code> when there are no more items to return.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.odb#ListGiMinorVersions" : {
          "errors" : [
             {
@@ -14184,6 +14375,9 @@
             },
             {
                "target" : "com.amazonaws.odb#ListDbSystemShapes"
+            },
+            {
+               "target" : "com.amazonaws.odb#ListFlexComponents"
             },
             {
                "target" : "com.amazonaws.odb#ListGiMinorVersions"
