@@ -309,6 +309,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "metadata" : {
+               "target" : "com.amazonaws.deadline#SessionMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Key-value hints that the service provides to guide how the session runs. This value is used by the worker agent.</p>"
+               }
+            },
             "queueId" : {
                "target" : "com.amazonaws.deadline#QueueId",
                "traits" : {
@@ -4343,6 +4349,28 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.deadline#BooleanString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]|[Yy][Ee][Ss]|[Nn][Oo]|[Oo][Nn]|[Oo][Ff][Ff]|[01])$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.deadline#BooleanStringList" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#BooleanString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.deadline#BoundedString" : {
          "traits" : {
             "smithy.api#length" : {
@@ -6866,7 +6894,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The time stamp in date-time format.</p>"
+            "smithy.api#documentation" : "<p>The timestamp in date-time format.</p>"
          },
          "type" : "structure"
       },
@@ -6919,6 +6947,9 @@
             },
             {
                "target" : "com.amazonaws.deadline#ListAvailableMeteredProducts"
+            },
+            {
+               "target" : "com.amazonaws.deadline#ListMemberships"
             },
             {
                "target" : "com.amazonaws.deadline#ListQueueFleetAssociations"
@@ -9638,11 +9669,23 @@
                   "smithy.api#required" : {}
                }
             },
+            "extensions" : {
+               "target" : "com.amazonaws.deadline#OpenjdExtensionNameList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Open Job Description extensions that the environment uses. This value is used by the worker agent.</p>"
+               }
+            },
             "jobId" : {
                "target" : "com.amazonaws.deadline#JobId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The job ID.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "resolvedSymbolTable" : {
+               "target" : "com.amazonaws.deadline#SerializedSymbolTable",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resolved symbol table for the environment's expressions, serialized as JSON. This value is used by the worker agent.</p>"
                }
             },
             "schemaVersion" : {
@@ -10401,6 +10444,45 @@
             "target" : "com.amazonaws.deadline#UpdateFleet"
          }
       },
+      "com.amazonaws.deadline#FleetSoftwareAddOn" : {
+         "members" : {
+            "name" : {
+               "target" : "com.amazonaws.deadline#FleetSoftwareAddOnName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the software add-on. The supported value is <code>docker</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Software that the service installs on worker hosts in a service-managed fleet.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.deadline#FleetSoftwareAddOnName" : {
+         "members" : {
+            "DOCKER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "docker"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.deadline#FleetSoftwareAddOns" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#FleetSoftwareAddOn"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
       "com.amazonaws.deadline#FleetStatus" : {
          "members" : {
             "ACTIVE" : {
@@ -10566,6 +10648,18 @@
             "smithy.api#pattern" : "^[-]?(0|[1-9][0-9]*)([.][0-9]+)?([eE][+-]?[0-9]+)?$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.deadline#FloatStringList" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#FloatString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.deadline#GetBudget" : {
          "errors" : [
@@ -14487,6 +14581,30 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.deadline#IntStringList" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#IntString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.deadline#IntStringListList" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#NestedIntStringList"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.deadline#Integer" : {
          "type" : "integer"
       },
@@ -14685,6 +14803,12 @@
       },
       "com.amazonaws.deadline#JobDetailsEntity" : {
          "members" : {
+            "extensions" : {
+               "target" : "com.amazonaws.deadline#OpenjdExtensionNameList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Open Job Description extensions that the job template uses. This value is used by the worker agent.</p>"
+               }
+            },
             "jobAttachmentSettings" : {
                "target" : "com.amazonaws.deadline#JobDetailsJobAttachmentSettings",
                "traits" : {
@@ -15056,7 +15180,7 @@
       "com.amazonaws.deadline#JobName" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 128,
+               "max" : 512,
                "min" : 1
             }
          },
@@ -15064,10 +15188,28 @@
       },
       "com.amazonaws.deadline#JobParameter" : {
          "members" : {
+            "bool" : {
+               "target" : "com.amazonaws.deadline#BooleanString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A boolean value represented as a string. Accepted values are <code>true</code>, <code>false</code>, <code>yes</code>, <code>no</code>, <code>on</code>, <code>off</code>, <code>1</code>, and <code>0</code>, case-insensitive.</p>"
+               }
+            },
+            "boolList" : {
+               "target" : "com.amazonaws.deadline#BooleanStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of boolean values, each represented as a string.</p>"
+               }
+            },
             "float" : {
                "target" : "com.amazonaws.deadline#FloatString",
                "traits" : {
                   "smithy.api#documentation" : "<p>A double precision IEEE-754 floating point number represented as a string.</p>"
+               }
+            },
+            "floatList" : {
+               "target" : "com.amazonaws.deadline#FloatStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of double precision IEEE-754 floating point numbers, each represented as a string.</p>"
                }
             },
             "int" : {
@@ -15076,16 +15218,46 @@
                   "smithy.api#documentation" : "<p>A signed integer represented as a string.</p>"
                }
             },
+            "intList" : {
+               "target" : "com.amazonaws.deadline#IntStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of signed integers, each represented as a string.</p>"
+               }
+            },
+            "intListList" : {
+               "target" : "com.amazonaws.deadline#IntStringListList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of lists of signed integers, each represented as a string.</p>"
+               }
+            },
             "path" : {
                "target" : "com.amazonaws.deadline#PathString",
                "traits" : {
                   "smithy.api#documentation" : "<p>A file system path represented as a string.</p>"
                }
             },
+            "pathList" : {
+               "target" : "com.amazonaws.deadline#PathStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of file system paths, each represented as a string.</p>"
+               }
+            },
+            "rangeExpr" : {
+               "target" : "com.amazonaws.deadline#RangeExprString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An Open Job Description range expression represented as a string, such as <code>1-10:2</code>.</p>"
+               }
+            },
             "string" : {
                "target" : "com.amazonaws.deadline#ParameterString",
                "traits" : {
                   "smithy.api#documentation" : "<p>A UTF-8 string.</p>"
+               }
+            },
+            "stringList" : {
+               "target" : "com.amazonaws.deadline#ParameterStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of UTF-8 strings.</p>"
                }
             }
          },
@@ -15114,6 +15286,10 @@
             }
          },
          "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 0
+            },
             "smithy.api#sensitive" : {}
          },
          "type" : "map",
@@ -17070,6 +17246,136 @@
                "target" : "com.amazonaws.deadline#LimitSummaries",
                "traits" : {
                   "smithy.api#documentation" : "<p>A list of limits that the farm contains.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.deadline#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If Deadline Cloud returns <code>nextToken</code>, then there are more results available. The value of <code>nextToken</code> is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then <code>nextToken</code> is set to <code>null</code>. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 <code>ValidationException</code> error.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Shared pagination field for List operation outputs (nextToken).",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.deadline#ListMemberships" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.deadline#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.deadline#InternalServerErrorException"
+            },
+            {
+               "target" : "com.amazonaws.deadline#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.deadline#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.deadline#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.deadline#ListMembershipsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.deadline#ListMembershipsResponse"
+         },
+         "traits" : {
+            "aws.iam#conditionKeys" : [
+               "deadline:RequesterPrincipalId",
+               "deadline:PrincipalId"
+            ],
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to list Deadline Cloud resource memberships associated with an IAM Identity Center principal",
+               "name" : "ListMemberships",
+               "requiredActions" : [
+                  "identitystore:ListGroupMembershipsForMember"
+               ]
+            },
+            "smithy.api#documentation" : "<p>Lists the Deadline Cloud resource memberships associated with a specified IAM Identity Center principal, optionally filtered by the requested resource types.</p>",
+            "smithy.api#endpoint" : {
+               "hostPrefix" : "management."
+            },
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/2023-10-12/memberships"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "memberships",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.deadline#ListMembershipsRequest" : {
+         "members" : {
+            "identityCenterRegion" : {
+               "target" : "com.amazonaws.deadline#Region",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Region of the IAM Identity Center instance. If not provided, the service defaults to the Amazon Web Services Region in which you make the request.</p>",
+                  "smithy.api#httpQuery" : "identityCenterRegion"
+               }
+            },
+            "identityStoreId" : {
+               "target" : "com.amazonaws.deadline#IdentityStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identity store ID that contains the principal. This parameter is required for callers that do not use a monitor session.</p>",
+                  "smithy.api#httpQuery" : "identityStoreId"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.deadline#MaxResults",
+               "traits" : {
+                  "smithy.api#default" : 100,
+                  "smithy.api#documentation" : "<p>The maximum number of results to return. Use this parameter with <code>NextToken</code> to get results as a set of sequential pages.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.deadline#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results, or <code>null</code> to start from the beginning.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "principalId" : {
+               "target" : "com.amazonaws.deadline#IdentityCenterPrincipalId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the IAM Identity Center principal whose Deadline Cloud resource memberships you want to list.</p>",
+                  "smithy.api#httpQuery" : "principalId",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceTypes" : {
+               "target" : "com.amazonaws.deadline#MembershipResourceTypes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource types to include when listing the principal's memberships. If not specified, memberships for all supported resource types are returned.</p>",
+                  "smithy.api#httpQuery" : "resourceTypes"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Shared pagination fields for List operation inputs (nextToken + maxResults).",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.deadline#ListMembershipsResponse" : {
+         "members" : {
+            "memberships" : {
+               "target" : "com.amazonaws.deadline#MembershipSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The memberships associated with the specified principal.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -19611,6 +19917,90 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.deadline#MembershipResourceType" : {
+         "members" : {
+            "FARM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FARM"
+               }
+            },
+            "FLEET" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FLEET"
+               }
+            },
+            "JOB" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "JOB"
+               }
+            },
+            "QUEUE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "QUEUE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.deadline#MembershipResourceTypes" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#MembershipResourceType"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The list of resource types to include when listing a principal's memberships.</p>",
+            "smithy.api#length" : {
+               "max" : 4,
+               "min" : 1
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.deadline#MembershipSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#MembershipSummary"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The list of membership records for the principal.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.deadline#MembershipSummary" : {
+         "members" : {
+            "farm" : {
+               "target" : "com.amazonaws.deadline#FarmMember",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A membership on a farm.</p>"
+               }
+            },
+            "fleet" : {
+               "target" : "com.amazonaws.deadline#FleetMember",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A membership on a fleet.</p>"
+               }
+            },
+            "job" : {
+               "target" : "com.amazonaws.deadline#JobMember",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A membership on a job.</p>"
+               }
+            },
+            "queue" : {
+               "target" : "com.amazonaws.deadline#QueueMember",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A membership on a queue.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A membership record for a principal on a single Deadline Cloud resource. The summary identifies the resource that the principal is a member of and the principal's membership level for that resource.</p>"
+         },
+         "type" : "union"
+      },
       "com.amazonaws.deadline#MemoryAmountMiB" : {
          "traits" : {
             "smithy.api#range" : {
@@ -19872,6 +20262,18 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.deadline#NestedIntStringList" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#IntString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.deadline#NextItemOffset" : {
          "traits" : {
             "smithy.api#range" : {
@@ -19888,6 +20290,29 @@
             }
          },
          "type" : "string"
+      },
+      "com.amazonaws.deadline#OpenjdExtensionName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[A-Z][A-Z0-9_]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.deadline#OpenjdExtensionNameList" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#OpenjdExtensionName"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 0
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
       },
       "com.amazonaws.deadline#OutputRelativeDirectoriesList" : {
          "member" : {
@@ -19989,6 +20414,18 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.deadline#ParameterStringList" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#ParameterString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.deadline#ParameterValue" : {
          "traits" : {
             "smithy.api#length" : {
@@ -20060,6 +20497,18 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.deadline#PathStringList" : {
+         "member" : {
+            "target" : "com.amazonaws.deadline#PathString"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.deadline#Period" : {
          "members" : {
             "DAILY" : {
@@ -20101,7 +20550,7 @@
             "lastUsedTtlHours" : {
                "target" : "com.amazonaws.deadline#PersistentVolumeTtlHours",
                "traits" : {
-                  "smithy.api#default" : 168,
+                  "smithy.api#default" : 12,
                   "smithy.api#documentation" : "<p>The number of hours a persistent volume can remain unused before it is deleted. The default is 168 (7 days).</p>"
                }
             },
@@ -20842,6 +21291,15 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.deadline#RangeExprString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.deadline#Region" : {
          "traits" : {
@@ -21909,6 +22367,15 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.deadline#SerializedSymbolTable" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1000000,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.deadline#ServiceManagedEc2AutoScalingConfiguration" : {
          "members" : {
             "scaleOutWorkersPerMinute" : {
@@ -22039,6 +22506,12 @@
                "target" : "com.amazonaws.deadline#Ec2EbsVolume",
                "traits" : {
                   "smithy.api#documentation" : "<p>The root EBS volume.</p>"
+               }
+            },
+            "softwareAddOns" : {
+               "target" : "com.amazonaws.deadline#FleetSoftwareAddOns",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The software add-ons that the service installs on worker hosts when they launch.</p>"
                }
             },
             "vCpuCount" : {
@@ -22464,6 +22937,39 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.deadline#SessionMetadata" : {
+         "key" : {
+            "target" : "com.amazonaws.deadline#SessionMetadataKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.deadline#SessionMetadataValue"
+         }
+      },
+      "com.amazonaws.deadline#SessionMetadataKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.deadline#SessionMetadataValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.deadline#SessionSummaries" : {
          "member" : {
             "target" : "com.amazonaws.deadline#SessionSummary"
@@ -22757,7 +23263,7 @@
             "timezone" : {
                "target" : "com.amazonaws.deadline#Timezone",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The timezone to use for the statistics. Use UTC notation such as \"UTC+8.\"</p>"
+                  "smithy.api#documentation" : "<p>The time zone to use for the statistics. Use UTC notation such as \"UTC+8.\"</p>"
                }
             }
          },
@@ -23090,11 +23596,23 @@
                   "smithy.api#required" : {}
                }
             },
+            "extensions" : {
+               "target" : "com.amazonaws.deadline#OpenjdExtensionNameList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Open Job Description extensions that the step uses. This value is used by the worker agent.</p>"
+               }
+            },
             "jobId" : {
                "target" : "com.amazonaws.deadline#JobId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The job ID.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "resolvedSymbolTable" : {
+               "target" : "com.amazonaws.deadline#SerializedSymbolTable",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resolved symbol table for the step's expressions, serialized as JSON. This value is used by the worker agent.</p>"
                }
             },
             "schemaVersion" : {
@@ -23220,7 +23738,7 @@
       "com.amazonaws.deadline#StepName" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 64,
+               "max" : 512,
                "min" : 1
             }
          },
@@ -23291,7 +23809,7 @@
       "com.amazonaws.deadline#StepParameterName" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 64,
+               "max" : 512,
                "min" : 1
             }
          },
@@ -24894,7 +25412,7 @@
                   }
                }
             },
-            "smithy.api#documentation" : "<p>Updates a fleet.</p>",
+            "smithy.api#documentation" : "<p>Updates a fleet.</p> <note> <p>Workers that are running when you call <code>UpdateFleet</code> keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take effect immediately. To make sure that all workers use the new configuration, set <code>maxWorkerCount</code> to 0, use the <code>ListWorkers</code> operation to confirm that the fleet has no workers, and then restore <code>maxWorkerCount</code>.</p> </note>",
             "smithy.api#endpoint" : {
                "hostPrefix" : "management."
             },
