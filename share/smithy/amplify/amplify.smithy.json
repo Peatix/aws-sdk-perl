@@ -31,7 +31,7 @@
       "com.amazonaws.amplify#AccessToken" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 255,
+               "max" : 4096,
                "min" : 1
             },
             "smithy.api#pattern" : "^(?s).+$",
