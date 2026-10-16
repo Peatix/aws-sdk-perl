@@ -7,7 +7,6 @@ use Carp qw(croak);
 use Digest::SHA qw(sha256_hex hmac_sha256 hmac_sha256_hex);
 use POSIX qw(strftime);
 use Scalar::Util qw(blessed);
-use URI;
 use URI::Escape qw(uri_escape_utf8);
 
 our $VERSION = '1.2.1';
@@ -40,36 +39,31 @@ sub generate_db_auth_token {
 
     my $creds = $credentials->refresh;
 
-    my $uri = URI->new("https://${hostname}:${port}/");
-    $uri->query_form(
-        Action => 'connect',
-        DBUser => $db_user,
-    );
-
     my $amz_date   = strftime('%Y%m%dT%H%M%SZ', gmtime $now);
     my $date_stamp = substr($amz_date, 0, 8);
     my $scope      = join '/', $date_stamp, $region, $SIGNING_SERVICE, 'aws4_request';
 
-    my %qp = $uri->query_form;
-    $qp{'X-Amz-Algorithm'}     = 'AWS4-HMAC-SHA256';
-    $qp{'X-Amz-Credential'}    = $creds->access_key . '/' . $scope;
-    $qp{'X-Amz-Date'}          = $amz_date;
-    $qp{'X-Amz-Expires'}       = $expires_in;
-    $qp{'X-Amz-SignedHeaders'} = 'host';
+    my %qp = (
+        Action                     => 'connect',
+        DBUser                     => $db_user,
+        'X-Amz-Algorithm'          => 'AWS4-HMAC-SHA256',
+        'X-Amz-Credential'         => $creds->access_key . '/' . $scope,
+        'X-Amz-Date'               => $amz_date,
+        'X-Amz-Expires'            => $expires_in,
+        'X-Amz-SignedHeaders'      => 'host',
+    );
     $qp{'X-Amz-Security-Token'} = $creds->session_token
         if $creds->session_token;
 
-    my @keys = sort keys %qp;
-    my $canonical_qs = join '&', map {
-        uri_escape_utf8($_,        q[^A-Za-z0-9\-_.~])
-          . '='
-          . uri_escape_utf8($qp{$_}, q[^A-Za-z0-9\-_.~])
-    } @keys;
+    my $canonical_qs = _canonical_query(\%qp);
 
     my $host              = "${hostname}:${port}";
     my $canonical_headers = "host:${host}\n";
     my $signed_headers    = 'host';
-    my $payload_hash      = 'UNSIGNED-PAYLOAD';
+    # RDS verifies a presign of an empty GET. The AWS CLI and the Go SDK
+    # hash that empty body. UNSIGNED-PAYLOAD is a different string, and
+    # the database rejects the resulting token as InvalidToken.
+    my $payload_hash      = sha256_hex('');
 
     my $canonical_request = join "\n",
         'GET',
@@ -92,12 +86,19 @@ sub generate_db_auth_token {
     my $signature = hmac_sha256_hex($string_to_sign, $kSigning);
 
     $qp{'X-Amz-Signature'} = $signature;
-    $uri->query_form(\%qp);
 
-    my $presigned_url = $uri->as_string;
-    $presigned_url =~ s{^https://}{};
+    # Emit the same encoding the signature covered. URI::query_form leaves
+    # "*" raw, and a token signed over "%2A" then fails verification.
+    return "${host}/?" . _canonical_query(\%qp);
+}
 
-    return $presigned_url;
+sub _canonical_query {
+    my ($qp) = @_;
+    return join '&', map {
+        uri_escape_utf8($_,         q[^A-Za-z0-9\-_.~])
+          . '='
+          . uri_escape_utf8($qp->{$_}, q[^A-Za-z0-9\-_.~])
+    } sort keys %$qp;
 }
 
 1;
@@ -136,7 +137,9 @@ Paws::RDS::AuthToken - Generate RDS IAM authentication tokens
 
 Generates an IAM authentication token for connecting to an Amazon RDS
 database instance. The token is a SigV4-presigned URL (with the scheme
-stripped) that the RDS service validates in place of a password.
+stripped) that the RDS service validates in place of a password. The
+canonical request hashes an empty body. RDS rejects a token signed with
+C<UNSIGNED-PAYLOAD>.
 
 This is the Perl equivalent of C<boto3>'s
 C<rds_client.generate_db_auth_token()>, the Go SDK's

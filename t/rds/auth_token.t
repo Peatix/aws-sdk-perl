@@ -80,7 +80,7 @@ sub compute_expected_signature {
         $canonical_qs,
         "host:${host}\n",
         'host',
-        'UNSIGNED-PAYLOAD';
+        sha256_hex('');
 
     my $string_to_sign = join "\n",
         'AWS4-HMAC-SHA256',
@@ -164,6 +164,9 @@ subtest 'golden: signature matches independently computed value' => sub {
     my $u = URI->new("https://${token}");
     is($u->query_param('X-Amz-Signature'), $expected_sig,
        'signature matches the independently-computed golden value');
+    is($u->query_param('X-Amz-Signature'),
+       'f6600a42d850ffa19109500eeeb0e8ae1043cd556d8de23c26c5baaedf34d593',
+       'signature is the empty-body presign');
 };
 
 subtest 'golden: MySQL port 3306' => sub {
@@ -239,6 +242,23 @@ subtest 'session token is included when present' => sub {
     );
     is($u->query_param('X-Amz-Signature'), $expected_sig,
        'signature accounts for the session token');
+};
+
+subtest 'star in a session token is percent-encoded on the wire' => sub {
+    my $creds = make_credentials(
+        session_token => 'star*token',
+    );
+    my $token = Paws::RDS::AuthToken->generate_db_auth_token(
+        credentials => $creds,
+        hostname    => 'mydb.123456789012.us-east-1.rds.amazonaws.com',
+        port        => 5432,
+        db_user     => 'iam_user',
+        region      => 'us-east-1',
+        _now        => $FIXED_NOW,
+    );
+
+    like($token, qr/X-Amz-Security-Token=star%2Atoken/,
+         'star is encoded as %2A, matching the signed query');
 };
 
 subtest 'custom expires_in is honoured' => sub {
