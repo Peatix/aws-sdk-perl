@@ -37,7 +37,7 @@ has credentials => (
 
 package Paws;
 
-our $VERSION = '1.2.1';
+our $VERSION = '1.2.2';
 
 use Carp;
 
