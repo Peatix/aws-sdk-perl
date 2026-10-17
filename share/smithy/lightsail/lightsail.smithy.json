@@ -4485,6 +4485,12 @@
                   "smithy.api#documentation" : "<p>The name of the SSL/TLS certificate that you want to attach to the distribution.</p>\n         <p>Use the <a href=\"https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetCertificates.html\">GetCertificates</a>\n      action to get a list of certificate names that you can specify.</p>"
                }
             },
+            "customErrorResponses" : {
+               "target" : "com.amazonaws.lightsail#DistributionCustomErrorResponseList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of objects that describe the custom error responses for the distribution. With a\n      custom error response, you can specify the page to return when the origin responds with a\n      given HTTP error code. You can also specify the HTTP status code to send to the viewer.</p>"
+               }
+            },
             "defaultCacheBehavior" : {
                "target" : "com.amazonaws.lightsail#CacheBehavior",
                "traits" : {
@@ -4492,11 +4498,23 @@
                   "smithy.api#required" : {}
                }
             },
+            "defaultRootObject" : {
+               "target" : "com.amazonaws.lightsail#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The object (for example, <code>index.html</code>) that the distribution returns when a\n      viewer requests the root URL of the distribution (<code>/</code>) instead of a specific\n      object. The object that you specify must be available from the origin.</p>"
+               }
+            },
             "distributionName" : {
                "target" : "com.amazonaws.lightsail#ResourceName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name for the distribution.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "enablePrivateOriginAccess" : {
+               "target" : "com.amazonaws.lightsail#boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable private origin access for the distribution. With private\n      origin access, the distribution can serve objects that aren't publicly accessible from a\n      Lightsail bucket.</p>\n         <p>Lightsail grants the distribution permission to read the bucket's objects. Enabling\n      private origin access doesn't change the bucket's access settings, and you can still\n      retrieve publicly accessible objects directly from the bucket's endpoint.</p>\n         <note>\n            <p>You can enable private origin access only when the distribution's origin is a\n        Lightsail bucket. If the origin is another resource type, the request fails.</p>\n         </note>"
                }
             },
             "ipAddressType" : {
@@ -8155,6 +8173,44 @@
       "com.amazonaws.lightsail#DistributionBundleList" : {
          "member" : {
             "target" : "com.amazonaws.lightsail#DistributionBundle"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.lightsail#DistributionCustomErrorResponse" : {
+         "members" : {
+            "errorCachingMinTTL" : {
+               "target" : "com.amazonaws.lightsail#long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum time, in seconds, that the distribution caches the custom error response\n      before requesting the object again from the origin. If you don't specify a value, the default\n      is <code>10</code> seconds.</p>"
+               }
+            },
+            "errorCode" : {
+               "target" : "com.amazonaws.lightsail#integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The HTTP error code from the origin that triggers the custom error response (for example,\n      <code>403</code> or <code>404</code>).</p>"
+               }
+            },
+            "responseCode" : {
+               "target" : "com.amazonaws.lightsail#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The HTTP status code that the distribution returns to the viewer for the custom error\n      response.</p>"
+               }
+            },
+            "responsePagePath" : {
+               "target" : "com.amazonaws.lightsail#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The path to the custom error page that the distribution returns to the viewer (for\n      example, <code>/404.html</code>). The path must begin with a forward slash (<code>/</code>)\n      and reference an object that is available from the origin.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a custom error response for a Lightsail distribution. A custom error response\n      specifies the page that the distribution returns to the viewer. It also specifies the HTTP\n      status code that the distribution sends when the origin responds with a given HTTP error code.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.lightsail#DistributionCustomErrorResponseList" : {
+         "member" : {
+            "target" : "com.amazonaws.lightsail#DistributionCustomErrorResponse"
          },
          "type" : "list"
       },
@@ -12806,6 +12862,68 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.lightsail#GetProfile" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.lightsail#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.lightsail#AccountSetupInProgressException"
+            },
+            {
+               "target" : "com.amazonaws.lightsail#InvalidInputException"
+            },
+            {
+               "target" : "com.amazonaws.lightsail#ServiceException"
+            },
+            {
+               "target" : "com.amazonaws.lightsail#UnauthenticatedException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.lightsail#GetProfileRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.lightsail#GetProfileResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about the profile of the Amazon Lightsail account that makes the\n      request. The response includes the profile type and, for accounts enrolled in the Lightsail\n      partner program, the partner membership details.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/ls/api/2016-11-28/GetProfile"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.lightsail#GetProfileRequest" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.lightsail#GetProfileResult" : {
+         "members" : {
+            "partner" : {
+               "target" : "com.amazonaws.lightsail#PartnerInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An object that describes the partner membership of the account, such as the tier of the\n      membership, its status, and when the account was enrolled.</p>\n         <p>This parameter is returned only for accounts that have a <code>profileType</code> of\n        <code>LightsailPartner</code>.</p>"
+               }
+            },
+            "profileType" : {
+               "target" : "com.amazonaws.lightsail#ProfileType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the profile.</p>\n         <p>The following profile types are possible:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Lightsailor</code> – The account is not enrolled in the Lightsail partner\n          program.</p>\n            </li>\n            <li>\n               <p>\n                  <code>LightsailPartner</code> – The account is enrolled in the Lightsail partner\n          program.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.lightsail#GetRegions" : {
          "errors" : [
             {
@@ -15674,10 +15792,22 @@
                   "smithy.api#documentation" : "<p>The timestamp when the distribution was created.</p>"
                }
             },
+            "customErrorResponses" : {
+               "target" : "com.amazonaws.lightsail#DistributionCustomErrorResponseList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of objects that describe the custom error responses configured for the\n      distribution.</p>"
+               }
+            },
             "defaultCacheBehavior" : {
                "target" : "com.amazonaws.lightsail#CacheBehavior",
                "traits" : {
                   "smithy.api#documentation" : "<p>An object that describes the default cache behavior of the distribution.</p>"
+               }
+            },
+            "defaultRootObject" : {
+               "target" : "com.amazonaws.lightsail#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The object (for example, <code>index.html</code>) that the distribution returns when a\n      viewer requests the root URL of the distribution (<code>/</code>) instead of a specific\n      object.</p>"
                }
             },
             "domainName" : {
@@ -16089,6 +16219,9 @@
             },
             {
                "target" : "com.amazonaws.lightsail#GetOperationsForResource"
+            },
+            {
+               "target" : "com.amazonaws.lightsail#GetProfile"
             },
             {
                "target" : "com.amazonaws.lightsail#GetRegions"
@@ -18208,6 +18341,12 @@
                   "smithy.api#enumValue" : "FreeStorageSpace"
                }
             },
+            "FreeableMemory" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FreeableMemory"
+               }
+            },
             "HTTPCode_Instance_2XX_Count" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -18308,6 +18447,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "StatusCheckFailed_System"
+               }
+            },
+            "SwapUsage" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SwapUsage"
                }
             },
             "UnhealthyHostCount" : {
@@ -19242,6 +19387,12 @@
                   "smithy.api#enumValue" : "GetContactMethods"
                }
             },
+            "GetProfile" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GetProfile"
+               }
+            },
             "OpenInstancePublicPorts" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -19427,6 +19578,12 @@
                   "smithy.api#documentation" : "<p>The IP address type that the distribution uses when connecting to the origin.</p>\n         <p>The possible values are <code>ipv4</code> for IPv4 only, <code>ipv6</code> for IPv6 only,\n      and <code>dualstack</code> for IPv4 and IPv6.</p>"
                }
             },
+            "isPrivateOriginAccessEnabled" : {
+               "target" : "com.amazonaws.lightsail#boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether private origin access is enabled for the distribution's origin. With\n      private origin access, the distribution can serve objects that aren't publicly accessible\n      from a Lightsail bucket.</p>\n         <p>This applies when you set the bucket's <code>getObject</code> access rule to\n      <code>private</code>. It also applies when you set <code>getObject</code> to <code>public</code>\n      but set individual objects to private.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.lightsail#ResourceName",
                "traits" : {
@@ -19514,6 +19671,51 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.lightsail#PartnerInfo" : {
+         "members" : {
+            "enrolledAt" : {
+               "target" : "com.amazonaws.lightsail#IsoDate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the account was enrolled in the Lightsail partner program.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.lightsail#PartnerStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the partner membership.</p>\n         <p>The following statuses are possible:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Active</code> – The membership is active, and the benefits of the current tier\n          are available to the account.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Suspended</code> – The membership is suspended, and the benefits of the tier are\n          not available to the account.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tierName" : {
+               "target" : "com.amazonaws.lightsail#TierName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tier of the partner membership.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An object that contains information about the Lightsail partner program membership of an\n        Amazon Lightsail account.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.lightsail#PartnerStatus" : {
+         "members" : {
+            "Active" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Active"
+               }
+            },
+            "Suspended" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Suspended"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.lightsail#PasswordData" : {
          "members" : {
@@ -19859,6 +20061,23 @@
             "smithy.api#documentation" : "<p>Describes a request to configure an Amazon Lightsail container service to\n      access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access\">Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service</a> in the <i>Amazon Lightsail Developer Guide</i>.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.lightsail#ProfileType" : {
+         "members" : {
+            "LightsailPartner" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LightsailPartner"
+               }
+            },
+            "Lightsailor" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Lightsailor"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.lightsail#PutAlarm" : {
          "errors" : [
@@ -21028,6 +21247,12 @@
                   "smithy.api#enumValue" : "FreeStorageSpace"
                }
             },
+            "FreeableMemory" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FreeableMemory"
+               }
+            },
             "NetworkReceiveThroughput" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -21038,6 +21263,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "NetworkTransmitThroughput"
+               }
+            },
+            "SwapUsage" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SwapUsage"
                }
             }
          },
@@ -23153,6 +23384,35 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.lightsail#TierName" : {
+         "members" : {
+            "Accelerate" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Accelerate"
+               }
+            },
+            "Essential" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Essential"
+               }
+            },
+            "Growth" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Growth"
+               }
+            },
+            "Premier" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Premier"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.lightsail#TimeOfDay" : {
          "traits" : {
             "smithy.api#pattern" : "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
@@ -23779,10 +24039,22 @@
                   "smithy.api#documentation" : "<p>The name of the SSL/TLS certificate that you want to attach to the distribution.</p>\n         <p>Only certificates with a status of <code>ISSUED</code> can be attached to a\n      distribution.</p>\n         <p>Use the <a href=\"https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetCertificates.html\">GetCertificates</a>\n      action to get a list of certificate names that you can specify.</p>"
                }
             },
+            "customErrorResponses" : {
+               "target" : "com.amazonaws.lightsail#DistributionCustomErrorResponseList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of objects that describe the custom error responses for the distribution. With a\n      custom error response, you can specify the page to return when the origin responds with a\n      given HTTP error code. You can also specify the HTTP status code to send to the viewer.</p>"
+               }
+            },
             "defaultCacheBehavior" : {
                "target" : "com.amazonaws.lightsail#CacheBehavior",
                "traits" : {
                   "smithy.api#documentation" : "<p>An object that describes the default cache behavior for the distribution.</p>"
+               }
+            },
+            "defaultRootObject" : {
+               "target" : "com.amazonaws.lightsail#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The object (for example, <code>index.html</code>) that the distribution returns when a\n      viewer requests the root URL of the distribution (<code>/</code>) instead of a specific\n      object. The object that you specify must be available from the origin.</p>"
                }
             },
             "distributionName" : {
@@ -23790,6 +24062,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the distribution to update.</p>\n         <p>Use the <code>GetDistributions</code> action to get a list of distribution names that you\n      can specify.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "enablePrivateOriginAccess" : {
+               "target" : "com.amazonaws.lightsail#boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable private origin access for the distribution. With private\n      origin access, the distribution can serve objects that aren't publicly accessible from a\n      Lightsail bucket.</p>\n         <p>Lightsail grants the distribution permission to read the bucket's objects. Enabling\n      private origin access doesn't change the bucket's access settings, and you can still\n      retrieve publicly accessible objects directly from the bucket's endpoint.</p>\n         <note>\n            <p>When you include this parameter, you must also include the <code>origin</code> parameter\n        with the resource name, even if the origin is not changing.</p>\n            <p>You can enable private origin access only when the distribution's origin is a\n        Lightsail bucket. If the origin is another resource type, the request fails.</p>\n         </note>"
                }
             },
             "isEnabled" : {
