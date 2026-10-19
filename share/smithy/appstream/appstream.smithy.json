@@ -387,7 +387,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "The image type is the type of AppStream image resource."
+            "smithy.api#documentation" : "<p>The image type is the type of AppStream image resource.</p>"
          },
          "type" : "enum"
       },
@@ -3182,6 +3182,12 @@
                "target" : "com.amazonaws.appstream#RedirectURL",
                "traits" : {
                   "smithy.api#documentation" : "<p>The URL that users are redirected to after their streaming session ends.</p>"
+               }
+            },
+            "StorageConnectorAuthentication" : {
+               "target" : "com.amazonaws.appstream#StorageConnectorAuthentication",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.</p>"
                }
             },
             "StorageConnectors" : {
@@ -7339,6 +7345,12 @@
                   "smithy.api#documentation" : "<p>Indicates whether the image is shared with another account ID.</p>"
                }
             },
+            "ImageSoftwareMetadata" : {
+               "target" : "com.amazonaws.appstream#ImageSoftwareMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The software metadata associated with the image.</p>"
+               }
+            },
             "ImageType" : {
                "target" : "com.amazonaws.appstream#ImageType",
                "traits" : {
@@ -7735,6 +7747,20 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.appstream#ImageSoftwareMetadata" : {
+         "members" : {
+            "nvidiaGridDriverVersion" : {
+               "target" : "com.amazonaws.appstream#NvidiaGridDriverVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the NVIDIA GRID driver installed on the image. This field is empty if no NVIDIA GRID driver is installed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the software metadata for an image, such as the installed NVIDIA GRID driver version.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.appstream#ImageState" : {
          "members" : {
             "AVAILABLE" : {
@@ -7865,7 +7891,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "The image type is the type of AppStream image resource."
+            "smithy.api#documentation" : "<p>The image type is the type of AppStream image resource.</p>"
          },
          "type" : "enum"
       },
@@ -8389,6 +8415,16 @@
             "smithy.api#documentation" : "<p>Describes the network details of the fleet or image builder instance.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.appstream#NvidiaGridDriverVersion" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[0-9]+(\\.[0-9]+){1,2}$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.appstream#OperationNotPermittedException" : {
          "members" : {
@@ -10515,6 +10551,12 @@
                   "smithy.api#documentation" : "<p>The errors for the stack.</p>"
                }
             },
+            "StorageConnectorAuthentication" : {
+               "target" : "com.amazonaws.appstream#StorageConnectorAuthentication",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether users' cloud storage authentication persists across streaming sessions. When this attribute is FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.</p>"
+               }
+            },
             "StorageConnectors" : {
                "target" : "com.amazonaws.appstream#StorageConnectorList",
                "traits" : {
@@ -10589,6 +10631,12 @@
                   "smithy.api#enumValue" : "STORAGE_CONNECTORS"
                }
             },
+            "STORAGE_CONNECTOR_AUTHENTICATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STORAGE_CONNECTOR_AUTHENTICATION"
+               }
+            },
             "STORAGE_CONNECTOR_GOOGLE_DRIVE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -10627,7 +10675,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The stack attributes to delete.</p>\n         <ul>\n            <li>\n               <p>STORAGE_CONNECTORS</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_HOMEFOLDERS</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_GOOGLE_DRIVE</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_ONE_DRIVE</p>\n            </li>\n            <li>\n               <p>REDIRECT_URL</p>\n            </li>\n            <li>\n               <p>FEEDBACK_URL</p>\n            </li>\n            <li>\n               <p>THEME_NAME</p>\n            </li>\n            <li>\n               <p>USER_SETTINGS</p>\n            </li>\n            <li>\n               <p>EMBED_HOST_DOMAINS</p>\n            </li>\n            <li>\n               <p>IAM_ROLE_ARN</p>\n            </li>\n            <li>\n               <p>ACCESS_ENDPOINTS</p>\n            </li>\n            <li>\n               <p>STREAMING_EXPERIENCE_SETTINGS</p>\n            </li>\n            <li>\n               <p>AGENT_ACCESS_CONFIG</p>\n            </li>\n         </ul>"
+            "smithy.api#documentation" : "<p>The stack attributes to delete.</p>\n         <ul>\n            <li>\n               <p>STORAGE_CONNECTORS</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_HOMEFOLDERS</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_GOOGLE_DRIVE</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_ONE_DRIVE</p>\n            </li>\n            <li>\n               <p>REDIRECT_URL</p>\n            </li>\n            <li>\n               <p>FEEDBACK_URL</p>\n            </li>\n            <li>\n               <p>THEME_NAME</p>\n            </li>\n            <li>\n               <p>USER_SETTINGS</p>\n            </li>\n            <li>\n               <p>EMBED_HOST_DOMAINS</p>\n            </li>\n            <li>\n               <p>IAM_ROLE_ARN</p>\n            </li>\n            <li>\n               <p>ACCESS_ENDPOINTS</p>\n            </li>\n            <li>\n               <p>STREAMING_EXPERIENCE_SETTINGS</p>\n            </li>\n            <li>\n               <p>AGENT_ACCESS_CONFIG</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_AUTHENTICATION</p>\n            </li>\n         </ul>"
          },
          "type" : "enum"
       },
@@ -11111,6 +11159,26 @@
             "smithy.api#documentation" : "<p>Describes a connector that enables persistent storage for users.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.appstream#StorageConnectorAuthentication" : {
+         "members" : {
+            "FORCE_REAUTHENTICATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FORCE_REAUTHENTICATION"
+               }
+            },
+            "REUSE_CREDENTIALS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REUSE_CREDENTIALS"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies whether users' cloud storage authentication persists across streaming sessions.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.appstream#StorageConnectorList" : {
          "member" : {
@@ -12325,6 +12393,12 @@
                   "smithy.api#documentation" : "<p>The URL that users are redirected to after their streaming session ends.</p>"
                }
             },
+            "StorageConnectorAuthentication" : {
+               "target" : "com.amazonaws.appstream#StorageConnectorAuthentication",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. To clear this attribute, add STORAGE_CONNECTOR_AUTHENTICATION to AttributesToDelete.</p>"
+               }
+            },
             "StorageConnectors" : {
                "target" : "com.amazonaws.appstream#StorageConnectorList",
                "traits" : {
@@ -12938,6 +13012,7 @@
       },
       "com.amazonaws.appstream#WorkspaceImageId" : {
          "traits" : {
+            "smithy.api#documentation" : "<p>WorkspaceImageId type with validation pattern</p>",
             "smithy.api#length" : {
                "max" : 67,
                "min" : 12

@@ -395,6 +395,12 @@
                   "smithy.api#documentation" : "<p>Number of CPU cores to allocate.</p>"
                }
             },
+            "NestedVirtualization" : {
+               "target" : "com.amazonaws.workspacesinstances#NestedVirtualizationEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable or disable nested virtualization.</p>"
+               }
+            },
             "ThreadsPerCore" : {
                "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
                "traits" : {
@@ -2716,6 +2722,23 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.workspacesinstances#NestedVirtualizationEnum" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "disabled"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "enabled"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.workspacesinstances#NetworkInterfaceId" : {
          "traits" : {
