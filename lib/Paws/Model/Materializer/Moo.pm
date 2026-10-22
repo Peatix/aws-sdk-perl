@@ -395,7 +395,23 @@ sub materialize_operation {
     # gets no wrapper — the existing iterate-each-attribute path in
     # the wire layer handles it as before.
     my @xml_class_methods;
+
+    # Raw-body payload: an httpPayload member targeting a blob or
+    # string is the HTTP body itself, streaming or not (Smithy HTTP
+    # bindings). Lambda Invoke's Payload and S3 PutBucketPolicy's
+    # Policy are non-streaming blobs/strings; without _stream_param
+    # the wire layer serialised them as {"Payload":...} / <Policy>.
     my $stream_param;
+    if ($input_shape
+        && ($service_ir->protocol eq 'rest-xml' || $service_ir->protocol eq 'rest-json')
+        && defined(my $payload_name = $input_shape->payload)
+    ) {
+        my $member  = $input_shape->members->{$payload_name};
+        my $ptarget = $member ? $service_ir->shape($member->shape) : undef;
+        $stream_param = $payload_name
+            if $ptarget && ($ptarget->type eq 'blob' || $ptarget->type eq 'string');
+    }
+
     if ($service_ir->protocol eq 'rest-xml' && $input_shape) {
         my $payload_name = $input_shape->payload;
         my $payload_target;
@@ -553,8 +569,8 @@ sub _materialise_shape_class {
         push @clear_lines, "        use strict 'refs';";
     }
 
-    # Streaming httpPayload member (e.g. S3 GetObject's output shape,
-    # whose `Body` is a streaming blob). Paws::Net::ResponseRole reads
+    # Raw httpPayload member (e.g. S3 GetObject's streaming `Body`, or
+    # Lambda Invoke's non-streaming `Payload`). Paws::Net::ResponseRole reads
     # `_stream_param` to bind the raw response body to that member;
     # without it the body is parsed as XML/JSON and the member comes
     # back undef. Mirrors the request-side _stream_param the operation
@@ -563,10 +579,8 @@ sub _materialise_shape_class {
     if (defined(my $payload_name = $shape->payload)) {
         my $member    = $shape->members->{$payload_name};
         my $ptarget   = $member ? $service_ir->shape($member->shape) : undef;
-        my $streaming = ($member && $member->streaming)
-                     || ($ptarget && $ptarget->streaming) ? 1 : 0;
-        # Only a raw-bytes payload (a streaming blob/string, e.g. S3
-        # GetObject's Body) is bound directly as the response body. A
+        # Only a raw-bytes payload (a blob/string, streaming or not) is
+        # bound directly as the response body. A
         # streaming *structure* payload is an event stream (e.g. S3
         # SelectObjectContent's Payload, a SelectObjectContentEventStream)
         # which is decoded, not handed the raw bytes - binding raw bytes
@@ -574,7 +588,7 @@ sub _materialise_shape_class {
         my $raw_payload = $ptarget
                           && ($ptarget->type eq 'blob' || $ptarget->type eq 'string')
                           ? 1 : 0;
-        if ($streaming && $raw_payload) {
+        if ($raw_payload) {
             $stream_method = "sub _stream_param { '" . _esc($payload_name) . "' }";
         }
     }
