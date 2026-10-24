@@ -475,6 +475,105 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearchserverless#BucketOwnerAccountId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 12,
+               "min" : 12
+            },
+            "smithy.api#pattern" : "^[0-9]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#CancelIngestionJob" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearchserverless#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearchserverless#CancelIngestionJobRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearchserverless#CancelIngestionJobResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Cancels an in-progress ingestion job. Documents that were already indexed before the cancellation remain in the index.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearchserverless#CancelIngestionJobRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.opensearchserverless#ClientToken",
+               "traits" : {
+                  "aws.cloudformation#cfnExcludeProperty" : {},
+                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection that the ingestion job belongs to.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionJobId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the ingestion job to cancel.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#CancelIngestionJobResponse" : {
+         "members" : {
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection that the ingestion job belongs to.</p>"
+               }
+            },
+            "ingestionJobId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the cancelled ingestion job.</p>"
+               }
+            },
+            "ingestionJobName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the cancelled ingestion job.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the ingestion job.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.opensearchserverless#CapacityDetails" : {
          "members" : {
             "autoscalingStatus" : {
@@ -1073,7 +1172,7 @@
                "max" : 64,
                "min" : 3
             },
-            "smithy.api#pattern" : "^[a-z][a-z0-9-]+$"
+            "smithy.api#pattern" : "^[a-z][a-z0-9_-]+$"
          },
          "type" : "string"
       },
@@ -1755,6 +1854,213 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearchserverless#CreateIngestionJob" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearchserverless#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearchserverless#CreateIngestionJobRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearchserverless#CreateIngestionJobResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates an ingestion job that performs a one-time bulk ingestion of data from an Amazon S3 bucket into an index in an OpenSearch Serverless collection. An ingestion job scans the source bucket, indexes the documents it finds, and then completes. To continuously ingest new data as it arrives, use <code>CreateIngestionStream</code> instead.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearchserverless#CreateIngestionJobRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.opensearchserverless#ClientToken",
+               "traits" : {
+                  "aws.cloudformation#cfnExcludeProperty" : {},
+                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection to ingest data into.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "failureIndexName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionIndexName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the index where documents that fail to be ingested are recorded.</p>"
+               }
+            },
+            "indexName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionIndexName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the index to ingest documents into.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionJobName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the ingestion job. The name must be unique within the collection.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 source to ingest data from.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.opensearchserverless#Tags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An arbitrary set of tags (key–value pairs) to associate with the ingestion job.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#CreateIngestionJobResponse" : {
+         "members" : {
+            "ingestionJobDetail" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about the created ingestion job.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#CreateIngestionStream" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearchserverless#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearchserverless#CreateIngestionStreamRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearchserverless#CreateIngestionStreamResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates an ingestion stream that continuously ingests data from an Amazon S3 bucket into an index in an OpenSearch Serverless collection. An ingestion stream processes Amazon S3 event notifications delivered to an Amazon SQS queue and ingests new objects as they arrive. The stream continues to ingest data until you delete it. To perform a one-time bulk ingestion instead, use <code>CreateIngestionJob</code>.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearchserverless#CreateIngestionStreamRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.opensearchserverless#ClientToken",
+               "traits" : {
+                  "aws.cloudformation#cfnExcludeProperty" : {},
+                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection to ingest data into.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "failureIndexName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionIndexName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the index where documents that fail to be ingested are recorded.</p>"
+               }
+            },
+            "indexName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionIndexName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the index to ingest documents into.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionStreamName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the ingestion stream. The name must be unique within the collection.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "roleArn" : {
+               "target" : "com.amazonaws.opensearchserverless#RoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the IAM role that OpenSearch Serverless assumes to read data from the source. The role must be in the same account as the collection.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 source to ingest data from, including the Amazon SQS queue that receives S3 event notifications.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.opensearchserverless#Tags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An arbitrary set of tags (key–value pairs) to associate with the ingestion stream.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#CreateIngestionStreamResponse" : {
+         "members" : {
+            "ingestionStreamDetail" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about the created ingestion stream.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.opensearchserverless#CreateLifecyclePolicy" : {
          "errors" : [
             {
@@ -2387,6 +2693,95 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearchserverless#DeleteIngestionStream" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearchserverless#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearchserverless#DeleteIngestionStreamRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearchserverless#DeleteIngestionStreamResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes an ingestion stream. Documents that were already indexed by the stream remain in the index.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearchserverless#DeleteIngestionStreamRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.opensearchserverless#ClientToken",
+               "traits" : {
+                  "aws.cloudformation#cfnExcludeProperty" : {},
+                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection that the ingestion stream belongs to.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionStreamId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the ingestion stream to delete.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#DeleteIngestionStreamResponse" : {
+         "members" : {
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection that the ingestion stream belonged to.</p>"
+               }
+            },
+            "ingestionStreamId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the deleted ingestion stream.</p>"
+               }
+            },
+            "ingestionStreamName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the deleted ingestion stream.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the ingestion stream.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.opensearchserverless#DeleteLifecyclePolicy" : {
          "errors" : [
             {
@@ -2763,10 +3158,10 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The ARN of the Amazon Web Services Key Management Service key used to encrypt the collection.</p>",
                   "smithy.api#length" : {
-                     "max" : 100,
+                     "max" : 2048,
                      "min" : 10
                   },
-                  "smithy.api#pattern" : "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):kms:[a-z0-9-]+:[0-9]{12}:key/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+                  "smithy.api#pattern" : "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-c|aws-iso-d|aws-iso-e):(kms):[a-zA-Z-]+\\d{1}:\\d{12}:(key)\\/.{1,2048}"
                }
             }
          },
@@ -2937,6 +3332,126 @@
                "target" : "com.amazonaws.opensearchserverless#IndexSchema",
                "traits" : {
                   "smithy.api#documentation" : "<p>The JSON schema definition for the index, including field mappings and settings.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#GetIngestionJob" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearchserverless#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearchserverless#GetIngestionJobRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearchserverless#GetIngestionJobResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about an ingestion job, including its configuration, status, and processing state.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearchserverless#GetIngestionJobRequest" : {
+         "members" : {
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection that the ingestion job belongs to.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionJobId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the ingestion job to retrieve.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#GetIngestionJobResponse" : {
+         "members" : {
+            "ingestionJobDetail" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about the requested ingestion job.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#GetIngestionStream" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearchserverless#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearchserverless#GetIngestionStreamRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearchserverless#GetIngestionStreamResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about an ingestion stream, including its configuration, status, and processing state.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearchserverless#GetIngestionStreamRequest" : {
+         "members" : {
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection that the ingestion stream belongs to.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionStreamId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the ingestion stream to retrieve.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#GetIngestionStreamResponse" : {
+         "members" : {
+            "ingestionStreamDetail" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about the requested ingestion stream.</p>"
                }
             }
          },
@@ -3267,6 +3782,799 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.opensearchserverless#IngestionAlert" : {
+         "members" : {
+            "code" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionAlertCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code that identifies the alert.</p>"
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the alert.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "An active alert about a running ingestion — operational issues\nor updates to processing state. Cleared when the issue resolves."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#IngestionAlertCode" : {
+         "traits" : {
+            "smithy.api#documentation" : "Codes for active operational issues affecting a running ingestion.",
+            "smithy.api#enum" : [
+               {
+                  "name" : "SOURCE_ACCESS_DENIED",
+                  "value" : "SOURCE_ACCESS_DENIED"
+               },
+               {
+                  "name" : "SOURCE_RESOURCE_NOT_FOUND",
+                  "value" : "SOURCE_RESOURCE_NOT_FOUND"
+               },
+               {
+                  "name" : "DESTINATION_ACCESS_DENIED",
+                  "value" : "DESTINATION_ACCESS_DENIED"
+               },
+               {
+                  "name" : "DESTINATION_RESOURCE_NOT_FOUND",
+                  "value" : "DESTINATION_RESOURCE_NOT_FOUND"
+               },
+               {
+                  "name" : "INTERNAL_SERVER_ERROR",
+                  "value" : "INTERNAL_SERVER_ERROR"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionAlerts" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearchserverless#IngestionAlert"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.opensearchserverless#IngestionFailureCode" : {
+         "traits" : {
+            "smithy.api#documentation" : "Codes explaining why an ingestion reached a terminal failure state.",
+            "smithy.api#enum" : [
+               {
+                  "name" : "SOURCE_ACCESS_DENIED",
+                  "value" : "SOURCE_ACCESS_DENIED"
+               },
+               {
+                  "name" : "SOURCE_RESOURCE_NOT_FOUND",
+                  "value" : "SOURCE_RESOURCE_NOT_FOUND"
+               },
+               {
+                  "name" : "DESTINATION_ACCESS_DENIED",
+                  "value" : "DESTINATION_ACCESS_DENIED"
+               },
+               {
+                  "name" : "DESTINATION_RESOURCE_NOT_FOUND",
+                  "value" : "DESTINATION_RESOURCE_NOT_FOUND"
+               },
+               {
+                  "name" : "INTERNAL_SERVER_ERROR",
+                  "value" : "INTERNAL_SERVER_ERROR"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionFailureReason" : {
+         "members" : {
+            "code" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionFailureCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code that identifies the reason for the failure.</p>"
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the reason for the failure.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A terminal failure reason explaining why an ingestion stopped."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#IngestionFailureReasons" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearchserverless#IngestionFailureReason"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.opensearchserverless#IngestionIndexName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-z0-9.][a-z0-9._-]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionJob" : {
+         "create" : {
+            "target" : "com.amazonaws.opensearchserverless#CreateIngestionJob"
+         },
+         "identifiers" : {
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId"
+            },
+            "ingestionJobId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobId"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.opensearchserverless#ListIngestionJobs"
+         },
+         "operations" : [
+            {
+               "target" : "com.amazonaws.opensearchserverless#CancelIngestionJob"
+            }
+         ],
+         "read" : {
+            "target" : "com.amazonaws.opensearchserverless#GetIngestionJob"
+         },
+         "traits" : {
+            "aws.api#arn" : {
+               "template" : "collection/{collectionId}/ingestion-job/{ingestionJobId}"
+            }
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.opensearchserverless#IngestionJobDetail" : {
+         "members" : {
+            "activeAlerts" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionAlerts",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Active alerts about operational issues that currently affect the ingestion job. Alerts are cleared when the issue is resolved.</p>"
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the ingestion job.</p>"
+               }
+            },
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection that the ingestion job belongs to.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the ingestion job was created.</p>"
+               }
+            },
+            "failureIndexName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionIndexName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the index where documents that fail to be ingested are recorded.</p>"
+               }
+            },
+            "failureReasons" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionFailureReasons",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reasons that the ingestion job reached a terminal failure state, if applicable.</p>"
+               }
+            },
+            "indexName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionIndexName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the index that documents are ingested into.</p>"
+               }
+            },
+            "ingestionJobId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the ingestion job.</p>"
+               }
+            },
+            "ingestionJobName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the ingestion job.</p>"
+               }
+            },
+            "revision" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The revision number of the ingestion job.</p>"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 source that the ingestion job ingests data from.</p>"
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current processing state of the ingestion job. For example, <code>SCANNING</code>, <code>INGESTION_IN_PROGRESS</code>, or <code>INGESTION_COMPLETE</code>.</p>"
+               }
+            },
+            "statistics" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStatistics",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Processing statistics for the ingestion job, such as the number of Amazon S3 objects discovered, ingested, and failed.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current lifecycle status of the ingestion job. For example, <code>CREATING</code>, <code>ACTIVE</code>, <code>COMPLETED</code>, or <code>CANCELLED</code>.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the ingestion job was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details about an ingestion job.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#IngestionJobId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^[a-z0-9]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionJobName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 3
+            },
+            "smithy.api#pattern" : "^[a-z][a-z0-9-]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionJobResourceArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-c|aws-iso-d|aws-iso-e):aoss:[a-z0-9-]+:\\d{12}:collection/[a-z0-9]{3,40}/ingestion-job/[a-z0-9]{20,64}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionJobS3Source" : {
+         "members" : {
+            "bucket" : {
+               "target" : "com.amazonaws.opensearchserverless#S3BucketNameOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name or Amazon Resource Name (ARN) of the Amazon S3 bucket to ingest data from.</p>"
+               }
+            },
+            "bucketOwnerAccountId" : {
+               "target" : "com.amazonaws.opensearchserverless#BucketOwnerAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services account ID that owns the Amazon S3 bucket.</p>"
+               }
+            },
+            "keyPrefix" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A key prefix that limits ingestion to objects in the Amazon S3 bucket whose keys begin with the prefix.</p>",
+                  "smithy.api#length" : {
+                     "max" : 1024
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Amazon S3 source configuration for an ingestion job.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#IngestionJobSource" : {
+         "members" : {
+            "s3" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobS3Source",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 source configuration for the ingestion job.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The source that an ingestion job ingests data from.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#IngestionJobStatus" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Ingestion job is being created",
+                  "name" : "CREATING",
+                  "value" : "CREATING"
+               },
+               {
+                  "documentation" : "Ingestion job is provisioned and ingesting",
+                  "name" : "ACTIVE",
+                  "value" : "ACTIVE"
+               },
+               {
+                  "documentation" : "Bulk ingestion finished; job is complete",
+                  "name" : "COMPLETED",
+                  "value" : "COMPLETED"
+               },
+               {
+                  "documentation" : "Ingestion job is being cancelled",
+                  "name" : "CANCELLING",
+                  "value" : "CANCELLING"
+               },
+               {
+                  "documentation" : "Ingestion job was cancelled",
+                  "name" : "CANCELLED",
+                  "value" : "CANCELLED"
+               },
+               {
+                  "documentation" : "Ingestion job failed terminally (no retry)",
+                  "name" : "FAILED",
+                  "value" : "FAILED"
+               },
+               {
+                  "documentation" : "Ingestion job creation failed",
+                  "name" : "CREATE_FAILED",
+                  "value" : "CREATE_FAILED"
+               },
+               {
+                  "documentation" : "Ingestion job cancellation failed",
+                  "name" : "CANCEL_FAILED",
+                  "value" : "CANCEL_FAILED"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionJobSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearchserverless#IngestionJobSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.opensearchserverless#IngestionJobSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the ingestion job.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the ingestion job was created.</p>"
+               }
+            },
+            "indexName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionIndexName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the index that documents are ingested into.</p>"
+               }
+            },
+            "ingestionJobId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the ingestion job.</p>"
+               }
+            },
+            "ingestionJobName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the ingestion job.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current lifecycle status of the ingestion job.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the ingestion job was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about an ingestion job.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#IngestionState" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Ingestion is initializing",
+                  "name" : "STARTING",
+                  "value" : "STARTING"
+               },
+               {
+                  "documentation" : "Bulk source scan in progress",
+                  "name" : "SCANNING",
+                  "value" : "SCANNING"
+               },
+               {
+                  "documentation" : "Documents are being read, chunked and indexed",
+                  "name" : "INGESTION_IN_PROGRESS",
+                  "value" : "INGESTION_IN_PROGRESS"
+               },
+               {
+                  "documentation" : "Bulk ingestion finished",
+                  "name" : "INGESTION_COMPLETE",
+                  "value" : "INGESTION_COMPLETE"
+               },
+               {
+                  "documentation" : "Ingestion halted (recoverable)",
+                  "name" : "STOPPED",
+                  "value" : "STOPPED"
+               },
+               {
+                  "documentation" : "Ingestion runtime failure (terminal)",
+                  "name" : "FAILED",
+                  "value" : "FAILED"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStatistics" : {
+         "members" : {
+            "s3" : {
+               "target" : "com.amazonaws.opensearchserverless#S3Statistics",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Processing statistics for the Amazon S3 source.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Processing statistics for an ingestion job or ingestion stream.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStream" : {
+         "create" : {
+            "target" : "com.amazonaws.opensearchserverless#CreateIngestionStream"
+         },
+         "delete" : {
+            "target" : "com.amazonaws.opensearchserverless#DeleteIngestionStream"
+         },
+         "identifiers" : {
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId"
+            },
+            "ingestionStreamId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamId"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.opensearchserverless#ListIngestionStreams"
+         },
+         "read" : {
+            "target" : "com.amazonaws.opensearchserverless#GetIngestionStream"
+         },
+         "traits" : {
+            "aws.api#arn" : {
+               "template" : "collection/{collectionId}/ingestion-stream/{ingestionStreamId}"
+            }
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStreamDetail" : {
+         "members" : {
+            "activeAlerts" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionAlerts",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Active alerts about operational issues that currently affect the ingestion stream. Alerts are cleared when the issue is resolved.</p>"
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the ingestion stream.</p>"
+               }
+            },
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection that the ingestion stream belongs to.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the ingestion stream was created.</p>"
+               }
+            },
+            "failureIndexName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionIndexName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the index where documents that fail to be ingested are recorded.</p>"
+               }
+            },
+            "failureReasons" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionFailureReasons",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reasons that the ingestion stream reached a terminal failure state, if applicable.</p>"
+               }
+            },
+            "indexName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionIndexName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the index that documents are ingested into.</p>"
+               }
+            },
+            "ingestionStreamId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the ingestion stream.</p>"
+               }
+            },
+            "ingestionStreamName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the ingestion stream.</p>"
+               }
+            },
+            "revision" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The revision number of the ingestion stream.</p>"
+               }
+            },
+            "roleArn" : {
+               "target" : "com.amazonaws.opensearchserverless#RoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the IAM role that OpenSearch Serverless assumes to read data from the source.</p>"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 source that the ingestion stream ingests data from.</p>"
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current processing state of the ingestion stream. For example, <code>STARTING</code> or <code>INGESTION_IN_PROGRESS</code>.</p>"
+               }
+            },
+            "statistics" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStatistics",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Processing statistics for the ingestion stream, such as the number of Amazon S3 objects discovered, ingested, and failed.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current lifecycle status of the ingestion stream. For example, <code>CREATING</code>, <code>ACTIVE</code>, or <code>DELETING</code>.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the ingestion stream was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details about an ingestion stream.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStreamId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^[a-z0-9]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStreamName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 3
+            },
+            "smithy.api#pattern" : "^[a-z][a-z0-9-]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStreamResourceArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-c|aws-iso-d|aws-iso-e):aoss:[a-z0-9-]+:\\d{12}:collection/[a-z0-9]{3,40}/ingestion-stream/[a-z0-9]{20,64}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStreamS3Source" : {
+         "members" : {
+            "buckets" : {
+               "target" : "com.amazonaws.opensearchserverless#StreamBucketConfigs",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for each Amazon S3 bucket that the ingestion stream ingests data from.</p>"
+               }
+            },
+            "sqsArn" : {
+               "target" : "com.amazonaws.opensearchserverless#SqsArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon SQS queue that receives Amazon S3 event notifications for the source buckets.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Amazon S3 source configuration for an ingestion stream.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStreamSource" : {
+         "members" : {
+            "s3" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamS3Source",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 source configuration for the ingestion stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The source that an ingestion stream ingests data from.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStreamStatus" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Ingestion stream is being created",
+                  "name" : "CREATING",
+                  "value" : "CREATING"
+               },
+               {
+                  "documentation" : "Ingestion stream is provisioned and ingesting",
+                  "name" : "ACTIVE",
+                  "value" : "ACTIVE"
+               },
+               {
+                  "documentation" : "Ingestion stream is being deleted",
+                  "name" : "DELETING",
+                  "value" : "DELETING"
+               },
+               {
+                  "documentation" : "Ingestion stream was deleted",
+                  "name" : "DELETED",
+                  "value" : "DELETED"
+               },
+               {
+                  "documentation" : "Ingestion stream creation failed",
+                  "name" : "CREATE_FAILED",
+                  "value" : "CREATE_FAILED"
+               },
+               {
+                  "documentation" : "Ingestion stream deletion failed",
+                  "name" : "DELETE_FAILED",
+                  "value" : "DELETE_FAILED"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStreamSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearchserverless#IngestionStreamSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.opensearchserverless#IngestionStreamSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the ingestion stream.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the ingestion stream was created.</p>"
+               }
+            },
+            "indexName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionIndexName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the index that documents are ingested into.</p>"
+               }
+            },
+            "ingestionStreamId" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the ingestion stream.</p>"
+               }
+            },
+            "ingestionStreamName" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the ingestion stream.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current lifecycle status of the ingestion stream.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the ingestion stream was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about an ingestion stream.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#InitialScan" : {
+         "traits" : {
+            "smithy.api#documentation" : "Controls whether to perform a one-time delta scan of existing S3 objects before\ncontinuous ingestion processes SQS notifications.",
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Perform a one-time delta scan of existing S3 objects before processing SQS notifications",
+                  "name" : "ENABLED",
+                  "value" : "ENABLED"
+               },
+               {
+                  "documentation" : "Skip the one-time delta scan and process SQS notifications only",
+                  "name" : "DISABLED",
+                  "value" : "DISABLED"
+               }
+            ]
+         },
+         "type" : "string"
       },
       "com.amazonaws.opensearchserverless#InternalServerException" : {
          "members" : {
@@ -3774,6 +5082,168 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearchserverless#ListIngestionJobs" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearchserverless#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearchserverless#ListIngestionJobsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearchserverless#ListIngestionJobsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of ingestion jobs in a collection.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "ingestionJobSummaries",
+               "maxResults" : "maxResults",
+               "outputToken" : "nextToken"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearchserverless#ListIngestionJobsRequest" : {
+         "members" : {
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection to list ingestion jobs for.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return. Valid values are 1–100. If you don't specify a value, the default is 100. You can use <code>nextToken</code> to get the next page of results.</p> <p>A response can contain fewer results than <code>maxResults</code>, or no results, and still include a <code>nextToken</code>. To retrieve all results, continue to make the call with the returned <code>nextToken</code> until no <code>nextToken</code> is returned.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If your initial <code>ListIngestionJobs</code> operation returns a <code>nextToken</code>, you can include the returned <code>nextToken</code> in subsequent <code>ListIngestionJobs</code> operations, which returns results in the next page.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#ListIngestionJobsResponse" : {
+         "members" : {
+            "ingestionJobSummaries" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJobSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Summary information about each ingestion job.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When <code>nextToken</code> is returned, there are more results available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#ListIngestionStreams" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearchserverless#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearchserverless#ListIngestionStreamsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearchserverless#ListIngestionStreamsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of ingestion streams in a collection.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "ingestionStreamSummaries",
+               "maxResults" : "maxResults",
+               "outputToken" : "nextToken"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearchserverless#ListIngestionStreamsRequest" : {
+         "members" : {
+            "collectionId" : {
+               "target" : "com.amazonaws.opensearchserverless#CollectionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the collection to list ingestion streams for.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return. Valid values are 1–100. If you don't specify a value, the default is 100. You can use <code>nextToken</code> to get the next page of results.</p> <p>A response can contain fewer results than <code>maxResults</code>, or no results, and still include a <code>nextToken</code>. To retrieve all results, continue to make the call with the returned <code>nextToken</code> until no <code>nextToken</code> is returned.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If your initial <code>ListIngestionStreams</code> operation returns a <code>nextToken</code>, you can include the returned <code>nextToken</code> in subsequent <code>ListIngestionStreams</code> operations, which returns results in the next page.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#ListIngestionStreamsResponse" : {
+         "members" : {
+            "ingestionStreamSummaries" : {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStreamSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Summary information about each ingestion stream.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When <code>nextToken</code> is returned, there are more results available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.opensearchserverless#ListLifecyclePolicies" : {
          "errors" : [
             {
@@ -4203,6 +5673,12 @@
             },
             {
                "target" : "com.amazonaws.opensearchserverless#Index"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#IngestionJob"
+            },
+            {
+               "target" : "com.amazonaws.opensearchserverless#IngestionStream"
             },
             {
                "target" : "com.amazonaws.opensearchserverless#LifecyclePolicy"
@@ -5120,6 +6596,52 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.opensearchserverless#RoleArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-c|aws-iso-d|aws-iso-e):iam::\\d{12}:role/.+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#S3BucketNameOrArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 3
+            },
+            "smithy.api#pattern" : "^(arn:[a-z0-9\\-]+:s3:::[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]|[a-z0-9][a-z0-9.-]{1,61}[a-z0-9])$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#S3Statistics" : {
+         "members" : {
+            "objectsDiscovered" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of Amazon S3 objects discovered for ingestion.</p>"
+               }
+            },
+            "objectsFailed" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of Amazon S3 objects that failed to be ingested.</p>"
+               }
+            },
+            "objectsIngested" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of Amazon S3 objects successfully ingested.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Processing statistics for the Amazon S3 objects in an ingestion source.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.opensearchserverless#SamlConfigOptions" : {
          "members" : {
             "groupAttribute" : {
@@ -5623,6 +7145,16 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearchserverless#SqsArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-c|aws-iso-d|aws-iso-e):sqs:[a-z0-9-]+:\\d{12}:.+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.opensearchserverless#StandbyReplicas" : {
          "traits" : {
             "smithy.api#enum" : [
@@ -5639,6 +7171,44 @@
             ]
          },
          "type" : "string"
+      },
+      "com.amazonaws.opensearchserverless#StreamBucketConfig" : {
+         "members" : {
+            "bucket" : {
+               "target" : "com.amazonaws.opensearchserverless#S3BucketNameOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name or Amazon Resource Name (ARN) of the Amazon S3 bucket to ingest data from.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "bucketOwnerAccountId" : {
+               "target" : "com.amazonaws.opensearchserverless#BucketOwnerAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "The AWS account ID that owns the S3 bucket. Optional. If omitted, the\ncontrol plane derives it from the account segment of sqsArn."
+               }
+            },
+            "initialScan" : {
+               "target" : "com.amazonaws.opensearchserverless#InitialScan",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to perform a one-time scan of the objects that already exist in the bucket before the stream begins processing Amazon S3 event notifications. If <code>DISABLED</code>, only new objects are ingested.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "S3 bucket configuration for SQS-driven ingestion. The scan mode controls only\nthe optional one-time delta scan of existing objects in this bucket."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearchserverless#StreamBucketConfigs" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearchserverless#StreamBucketConfig"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.opensearchserverless#SubnetId" : {
          "traits" : {
@@ -6008,6 +7578,12 @@
                   "smithy.api#documentation" : "<p>The unique identifier of the collection.</p>"
                }
             },
+            "kmsKeyArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon Web Services Key Management Service (Amazon Web Services KMS) key used to encrypt the collection.</p>"
+               }
+            },
             "lastModifiedDate" : {
                "target" : "smithy.api#Long",
                "traits" : {
@@ -6132,7 +7708,7 @@
             "capacityLimits" : {
                "target" : "com.amazonaws.opensearchserverless#CollectionGroupCapacityLimits",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Updated capacity limits for the collection group, in OpenSearch Compute Units (OCUs).</p>"
+                  "smithy.api#documentation" : "<p>The updated capacity limits for the collection group, in OpenSearch Compute Units (OCUs). Updates to capacity limits are not incremental. Any field not specified resets to its default value.</p>"
                }
             },
             "clientToken" : {
@@ -6203,6 +7779,9 @@
                      "max" : 1000
                   }
                }
+            },
+            "encryptionConfig" : {
+               "target" : "com.amazonaws.opensearchserverless#EncryptionConfig"
             },
             "id" : {
                "target" : "com.amazonaws.opensearchserverless#CollectionId",
