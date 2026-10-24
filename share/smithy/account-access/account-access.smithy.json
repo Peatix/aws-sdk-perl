@@ -559,6 +559,9 @@
                "target" : "com.amazonaws.accountaccess#InternalServerException"
             },
             {
+               "target" : "com.amazonaws.accountaccess#ThrottlingException"
+            },
+            {
                "target" : "com.amazonaws.accountaccess#ValidationException"
             }
          ],
@@ -712,6 +715,9 @@
             },
             {
                "target" : "com.amazonaws.accountaccess#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.accountaccess#ThrottlingException"
             },
             {
                "target" : "com.amazonaws.accountaccess#ValidationException"
@@ -978,6 +984,9 @@
             },
             {
                "target" : "com.amazonaws.accountaccess#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.accountaccess#ThrottlingException"
             },
             {
                "target" : "com.amazonaws.accountaccess#ValidationException"
