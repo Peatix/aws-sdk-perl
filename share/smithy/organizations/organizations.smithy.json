@@ -302,71 +302,11 @@
                               {
                                  "ref" : "PartitionResult"
                               },
-                              "supportsDualStack"
-                           ],
-                           "fn" : "getAttr"
-                        },
-                        true
-                     ],
-                     "fn" : "booleanEquals"
-                  },
-                  {
-                     "argv" : [
-                        {
-                           "argv" : [
-                              {
-                                 "ref" : "PartitionResult"
-                              },
-                              "name"
-                           ],
-                           "fn" : "getAttr"
-                        },
-                        "aws"
-                     ],
-                     "fn" : "stringEquals"
-                  },
-                  {
-                     "argv" : [
-                        {
-                           "argv" : [
-                              {
-                                 "ref" : "PartitionResult"
-                              },
-                              "name"
-                           ],
-                           "fn" : "getAttr"
-                        },
-                        "aws-cn"
-                     ],
-                     "fn" : "stringEquals"
-                  },
-                  {
-                     "argv" : [
-                        {
-                           "argv" : [
-                              {
-                                 "ref" : "PartitionResult"
-                              },
                               "name"
                            ],
                            "fn" : "getAttr"
                         },
                         "aws-us-gov"
-                     ],
-                     "fn" : "stringEquals"
-                  },
-                  {
-                     "argv" : [
-                        {
-                           "argv" : [
-                              {
-                                 "ref" : "PartitionResult"
-                              },
-                              "name"
-                           ],
-                           "fn" : "getAttr"
-                        },
-                        "aws-iso"
                      ],
                      "fn" : "stringEquals"
                   },
@@ -392,32 +332,17 @@
                               {
                                  "ref" : "PartitionResult"
                               },
-                              "name"
+                              "supportsDualStack"
                            ],
                            "fn" : "getAttr"
                         },
-                        "aws-iso-b"
+                        true
                      ],
-                     "fn" : "stringEquals"
-                  },
-                  {
-                     "argv" : [
-                        {
-                           "argv" : [
-                              {
-                                 "ref" : "PartitionResult"
-                              },
-                              "name"
-                           ],
-                           "fn" : "getAttr"
-                        },
-                        "aws-iso-f"
-                     ],
-                     "fn" : "stringEquals"
+                     "fn" : "booleanEquals"
                   }
                ],
-               "nodeCount" : 21,
-               "nodes" : "/////wAAAAH/////AAAAAAAAABQAAAADAAAAAQAAAAQF9eESAAAAAgAAAAUF9eESAAAAAwAAAA4AAAAGAAAABAAAAA0AAAAHAAAABgX14QQAAAAIAAAABwX14QYAAAAJAAAACAX14QcAAAAKAAAACQX14QgAAAALAAAACwX14QkAAAAMAAAADAX14QoF9eERAAAABQX14Q8F9eEQAAAABAAAABIAAAAPAAAABgX14QUAAAAQAAAACAX14QcAAAARAAAACgX14Q0F9eEOAAAABQAAABMF9eEMAAAACgX14QsF9eEMAAAAAwX14QEAAAAVAAAABAX14QIF9eED",
+               "nodeCount" : 15,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAA4AAAADAAAAAQAAAAQF9eENAAAAAgAAAAUF9eENAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEMAAAABwX14QoF9eELAAAABAAAAAsAAAAJAAAABQX14QQAAAAKAAAABgX14QgF9eEJAAAABQX14QUAAAAMAAAABgAAAA0F9eEHAAAABwX14QYF9eEHAAAAAwX14QEAAAAPAAAABAX14QIF9eED",
                "parameters" : {
                   "Endpoint" : {
                      "builtIn" : "SDK::Endpoint",
@@ -476,58 +401,6 @@
                            "authSchemes" : [
                               {
                                  "name" : "sigv4",
-                                 "signingName" : "organizations",
-                                 "signingRegion" : "us-east-1"
-                              }
-                           ]
-                        },
-                        "url" : "https://organizations.us-east-1.amazonaws.com"
-                     },
-                     "type" : "endpoint"
-                  },
-                  {
-                     "conditions" : [],
-                     "endpoint" : {
-                        "headers" : {},
-                        "properties" : {
-                           "authSchemes" : [
-                              {
-                                 "name" : "sigv4",
-                                 "signingName" : "organizations",
-                                 "signingRegion" : "us-east-1"
-                              }
-                           ]
-                        },
-                        "url" : "https://organizations-fips.us-east-1.amazonaws.com"
-                     },
-                     "type" : "endpoint"
-                  },
-                  {
-                     "conditions" : [],
-                     "endpoint" : {
-                        "headers" : {},
-                        "properties" : {
-                           "authSchemes" : [
-                              {
-                                 "name" : "sigv4",
-                                 "signingName" : "organizations",
-                                 "signingRegion" : "cn-northwest-1"
-                              }
-                           ]
-                        },
-                        "url" : "https://organizations.cn-northwest-1.amazonaws.com.cn"
-                     },
-                     "type" : "endpoint"
-                  },
-                  {
-                     "conditions" : [],
-                     "endpoint" : {
-                        "headers" : {},
-                        "properties" : {
-                           "authSchemes" : [
-                              {
-                                 "name" : "sigv4",
-                                 "signingName" : "organizations",
                                  "signingRegion" : "us-gov-west-1"
                               }
                            ]
@@ -544,12 +417,11 @@
                            "authSchemes" : [
                               {
                                  "name" : "sigv4",
-                                 "signingName" : "organizations",
-                                 "signingRegion" : "us-iso-east-1"
+                                 "signingRegion" : "us-gov-west-1"
                               }
                            ]
                         },
-                        "url" : "https://organizations.us-iso-east-1.c2s.ic.gov"
+                        "url" : "https://organizations.us-gov-west-1.api.aws"
                      },
                      "type" : "endpoint"
                   },
@@ -561,38 +433,11 @@
                            "authSchemes" : [
                               {
                                  "name" : "sigv4",
-                                 "signingName" : "organizations",
-                                 "signingRegion" : "us-isob-east-1"
+                                 "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
                               }
                            ]
                         },
-                        "url" : "https://organizations.us-isob-east-1.sc2s.sgov.gov"
-                     },
-                     "type" : "endpoint"
-                  },
-                  {
-                     "conditions" : [],
-                     "endpoint" : {
-                        "headers" : {},
-                        "properties" : {
-                           "authSchemes" : [
-                              {
-                                 "name" : "sigv4",
-                                 "signingName" : "organizations",
-                                 "signingRegion" : "us-isof-south-1"
-                              }
-                           ]
-                        },
-                        "url" : "https://organizations.us-isof-south-1.csp.hci.ic.gov"
-                     },
-                     "type" : "endpoint"
-                  },
-                  {
-                     "conditions" : [],
-                     "endpoint" : {
-                        "headers" : {},
-                        "properties" : {},
-                        "url" : "https://organizations-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                        "url" : "https://organizations-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
                      },
                      "type" : "endpoint"
                   },
@@ -605,8 +450,15 @@
                      "conditions" : [],
                      "endpoint" : {
                         "headers" : {},
-                        "properties" : {},
-                        "url" : "https://organizations-fips.{Region}.{PartitionResult#dnsSuffix}"
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                              }
+                           ]
+                        },
+                        "url" : "https://organizations-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dnsSuffix}"
                      },
                      "type" : "endpoint"
                   },
@@ -619,8 +471,15 @@
                      "conditions" : [],
                      "endpoint" : {
                         "headers" : {},
-                        "properties" : {},
-                        "url" : "https://organizations.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                              }
+                           ]
+                        },
+                        "url" : "https://organizations.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
                      },
                      "type" : "endpoint"
                   },
@@ -633,8 +492,15 @@
                      "conditions" : [],
                      "endpoint" : {
                         "headers" : {},
-                        "properties" : {},
-                        "url" : "https://organizations.{Region}.{PartitionResult#dnsSuffix}"
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                              }
+                           ]
+                        },
+                        "url" : "https://organizations.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dnsSuffix}"
                      },
                      "type" : "endpoint"
                   },
@@ -705,481 +571,13 @@
                            "type" : "error"
                         },
                         {
-                           "conditions" : [
-                              {
-                                 "argv" : [
-                                    {
-                                       "ref" : "UseDualStack"
-                                    },
-                                    true
-                                 ],
-                                 "fn" : "booleanEquals"
-                              }
-                           ],
-                           "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                           "type" : "error"
-                        },
-                        {
                            "conditions" : [],
-                           "endpoint" : {
-                              "headers" : {},
-                              "properties" : {},
-                              "url" : {
-                                 "ref" : "Endpoint"
-                              }
-                           },
-                           "type" : "endpoint"
-                        }
-                     ],
-                     "type" : "tree"
-                  },
-                  {
-                     "conditions" : [
-                        {
-                           "argv" : [
-                              {
-                                 "ref" : "Region"
-                              }
-                           ],
-                           "fn" : "isSet"
-                        }
-                     ],
-                     "rules" : [
-                        {
-                           "conditions" : [
-                              {
-                                 "argv" : [
-                                    {
-                                       "ref" : "Region"
-                                    }
-                                 ],
-                                 "assign" : "PartitionResult",
-                                 "fn" : "aws.partition"
-                              }
-                           ],
                            "rules" : [
                               {
                                  "conditions" : [
                                     {
                                        "argv" : [
                                           {
-                                             "argv" : [
-                                                {
-                                                   "ref" : "PartitionResult"
-                                                },
-                                                "name"
-                                             ],
-                                             "fn" : "getAttr"
-                                          },
-                                          "aws"
-                                       ],
-                                       "fn" : "stringEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseFIPS"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseDualStack"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    }
-                                 ],
-                                 "endpoint" : {
-                                    "headers" : {},
-                                    "properties" : {
-                                       "authSchemes" : [
-                                          {
-                                             "name" : "sigv4",
-                                             "signingName" : "organizations",
-                                             "signingRegion" : "us-east-1"
-                                          }
-                                       ]
-                                    },
-                                    "url" : "https://organizations.us-east-1.amazonaws.com"
-                                 },
-                                 "type" : "endpoint"
-                              },
-                              {
-                                 "conditions" : [
-                                    {
-                                       "argv" : [
-                                          {
-                                             "argv" : [
-                                                {
-                                                   "ref" : "PartitionResult"
-                                                },
-                                                "name"
-                                             ],
-                                             "fn" : "getAttr"
-                                          },
-                                          "aws"
-                                       ],
-                                       "fn" : "stringEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseFIPS"
-                                          },
-                                          true
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseDualStack"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    }
-                                 ],
-                                 "endpoint" : {
-                                    "headers" : {},
-                                    "properties" : {
-                                       "authSchemes" : [
-                                          {
-                                             "name" : "sigv4",
-                                             "signingName" : "organizations",
-                                             "signingRegion" : "us-east-1"
-                                          }
-                                       ]
-                                    },
-                                    "url" : "https://organizations-fips.us-east-1.amazonaws.com"
-                                 },
-                                 "type" : "endpoint"
-                              },
-                              {
-                                 "conditions" : [
-                                    {
-                                       "argv" : [
-                                          {
-                                             "argv" : [
-                                                {
-                                                   "ref" : "PartitionResult"
-                                                },
-                                                "name"
-                                             ],
-                                             "fn" : "getAttr"
-                                          },
-                                          "aws-cn"
-                                       ],
-                                       "fn" : "stringEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseFIPS"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseDualStack"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    }
-                                 ],
-                                 "endpoint" : {
-                                    "headers" : {},
-                                    "properties" : {
-                                       "authSchemes" : [
-                                          {
-                                             "name" : "sigv4",
-                                             "signingName" : "organizations",
-                                             "signingRegion" : "cn-northwest-1"
-                                          }
-                                       ]
-                                    },
-                                    "url" : "https://organizations.cn-northwest-1.amazonaws.com.cn"
-                                 },
-                                 "type" : "endpoint"
-                              },
-                              {
-                                 "conditions" : [
-                                    {
-                                       "argv" : [
-                                          {
-                                             "argv" : [
-                                                {
-                                                   "ref" : "PartitionResult"
-                                                },
-                                                "name"
-                                             ],
-                                             "fn" : "getAttr"
-                                          },
-                                          "aws-us-gov"
-                                       ],
-                                       "fn" : "stringEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseFIPS"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseDualStack"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    }
-                                 ],
-                                 "endpoint" : {
-                                    "headers" : {},
-                                    "properties" : {
-                                       "authSchemes" : [
-                                          {
-                                             "name" : "sigv4",
-                                             "signingName" : "organizations",
-                                             "signingRegion" : "us-gov-west-1"
-                                          }
-                                       ]
-                                    },
-                                    "url" : "https://organizations.us-gov-west-1.amazonaws.com"
-                                 },
-                                 "type" : "endpoint"
-                              },
-                              {
-                                 "conditions" : [
-                                    {
-                                       "argv" : [
-                                          {
-                                             "argv" : [
-                                                {
-                                                   "ref" : "PartitionResult"
-                                                },
-                                                "name"
-                                             ],
-                                             "fn" : "getAttr"
-                                          },
-                                          "aws-us-gov"
-                                       ],
-                                       "fn" : "stringEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseFIPS"
-                                          },
-                                          true
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseDualStack"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    }
-                                 ],
-                                 "endpoint" : {
-                                    "headers" : {},
-                                    "properties" : {
-                                       "authSchemes" : [
-                                          {
-                                             "name" : "sigv4",
-                                             "signingName" : "organizations",
-                                             "signingRegion" : "us-gov-west-1"
-                                          }
-                                       ]
-                                    },
-                                    "url" : "https://organizations.us-gov-west-1.amazonaws.com"
-                                 },
-                                 "type" : "endpoint"
-                              },
-                              {
-                                 "conditions" : [
-                                    {
-                                       "argv" : [
-                                          {
-                                             "argv" : [
-                                                {
-                                                   "ref" : "PartitionResult"
-                                                },
-                                                "name"
-                                             ],
-                                             "fn" : "getAttr"
-                                          },
-                                          "aws-iso"
-                                       ],
-                                       "fn" : "stringEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseFIPS"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseDualStack"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    }
-                                 ],
-                                 "endpoint" : {
-                                    "headers" : {},
-                                    "properties" : {
-                                       "authSchemes" : [
-                                          {
-                                             "name" : "sigv4",
-                                             "signingName" : "organizations",
-                                             "signingRegion" : "us-iso-east-1"
-                                          }
-                                       ]
-                                    },
-                                    "url" : "https://organizations.us-iso-east-1.c2s.ic.gov"
-                                 },
-                                 "type" : "endpoint"
-                              },
-                              {
-                                 "conditions" : [
-                                    {
-                                       "argv" : [
-                                          {
-                                             "argv" : [
-                                                {
-                                                   "ref" : "PartitionResult"
-                                                },
-                                                "name"
-                                             ],
-                                             "fn" : "getAttr"
-                                          },
-                                          "aws-iso-b"
-                                       ],
-                                       "fn" : "stringEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseFIPS"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseDualStack"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    }
-                                 ],
-                                 "endpoint" : {
-                                    "headers" : {},
-                                    "properties" : {
-                                       "authSchemes" : [
-                                          {
-                                             "name" : "sigv4",
-                                             "signingName" : "organizations",
-                                             "signingRegion" : "us-isob-east-1"
-                                          }
-                                       ]
-                                    },
-                                    "url" : "https://organizations.us-isob-east-1.sc2s.sgov.gov"
-                                 },
-                                 "type" : "endpoint"
-                              },
-                              {
-                                 "conditions" : [
-                                    {
-                                       "argv" : [
-                                          {
-                                             "argv" : [
-                                                {
-                                                   "ref" : "PartitionResult"
-                                                },
-                                                "name"
-                                             ],
-                                             "fn" : "getAttr"
-                                          },
-                                          "aws-iso-f"
-                                       ],
-                                       "fn" : "stringEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseFIPS"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseDualStack"
-                                          },
-                                          false
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    }
-                                 ],
-                                 "endpoint" : {
-                                    "headers" : {},
-                                    "properties" : {
-                                       "authSchemes" : [
-                                          {
-                                             "name" : "sigv4",
-                                             "signingName" : "organizations",
-                                             "signingRegion" : "us-isof-south-1"
-                                          }
-                                       ]
-                                    },
-                                    "url" : "https://organizations.us-isof-south-1.csp.hci.ic.gov"
-                                 },
-                                 "type" : "endpoint"
-                              },
-                              {
-                                 "conditions" : [
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseFIPS"
-                                          },
-                                          true
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    },
-                                    {
-                                       "argv" : [
-                                          {
                                              "ref" : "UseDualStack"
                                           },
                                           true
@@ -1187,171 +585,17 @@
                                        "fn" : "booleanEquals"
                                     }
                                  ],
-                                 "rules" : [
-                                    {
-                                       "conditions" : [
-                                          {
-                                             "argv" : [
-                                                true,
-                                                {
-                                                   "argv" : [
-                                                      {
-                                                         "ref" : "PartitionResult"
-                                                      },
-                                                      "supportsFIPS"
-                                                   ],
-                                                   "fn" : "getAttr"
-                                                }
-                                             ],
-                                             "fn" : "booleanEquals"
-                                          },
-                                          {
-                                             "argv" : [
-                                                true,
-                                                {
-                                                   "argv" : [
-                                                      {
-                                                         "ref" : "PartitionResult"
-                                                      },
-                                                      "supportsDualStack"
-                                                   ],
-                                                   "fn" : "getAttr"
-                                                }
-                                             ],
-                                             "fn" : "booleanEquals"
-                                          }
-                                       ],
-                                       "rules" : [
-                                          {
-                                             "conditions" : [],
-                                             "endpoint" : {
-                                                "headers" : {},
-                                                "properties" : {},
-                                                "url" : "https://organizations-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
-                                             },
-                                             "type" : "endpoint"
-                                          }
-                                       ],
-                                       "type" : "tree"
-                                    },
-                                    {
-                                       "conditions" : [],
-                                       "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                       "type" : "error"
-                                    }
-                                 ],
-                                 "type" : "tree"
-                              },
-                              {
-                                 "conditions" : [
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseFIPS"
-                                          },
-                                          true
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    }
-                                 ],
-                                 "rules" : [
-                                    {
-                                       "conditions" : [
-                                          {
-                                             "argv" : [
-                                                {
-                                                   "argv" : [
-                                                      {
-                                                         "ref" : "PartitionResult"
-                                                      },
-                                                      "supportsFIPS"
-                                                   ],
-                                                   "fn" : "getAttr"
-                                                },
-                                                true
-                                             ],
-                                             "fn" : "booleanEquals"
-                                          }
-                                       ],
-                                       "rules" : [
-                                          {
-                                             "conditions" : [],
-                                             "endpoint" : {
-                                                "headers" : {},
-                                                "properties" : {},
-                                                "url" : "https://organizations-fips.{Region}.{PartitionResult#dnsSuffix}"
-                                             },
-                                             "type" : "endpoint"
-                                          }
-                                       ],
-                                       "type" : "tree"
-                                    },
-                                    {
-                                       "conditions" : [],
-                                       "error" : "FIPS is enabled but this partition does not support FIPS",
-                                       "type" : "error"
-                                    }
-                                 ],
-                                 "type" : "tree"
-                              },
-                              {
-                                 "conditions" : [
-                                    {
-                                       "argv" : [
-                                          {
-                                             "ref" : "UseDualStack"
-                                          },
-                                          true
-                                       ],
-                                       "fn" : "booleanEquals"
-                                    }
-                                 ],
-                                 "rules" : [
-                                    {
-                                       "conditions" : [
-                                          {
-                                             "argv" : [
-                                                true,
-                                                {
-                                                   "argv" : [
-                                                      {
-                                                         "ref" : "PartitionResult"
-                                                      },
-                                                      "supportsDualStack"
-                                                   ],
-                                                   "fn" : "getAttr"
-                                                }
-                                             ],
-                                             "fn" : "booleanEquals"
-                                          }
-                                       ],
-                                       "rules" : [
-                                          {
-                                             "conditions" : [],
-                                             "endpoint" : {
-                                                "headers" : {},
-                                                "properties" : {},
-                                                "url" : "https://organizations.{Region}.{PartitionResult#dualStackDnsSuffix}"
-                                             },
-                                             "type" : "endpoint"
-                                          }
-                                       ],
-                                       "type" : "tree"
-                                    },
-                                    {
-                                       "conditions" : [],
-                                       "error" : "DualStack is enabled but this partition does not support DualStack",
-                                       "type" : "error"
-                                    }
-                                 ],
-                                 "type" : "tree"
+                                 "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                 "type" : "error"
                               },
                               {
                                  "conditions" : [],
                                  "endpoint" : {
                                     "headers" : {},
                                     "properties" : {},
-                                    "url" : "https://organizations.{Region}.{PartitionResult#dnsSuffix}"
+                                    "url" : {
+                                       "ref" : "Endpoint"
+                                    }
                                  },
                                  "type" : "endpoint"
                               }
@@ -1363,8 +607,380 @@
                   },
                   {
                      "conditions" : [],
-                     "error" : "Invalid Configuration: Missing Region",
-                     "type" : "error"
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "name"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                },
+                                                "aws-us-gov"
+                                             ],
+                                             "fn" : "stringEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                false
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4",
+                                                   "signingRegion" : "us-gov-west-1"
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://organizations.us-gov-west-1.amazonaws.com"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "name"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                },
+                                                "aws-us-gov"
+                                             ],
+                                             "fn" : "stringEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4",
+                                                   "signingRegion" : "us-gov-west-1"
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://organizations.us-gov-west-1.api.aws"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                },
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "endpoint" : {
+                                                      "headers" : {},
+                                                      "properties" : {
+                                                         "authSchemes" : [
+                                                            {
+                                                               "name" : "sigv4",
+                                                               "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                            }
+                                                         ]
+                                                      },
+                                                      "url" : "https://organizations-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
+                                                   },
+                                                   "type" : "endpoint"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                false
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      true
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "endpoint" : {
+                                                      "headers" : {},
+                                                      "properties" : {
+                                                         "authSchemes" : [
+                                                            {
+                                                               "name" : "sigv4",
+                                                               "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                            }
+                                                         ]
+                                                      },
+                                                      "url" : "https://organizations-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dnsSuffix}"
+                                                   },
+                                                   "type" : "endpoint"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS is enabled but this partition does not support FIPS",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                false
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "endpoint" : {
+                                                      "headers" : {},
+                                                      "properties" : {
+                                                         "authSchemes" : [
+                                                            {
+                                                               "name" : "sigv4",
+                                                               "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                            }
+                                                         ]
+                                                      },
+                                                      "url" : "https://organizations.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
+                                                   },
+                                                   "type" : "endpoint"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4",
+                                                   "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://organizations.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
                   }
                ],
                "version" : "1.0"
@@ -1372,53 +988,50 @@
             "smithy.rules#endpointTests" : {
                "testCases" : [
                   {
-                     "documentation" : "For region aws-global with FIPS disabled and DualStack disabled",
+                     "documentation" : "For custom endpoint with region not set and fips disabled",
                      "expect" : {
                         "endpoint" : {
-                           "properties" : {
-                              "authSchemes" : [
-                                 {
-                                    "name" : "sigv4",
-                                    "signingName" : "organizations",
-                                    "signingRegion" : "us-east-1"
-                                 }
-                              ]
-                           },
-                           "url" : "https://organizations.us-east-1.amazonaws.com"
+                           "url" : "https://example.com"
                         }
                      },
                      "params" : {
-                        "Region" : "aws-global",
-                        "UseDualStack" : false,
+                        "Endpoint" : "https://example.com",
                         "UseFIPS" : false
                      }
                   },
                   {
-                     "documentation" : "For region aws-global with FIPS enabled and DualStack disabled",
+                     "documentation" : "For custom endpoint with fips enabled",
                      "expect" : {
-                        "endpoint" : {
-                           "properties" : {
-                              "authSchemes" : [
-                                 {
-                                    "name" : "sigv4",
-                                    "signingName" : "organizations",
-                                    "signingRegion" : "us-east-1"
-                                 }
-                              ]
-                           },
-                           "url" : "https://organizations-fips.us-east-1.amazonaws.com"
-                        }
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
                      },
                      "params" : {
-                        "Region" : "aws-global",
-                        "UseDualStack" : false,
+                        "Endpoint" : "https://example.com",
                         "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
                      }
                   },
                   {
                      "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
                      "expect" : {
                         "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
                            "url" : "https://organizations-fips.us-east-1.api.aws"
                         }
                      },
@@ -1436,7 +1049,6 @@
                               "authSchemes" : [
                                  {
                                     "name" : "sigv4",
-                                    "signingName" : "organizations",
                                     "signingRegion" : "us-east-1"
                                  }
                               ]
@@ -1454,6 +1066,14 @@
                      "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
                      "expect" : {
                         "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
                            "url" : "https://organizations.us-east-1.api.aws"
                         }
                      },
@@ -1471,7 +1091,6 @@
                               "authSchemes" : [
                                  {
                                     "name" : "sigv4",
-                                    "signingName" : "organizations",
                                     "signingRegion" : "us-east-1"
                                  }
                               ]
@@ -1486,14 +1105,76 @@
                      }
                   },
                   {
-                     "documentation" : "For region aws-cn-global with FIPS disabled and DualStack disabled",
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
                      "expect" : {
                         "endpoint" : {
                            "properties" : {
                               "authSchemes" : [
                                  {
                                     "name" : "sigv4",
-                                    "signingName" : "organizations",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations-fips.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations-fips.cn-northwest-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
                                     "signingRegion" : "cn-northwest-1"
                                  }
                               ]
@@ -1502,204 +1183,49 @@
                         }
                      },
                      "params" : {
-                        "Region" : "aws-cn-global",
+                        "Region" : "cn-northwest-1",
                         "UseDualStack" : false,
                         "UseFIPS" : false
                      }
                   },
                   {
-                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "documentation" : "For region eusc-de-east-1 with FIPS enabled and DualStack disabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://organizations-fips.cn-north-1.api.amazonwebservices.com.cn"
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "eusc-de-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations-fips.eusc-de-east-1.amazonaws.eu"
                         }
                      },
                      "params" : {
-                        "Region" : "cn-north-1",
-                        "UseDualStack" : true,
-                        "UseFIPS" : true
-                     }
-                  },
-                  {
-                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
-                     "expect" : {
-                        "endpoint" : {
-                           "url" : "https://organizations-fips.cn-north-1.amazonaws.com.cn"
-                        }
-                     },
-                     "params" : {
-                        "Region" : "cn-north-1",
+                        "Region" : "eusc-de-east-1",
                         "UseDualStack" : false,
                         "UseFIPS" : true
                      }
                   },
                   {
-                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
-                     "expect" : {
-                        "endpoint" : {
-                           "url" : "https://organizations.cn-north-1.api.amazonwebservices.com.cn"
-                        }
-                     },
-                     "params" : {
-                        "Region" : "cn-north-1",
-                        "UseDualStack" : true,
-                        "UseFIPS" : false
-                     }
-                  },
-                  {
-                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "documentation" : "For region eusc-de-east-1 with FIPS disabled and DualStack disabled",
                      "expect" : {
                         "endpoint" : {
                            "properties" : {
                               "authSchemes" : [
                                  {
                                     "name" : "sigv4",
-                                    "signingName" : "organizations",
-                                    "signingRegion" : "cn-northwest-1"
+                                    "signingRegion" : "eusc-de-east-1"
                                  }
                               ]
                            },
-                           "url" : "https://organizations.cn-northwest-1.amazonaws.com.cn"
+                           "url" : "https://organizations.eusc-de-east-1.amazonaws.eu"
                         }
                      },
                      "params" : {
-                        "Region" : "cn-north-1",
-                        "UseDualStack" : false,
-                        "UseFIPS" : false
-                     }
-                  },
-                  {
-                     "documentation" : "For region aws-us-gov-global with FIPS disabled and DualStack disabled",
-                     "expect" : {
-                        "endpoint" : {
-                           "properties" : {
-                              "authSchemes" : [
-                                 {
-                                    "name" : "sigv4",
-                                    "signingName" : "organizations",
-                                    "signingRegion" : "us-gov-west-1"
-                                 }
-                              ]
-                           },
-                           "url" : "https://organizations.us-gov-west-1.amazonaws.com"
-                        }
-                     },
-                     "params" : {
-                        "Region" : "aws-us-gov-global",
-                        "UseDualStack" : false,
-                        "UseFIPS" : false
-                     }
-                  },
-                  {
-                     "documentation" : "For region aws-us-gov-global with FIPS enabled and DualStack disabled",
-                     "expect" : {
-                        "endpoint" : {
-                           "properties" : {
-                              "authSchemes" : [
-                                 {
-                                    "name" : "sigv4",
-                                    "signingName" : "organizations",
-                                    "signingRegion" : "us-gov-west-1"
-                                 }
-                              ]
-                           },
-                           "url" : "https://organizations.us-gov-west-1.amazonaws.com"
-                        }
-                     },
-                     "params" : {
-                        "Region" : "aws-us-gov-global",
-                        "UseDualStack" : false,
-                        "UseFIPS" : true
-                     }
-                  },
-                  {
-                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
-                     "expect" : {
-                        "endpoint" : {
-                           "url" : "https://organizations-fips.us-gov-east-1.api.aws"
-                        }
-                     },
-                     "params" : {
-                        "Region" : "us-gov-east-1",
-                        "UseDualStack" : true,
-                        "UseFIPS" : true
-                     }
-                  },
-                  {
-                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
-                     "expect" : {
-                        "endpoint" : {
-                           "properties" : {
-                              "authSchemes" : [
-                                 {
-                                    "name" : "sigv4",
-                                    "signingName" : "organizations",
-                                    "signingRegion" : "us-gov-west-1"
-                                 }
-                              ]
-                           },
-                           "url" : "https://organizations.us-gov-west-1.amazonaws.com"
-                        }
-                     },
-                     "params" : {
-                        "Region" : "us-gov-east-1",
-                        "UseDualStack" : false,
-                        "UseFIPS" : true
-                     }
-                  },
-                  {
-                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
-                     "expect" : {
-                        "endpoint" : {
-                           "url" : "https://organizations.us-gov-east-1.api.aws"
-                        }
-                     },
-                     "params" : {
-                        "Region" : "us-gov-east-1",
-                        "UseDualStack" : true,
-                        "UseFIPS" : false
-                     }
-                  },
-                  {
-                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
-                     "expect" : {
-                        "endpoint" : {
-                           "properties" : {
-                              "authSchemes" : [
-                                 {
-                                    "name" : "sigv4",
-                                    "signingName" : "organizations",
-                                    "signingRegion" : "us-gov-west-1"
-                                 }
-                              ]
-                           },
-                           "url" : "https://organizations.us-gov-west-1.amazonaws.com"
-                        }
-                     },
-                     "params" : {
-                        "Region" : "us-gov-east-1",
-                        "UseDualStack" : false,
-                        "UseFIPS" : false
-                     }
-                  },
-                  {
-                     "documentation" : "For region aws-iso-global with FIPS disabled and DualStack disabled",
-                     "expect" : {
-                        "endpoint" : {
-                           "properties" : {
-                              "authSchemes" : [
-                                 {
-                                    "name" : "sigv4",
-                                    "signingName" : "organizations",
-                                    "signingRegion" : "us-iso-east-1"
-                                 }
-                              ]
-                           },
-                           "url" : "https://organizations.us-iso-east-1.c2s.ic.gov"
-                        }
-                     },
-                     "params" : {
-                        "Region" : "aws-iso-global",
+                        "Region" : "eusc-de-east-1",
                         "UseDualStack" : false,
                         "UseFIPS" : false
                      }
@@ -1708,6 +1234,14 @@
                      "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                      "expect" : {
                         "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-iso-east-1"
+                                 }
+                              ]
+                           },
                            "url" : "https://organizations-fips.us-iso-east-1.c2s.ic.gov"
                         }
                      },
@@ -1725,7 +1259,6 @@
                               "authSchemes" : [
                                  {
                                     "name" : "sigv4",
-                                    "signingName" : "organizations",
                                     "signingRegion" : "us-iso-east-1"
                                  }
                               ]
@@ -1740,31 +1273,17 @@
                      }
                   },
                   {
-                     "documentation" : "For region aws-iso-b-global with FIPS disabled and DualStack disabled",
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                      "expect" : {
                         "endpoint" : {
                            "properties" : {
                               "authSchemes" : [
                                  {
                                     "name" : "sigv4",
-                                    "signingName" : "organizations",
                                     "signingRegion" : "us-isob-east-1"
                                  }
                               ]
                            },
-                           "url" : "https://organizations.us-isob-east-1.sc2s.sgov.gov"
-                        }
-                     },
-                     "params" : {
-                        "Region" : "aws-iso-b-global",
-                        "UseDualStack" : false,
-                        "UseFIPS" : false
-                     }
-                  },
-                  {
-                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
-                     "expect" : {
-                        "endpoint" : {
                            "url" : "https://organizations-fips.us-isob-east-1.sc2s.sgov.gov"
                         }
                      },
@@ -1782,7 +1301,6 @@
                               "authSchemes" : [
                                  {
                                     "name" : "sigv4",
-                                    "signingName" : "organizations",
                                     "signingRegion" : "us-isob-east-1"
                                  }
                               ]
@@ -1797,6 +1315,69 @@
                      }
                   },
                   {
+                     "documentation" : "For region eu-isoe-west-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "eu-isoe-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations-fips.eu-isoe-west-1.cloud.adc-e.uk"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-isoe-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-isoe-west-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "eu-isoe-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations.eu-isoe-west-1.cloud.adc-e.uk"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-isoe-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isof-south-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-isof-south-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations-fips.us-isof-south-1.csp.hci.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isof-south-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
                      "documentation" : "For region us-isof-south-1 with FIPS disabled and DualStack disabled",
                      "expect" : {
                         "endpoint" : {
@@ -1804,7 +1385,6 @@
                               "authSchemes" : [
                                  {
                                     "name" : "sigv4",
-                                    "signingName" : "organizations",
                                     "signingRegion" : "us-isof-south-1"
                                  }
                               ]
@@ -1819,53 +1399,86 @@
                      }
                   },
                   {
-                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://example.com"
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations.us-gov-west-1.api.aws"
                         }
                      },
                      "params" : {
-                        "Endpoint" : "https://example.com",
-                        "Region" : "us-east-1",
-                        "UseDualStack" : false,
-                        "UseFIPS" : false
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
                      }
                   },
                   {
-                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack disabled",
                      "expect" : {
                         "endpoint" : {
-                           "url" : "https://example.com"
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations.us-gov-west-1.amazonaws.com"
                         }
                      },
                      "params" : {
-                        "Endpoint" : "https://example.com",
-                        "UseDualStack" : false,
-                        "UseFIPS" : false
-                     }
-                  },
-                  {
-                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
-                     "expect" : {
-                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
-                     },
-                     "params" : {
-                        "Endpoint" : "https://example.com",
-                        "Region" : "us-east-1",
+                        "Region" : "us-gov-west-1",
                         "UseDualStack" : false,
                         "UseFIPS" : true
                      }
                   },
                   {
-                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
                      "expect" : {
-                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations.us-gov-west-1.api.aws"
+                        }
                      },
                      "params" : {
-                        "Endpoint" : "https://example.com",
-                        "Region" : "us-east-1",
+                        "Region" : "us-gov-west-1",
                         "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://organizations.us-gov-west-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : false,
                         "UseFIPS" : false
                      }
                   },
@@ -2336,7 +1949,7 @@
             "target" : "smithy.api#Unit"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Attaches a policy to a root, an organizational unit (OU), or an individual account.\n            How the policy affects accounts depends on the type of policy. Refer to the\n                <i>Organizations User Guide</i> for information about each policy type:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>\n         <p>You can only call this operation from the management account or a member account that is a delegated administrator.</p>"
+            "smithy.api#documentation" : "<p>Attaches a policy to a root, an organizational unit (OU), or an individual account.\n            How the policy affects accounts depends on the type of policy. Refer to the\n                <i>Organizations User Guide</i> for information about each policy type:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>\n         <p>You can only call this operation from the management account or a member account that is a delegated administrator.</p>"
          },
          "type" : "operation"
       },
@@ -3533,7 +3146,7 @@
             "Type" : {
                "target" : "com.amazonaws.organizations#PolicyType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of policy to create. You can specify one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The type of policy to create. You can specify one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -4140,7 +3753,7 @@
             "PolicyType" : {
                "target" : "com.amazonaws.organizations#EffectivePolicyType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of policy that you want information about. You can specify one of the\n            following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The type of policy that you want information about. You can specify one of the\n            following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -4702,7 +4315,7 @@
             "PolicyType" : {
                "target" : "com.amazonaws.organizations#PolicyType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The policy type that you want to disable in this root. You can specify one of the\n            following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The policy type that you want to disable in this root. You can specify one of the\n            following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -4872,6 +4485,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "DECLARATIVE_POLICY_EC2"
+               }
+            },
+            "GUARDDUTY_POLICY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GUARDDUTY_POLICY"
                }
             },
             "INSPECTOR_POLICY" : {
@@ -5129,7 +4748,7 @@
             "PolicyType" : {
                "target" : "com.amazonaws.organizations#PolicyType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The policy type that you want to enable. You can specify one of the following\n            values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The policy type that you want to enable. You can specify one of the following\n            values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -6540,7 +6159,7 @@
             "PolicyType" : {
                "target" : "com.amazonaws.organizations#EffectivePolicyType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of policy that you want information about. You can specify one of the\n            following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The type of policy that you want information about. You can specify one of the\n            following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -6567,7 +6186,7 @@
             "PolicyType" : {
                "target" : "com.amazonaws.organizations#EffectivePolicyType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The specified policy type. One of the\n            following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>The specified policy type. One of the\n            following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>"
                }
             }
          },
@@ -7002,7 +6621,7 @@
             "PolicyType" : {
                "target" : "com.amazonaws.organizations#EffectivePolicyType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of policy that you want information about. You can specify one of the\n            following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The type of policy that you want information about. You can specify one of the\n            following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             }
@@ -7047,7 +6666,7 @@
             "PolicyType" : {
                "target" : "com.amazonaws.organizations#EffectivePolicyType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The specified policy type. One of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>The specified policy type. One of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>"
                }
             }
          },
@@ -7642,7 +7261,7 @@
             "Filter" : {
                "target" : "com.amazonaws.organizations#PolicyType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of policy that you want to include in the returned list. You must specify one\n            of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The type of policy that you want to include in the returned list. You must specify one\n            of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -7696,7 +7315,7 @@
             "Filter" : {
                "target" : "com.amazonaws.organizations#PolicyType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specifies the type of policy that you want to include in the response. You must\n            specify one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>Specifies the type of policy that you want to include in the response. You must\n            specify one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html\">RESOURCE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html\">DECLARATIVE_POLICY_EC2</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html\">CHATBOT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html\">SECURITYHUB_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html\">UPGRADE_ROLLOUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html\">INSPECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html\">BEDROCK_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html\">S3_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html\">NETWORK_SECURITY_DIRECTOR_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html\">GUARDDUTY_POLICY</a>\n               </p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -8609,6 +8228,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "DECLARATIVE_POLICY_EC2"
+               }
+            },
+            "GUARDDUTY_POLICY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GUARDDUTY_POLICY"
                }
             },
             "INSPECTOR_POLICY" : {

@@ -225,6 +225,18 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearch#AcceptedWarningsList" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearch#String"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.opensearch#AccessDeniedException" : {
          "members" : {
             "message" : {
@@ -536,6 +548,88 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearch#AddReplicationPeer" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearch#DisabledOperationException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#InternalException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceAlreadyExistsException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearch#AddReplicationPeerRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearch#AddReplicationPeerResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Starts replicating a domain to a peer domain in another AWS Region. A domain can have one\n  peer. The domain you call becomes the primary and the peer becomes the secondary, which\n  receives a copy of the primary's indexes and serves read requests.</p>\n         <p>Replication is established asynchronously. Use the <code>DescribeDomainReplication</code> operation to check whether the\n  relationship has reached the <code>ACTIVE</code> state.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/2021-01-01/opensearch/domain/{DomainName}/replication/addPeer"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearch#AddReplicationPeerRequest" : {
+         "members" : {
+            "DomainName" : {
+               "target" : "com.amazonaws.opensearch#DomainName",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "DryRun" : {
+               "target" : "com.amazonaws.opensearch#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When <code>true</code>, validates the request and reports whether replication could be\n  established, without changing either domain.</p>"
+               }
+            },
+            "PeerDomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the domain to replicate to. The peer must be in a\n  different Region from the domain you are calling, and in the same AWS account.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#AddReplicationPeerResponse" : {
+         "members" : {
+            "DomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the domain that is now replicating to the peer.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.opensearch#ReplicationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the replication relationship. This is <code>PENDING_SETUP</code> immediately\n  after the request is accepted.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.opensearch#AddTags" : {
          "errors" : [
             {
@@ -784,6 +878,9 @@
                "target" : "com.amazonaws.opensearch#AddDirectQueryDataSource"
             },
             {
+               "target" : "com.amazonaws.opensearch#AddReplicationPeer"
+            },
+            {
                "target" : "com.amazonaws.opensearch#AddTags"
             },
             {
@@ -803,6 +900,9 @@
             },
             {
                "target" : "com.amazonaws.opensearch#CancelServiceSoftwareUpdate"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#CompareDomainConfiguration"
             },
             {
                "target" : "com.amazonaws.opensearch#CreateApplication"
@@ -874,6 +974,9 @@
                "target" : "com.amazonaws.opensearch#DescribeDomainNodes"
             },
             {
+               "target" : "com.amazonaws.opensearch#DescribeDomainReplication"
+            },
+            {
                "target" : "com.amazonaws.opensearch#DescribeDomains"
             },
             {
@@ -911,6 +1014,9 @@
             },
             {
                "target" : "com.amazonaws.opensearch#DissociatePackages"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#FailoverReplication"
             },
             {
                "target" : "com.amazonaws.opensearch#GetApplication"
@@ -1015,6 +1121,9 @@
                "target" : "com.amazonaws.opensearch#RejectInboundConnection"
             },
             {
+               "target" : "com.amazonaws.opensearch#RemoveReplicationPeer"
+            },
+            {
                "target" : "com.amazonaws.opensearch#RemoveTags"
             },
             {
@@ -1031,6 +1140,9 @@
             },
             {
                "target" : "com.amazonaws.opensearch#StartServiceSoftwareUpdate"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#SwitchoverReplication"
             },
             {
                "target" : "com.amazonaws.opensearch#UpdateApplication"
@@ -2715,7 +2827,7 @@
             "target" : "com.amazonaws.opensearch#AttachDataSourceResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Attaches a data source to an OpenSearch application. The data source can be an Amazon OpenSearch Service domain or an Amazon OpenSearch Serverless collection. If both the application and data source are in the <code>ACTIVE</code> state, the attachment completes immediately and returns a status of <code>ATTACHED</code>. If either resource is not yet active, the operation stores the request and returns a status of <code>PENDING</code>. A background process then completes the attachment when both resources become active. Pending attachments that are not completed within 24 hours are marked as <code>FAILED</code>. This operation is idempotent. If a data source is already attached or pending for the same application, the existing attachment is returned.</p>",
+            "smithy.api#documentation" : "<p>Attaches a data source to an OpenSearch application. The data source must be an Amazon OpenSearch Service domain. If both the application and the data source are active, the attachment completes immediately with a status of <code>ATTACHED</code>. Otherwise, the operation returns <code>PENDING</code> and completes the attachment automatically once both become active. If the attachment cannot be completed, its status becomes <code>FAILED</code>. This operation is idempotent: If the data source is already attached or pending, the operation returns the existing attachment.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -3741,6 +3853,60 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.opensearch#CategoryDiffResult" : {
+         "members" : {
+            "Diverged" : {
+               "target" : "com.amazonaws.opensearch#DiffCount",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of items that exist on both domains but differ.</p>"
+               }
+            },
+            "InSync" : {
+               "target" : "com.amazonaws.opensearch#DiffCount",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of items that are identical on both domains.</p>"
+               }
+            },
+            "Items" : {
+               "target" : "com.amazonaws.opensearch#DiffItems",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The names of the items that differ, and for diverging items, the fields that differ.</p>"
+               }
+            },
+            "SourceOnly" : {
+               "target" : "com.amazonaws.opensearch#DiffCount",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of items that exist only on the source domain.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.opensearch#DiffStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether the category was compared successfully. <code>compared</code> means the result is\n  complete; <code>error</code> means the category could not be read.</p>"
+               }
+            },
+            "TargetOnly" : {
+               "target" : "com.amazonaws.opensearch#DiffCount",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of items that exist only on the target domain.</p>"
+               }
+            },
+            "Truncated" : {
+               "target" : "com.amazonaws.opensearch#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether <code>Items</code> omits some differences because the category contained more than\n  the response can carry. The counts remain complete when this is <code>true</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The result of comparing one metadata category between two domains.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.opensearch#ChangeProgressDetails" : {
          "members" : {
             "ChangeId" : {
@@ -3846,6 +4012,12 @@
       },
       "com.amazonaws.opensearch#ChangeProgressStatusDetails" : {
          "members" : {
+            "AcceptedWarnings" : {
+               "target" : "com.amazonaws.opensearch#AcceptedWarningsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of advisory warning codes that were accepted for the configuration change.</p>"
+               }
+            },
             "ChangeId" : {
                "target" : "com.amazonaws.opensearch#GUID",
                "traits" : {
@@ -3905,6 +4077,12 @@
                "traits" : {
                   "smithy.api#default" : 0,
                   "smithy.api#documentation" : "<p>The total number of stages required for the configuration change.</p>"
+               }
+            },
+            "ValidationFailures" : {
+               "target" : "com.amazonaws.opensearch#ValidationFailures",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The validation failures that occurred as a result of the configuration change.</p>"
                }
             }
          },
@@ -4133,6 +4311,108 @@
             }
          },
          "type" : "string"
+      },
+      "com.amazonaws.opensearch#CompareDomainConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearch#DisabledOperationException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#InternalException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearch#CompareDomainConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearch#CompareDomainConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Compares the metadata of two domains and reports where they differ. Use this operation to\n  check that a secondary domain is configured consistently with its primary before you rely on\n  it, because replication copies index data but does not copy domain metadata such as index\n  templates, ingest pipelines, or security roles.</p>\n         <p>You choose which categories to compare. The response reports, for each category, how many\n  items match, how many exist on only one domain, and which fields diverge.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/2021-01-01/opensearch/compareDomainConfiguration"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearch#CompareDomainConfigurationCategoryMap" : {
+         "key" : {
+            "target" : "com.amazonaws.opensearch#MetadataCategory"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.opensearch#CategoryDiffResult"
+         }
+      },
+      "com.amazonaws.opensearch#CompareDomainConfigurationRequest" : {
+         "members" : {
+            "Categories" : {
+               "target" : "com.amazonaws.opensearch#MetadataCategoryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metadata categories to compare. At least one is required, and only the categories you\n  name are read and returned.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>aliases</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>alerting_monitors</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>cluster_settings</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>component_templates</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ingest_pipelines</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ism_policies</code> — index state management policies</p>\n            </li>\n            <li>\n               <p>\n                  <code>security_action_groups</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>security_internal_users</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>security_role_mappings</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>security_roles</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>templates</code> — index templates</p>\n            </li>\n         </ul>\n         <p>The set of categories grows over time, so this list is not fixed. A category the service does\n  not recognise is rejected with the supported categories named in the error message.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SourceDomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the domain to compare from.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TargetDomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the domain to compare against.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#CompareDomainConfigurationResponse" : {
+         "members" : {
+            "Categories" : {
+               "target" : "com.amazonaws.opensearch#CompareDomainConfigurationCategoryMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The comparison result for each category you requested, keyed by category name.</p>"
+               }
+            },
+            "SourceDomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the domain that was compared from.</p>"
+               }
+            },
+            "TargetDomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the domain that was compared against.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.opensearch#CompatibleVersionsList" : {
          "member" : {
@@ -6563,6 +6843,79 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearch#DescribeDomainReplication" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearch#DisabledOperationException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#InternalException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearch#DescribeDomainReplicationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearch#DescribeDomainReplicationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the replication arrangement that a domain participates in, including the domain's\n  role and the state of its relationship with each peer.</p>\n         <p>A domain that is not replicating is returned with an empty <code>Peers</code> list and no\n  <code>Role</code>. Returns <code>ResourceNotFoundException</code> if the domain does not\n  exist.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/2021-01-01/opensearch/domain/{DomainName}/replication"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearch#DescribeDomainReplicationRequest" : {
+         "members" : {
+            "DomainName" : {
+               "target" : "com.amazonaws.opensearch#DomainName",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#DescribeDomainReplicationResponse" : {
+         "members" : {
+            "DomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the domain described.</p>"
+               }
+            },
+            "Peers" : {
+               "target" : "com.amazonaws.opensearch#ReplicationPeerList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The domains that this domain replicates with. Each entry carries the state of that one\n  relationship. Empty when the domain is not replicating.</p>"
+               }
+            },
+            "Role" : {
+               "target" : "com.amazonaws.opensearch#ReplicationRole",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The domain's role in the arrangement, either <code>PRIMARY</code> or\n  <code>SECONDARY</code>. Absent when the domain is not replicating.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.opensearch#DescribeDomainRequest" : {
          "members" : {
             "DomainName" : {
@@ -7571,6 +7924,108 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearch#DiffCount" : {
+         "traits" : {
+            "smithy.api#default" : 0,
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.opensearch#DiffFieldPath" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearch#DiffFieldPolicy" : {
+         "members" : {
+            "REDACTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "redacted"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.opensearch#DiffFieldValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10240,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearch#DiffItemName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearch#DiffItemNameList" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearch#DiffItemName"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1000,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.opensearch#DiffItems" : {
+         "members" : {
+            "Diverged" : {
+               "target" : "com.amazonaws.opensearch#DivergentItemList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The items that exist on both domains but differ, with the diverging fields.</p>"
+               }
+            },
+            "SourceOnly" : {
+               "target" : "com.amazonaws.opensearch#DiffItemNameList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The names of items that exist only on the source domain.</p>"
+               }
+            },
+            "TargetOnly" : {
+               "target" : "com.amazonaws.opensearch#DiffItemNameList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The names of items that exist only on the target domain.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The items that differ within one metadata category.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#DiffStatus" : {
+         "members" : {
+            "COMPARED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "compared"
+               }
+            },
+            "ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "error"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.opensearch#DirectQueryDataSource" : {
          "members" : {
             "DataSourceArn" : {
@@ -7851,6 +8306,82 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearch#DivergentField" : {
+         "members" : {
+            "Path" : {
+               "target" : "com.amazonaws.opensearch#DiffFieldPath",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The location of the field within the item.</p>"
+               }
+            },
+            "Policy" : {
+               "target" : "com.amazonaws.opensearch#DiffFieldPolicy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>How the comparison treats this field.</p>"
+               }
+            },
+            "SourceValue" : {
+               "target" : "com.amazonaws.opensearch#DiffFieldValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field's value on the source domain.</p>"
+               }
+            },
+            "TargetValue" : {
+               "target" : "com.amazonaws.opensearch#DiffFieldValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field's value on the target domain.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single field that differs between the source and target copies of an item.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#DivergentFieldList" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearch#DivergentField"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.opensearch#DivergentItem" : {
+         "members" : {
+            "Fields" : {
+               "target" : "com.amazonaws.opensearch#DivergentFieldList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The fields of the item that differ.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.opensearch#DiffItemName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the item.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An item that exists on both domains but whose contents differ.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#DivergentItemList" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearch#DivergentItem"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1000,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.opensearch#DomainArn" : {
          "traits" : {
             "smithy.api#length" : {
@@ -8048,7 +8579,7 @@
             "TLSSecurityPolicy" : {
                "target" : "com.amazonaws.opensearch#TLSSecurityPolicy",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The\n            policy can be one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>Policy-Min-TLS-1-0-2019-07:</b> TLS security\n                    policy that supports TLS version 1.0 to TLS version 1.2</p>\n            </li>\n            <li>\n               <p>\n                  <b>Policy-Min-TLS-1-2-2019-07:</b> TLS security\n                    policy that supports only TLS version 1.2</p>\n            </li>\n            <li>\n               <p>\n                  <b>Policy-Min-TLS-1-2-PFS-2023-10:</b> TLS security\n                    policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward\n                    secrecy cipher suites</p>\n            </li>\n            <li>\n               <p>\n                  <b>Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08:</b> TLS \n                security policy that supports TLS version 1.3 with FIPS</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The\n            policy can be one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>Policy-Min-TLS-1-0-2019-07:</b> TLS security\n                    policy that supports TLS version 1.0 to TLS version 1.2</p>\n            </li>\n            <li>\n               <p>\n                  <b>Policy-Min-TLS-1-2-2019-07:</b> TLS security\n                    policy that supports only TLS version 1.2</p>\n            </li>\n            <li>\n               <p>\n                  <b>Policy-Min-TLS-1-2-PFS-2023-10:</b> TLS security\n                    policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward\n                    secrecy cipher suites</p>\n            </li>\n            <li>\n               <p>\n                  <b>Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08:</b> TLS \n                security policy that supports TLS version 1.3 with FIPS</p>\n            </li>\n            <li>\n               <p>\n                  <b>Policy-Min-TLS-1-2-FIPS-PQ-2026-10:</b> TLS\n                security policy that supports TLS version 1.2 to TLS version 1.3 with FIPS and post-quantum cipher suites</p>\n            </li>\n         </ul>"
                }
             }
          },
@@ -8809,6 +9340,12 @@
       },
       "com.amazonaws.opensearch#DryRunProgressStatus" : {
          "members" : {
+            "AcceptedWarnings" : {
+               "target" : "com.amazonaws.opensearch#AcceptedWarningsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of advisory warning codes that were accepted for the configuration change.</p>"
+               }
+            },
             "CreationDate" : {
                "target" : "com.amazonaws.opensearch#String",
                "traits" : {
@@ -8840,7 +9377,7 @@
             "ValidationFailures" : {
                "target" : "com.amazonaws.opensearch#ValidationFailures",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Any validation failures that occurred as a result of the dry run.</p>"
+                  "smithy.api#documentation" : "<p>The validation failures that occurred as a result of the dry run.</p>"
                }
             }
          },
@@ -8967,6 +9504,12 @@
                   "smithy.api#documentation" : "<p>True to enable encryption at rest.</p>"
                }
             },
+            "EncryptionMode" : {
+               "target" : "com.amazonaws.opensearch#EncryptionMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of encryption at rest applied to the domain's data. Valid values are\n            <code>DISK</code> and <code>NATIVE</code>. <code>DISK</code> is the default and uses\n            volume-level encryption. <code>NATIVE</code> uses engine-native, index-level encryption\n            and requires encryption at rest to be enabled and OpenSearch version 3.3 or later. After\n            the mode is set to <code>NATIVE</code>, it can't be changed back to\n            <code>DISK</code>.</p>"
+               }
+            },
             "KmsKeyId" : {
                "target" : "com.amazonaws.opensearch#KmsKeyId",
                "traits" : {
@@ -9000,6 +9543,26 @@
             "smithy.api#documentation" : "<p>Status of the encryption at rest options for the specified OpenSearch Service\n            domain.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.opensearch#EncryptionMode" : {
+         "members" : {
+            "Disk" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISK"
+               }
+            },
+            "Native" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NATIVE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of encryption at rest applied to a domain's data: <code>DISK</code> for\n            volume-level encryption or <code>NATIVE</code> for engine-native, index-level\n            encryption.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.opensearch#Endpoint" : {
          "traits" : {
@@ -9150,6 +9713,86 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Options to filter the scope of saved objects to export during a migration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#FailoverReplication" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearch#DisabledOperationException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#InternalException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearch#FailoverReplicationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearch#FailoverReplicationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Promotes a secondary domain to primary without coordinating with the current primary. Use\n  this operation when the primary is unreachable and you cannot wait for it to recover.</p>\n         <p>Writes that had not yet replicated when the primary became unreachable are lost. You must\n  set <code>AllowDataLoss</code> to acknowledge this. To promote a domain without losing writes,\n  use the <code>SwitchoverReplication</code> operation instead.</p>\n         <p>Call this operation in the Region of the domain you want to promote.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/2021-01-01/opensearch/domain/{DomainName}/replication/failover"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearch#FailoverReplicationRequest" : {
+         "members" : {
+            "AllowDataLoss" : {
+               "target" : "com.amazonaws.opensearch#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Acknowledges that writes which had not yet replicated are lost. You must set this to\n  <code>true</code>; the request is rejected otherwise.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "DomainName" : {
+               "target" : "com.amazonaws.opensearch#DomainName",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "PeerDomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the relationship's current primary. The request is\n  rejected if this domain is no longer the peer of the domain you are calling.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#FailoverReplicationResponse" : {
+         "members" : {
+            "DomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the domain being promoted.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.opensearch#ReplicationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the replication relationship. This is <code>FAILING_OVER</code> while the\n  promotion is in progress.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -13268,6 +13911,27 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.opensearch#MetadataCategory" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.opensearch#MetadataCategoryList" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearch#MetadataCategory"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.opensearch#MigrationError" : {
          "members" : {
             "code" : {
@@ -15726,6 +16390,79 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearch#RemoveReplicationPeer" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearch#DisabledOperationException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#InternalException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearch#RemoveReplicationPeerRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearch#RemoveReplicationPeerResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Stops replicating a domain to its peer. Replication ends for both domains, and each domain\n  keeps the data it holds at that point. Neither domain is deleted.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/2021-01-01/opensearch/domain/{DomainName}/replication/removePeer"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearch#RemoveReplicationPeerRequest" : {
+         "members" : {
+            "DomainName" : {
+               "target" : "com.amazonaws.opensearch#DomainName",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "PeerDomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the peer to stop replicating with. Both domains are named\n  so that the request identifies exactly one replication relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#RemoveReplicationPeerResponse" : {
+         "members" : {
+            "DomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the domain that is no longer replicating.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.opensearch#ReplicationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the replication relationship. This is <code>PENDING_REMOVAL</code> while\n  replication is being stopped.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.opensearch#RemoveTags" : {
          "errors" : [
             {
@@ -15776,6 +16513,123 @@
             "smithy.api#input" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.opensearch#ReplicationPeer" : {
+         "members" : {
+            "PeerDomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the peer domain.</p>"
+               }
+            },
+            "PeerRole" : {
+               "target" : "com.amazonaws.opensearch#ReplicationRole",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The peer's role in the relationship, either <code>PRIMARY</code> or\n  <code>SECONDARY</code>.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.opensearch#ReplicationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the relationship:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>PENDING_SETUP</code> - replication is being established.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ACTIVE</code> - replication is running.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SWITCHING_OVER</code> - a planned promotion is in progress.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILING_OVER</code> - an unplanned promotion is in progress.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PENDING_REMOVAL</code> - replication is being stopped.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DETACHED</code> - the relationship has ended.</p>\n            </li>\n            <li>\n               <p>\n                  <code>EJECTED</code> - a failover promoted the other domain. The former primary\n   keeps the data it had when it was ejected and stays read-only until you remove the peer, or\n   discard that data and pair again.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED</code> - setup or teardown could not complete. You can still remove\n   the relationship.</p>\n            </li>\n         </ul>\n         <p>A relationship that is removed successfully no longer appears in <code>Peers</code>.</p>"
+               }
+            },
+            "StatusMessage" : {
+               "target" : "com.amazonaws.opensearch#ReplicationStatusMessage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An explanation of why the relationship is in its current state, when more detail is\n  available.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A domain that another domain replicates with, and the state of that relationship.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#ReplicationPeerList" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearch#ReplicationPeer"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.opensearch#ReplicationRole" : {
+         "members" : {
+            "PRIMARY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRIMARY"
+               }
+            },
+            "SECONDARY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SECONDARY"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.opensearch#ReplicationStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "DETACHED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DETACHED"
+               }
+            },
+            "EJECTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EJECTED"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "FAILING_OVER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILING_OVER"
+               }
+            },
+            "PENDING_REMOVAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_REMOVAL"
+               }
+            },
+            "PENDING_SETUP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_SETUP"
+               }
+            },
+            "SWITCHING_OVER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SWITCHING_OVER"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.opensearch#ReplicationStatusMessage" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 0
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.opensearch#RequestId" : {
          "traits" : {
@@ -17287,6 +18141,79 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.opensearch#SwitchoverReplication" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearch#DisabledOperationException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#InternalException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearch#SwitchoverReplicationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearch#SwitchoverReplicationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Promotes a secondary domain to primary, coordinating with the current primary so that no\n  writes are lost. Use this operation for planned role changes, such as testing your recovery\n  procedure or moving write traffic to another Region.</p>\n         <p>Call this operation in the Region of the domain you want to promote. If the current primary\n  is unreachable, use the <code>FailoverReplication</code> operation\n  instead.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/2021-01-01/opensearch/domain/{DomainName}/replication/switchover"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearch#SwitchoverReplicationRequest" : {
+         "members" : {
+            "DomainName" : {
+               "target" : "com.amazonaws.opensearch#DomainName",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "PeerDomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the relationship's current primary. The request is\n  rejected if this domain is no longer the peer of the domain you are calling.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#SwitchoverReplicationResponse" : {
+         "members" : {
+            "DomainArn" : {
+               "target" : "com.amazonaws.opensearch#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the domain being promoted.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.opensearch#ReplicationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the replication relationship. This is <code>SWITCHING_OVER</code> while the\n  promotion is in progress.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.opensearch#TLSSecurityPolicy" : {
          "members" : {
             "POLICY_MIN_TLS_1_0_2019_07" : {
@@ -17299,6 +18226,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "Policy-Min-TLS-1-2-2019-07"
+               }
+            },
+            "POLICY_MIN_TLS_1_2_FIPS_PQ_2026_10" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Policy-Min-TLS-1-2-FIPS-PQ-2026-10"
                }
             },
             "POLICY_MIN_TLS_1_2_PFS_2023_10" : {
@@ -17778,6 +18711,12 @@
                "target" : "com.amazonaws.opensearch#AIMLOptionsInput",
                "traits" : {
                   "smithy.api#documentation" : "<p>Options for all machine learning features for the specified domain.</p>"
+               }
+            },
+            "AcceptedWarnings" : {
+               "target" : "com.amazonaws.opensearch#AcceptedWarningsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of advisory warning codes to accept for this configuration change. By default, any advisory warning blocks the change. Include the code of each warning you want to accept so the change can proceed. You can find warning codes in the <code>ValidationFailures</code> list returned by <code>DescribeDomainChangeProgress</code> and <code>DescribeDryRunProgress</code>. Critical validation failures cannot be accepted and always block the change. If you omit this parameter or pass an empty list, all warnings block the change. For more information, see <a href=\"https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check\">Validating a domain update</a>.</p>"
                }
             },
             "AccessPolicies" : {
@@ -18811,12 +19750,35 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A message corresponding to the failure.</p>"
                }
+            },
+            "Severity" : {
+               "target" : "com.amazonaws.opensearch#ValidationFailureSeverity",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The severity of the validation failure.</p>"
+               }
             }
          },
          "traits" : {
             "smithy.api#documentation" : "<p>A validation failure that occurred as the result of a pre-update validation check\n            (verbose dry run) on a domain.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.opensearch#ValidationFailureSeverity" : {
+         "members" : {
+            "CRITICAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Critical"
+               }
+            },
+            "WARNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Warning"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.opensearch#ValidationFailures" : {
          "member" : {
