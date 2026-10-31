@@ -753,6 +753,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "EncryptionConfiguration" : {
+               "target" : "com.amazonaws.transcribe#EncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the encryption configuration for your custom language model. Your model artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.</p>"
+               }
+            },
             "InputDataConfig" : {
                "target" : "com.amazonaws.transcribe#InputDataConfig",
                "traits" : {
@@ -997,7 +1003,13 @@
             "DataAccessRoleArn" : {
                "target" : "com.amazonaws.transcribe#DataAccessRoleArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an IAM role that has permissions to\n            access the Amazon S3 bucket that contains your input files (in this case, your custom\n            vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access\n            the specified Amazon S3 location, your request fails.</p>\n         <p>IAM role ARNs have the format\n            <code>arn:partition:iam::account:role/role-name-with-path</code>. For example:\n            <code>arn:aws:iam::111122223333:role/Admin</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns\">IAM\n            ARNs</a>.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an IAM role that has permissions to\n            access the Amazon S3 bucket that contains your input files (in this case, your custom\n            vocabulary filter). If you include <code>EncryptionConfiguration</code> in your request, this role\n            must also have permissions to access the specified KMS key. If the role that\n            you specify doesn’t have the appropriate permissions, your request fails.</p>\n         <p>IAM role ARNs have the format\n            <code>arn:partition:iam::account:role/role-name-with-path</code>. For example:\n            <code>arn:aws:iam::111122223333:role/Admin</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns\">IAM\n            ARNs</a>.</p>"
+               }
+            },
+            "EncryptionConfiguration" : {
+               "target" : "com.amazonaws.transcribe#EncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the encryption configuration for your custom vocabulary filter. Your vocabulary filter artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.</p>"
                }
             },
             "LanguageCode" : {
@@ -1070,7 +1082,13 @@
             "DataAccessRoleArn" : {
                "target" : "com.amazonaws.transcribe#DataAccessRoleArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an IAM role that has permissions to\n            access the Amazon S3 bucket that contains your input files (in this case, your custom\n            vocabulary). If the role that you specify doesn’t have the appropriate permissions to access\n            the specified Amazon S3 location, your request fails.</p>\n         <p>IAM role ARNs have the format\n            <code>arn:partition:iam::account:role/role-name-with-path</code>. For example:\n            <code>arn:aws:iam::111122223333:role/Admin</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns\">IAM\n            ARNs</a>.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an IAM role that has permissions to\n            access the Amazon S3 bucket that contains your input files (in this case, your custom\n            vocabulary). If you include <code>EncryptionConfiguration</code> in your request, this role\n            must also have permissions to access the specified KMS key. If the role that\n            you specify doesn’t have the appropriate permissions, your request fails.</p>\n         <p>IAM role ARNs have the format\n            <code>arn:partition:iam::account:role/role-name-with-path</code>. For example:\n            <code>arn:aws:iam::111122223333:role/Admin</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns\">IAM\n            ARNs</a>.</p>"
+               }
+            },
+            "EncryptionConfiguration" : {
+               "target" : "com.amazonaws.transcribe#EncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the encryption configuration for your custom vocabulary. Your vocabulary artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.</p>"
                }
             },
             "LanguageCode" : {
@@ -1675,6 +1693,27 @@
       },
       "com.amazonaws.transcribe#DurationInSeconds" : {
          "type" : "float"
+      },
+      "com.amazonaws.transcribe#EncryptionConfiguration" : {
+         "members" : {
+            "KMSEncryptionContext" : {
+               "target" : "com.amazonaws.transcribe#KMSEncryptionContextMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see <a href=\"https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context\">KMS encryption context</a>.</p>"
+               }
+            },
+            "KMSKey" : {
+               "target" : "com.amazonaws.transcribe#KMSKeyId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the KMS key you want to use to encrypt your resource artifacts. Only full KMS key ARN format is supported.</p>\n         <p>KMS key ARNs have the format <code>arn:partition:kms:region:account:key/key-id</code>. For example: <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN\">KMS key ARNs</a>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Encryption configuration for the invocation"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.transcribe#FailureReason" : {
          "type" : "string"
@@ -2317,10 +2356,22 @@
       },
       "com.amazonaws.transcribe#GetVocabularyFilterResponse" : {
          "members" : {
+            "DataAccessRoleArn" : {
+               "target" : "com.amazonaws.transcribe#DataAccessRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the IAM role used to access the\n            Amazon S3 bucket that contains your input files and, if applicable, the\n            KMS key specified in <code>EncryptionConfiguration</code>.</p>"
+               }
+            },
             "DownloadUri" : {
                "target" : "com.amazonaws.transcribe#Uri",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon S3 location where the custom vocabulary filter is stored; use this\n            URI to view or download the custom vocabulary filter.</p>"
+               }
+            },
+            "EncryptionConfiguration" : {
+               "target" : "com.amazonaws.transcribe#EncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The encryption configuration used for your custom vocabulary filter.</p>"
                }
             },
             "LanguageCode" : {
@@ -2365,10 +2416,22 @@
       },
       "com.amazonaws.transcribe#GetVocabularyResponse" : {
          "members" : {
+            "DataAccessRoleArn" : {
+               "target" : "com.amazonaws.transcribe#DataAccessRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the IAM role used to access the\n            Amazon S3 bucket that contains your input files and, if applicable, the\n            KMS key specified in <code>EncryptionConfiguration</code>.</p>"
+               }
+            },
             "DownloadUri" : {
                "target" : "com.amazonaws.transcribe#Uri",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon S3 location where the custom vocabulary is stored; use this URI to view or\n            download the custom vocabulary.</p>"
+               }
+            },
+            "EncryptionConfiguration" : {
+               "target" : "com.amazonaws.transcribe#EncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The encryption configuration used for your custom vocabulary.</p>"
                }
             },
             "FailureReason" : {
@@ -2528,7 +2591,7 @@
       },
       "com.amazonaws.transcribe#KMSEncryptionContextMap" : {
          "key" : {
-            "target" : "com.amazonaws.transcribe#NonEmptyString"
+            "target" : "com.amazonaws.transcribe#PrintableNonEmptyString"
          },
          "traits" : {
             "smithy.api#length" : {
@@ -2538,7 +2601,7 @@
          },
          "type" : "map",
          "value" : {
-            "target" : "com.amazonaws.transcribe#NonEmptyString"
+            "target" : "com.amazonaws.transcribe#PrintableNonEmptyString"
          }
       },
       "com.amazonaws.transcribe#KMSKeyId" : {
@@ -3337,6 +3400,12 @@
                "target" : "com.amazonaws.transcribe#DateTime",
                "traits" : {
                   "smithy.api#documentation" : "<p>The date and time the specified custom language model was created.</p>\n         <p>Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>. For\n            example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32 PM UTC-7 on May\n            4, 2022.</p>"
+               }
+            },
+            "EncryptionConfiguration" : {
+               "target" : "com.amazonaws.transcribe#EncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The encryption configuration used for your custom language model.</p>"
                }
             },
             "FailureReason" : {
@@ -5261,10 +5330,28 @@
                   "smithy.api#enumValue" : "ADDRESS"
                }
             },
+            "AGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AGE"
+               }
+            },
             "ALL" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ALL"
+               }
+            },
+            "AWS_ACCESS_KEY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_ACCESS_KEY"
+               }
+            },
+            "AWS_SECRET_KEY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_SECRET_KEY"
                }
             },
             "BANK_ACCOUNT_NUMBER" : {
@@ -5277,6 +5364,18 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "BANK_ROUTING"
+               }
+            },
+            "CA_HEALTH_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CA_HEALTH_NUMBER"
+               }
+            },
+            "CA_SOCIAL_INSURANCE_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CA_SOCIAL_INSURANCE_NUMBER"
                }
             },
             "CREDIT_DEBIT_CVV" : {
@@ -5297,16 +5396,64 @@
                   "smithy.api#enumValue" : "CREDIT_DEBIT_NUMBER"
                }
             },
+            "DATE_TIME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DATE_TIME"
+               }
+            },
+            "DRIVER_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DRIVER_ID"
+               }
+            },
             "EMAIL" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "EMAIL"
                }
             },
+            "INTERNATIONAL_BANK_ACCOUNT_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+               }
+            },
+            "IP_ADDRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IP_ADDRESS"
+               }
+            },
+            "LICENSE_PLATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LICENSE_PLATE"
+               }
+            },
+            "MAC_ADDRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MAC_ADDRESS"
+               }
+            },
             "NAME" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "NAME"
+               }
+            },
+            "PASSPORT_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASSPORT_NUMBER"
+               }
+            },
+            "PASSWORD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASSWORD"
                }
             },
             "PHONE" : {
@@ -5326,6 +5473,36 @@
                "traits" : {
                   "smithy.api#enumValue" : "SSN"
                }
+            },
+            "SWIFT_CODE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SWIFT_CODE"
+               }
+            },
+            "URL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "URL"
+               }
+            },
+            "USERNAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "USERNAME"
+               }
+            },
+            "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+               }
+            },
+            "VEHICLE_IDENTIFICATION_NUMBER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VEHICLE_IDENTIFICATION_NUMBER"
+               }
             }
          },
          "type" : "enum"
@@ -5336,11 +5513,21 @@
          },
          "traits" : {
             "smithy.api#length" : {
-               "max" : 11,
+               "max" : 29,
                "min" : 0
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.transcribe#PrintableNonEmptyString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2000,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\x20-\\x7E]+$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.transcribe#Pronouns" : {
          "members" : {
@@ -6581,6 +6768,9 @@
             },
             {
                "target" : "com.amazonaws.transcribe#UpdateCallAnalyticsCategory"
+            },
+            {
+               "target" : "com.amazonaws.transcribe#UpdateLanguageModel"
             },
             {
                "target" : "com.amazonaws.transcribe#UpdateMedicalVocabulary"
@@ -8408,6 +8598,94 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.transcribe#UpdateLanguageModel" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.transcribe#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.transcribe#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.transcribe#InternalFailureException"
+            },
+            {
+               "target" : "com.amazonaws.transcribe#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.transcribe#NotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.transcribe#UpdateLanguageModelRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.transcribe#UpdateLanguageModelResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the encryption configuration for an existing custom language model. You can\n            use this operation to change the KMS key used to encrypt your model artifacts. The model\n            artifacts are re-encrypted in place. No model training is required.</p>\n         <p>Your custom language model must not be in the <code>IN_PROGRESS</code> state when you\n            call this operation. You cannot submit another update while a previous update is in\n            progress. Use  to check the current state of\n            your model.</p>\n         <p>Your custom language model remains available for transcription jobs while the update\n            is being processed.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/languagemodels/{ModelName}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.transcribe#UpdateLanguageModelRequest" : {
+         "members" : {
+            "DataAccessRoleArn" : {
+               "target" : "com.amazonaws.transcribe#DataAccessRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an IAM role. If you include\n            <code>EncryptionConfiguration</code> in your request, this role must have permissions to\n            access the specified KMS key. If the role that you specify doesn't have\n            the appropriate permissions, your request fails.</p>\n         <p>IAM role ARNs have the format\n            <code>arn:partition:iam::account:role/role-name-with-path</code>. For example:\n            <code>arn:aws:iam::111122223333:role/Admin</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns\">IAM\n            ARNs</a>.</p>"
+               }
+            },
+            "EncryptionConfiguration" : {
+               "target" : "com.amazonaws.transcribe#EncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the new encryption configuration for your custom language model. The model artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.</p>"
+               }
+            },
+            "ModelName" : {
+               "target" : "com.amazonaws.transcribe#ModelName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the custom language model you want to update. Model names are case sensitive.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.transcribe#UpdateLanguageModelResponse" : {
+         "members" : {
+            "LastModifiedTime" : {
+               "target" : "com.amazonaws.transcribe#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time the specified custom language model was last modified.</p>"
+               }
+            },
+            "ModelName" : {
+               "target" : "com.amazonaws.transcribe#ModelName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the custom language model that was updated.</p>"
+               }
+            },
+            "ModelStatus" : {
+               "target" : "com.amazonaws.transcribe#ModelStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the specified custom language model.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.transcribe#UpdateMedicalVocabulary" : {
          "errors" : [
             {
@@ -8529,7 +8807,7 @@
             "target" : "com.amazonaws.transcribe#UpdateVocabularyResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates an existing custom vocabulary with new values. This operation overwrites all\n            existing information with your new values; you cannot append new terms onto an existing\n            custom vocabulary.</p>",
+            "smithy.api#documentation" : "<p>Updates an existing custom vocabulary with new values. This operation overwrites all\n            existing information with your new values; you cannot append new terms onto an existing\n            custom vocabulary.</p>\n         <p>Your custom vocabulary must be in a terminal state (<code>READY</code> or\n            <code>FAILED</code>) before you can update it. You must include either\n            <code>Phrases</code> or <code>VocabularyFileUri</code> in your request.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PATCH",
@@ -8542,6 +8820,9 @@
          "errors" : [
             {
                "target" : "com.amazonaws.transcribe#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.transcribe#ConflictException"
             },
             {
                "target" : "com.amazonaws.transcribe#InternalFailureException"
@@ -8560,7 +8841,7 @@
             "target" : "com.amazonaws.transcribe#UpdateVocabularyFilterResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates an existing custom vocabulary filter with a new list of words. The new list\n            you provide overwrites all previous entries; you cannot append new terms onto an\n            existing custom vocabulary filter.</p>",
+            "smithy.api#documentation" : "<p>Updates an existing custom vocabulary filter with a new list of words. The new list\n            you provide overwrites all previous entries; you cannot append new terms onto an\n            existing custom vocabulary filter.</p>\n         <p>You must include either <code>Words</code> or <code>VocabularyFilterFileUri</code>\n            in your request.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -8574,7 +8855,13 @@
             "DataAccessRoleArn" : {
                "target" : "com.amazonaws.transcribe#DataAccessRoleArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an IAM role that has permissions to\n            access the Amazon S3 bucket that contains your input files (in this case, your custom\n            vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access\n            the specified Amazon S3 location, your request fails.</p>\n         <p>IAM role ARNs have the format\n            <code>arn:partition:iam::account:role/role-name-with-path</code>. For example:\n            <code>arn:aws:iam::111122223333:role/Admin</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns\">IAM\n            ARNs</a>.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an IAM role that has permissions to\n            access the Amazon S3 bucket that contains your input files (in this case, your custom\n            vocabulary filter). If you include <code>EncryptionConfiguration</code> in your request, this role\n            must also have permissions to access the specified KMS key. If the role that\n            you specify doesn’t have the appropriate permissions, your request fails.</p>\n         <p>IAM role ARNs have the format\n            <code>arn:partition:iam::account:role/role-name-with-path</code>. For example:\n            <code>arn:aws:iam::111122223333:role/Admin</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns\">IAM\n            ARNs</a>.</p>"
+               }
+            },
+            "EncryptionConfiguration" : {
+               "target" : "com.amazonaws.transcribe#EncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the new encryption configuration for your custom vocabulary filter. The vocabulary filter artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.</p>"
                }
             },
             "VocabularyFilterFileUri" : {
@@ -8634,7 +8921,13 @@
             "DataAccessRoleArn" : {
                "target" : "com.amazonaws.transcribe#DataAccessRoleArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an IAM role that has permissions to\n            access the Amazon S3 bucket that contains your input files (in this case, your custom\n            vocabulary). If the role that you specify doesn’t have the appropriate permissions to access\n            the specified Amazon S3 location, your request fails.</p>\n         <p>IAM role ARNs have the format\n            <code>arn:partition:iam::account:role/role-name-with-path</code>. For example:\n            <code>arn:aws:iam::111122223333:role/Admin</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns\">IAM\n            ARNs</a>.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an IAM role that has permissions to\n            access the Amazon S3 bucket that contains your input files (in this case, your custom\n            vocabulary). If you include <code>EncryptionConfiguration</code> in your request, this role\n            must also have permissions to access the specified KMS key. If the role that\n            you specify doesn’t have the appropriate permissions, your request fails.</p>\n         <p>IAM role ARNs have the format\n            <code>arn:partition:iam::account:role/role-name-with-path</code>. For example:\n            <code>arn:aws:iam::111122223333:role/Admin</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns\">IAM\n            ARNs</a>.</p>"
+               }
+            },
+            "EncryptionConfiguration" : {
+               "target" : "com.amazonaws.transcribe#EncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the new encryption configuration for your custom vocabulary. The vocabulary artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.</p>"
                }
             },
             "LanguageCode" : {
