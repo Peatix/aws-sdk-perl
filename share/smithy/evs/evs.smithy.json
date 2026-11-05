@@ -1,5 +1,40 @@
 {
    "shapes" : {
+      "com.amazonaws.evs#AccountSetting" : {
+         "members" : {
+            "name" : {
+               "target" : "com.amazonaws.evs#SettingName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the EVS setting. Valid values are:</p> <ul> <li> <p> <code>vcfPortedCoreCount</code> (type: numeric string) - The total number of VCF license cores ported to Amazon EVS for the account in that Region. The maximum value is 1,000,000 cores. This setting value is shared with Broadcom for record-keeping.</p> </li> </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.evs#SettingValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value of the EVS setting.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A regional account-level EVS setting, represented as a name and value pair.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.evs#AccountSettingList" : {
+         "member" : {
+            "target" : "com.amazonaws.evs#AccountSetting"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of regional account-level EVS settings.</p>",
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.evs#AllocationId" : {
          "traits" : {
             "smithy.api#length" : {
@@ -13,10 +48,16 @@
       "com.amazonaws.evs#AmazonElasticVMwareService" : {
          "operations" : [
             {
+               "target" : "com.amazonaws.evs#GetAccountSettings"
+            },
+            {
                "target" : "com.amazonaws.evs#GetVersions"
             },
             {
                "target" : "com.amazonaws.evs#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.evs#PutAccountSettings"
             },
             {
                "target" : "com.amazonaws.evs#TagResource"
@@ -2539,6 +2580,53 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.evs#GetAccountSettings" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.evs#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.evs#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.evs#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.evs#GetAccountSettingsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.evs#GetAccountSettingsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the configured EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. If no settings have been set, an empty list is returned.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.evs#GetAccountSettingsRequest" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request for the GetAccountSettings operation.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.evs#GetAccountSettingsResponse" : {
+         "members" : {
+            "settings" : {
+               "target" : "com.amazonaws.evs#AccountSettingList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of regional account-level EVS settings for the account. EVS settings that have never been explicitly set are omitted from the response.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for the GetAccountSettings operation.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.evs#GetDepotUrl" : {
          "errors" : [
             {
@@ -3035,6 +3123,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "i7i.metal-24xl"
+               }
+            },
+            "I7I_METAL_48XL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "i7i.metal-48xl"
                }
             }
          },
@@ -3691,6 +3785,61 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.evs#PutAccountSettings" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.evs#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.evs#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.evs#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.evs#PutAccountSettingsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.evs#PutAccountSettingsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates or updates account-level EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region.</p> <p>EVS settings included in the request are created or overwritten. Settings omitted from the request retain their current values.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.evs#PutAccountSettingsRequest" : {
+         "members" : {
+            "settings" : {
+               "target" : "com.amazonaws.evs#AccountSettingList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of regional account-level EVS settings to create or update. Only the settings included in this list are modified.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request for the PutAccountSettings operation.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.evs#PutAccountSettingsResponse" : {
+         "members" : {
+            "settings" : {
+               "target" : "com.amazonaws.evs#AccountSettingList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of regional account-level EVS settings, and their values, that were modified in this request.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for the PutAccountSettings operation.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.evs#RequestTagMap" : {
          "key" : {
             "target" : "com.amazonaws.evs#TagKey"
@@ -3848,6 +3997,28 @@
             "smithy.api#httpError" : 402
          },
          "type" : "structure"
+      },
+      "com.amazonaws.evs#SettingName" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name of a regional account-level EVS setting, such as <code>vcfPortedCoreCount</code>.</p>",
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.evs#SettingValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The value of a regional account-level EVS setting, represented as a string.</p>",
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9]+$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.evs#SolutionKey" : {
          "traits" : {
