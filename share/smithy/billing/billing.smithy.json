@@ -3,13 +3,25 @@
       "com.amazonaws.billing#AWSBilling" : {
          "operations" : [
             {
+               "target" : "com.amazonaws.billing#AssociateContract"
+            },
+            {
                "target" : "com.amazonaws.billing#AssociateSourceViews"
+            },
+            {
+               "target" : "com.amazonaws.billing#CancelContractualInvestmentAttestation"
             },
             {
                "target" : "com.amazonaws.billing#CreateBillingView"
             },
             {
+               "target" : "com.amazonaws.billing#CreateContractualInvestmentAttestation"
+            },
+            {
                "target" : "com.amazonaws.billing#DeleteBillingView"
+            },
+            {
+               "target" : "com.amazonaws.billing#DisassociateContract"
             },
             {
                "target" : "com.amazonaws.billing#DisassociateSourceViews"
@@ -19,6 +31,9 @@
             },
             {
                "target" : "com.amazonaws.billing#GetBillingView"
+            },
+            {
+               "target" : "com.amazonaws.billing#GetContractInformation"
             },
             {
                "target" : "com.amazonaws.billing#GetCreditAllocationHistory"
@@ -37,6 +52,27 @@
             },
             {
                "target" : "com.amazonaws.billing#ListBillingViews"
+            },
+            {
+               "target" : "com.amazonaws.billing#ListBillingViewSegments"
+            },
+            {
+               "target" : "com.amazonaws.billing#ListBusinessSupportAccountCharges"
+            },
+            {
+               "target" : "com.amazonaws.billing#ListBusinessSupportSubscriptionHistory"
+            },
+            {
+               "target" : "com.amazonaws.billing#ListContracts"
+            },
+            {
+               "target" : "com.amazonaws.billing#ListContractualInvestmentAttestations"
+            },
+            {
+               "target" : "com.amazonaws.billing#ListContractualInvestments"
+            },
+            {
+               "target" : "com.amazonaws.billing#ListContractualInvestmentSummaries"
             },
             {
                "target" : "com.amazonaws.billing#ListEnterpriseSupportLinkedAccountCharges"
@@ -1348,6 +1384,18 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.billing#AccountList" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#AccountId"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of 12-digit Amazon Web Services account IDs. The list contains at most 100 account IDs.</p>",
+            "smithy.api#length" : {
+               "max" : 100
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.billing#AccountName" : {
          "traits" : {
             "smithy.api#length" : {
@@ -1418,6 +1466,33 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.billing#AdditionalRecipient" : {
+         "members" : {
+            "email" : {
+               "target" : "com.amazonaws.billing#SensitiveEmail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The email address of the recipient. This value is 3–256 characters and must be a valid email address.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A recipient copied as a viewer on the executive approval request, in addition to the approver.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#AdditionalRecipients" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#AdditionalRecipient"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of recipients copied as viewers on the executive approval request. The list contains at most 10 recipients.</p>",
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.billing#Amount" : {
          "members" : {
             "currencyAmount" : {
@@ -1456,6 +1531,107 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.billing#ApproverDetails" : {
+         "members" : {
+            "email" : {
+               "target" : "com.amazonaws.billing#SensitiveEmail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The email address of the approver. This value is 3–256 characters and must be a valid email address.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.billing#SensitiveString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the approver as it appears on the contract. This value can be up to 256 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "title" : {
+               "target" : "com.amazonaws.billing#SensitiveString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The title of the approver, such as <code>Chief Financial Officer</code>. This value can be up to 256 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the executive approver who signs off on an investment attestation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ArnString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 500,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:aws[a-z-]*:billing::[0-9]{12}:contract/[a-zA-Z0-9_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.billing#AssociateContract" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#AssociateContractRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#AssociateContractResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Private Pricing contracts let eligible payer accounts manage private pricing agreements with Amazon Web Services. This operation associates a private pricing contract with the caller's Amazon Web Services account. The caller must be a payer (management) account listed on the contract. This operation is idempotent, so retrying a request that already succeeded is safe.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#AssociateContractRequest" : {
+         "members" : {
+            "contractArn" : {
+               "target" : "com.amazonaws.billing#ArnString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the contract to associate with your account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contractDocumentId" : {
+               "target" : "com.amazonaws.billing#ContractDocumentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The contract ID from the contract document. It can be found in the top right corner of your contract's pages. This value confirms that you have access to the contract you are associating.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#AssociateContractResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.billing#AssociateSourceViews" : {
          "errors" : [
@@ -1532,6 +1708,140 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.billing#AssociationStatus" : {
+         "members" : {
+            "ASSOCIATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ASSOCIATED"
+               }
+            },
+            "NOT_ASSOCIATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NOT_ASSOCIATED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Indicates whether a contract is associated with your account. A value of <code>ASSOCIATED</code> indicates that the contract is associated with your account. A value of <code>NOT_ASSOCIATED</code> indicates that the contract is not associated with your account.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.billing#AttestationClientToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[!-~]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.billing#AttestationDetails" : {
+         "members" : {
+            "attestationValue" : {
+               "target" : "com.amazonaws.billing#AttestationValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value being attested, expressed as either a monetary amount or one or more quantities. Exactly one form is set.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentDistributions" : {
+               "target" : "com.amazonaws.billing#InvestmentDistributions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The distribution of the resulting investment across the eligible investment accounts on the contract. If you omit this value, the full investment is allocated to the single eligible investment account on the contract. This value is required when multiple investment accounts are eligible. When you provide this value, the sum of all distributions must equal the resulting monetary investment value (the attested amount, or the value computed from the attested quantities using the investment multipliers). The list contains at most 200 distributions.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The details of an investment attestation submission, including the value being attested and how the resulting investment is distributed.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#AttestationQuantities" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#AttestationQuantity"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of quantity-based attestation values. The list contains at most 50 quantities.</p>",
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#AttestationQuantity" : {
+         "members" : {
+            "attestationUnit" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unit of the attestation, such as <code>workloads migrated</code>. This value is 1–1000 characters.</p>",
+                  "smithy.api#length" : {
+                     "max" : 1000,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "attestationVolume" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of units being attested, expressed as a decimal string to preserve precision. The value is digits with an optional decimal point and is 1–1000 characters.</p>",
+                  "smithy.api#length" : {
+                     "max" : 1000,
+                     "min" : 1
+                  },
+                  "smithy.api#pattern" : "^[0-9]+(\\.[0-9]+)?$",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A quantity-based attestation value, such as a count of workloads migrated.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#AttestationValue" : {
+         "members" : {
+            "attestationAmount" : {
+               "target" : "com.amazonaws.billing#Amount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value attested as a monetary amount. This form is valid only when the investment has no multiplier.</p>"
+               }
+            },
+            "attestationQuantities" : {
+               "target" : "com.amazonaws.billing#AttestationQuantities",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value attested as one or more quantities, each with its own unit. The list contains at most 50 quantities.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The value being attested. This is a union in which exactly one member is set. Set <code>attestationAmount</code> to attest a monetary amount directly, or set <code>attestationQuantities</code> to attest one or more quantities that are converted to a value using the investment's multipliers.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.billing#BillingDomain" : {
+         "members" : {
+            "BILLABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BILLABLE"
+               }
+            },
+            "PRO_FORMA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRO_FORMA"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The billing domain for a billing view segment. The following values are valid:</p> <ul> <li> <p> <code>PRO_FORMA</code> - Data shaped by Billing Conductor that doesn't reflect the final charges owed to Amazon Web Services.</p> </li> <li> <p> <code>BILLABLE</code> - Data that represents the final charges owed to Amazon Web Services.</p> </li> </ul>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.billing#BillingFeature" : {
          "members" : {
@@ -1986,6 +2296,73 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.billing#BillingViewSegmentTimeRange" : {
+         "members" : {
+            "beginDateInclusive" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The inclusive start of the time range. This value can't be in the future. </p>"
+               }
+            },
+            "endDateExclusive" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The exclusive end of the time range. This value must be after <code>beginDateInclusive</code>. </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p> Specifies a time range with an inclusive begin date and an exclusive end date. </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#BillingViewSegmentsList" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#BillingViewSegmentsListElement"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p> A list of billing view segments. </p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#BillingViewSegmentsListElement" : {
+         "members" : {
+            "billingGroupPrimaryAccountId" : {
+               "target" : "com.amazonaws.billing#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The billing group primary account ID. The response includes this field for billing group members. Compare this value to your own account ID to determine whether you are the primary account. </p>"
+               }
+            },
+            "billingTransferAccountId" : {
+               "target" : "com.amazonaws.billing#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The billing transfer account ID. The response includes this field only when the caller is a billing transfer source account. The response omits this field for billing group billing views. </p>"
+               }
+            },
+            "domain" : {
+               "target" : "com.amazonaws.billing#BillingDomain",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing domain for this segment. The following values are valid:</p> <ul> <li> <p> <code>PRO_FORMA</code> - Data shaped by Billing Conductor that doesn't reflect the final charges owed to Amazon Web Services.</p> </li> <li> <p> <code>BILLABLE</code> - Data that represents the final charges owed to Amazon Web Services.</p> </li> </ul>"
+               }
+            },
+            "managementAccountId" : {
+               "target" : "com.amazonaws.billing#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The management account ID of the organization. The response includes this field for organization member accounts. </p>"
+               }
+            },
+            "timeRange" : {
+               "target" : "com.amazonaws.billing#BillingViewSegmentTimeRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The time range during which this segment is effective. </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p> A billing view segment. A segment represents a time range during which the billing domain and account relationships for a billing view remained unchanged. </p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.billing#BillingViewSourceViewsList" : {
          "member" : {
             "target" : "com.amazonaws.billing#BillingViewArn"
@@ -2145,6 +2522,351 @@
          },
          "type" : "integer"
       },
+      "com.amazonaws.billing#BusinessSupportAccountCharge" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.billing#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The linked account ID.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "supportDiscount" : {
+               "target" : "com.amazonaws.billing#BusinessSupportDiscount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The discount applied to the Business Support charge for this account, if any. This field is absent when no discount applies.</p>"
+               }
+            },
+            "supportEligibleSpendByService" : {
+               "target" : "com.amazonaws.billing#BusinessSupportServiceSpendList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Support-eligible spend broken down by contributing service for this account.</p>"
+               }
+            },
+            "supportPlanName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Support plan name for this account. Valid values: <code>AWSSupportBusiness</code> (Business Support plan), <code>AWSSupportDeveloper</code> (Developer Support plan), <code>AWSSupportEssential</code> (Basic Support plan).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tierCharges" : {
+               "target" : "com.amazonaws.billing#BusinessSupportTierChargeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tier-level charges that make up the total Business Support charge for this account. Each tier represents a spend range with its own rate.</p>"
+               }
+            },
+            "totalCharge" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total Business Support charge amount for this account in the billing month.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "totalUsageBasis" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total Support-eligible spend used as the basis for calculating the Business Support charge for this account.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Business Support charges for a linked account.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#BusinessSupportAccountChargeList" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#BusinessSupportAccountCharge"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of Business Support account charges.</p>",
+            "smithy.api#length" : {
+               "max" : 100
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#BusinessSupportBillingMonth" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A billing month in YYYY-MM format. Supports the current month (estimated charges) and past months (finalized charges).</p>",
+            "smithy.api#pattern" : "^\\d{4}-(0[1-9]|1[0-2])$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.billing#BusinessSupportDiscount" : {
+         "members" : {
+            "discountAmount" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The discount amount applied to the Business Support charge. This value is negative, representing a reduction in the charge.</p>"
+               }
+            },
+            "discountPercentage" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The discount percentage applied to the Business Support charge, expressed as a decimal (for example, <code>0.12</code> for a 12% discount).</p>"
+               }
+            },
+            "discountSource" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source or program through which the discount was applied.</p>"
+               }
+            },
+            "discountType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of discount applied. Valid values: <code>Distributor_Discount</code> (a discount applied through a distributor arrangement), <code>SPP_Discount</code> (a discount applied through the Solution Provider Program).</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A discount applied to a Business Support account charge, including the discount amount, percentage, type, and source.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#BusinessSupportServiceSpend" : {
+         "members" : {
+            "chargeAmount" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Support-eligible spend amount for this service.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contributingService" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Amazon Web Services service contributing to the Support-eligible spend.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "currency" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ISO 4217 currency code for the charge amount (for example, <code>USD</code>).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable description of the service spend entry.</p>"
+               }
+            },
+            "itemType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the line item. Valid values: <code>Usage</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A service-level spend entry contributing to Business Support eligible spend.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#BusinessSupportServiceSpendList" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#BusinessSupportServiceSpend"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of Business Support service spend entries.</p>",
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#BusinessSupportSubscriptionContract" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.billing#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID associated with this subscription contract.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contractEndDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end date of the subscription contract.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contractStartDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start date of the subscription contract.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "planName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Support plan for this subscription contract. Valid values: <code>AWSSupportBusiness</code> (Business Support plan), <code>AWSSupportDeveloper</code> (Developer Support plan), <code>AWSSupportEssential</code> (Basic Support plan).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A Business Support subscription contract for an account.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#BusinessSupportSubscriptionContractList" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#BusinessSupportSubscriptionContract"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of Business Support subscription contracts.</p>",
+            "smithy.api#length" : {
+               "max" : 1000
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#BusinessSupportTierCharge" : {
+         "members" : {
+            "chargePeriodEndDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end date of the charge period for this tier charge.</p>"
+               }
+            },
+            "chargePeriodStartDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start date of the charge period for this tier charge.</p>"
+               }
+            },
+            "tierCharge" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Business Support charge amount calculated for this pricing tier.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tierDescription" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable description of the pricing tier, including the spend range and percentage rate applied.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tierRate" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The percentage rate applied to Support-eligible spend within this pricing tier.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "usageSlice" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of Support-eligible spend that falls within this pricing tier.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A tier-level charge within a Business Support pricing plan. Business Support uses tiered pricing where different percentage rates apply to different ranges of Support-eligible spend.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#BusinessSupportTierChargeList" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#BusinessSupportTierCharge"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of Business Support tier charges.</p>",
+            "smithy.api#length" : {
+               "max" : 20
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#CancelContractualInvestmentAttestation" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#CancelContractualInvestmentAttestationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#CancelContractualInvestmentAttestationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Cancels a contractual investment attestation. This operation is idempotent, so retrying is safe. You can cancel an attestation only while it is still pending (its <code>isCancellable</code> value is <code>true</code>).</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#CancelContractualInvestmentAttestationRequest" : {
+         "members" : {
+            "attestationId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the investment attestation to cancel.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contractArn" : {
+               "target" : "com.amazonaws.billing#ArnString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the contract that contains the attested investment.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reason" : {
+               "target" : "com.amazonaws.billing#CancellationReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the cancellation. This value can be 1 to 80 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#CancelContractualInvestmentAttestationResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#CancellationReason" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 80,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.billing#ChargeAccount" : {
          "members" : {
             "accountId" : {
@@ -2252,6 +2974,132 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.billing#ContractDetails" : {
+         "members" : {
+            "privatePricingAddendum" : {
+               "target" : "com.amazonaws.billing#PrivatePricingAddendum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The details of a private pricing addendum contract. This member is set when the contract is a private pricing addendum.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The details of a contract returned by <code>GetContractInformation</code>. This is a union in which exactly one member is set, corresponding to the contract type. For a private pricing addendum, the <code>privatePricingAddendum</code> member is set. Check which member is present to determine the contract type.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.billing#ContractDocumentId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 36,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.billing#ContractRestriction" : {
+         "members" : {
+            "ATTESTATION_SELF_SERVICE_BLOCKED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ATTESTATION_SELF_SERVICE_BLOCKED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A restriction that limits the self-service actions you can take on a contract. A contract with no restrictions supports all self-service actions.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.billing#ContractRestrictions" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#ContractRestriction"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of restrictions that apply to a contract. An empty or absent value indicates that no restrictions apply. The list contains at most 10 restrictions.</p>",
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#ContractSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#ContractSummary"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of private pricing contract summaries, as returned by <code>ListContracts</code>.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#ContractSummary" : {
+         "members" : {
+            "associationStatus" : {
+               "target" : "com.amazonaws.billing#AssociationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the contract is currently associated with your account. Valid values are <code>ASSOCIATED</code> and <code>NOT_ASSOCIATED</code>. <code>ASSOCIATED</code> means the contract is associated with your account. <code>NOT_ASSOCIATED</code> means the contract is not associated with your account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contractArn" : {
+               "target" : "com.amazonaws.billing#ArnString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the contract. Pass this value to operations such as <code>GetContractInformation</code>, <code>ListContractualInvestmentSummaries</code>, and <code>AssociateContract</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contractTerm" : {
+               "target" : "com.amazonaws.billing#Interval",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The contract term period of the contract, expressed as an interval with an inclusive start date and an inclusive end date.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contractType" : {
+               "target" : "com.amazonaws.billing#ContractType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The classification of the contract. Valid values are <code>Cross-Service</code>, <code>Service-Specific</code>, and <code>Other</code>. <code>Cross-Service</code> applies across multiple Amazon Web Services services. <code>Service-Specific</code> applies to a specific Amazon Web Services service. <code>Other</code> applies to other arrangements.</p>"
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when the contract was last associated with your account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of a private pricing contract visible to your account. <code>ListContracts</code> returns these summaries.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ContractType" : {
+         "members" : {
+            "CROSS_SERVICE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Cross-Service"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Other"
+               }
+            },
+            "SERVICE_SPECIFIC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Service-Specific"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The classification of a private pricing contract. A value of <code>Cross-Service</code> indicates that the contract terms apply across multiple Amazon Web Services services. A value of <code>Service-Specific</code> indicates that the contract terms apply to a specific Amazon Web Services service. A value of <code>Other</code> indicates that the contract terms apply to other arrangements.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.billing#CostCategoryName" : {
          "traits" : {
@@ -2385,6 +3233,122 @@
                "target" : "smithy.api#Timestamp",
                "traits" : {
                   "smithy.api#documentation" : "<p> The time when the billing view was created. </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#CreateContractualInvestmentAttestation" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#CreateContractualInvestmentAttestationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#CreateContractualInvestmentAttestationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates an attestation that claims an investment award for a completed milestone or outcome within a private pricing contract. Supply a <code>clientToken</code> to make the request idempotent so a safe retry does not create a duplicate attestation. This operation starts an asynchronous review and returns an <code>attestationId</code> while the attestation is pending.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#CreateContractualInvestmentAttestationRequest" : {
+         "members" : {
+            "additionalRecipients" : {
+               "target" : "com.amazonaws.billing#AdditionalRecipients",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The email addresses to copy as viewers on the executive approval request.</p>"
+               }
+            },
+            "approverDetails" : {
+               "target" : "com.amazonaws.billing#ApproverDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The details of the executive who authorized the attestation, under the terms of the private pricing contract. The executive receives a click-to-accept email to confirm the attestation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "attestationDetails" : {
+               "target" : "com.amazonaws.billing#AttestationDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The details of the attestation, including the value being claimed and how the resulting investment is distributed across investment accounts.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.billing#AttestationClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry completes without performing any further actions.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "contractArn" : {
+               "target" : "com.amazonaws.billing#ArnString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the contract that contains the investment being attested.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contractDocumentId" : {
+               "target" : "com.amazonaws.billing#ContractDocumentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The contract ID from the contract document, located in the top-right corner of the private pricing contract pages. This value confirms that you have access to the contract.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentDisbursedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date on which the investment is disbursed to the investment accounts. The disbursement date is subject to review timelines.</p>"
+               }
+            },
+            "investmentId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the investment (outcome) being attested.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentSummaryId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the investment summary being attested. This is the parent to the investmentId.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#CreateContractualInvestmentAttestationResponse" : {
+         "members" : {
+            "attestationId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the submitted attestation.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -2764,6 +3728,58 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.billing#DisassociateContract" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#DisassociateContractRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#DisassociateContractResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Removes the association between a private pricing contract and your Amazon Web Services account. The account must have been associated with the contract previously. This operation is idempotent, so retrying is safe.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#DisassociateContractRequest" : {
+         "members" : {
+            "contractArn" : {
+               "target" : "com.amazonaws.billing#ArnString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the contract to disassociate from your account.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#DisassociateContractResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.billing#DisassociateSourceViews" : {
          "errors" : [
             {
@@ -3071,6 +4087,66 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.billing#GetContractInformation" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#GetContractInformationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#GetContractInformationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about a specific private pricing contract, including its term (duration), eligible payer accounts, investment accounts, and legal entities. This operation is read-only.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#GetContractInformationRequest" : {
+         "members" : {
+            "contractArn" : {
+               "target" : "com.amazonaws.billing#ArnString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the contract to retrieve information about.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#GetContractInformationResponse" : {
+         "members" : {
+            "contract" : {
+               "target" : "com.amazonaws.billing#ContractDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The contract details such as term (duration), eligible payer accounts, investment accounts, and legal entities.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.billing#GetCreditAllocationHistory" : {
          "errors" : [
             {
@@ -3340,7 +4416,7 @@
             "isEstimated" : {
                "target" : "smithy.api#Boolean",
                "traits" : {
-                  "smithy.api#documentation" : "<p>When true, the Support charge amount is estimated. When false, the Support charge amount is finalized.</p>",
+                  "smithy.api#documentation" : "<p>Specifies whether the Support charge amount is estimated. When false, the charge amount is finalized.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -3618,6 +4694,16 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.billing#IdentifierString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 36,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_\\-]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.billing#InternalServerException" : {
          "members" : {
             "message" : {
@@ -3635,6 +4721,418 @@
             "smithy.api#documentation" : "<p>The request processing failed because of an unknown error, exception, or failure. </p>",
             "smithy.api#error" : "server",
             "smithy.api#httpError" : 500
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#Interval" : {
+         "members" : {
+            "endDateInclusive" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end date of the interval. This date is included in the interval.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "startDateInclusive" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start date of the interval. This date is included in the interval.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A time period bounded by an inclusive start date and an inclusive end date.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#Investment" : {
+         "members" : {
+            "milestoneBasedInvestment" : {
+               "target" : "com.amazonaws.billing#MilestoneBasedInvestment",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An investment with a fixed value that is disbursed on a schedule. This member is set for a milestone-based investment and corresponds to the <code>MILESTONE_BASED</code> investment type.</p>"
+               }
+            },
+            "outcomeBasedInvestment" : {
+               "target" : "com.amazonaws.billing#OutcomeBasedInvestment",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An investment that is awarded upon completion of a defined outcome. This member is set for an outcome-based (attestable) investment and corresponds to the <code>OUTCOME_BASED</code> investment type.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An investment within an investment summary. This is a union in which exactly one member is set. The <code>milestoneBasedInvestment</code> member represents a fixed, scheduled investment. The <code>outcomeBasedInvestment</code> member represents an attestable investment awarded upon completion of a defined outcome. Check which member is present to determine the investment type.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.billing#InvestmentAttestation" : {
+         "members" : {
+            "attestationId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the attestation. This value is returned by <code>CreateContractualInvestmentAttestation</code> and is used to cancel the attestation with <code>CancelContractualInvestmentAttestation</code>. This value is 1–36 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "attestationStatus" : {
+               "target" : "com.amazonaws.billing#InvestmentAttestationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the attestation. Valid values are <code>PENDING_REVIEW</code>, <code>PENDING_C_LEVEL_APPROVAL</code>, <code>PENDING_CANCELLATION</code>, <code>REJECTED</code>, <code>CANCELLED</code>, and <code>DISBURSED</code>. The values <code>DISBURSED</code>, <code>REJECTED</code>, and <code>CANCELLED</code> are terminal. The other values indicate the attestation is still in progress.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "attestedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date on which the attestation was submitted.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "attestedValue" : {
+               "target" : "com.amazonaws.billing#Amount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The monetary value attested.</p>"
+               }
+            },
+            "investmentDisbursedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start date on which the investment is disbursed to the investment accounts. This is not the same as the time of disbursement, but reflects the date you submitted with the attestation.</p>"
+               }
+            },
+            "investmentDistributions" : {
+               "target" : "com.amazonaws.billing#InvestmentDistributions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The distribution of the attested investment across the eligible investment accounts. The list contains at most 200 distributions.</p>"
+               }
+            },
+            "investmentId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the investment that was attested, as returned by <code>ListContractualInvestments</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the investment summary that contains the attested outcome. This value is 1–400 characters.</p>",
+                  "smithy.api#length" : {
+                     "max" : 400,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentSummaryId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the investment summary that was attested, as returned by <code>ListContractualInvestmentSummaries</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "isCancellable" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the attestation can be canceled with <code>CancelContractualInvestmentAttestation</code>.</p>"
+               }
+            },
+            "outcomeDescription" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the attested outcome. This value is 1–2048 characters.</p>",
+                  "smithy.api#length" : {
+                     "max" : 2048,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "rejectionReasons" : {
+               "target" : "com.amazonaws.billing#RejectionReasons",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reasons the attestation was rejected. This value is present only when <code>attestationStatus</code> is <code>REJECTED</code>. The list contains at most 30 reasons.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date on which the attestation was last updated.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of a submitted investment attestation, as returned by <code>ListContractualInvestmentAttestations</code>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#InvestmentAttestationStatus" : {
+         "members" : {
+            "CANCELLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CANCELLED"
+               }
+            },
+            "DISBURSED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISBURSED"
+               }
+            },
+            "PENDING_CANCELLATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_CANCELLATION"
+               }
+            },
+            "PENDING_C_LEVEL_APPROVAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_C_LEVEL_APPROVAL"
+               }
+            },
+            "PENDING_REVIEW" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_REVIEW"
+               }
+            },
+            "REJECTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REJECTED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The current state of a submitted investment attestation in its lifecycle. Valid values are <code>PENDING_REVIEW</code>, <code>PENDING_C_LEVEL_APPROVAL</code>, <code>PENDING_CANCELLATION</code>, <code>REJECTED</code>, <code>CANCELLED</code>, and <code>DISBURSED</code>. The values <code>DISBURSED</code>, <code>REJECTED</code>, and <code>CANCELLED</code> are terminal. The values <code>PENDING_REVIEW</code>, <code>PENDING_C_LEVEL_APPROVAL</code>, and <code>PENDING_CANCELLATION</code> indicate the attestation is still in progress.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.billing#InvestmentAttestations" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#InvestmentAttestation"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of investment attestations submitted under a private pricing contract, as returned by <code>ListContractualInvestmentAttestations</code>.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#InvestmentDistribution" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.billing#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The recipient Amazon Web Services account ID that receives this portion of the investment. This must be one of the eligible investment accounts on the contract.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentAmount" : {
+               "target" : "com.amazonaws.billing#Amount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The monetary value allocated to the recipient account.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An allocation of an investment disbursement to a specific recipient account. The account is the target account that receives the investment, not your account.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#InvestmentDistributions" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#InvestmentDistribution"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of investment distributions that allocate an attested investment across recipient accounts. The list contains at most 200 distributions.</p>",
+            "smithy.api#length" : {
+               "max" : 200
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#InvestmentMultiplier" : {
+         "members" : {
+            "investmentAttestationInputUnit" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unit of the attestation input that the multiplier applies to, such as <code>workloads migrated</code>. This value is 1–1000 characters. The terms of the contract define this value.</p>",
+                  "smithy.api#length" : {
+                     "max" : 1000,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "multiplierType" : {
+               "target" : "com.amazonaws.billing#MultiplierType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the multiplier. A value of <code>PERCENTAGE</code> applies a percentage of a value. A value of <code>CURRENCY_AMOUNT</code> applies a currency amount per unit of attestation input. The terms of the contract define this value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The multiplier value, expressed as a decimal string to preserve precision. The value is digits with an optional decimal point and is 1–1000 characters. The terms of the contract define this value.</p>",
+                  "smithy.api#length" : {
+                     "max" : 1000,
+                     "min" : 1
+                  },
+                  "smithy.api#pattern" : "^[0-9]+(\\.[0-9]+)?$",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A multiplier used to convert attestation input into an investment value.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#InvestmentMultipliers" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#InvestmentMultiplier"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of multipliers used to compute investment value from attestation input, derived from the terms of the contract. The list contains at most 200 multipliers.</p>",
+            "smithy.api#length" : {
+               "max" : 200
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#InvestmentRestriction" : {
+         "members" : {
+            "amount" : {
+               "target" : "com.amazonaws.billing#Amount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum monetary amount allowed under the restriction.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A restriction that caps the value that can be disbursed for an investment. The cap applies for each attestation window.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#InvestmentRestrictions" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#InvestmentRestriction"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of restrictions that cap the value that can be disbursed for an investment. The list contains at most 10 restrictions.</p>",
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#InvestmentSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#InvestmentSummary"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of investment summaries within a contract or a private pricing addendum, as returned by <code>ListContractualInvestmentSummaries</code>.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#InvestmentSummary" : {
+         "members" : {
+            "investmentName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the investment summary, used to reference the investment against a term in the physical contract. This value is 1–400 characters.</p>",
+                  "smithy.api#length" : {
+                     "max" : 400,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentSummaryId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the investment summary. Pass this value to <code>ListContractualInvestments</code> to list the investments within the summary, and to <code>CreateContractualInvestmentAttestation</code> to attest an investment. This value is 1–36 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentType" : {
+               "target" : "com.amazonaws.billing#InvestmentType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the investment summary. Valid values are <code>MILESTONE_BASED</code> and <code>OUTCOME_BASED</code>. <code>OUTCOME_BASED</code> investments can be attested to, upon completion of outcomes. <code>MILESTONE_BASED</code> are automatically triggered by Amazon Web Services, based on the time schedule in the contract.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxAllowedInvestmentDisbursementValue" : {
+               "target" : "com.amazonaws.billing#Amount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum monetary value that can be disbursed against the investment summary, inclusive of all outcomes combined under the summary.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Detailed information about an investment summary within a contract or a private pricing addendum.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#InvestmentType" : {
+         "members" : {
+            "MILESTONE_BASED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MILESTONE_BASED"
+               }
+            },
+            "OUTCOME_BASED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OUTCOME_BASED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of an investment summary. A value of <code>MILESTONE_BASED</code> indicates a fixed investment amount disbursed on a schedule. A value of <code>OUTCOME_BASED</code> indicates an investment awarded based on the completion of a defined outcome or milestone.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.billing#Investments" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#Investment"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of investments within an investment summary, as returned by <code>ListContractualInvestments</code>. For <code>OUTCOME_BASED</code> investments, they are referred to as <code>outcomes</code>.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#LegalEntities" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#LegalEntity"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of legal entities on a private pricing contract. The list contains at most 10 legal entities.</p>",
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.billing#LegalEntity" : {
+         "members" : {
+            "legalEntityName" : {
+               "target" : "com.amazonaws.billing#SensitiveString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the legal entity as it appears on the contract document. This value can be up to 256 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A legal entity on a private pricing contract. It can be found on your contract's signature page.</p>"
          },
          "type" : "structure"
       },
@@ -3735,6 +5233,98 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.billing#ListBillingViewSegments" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#BillingViewHealthStatusException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#ListBillingViewSegmentsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#ListBillingViewSegmentsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the segments of a billing view over a given time period. Each segment identifies the billing domain (<code>PRO_FORMA</code> or <code>BILLABLE</code>) and the account relationships that apply during its time range.</p> <p>If you don't provide an <code>arn</code>, the response includes segments for the caller's <code>PRIMARY</code> billing view.</p> <p>If a mid-period change occurs, the response includes multiple segments, each with its own time range. The response omits hidden segments, so the segments it returns might not cover the entire requested time period.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#ListBillingViewSegmentsRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.billing#BillingViewArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The Amazon Resource Name (ARN) that uniquely identifies the billing view to query. If you don't provide an ARN, the caller's <code>PRIMARY</code> billing view is used. The ARN must reference a primary billing view. Custom billing views aren't supported. </p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.billing#BillingViewsMaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The number of entries a paginated response contains. Valid values range from 1 to 100. The default is 100. </p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The pagination token that is used on subsequent calls to list billing view segments. </p>"
+               }
+            },
+            "timeRange" : {
+               "target" : "com.amazonaws.billing#BillingViewSegmentTimeRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The billing period to query. If you don't provide a time range, the current billing period, which is the calendar month in UTC, is used. </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListBillingViewSegmentsResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.billing#BillingViewSegmentsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> A list of billing view segments. Each segment covers a portion of the requested time period. The response omits hidden segments, so the segments it returns might not cover the entire requested time period. </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The pagination token that is used on subsequent calls to list billing view segments. </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.billing#ListBillingViews" : {
          "errors" : [
@@ -3869,6 +5459,599 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.billing#ListBusinessSupportAccountCharges" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#ListBusinessSupportAccountChargesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#ListBusinessSupportAccountChargesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns Business Support charges broken down at the linked account level for a given billing month.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "accountCharges",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#ListBusinessSupportAccountChargesRequest" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.billing#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The linked account ID to filter results to a specific account. If you don't specify a value, the response includes charges for all linked accounts.</p>"
+               }
+            },
+            "billingMonth" : {
+               "target" : "com.amazonaws.billing#BusinessSupportBillingMonth",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing month to retrieve Business Support charges for, in YYYY-MM format. You can request the current month (charges will be estimated) or a past month (charges will be finalized).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page. Default is 100.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token for the next page of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the billing month and optional filters used to retrieve Business Support charges broken down by linked account.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListBusinessSupportAccountChargesResponse" : {
+         "members" : {
+            "accountCharges" : {
+               "target" : "com.amazonaws.billing#BusinessSupportAccountChargeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Business Support charges per linked account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "accountCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of linked accounts with Business Support charges in the billing month.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "billingMonth" : {
+               "target" : "com.amazonaws.billing#BusinessSupportBillingMonth",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing month for the returned charges, in YYYY-MM format.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "isEstimated" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the Support charge amount is estimated. When false, the charge amount is finalized.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token for the next page of results.</p>"
+               }
+            },
+            "totalSupportCharge" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total Business Support charge amount for all accounts in the billing month.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "totalSupportEligibleSpend" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total Support-eligible spend from all accounts in the billing month. This includes eligible spend from usage of Amazon Web Services.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the Business Support charges broken down by linked account for the specified billing month, along with account and spend totals.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListBusinessSupportSubscriptionHistory" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#ListBusinessSupportSubscriptionHistoryRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#ListBusinessSupportSubscriptionHistoryResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the history of Business Support subscription contracts across accounts.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "subscriptionContracts",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#ListBusinessSupportSubscriptionHistoryRequest" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.billing#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID to filter results to a specific account. If you don't specify a value, the response includes subscription history for all accounts.</p>"
+               }
+            },
+            "billingMonth" : {
+               "target" : "com.amazonaws.billing#BusinessSupportBillingMonth",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The billing month to retrieve subscription contracts for, in YYYY-MM format. If you don't specify a value, defaults to the current month.</p>"
+               }
+            },
+            "endDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end date to filter subscription contracts to.</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page. Default is 100.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token for the next page of results.</p>"
+               }
+            },
+            "startDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start date to filter subscription contracts from.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the optional filters used to retrieve the history of Business Support subscription contracts across accounts.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListBusinessSupportSubscriptionHistoryResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token for the next page of results.</p>"
+               }
+            },
+            "subscriptionContracts" : {
+               "target" : "com.amazonaws.billing#BusinessSupportSubscriptionContractList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Business Support subscription contracts.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the list of Business Support subscription contracts that match the request filters.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListContracts" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#ListContractsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#ListContractsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the private pricing contracts that your Amazon Web Services account is an eligible payer account of. This operation is read-only and paginated.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#ListContractsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of contracts to return in a single call. Minimum value of 1, maximum value of 100.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token that indicates the next set of results to retrieve.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListContractsResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.billing#ContractSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of contracts that your Amazon Web Services account is an eligible payer account of.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token to use on subsequent calls to retrieve the next set of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListContractualInvestmentAttestations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#ListContractualInvestmentAttestationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#ListContractualInvestmentAttestationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the investment attestations submitted under a specific private pricing contract. Use this operation to track attestation status, including the terminal statuses <code>DISBURSED</code>, <code>REJECTED</code>, and <code>CANCELLED</code>. This operation is read-only and paginated.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#ListContractualInvestmentAttestationsRequest" : {
+         "members" : {
+            "contractArn" : {
+               "target" : "com.amazonaws.billing#ArnString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the contract whose attestations you want to list.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentSummaryId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of a specific investment summary to filter the attestations by. If omitted, attestations for all investment summaries in the contract are returned.</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of attestations to return in a single call. Minimum value of 1, maximum value of 100.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token that indicates the next set of results to retrieve.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListContractualInvestmentAttestationsResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.billing#InvestmentAttestations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of investment attestations submitted under the contract.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token to use on subsequent calls to retrieve the next set of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListContractualInvestmentSummaries" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#ListContractualInvestmentSummariesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#ListContractualInvestmentSummariesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the investment summaries within a specific private pricing contract. This operation is read-only and paginated.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#ListContractualInvestmentSummariesRequest" : {
+         "members" : {
+            "contractArn" : {
+               "target" : "com.amazonaws.billing#ArnString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the contract whose investment summaries you want to list.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of investment summaries to return in a single call. Minimum value of 1, maximum value of 100.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token that indicates the next set of results to retrieve.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListContractualInvestmentSummariesResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.billing#InvestmentSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of investment summaries under the contract. It includes the investment name, maximum investment amount, and investment type. It does not provide investment details. Use this to know if the contract has investment terms and what type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token to use on subsequent calls to retrieve the next set of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListContractualInvestments" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.billing#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.billing#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.billing#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.billing#ListContractualInvestmentsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.billing#ListContractualInvestmentsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the investments within a specific investment summary. This operation is read-only and paginated.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.billing#ListContractualInvestmentsRequest" : {
+         "members" : {
+            "contractArn" : {
+               "target" : "com.amazonaws.billing#ArnString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the contract that contains the investment summary.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentSummaryId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the investment summary whose investments you want to list.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of investments to return in a single call. Minimum value of 1, maximum value of 100.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token that indicates the next set of results to retrieve.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.billing#ListContractualInvestmentsResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.billing#Investments",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of investments for the investment summary.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.billing#PageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token to use on subsequent calls to retrieve the next set of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.billing#ListEnterpriseSupportLinkedAccountCharges" : {
          "errors" : [
             {
@@ -3910,7 +6093,7 @@
             "accountId" : {
                "target" : "com.amazonaws.billing#AccountId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>An optional linked account ID to filter results to a specific account.</p>"
+                  "smithy.api#documentation" : "<p>The linked account ID to filter results to a specific account. If you don't specify a value, the response includes charges for all linked accounts.</p>"
                }
             },
             "billingMonth" : {
@@ -3923,7 +6106,7 @@
             "maxResults" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page. Default is 100.</p>",
                   "smithy.api#range" : {
                      "max" : 100,
                      "min" : 1
@@ -4108,6 +6291,35 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.billing#MilestoneBasedInvestment" : {
+         "members" : {
+            "investmentDisbursedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date on which the investment is disbursed to the investment accounts.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the investment, as returned by <code>ListContractualInvestments</code>. This value is 1–36 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentValue" : {
+               "target" : "com.amazonaws.billing#Amount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total value of the investment, including its currency and amount.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An investment with a fixed value that is disbursed on a schedule. This corresponds to the <code>MILESTONE_BASED</code> investment type.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.billing#Month" : {
          "traits" : {
             "smithy.api#range" : {
@@ -4116,6 +6328,78 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.billing#MultiplierType" : {
+         "members" : {
+            "CURRENCY_AMOUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CURRENCY_AMOUNT"
+               }
+            },
+            "PERCENTAGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PERCENTAGE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of an investment multiplier. A value of <code>PERCENTAGE</code> applies a percentage of a value, expressed as a decimal string. A value of <code>CURRENCY_AMOUNT</code> applies a currency amount per unit of attestation input.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.billing#OutcomeBasedInvestment" : {
+         "members" : {
+            "attestationWindow" : {
+               "target" : "com.amazonaws.billing#Interval",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time window, expressed as an interval with inclusive start and end dates, during which outcomes can be attested to.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "disbursedValue" : {
+               "target" : "com.amazonaws.billing#Amount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total value already disbursed against the investment. This value can be distributed among the investment accounts distribution.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentId" : {
+               "target" : "com.amazonaws.billing#IdentifierString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the investment, as returned by <code>ListContractualInvestments</code>. This value is 1–36 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentMultipliers" : {
+               "target" : "com.amazonaws.billing#InvestmentMultipliers",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The multipliers used to compute the investment value from the attestation input. The list contains at most 200 multipliers. Multipliers are derived from the terms of the private pricing contract.</p>"
+               }
+            },
+            "investmentRestrictions" : {
+               "target" : "com.amazonaws.billing#InvestmentRestrictions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The restrictions that cap the value that can be disbursed for the investment. The list contains at most 10 restrictions.</p>"
+               }
+            },
+            "outcomeDescription" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of what must be completed to attest the outcome. This value is 1–2048 characters.</p>",
+                  "smithy.api#length" : {
+                     "max" : 2048,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An investment that is awarded upon completion of a defined outcome. This corresponds to the <code>OUTCOME_BASED</code> investment type and is claimed through <code>CreateContractualInvestmentAttestation</code>.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.billing#PageToken" : {
          "traits" : {
@@ -4311,6 +6595,55 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.billing#PrivatePricingAddendum" : {
+         "members" : {
+            "contractArn" : {
+               "target" : "com.amazonaws.billing#ArnString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the private pricing addendum.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contractRestrictions" : {
+               "target" : "com.amazonaws.billing#ContractRestrictions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The restrictions that limit the self-service actions you can take on the private pricing addendum. An empty or absent value indicates that no restrictions apply. The list contains at most 10 restrictions.</p>"
+               }
+            },
+            "contractTerm" : {
+               "target" : "com.amazonaws.billing#Interval",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The contract term period of the private pricing addendum, expressed as an interval with an inclusive start date and an inclusive end date.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "eligiblePayerAccounts" : {
+               "target" : "com.amazonaws.billing#AccountList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The payer accounts that are eligible under the private pricing addendum. The list contains at most 100 account IDs.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "investmentAccounts" : {
+               "target" : "com.amazonaws.billing#AccountList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The accounts that are eligible to receive investments under the private pricing addendum. An <code>InvestmentDistribution</code> must target one of these accounts. The list contains at most 100 account IDs.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "legalEntities" : {
+               "target" : "com.amazonaws.billing#LegalEntities",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The legal entities on the private pricing addendum. The list contains at most 10 legal entities.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The details of a private pricing addendum contract.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.billing#ProductName" : {
          "traits" : {
             "smithy.api#length" : {
@@ -4417,6 +6750,28 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.billing#RejectionReason" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single reason an attestation was rejected. This value is 1–300 characters.</p>",
+            "smithy.api#length" : {
+               "max" : 300,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.billing#RejectionReasons" : {
+         "member" : {
+            "target" : "com.amazonaws.billing#RejectionReason"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of reasons an attestation was rejected. The list contains at most 30 reasons.</p>",
+            "smithy.api#length" : {
+               "max" : 30
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.billing#ResourceArn" : {
          "traits" : {
@@ -4560,6 +6915,27 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.billing#SensitiveEmail" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 3
+            },
+            "smithy.api#pattern" : "^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.billing#SensitiveString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
       "com.amazonaws.billing#ServiceCode" : {
          "traits" : {
             "smithy.api#length" : {
@@ -4596,7 +6972,7 @@
          "traits" : {
             "smithy.api#documentation" : "<p>A list of service-level account usages.</p>",
             "smithy.api#length" : {
-               "max" : 50
+               "max" : 200
             }
          },
          "type" : "list"
