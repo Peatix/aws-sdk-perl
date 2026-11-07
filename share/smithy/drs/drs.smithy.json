@@ -10037,6 +10037,15 @@
       },
       "com.amazonaws.drs#SourceProperties" : {
          "members" : {
+            "architecture" : {
+               "target" : "com.amazonaws.drs#SourceServerArchitecture",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The architecture of the Source Server.</p>",
+                  "smithy.api#tags" : [
+                     "graviton"
+                  ]
+               }
+            },
             "cpus" : {
                "target" : "com.amazonaws.drs#Cpus",
                "traits" : {
@@ -10201,6 +10210,24 @@
                "min" : 20
             },
             "smithy.api#pattern" : "^arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17})$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.drs#SourceServerArchitecture" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "name" : "X86_64",
+                  "value" : "x86_64"
+               },
+               {
+                  "name" : "ARM64",
+                  "value" : "arm64"
+               }
+            ],
+            "smithy.api#tags" : [
+               "graviton"
+            ]
          },
          "type" : "string"
       },
@@ -11093,7 +11120,7 @@
       },
       "com.amazonaws.drs#StrictDRSARN" : {
          "traits" : {
-            "smithy.api#documentation" : "Strict ARN type for Recovery Plan resources.\nOnly allows safe characters in the resource portion — rejects HTML/script\ninjection characters (<, >, \", ', etc.) per AWS API input validation standards.\nResource portion allows: [A-Za-z0-9_/.-] which covers all DRS recovery plan\nresource identifiers (plan-xxx, st-xxx, exec-xxx, step-xxx).",
+            "smithy.api#documentation" : "Strict ARN type for Recovery Plan resources.\nOnly allows safe characters in the resource portion — rejects HTML/script\ninjection characters (&lt;, &gt;, \", ', etc.) per AWS API input validation standards.\nResource portion allows: [A-Za-z0-9_/.-] which covers all DRS recovery plan\nresource identifiers (plan-xxx, st-xxx, exec-xxx, step-xxx).",
             "smithy.api#length" : {
                "max" : 2048,
                "min" : 20
