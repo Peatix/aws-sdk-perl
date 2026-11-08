@@ -11147,6 +11147,12 @@
                   "smithy.api#documentation" : "<p>The action to take when the cluster step fails. Possible values are\n            <code>TERMINATE_CLUSTER</code>, <code>CANCEL_AND_WAIT</code>, and <code>CONTINUE</code>.\n            <code>TERMINATE_JOB_FLOW</code> is provided for backward compatibility. We recommend\n         using <code>TERMINATE_CLUSTER</code> instead.</p>\n         <p>If a cluster's <code>StepConcurrencyLevel</code> is greater than <code>1</code>, do not\n         use <code>AddJobFlowSteps</code> to submit a step with this parameter set to\n            <code>CANCEL_AND_WAIT</code> or <code>TERMINATE_CLUSTER</code>. The step is not\n         submitted and the action fails with a message that the <code>ActionOnFailure</code> setting\n         is not valid.</p>\n         <p>If you change a cluster's <code>StepConcurrencyLevel</code> to be greater than 1 while a\n         step is running, the <code>ActionOnFailure</code> parameter may not behave as you expect.\n         In this case, for a step that fails with this parameter set to\n         <code>CANCEL_AND_WAIT</code>, pending steps and the running step are not canceled; for a\n         step that fails with this parameter set to <code>TERMINATE_CLUSTER</code>, the cluster does\n         not terminate.</p>"
                }
             },
+            "AdditionalInfo" : {
+               "target" : "com.amazonaws.emr#StepAdditionalInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional information about the step, including the YARN application IDs associated with the step and the resource manager that processed it.</p>"
+               }
+            },
             "Config" : {
                "target" : "com.amazonaws.emr#HadoopStepConfig",
                "traits" : {
@@ -11192,6 +11198,26 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>This represents a step in a cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.emr#StepAdditionalInfo" : {
+         "members" : {
+            "ResourceManager" : {
+               "target" : "com.amazonaws.emr#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The address of the YARN resource manager that processed the step.</p>"
+               }
+            },
+            "ResourceManagerApplicationIds" : {
+               "target" : "com.amazonaws.emr#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The YARN application IDs associated with the step.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Additional information about a step's execution, available after the step has started running.</p>"
          },
          "type" : "structure"
       },
@@ -11518,6 +11544,12 @@
                "target" : "com.amazonaws.emr#ActionOnFailure",
                "traits" : {
                   "smithy.api#documentation" : "<p>The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER,\n         CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is available for backward\n         compatibility.</p>"
+               }
+            },
+            "AdditionalInfo" : {
+               "target" : "com.amazonaws.emr#StepAdditionalInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional information about the step, including the YARN application IDs associated with the step and the resource manager that processed it.</p>"
                }
             },
             "Config" : {
