@@ -530,6 +530,12 @@
                   "smithy.api#documentation" : "<p>The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for this workflow. This determines the feature set, supported operators, and execution environment capabilities available to your workflow. Amazon Managed Workflows for Apache Airflow Serverless maintains backward compatibility across versions while introducing new features and improvements. Currently supports version 1 with plans for additional versions as the service evolves.</p>"
                }
             },
+            "Environment" : {
+               "target" : "com.amazonaws.mwaaserverless#Environment",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment variables to set for tasks in the workflow. If you don't specify this parameter, the workflow has no environment variables.</p>"
+               }
+            },
             "LoggingConfiguration" : {
                "target" : "com.amazonaws.mwaaserverless#LoggingConfiguration",
                "traits" : {
@@ -648,7 +654,7 @@
             "VersionId" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Optional. The version ID of the workflow definition file in Amazon S3. If not specified, the latest version is used.</p>"
+                  "smithy.api#documentation" : "<p>Optional. The version ID of the workflow definition file in Amazon S3. If you don't specify a version, we use the latest version.</p>"
                }
             }
          },
@@ -803,6 +809,55 @@
             }
          },
          "type" : "intEnum"
+      },
+      "com.amazonaws.mwaaserverless#Environment" : {
+         "members" : {
+            "Variables" : {
+               "target" : "com.amazonaws.mwaaserverless#EnvironmentVariablesMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of environment variable names to values. Your workflow tasks use these variables while they run. You can specify up to 50 environment variables. Each name must be between 1 and 128 characters, start with a letter, and contain only letters, numbers, and underscores. Each value can be up to 255 characters.</p> <p>Names that start with <code>AWS_</code> or <code>AIRFLOW__</code> are reserved. You can use the following Apache Airflow secrets backend settings, which are exceptions:</p> <ul> <li> <p> <code>AIRFLOW__WORKERS__SECRETS_BACKEND</code> – The secrets backend class that workers use.</p> </li> <li> <p> <code>AIRFLOW__WORKERS__SECRETS_BACKEND_KWARGS</code> – The keyword arguments for the secrets backend, as a JSON string.</p> </li> <li> <p> <code>AIRFLOW__WORKERS__SECRETS_BACKEND_KWARG__*</code> – Names with this prefix, for additional secrets backend configuration.</p> </li> </ul> <p>If you set <code>EncryptionConfiguration</code> to use a customer managed AWS KMS key, we encrypt the environment variables with that key. Otherwise, we store them with default encryption at rest.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the environment variables that tasks in a workflow use during execution.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.mwaaserverless#EnvironmentVariableKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z][a-zA-Z0-9_]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.mwaaserverless#EnvironmentVariableValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.mwaaserverless#EnvironmentVariablesMap" : {
+         "key" : {
+            "target" : "com.amazonaws.mwaaserverless#EnvironmentVariableKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.mwaaserverless#EnvironmentVariableValue"
+         }
       },
       "com.amazonaws.mwaaserverless#ErrorMessage" : {
          "traits" : {
@@ -1120,6 +1175,12 @@
                "target" : "com.amazonaws.mwaaserverless#EngineVersion",
                "traits" : {
                   "smithy.api#documentation" : "<p>The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that this workflow uses.</p>"
+               }
+            },
+            "Environment" : {
+               "target" : "com.amazonaws.mwaaserverless#Environment",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment variables that tasks in the workflow use during execution.</p>"
                }
             },
             "LoggingConfiguration" : {
@@ -2061,7 +2122,7 @@
             "VersionId" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The version ID of the object in Amazon S3. If not specified, the latest version is used.</p>",
+                  "smithy.api#documentation" : "<p>Specifies the version ID of the object in Amazon S3. If you don't specify a version, we use the latest version.</p>",
                   "smithy.api#length" : {
                      "max" : 1024,
                      "min" : 1
@@ -2220,7 +2281,7 @@
             "WorkflowVersion" : {
                "target" : "com.amazonaws.mwaaserverless#VersionId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Optional. The specific version of the workflow to execute. If not specified, the latest version is used.</p>"
+                  "smithy.api#documentation" : "<p>Optional. The specific version of the workflow to execute. If you don't specify a version, we use the latest version.</p>"
                }
             }
          },
@@ -2483,7 +2544,7 @@
                "max" : 1011,
                "min" : 1
             },
-            "smithy.api#pattern" : "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$"
+            "smithy.api#pattern" : "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$"
          },
          "type" : "string"
       },
@@ -2900,6 +2961,12 @@
                   "smithy.api#documentation" : "<p>The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for the updated workflow.</p>"
                }
             },
+            "Environment" : {
+               "target" : "com.amazonaws.mwaaserverless#Environment",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment variables to set for tasks in the workflow.</p> <important> <p>The variables that you specify replace all existing environment variables for the workflow. If you don't specify this parameter, the workflow has no environment variables. To keep existing environment variables, include them in the request.</p> </important>"
+               }
+            },
             "LoggingConfiguration" : {
                "target" : "com.amazonaws.mwaaserverless#LoggingConfiguration",
                "traits" : {
@@ -3087,7 +3154,7 @@
                "max" : 2048,
                "min" : 1
             },
-            "smithy.api#pattern" : "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$"
+            "smithy.api#pattern" : "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$"
          },
          "type" : "string"
       },
@@ -3127,6 +3194,9 @@
             },
             "EngineVersion" : {
                "target" : "com.amazonaws.mwaaserverless#EngineVersion"
+            },
+            "Environment" : {
+               "target" : "com.amazonaws.mwaaserverless#Environment"
             },
             "IsLatestVersion" : {
                "target" : "com.amazonaws.mwaaserverless#IsLatestVersion"
