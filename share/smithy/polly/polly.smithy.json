@@ -31,6 +31,15 @@
       "com.amazonaws.polly#Alphabet" : {
          "type" : "string"
       },
+      "com.amazonaws.polly#AmazonResourceName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.polly#AudioChunk" : {
          "type" : "blob"
       },
@@ -269,6 +278,9 @@
          "type" : "structure"
       },
       "com.amazonaws.polly#ErrorMessage" : {
+         "type" : "string"
+      },
+      "com.amazonaws.polly#ExceptionMessage" : {
          "type" : "string"
       },
       "com.amazonaws.polly#FlushStreamConfiguration" : {
@@ -520,6 +532,19 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>The SSML you provided is invalid. Verify the SSML syntax, spelling\n      of tags and values, and then try again.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.polly#InvalidTagParameterException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.polly#ExceptionMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The resource ARN or a tag in the request isn't valid. Specify the ARN\n      of a supported resource in the Amazon Web Services account and Region of the request.\n      Tag keys can have a maximum length of 128 characters, and tag values can\n      have a maximum length of 256 characters. Correct the ARN or the tags, and\n      then try again.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 400
          },
@@ -854,7 +879,7 @@
             "Alphabet" : {
                "target" : "com.amazonaws.polly#Alphabet",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Phonetic alphabet used in the lexicon. Valid values are\n        <code>ipa</code> and <code>x-sampa</code>.</p>"
+                  "smithy.api#documentation" : "<p>Phonetic alphabet used in the lexicon. Valid values are\n        <code>ipa</code>, <code>x-sampa</code>, <code>x-amazon-pinyin</code>,\n        <code>x-amazon-jyutping</code>, <code>x-amazon-pron-kana</code>, and\n        <code>x-amazon-yomigana</code>.</p>"
                }
             },
             "LanguageCode" : {
@@ -1110,6 +1135,70 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.polly#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.polly#InvalidTagParameterException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ServiceFailureException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.polly#ListTagsForResourceInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.polly#ListTagsForResourceOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the tags for an Amazon Polly resource.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/listTagsForResource"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.polly#ListTagsForResourceInput" : {
+         "members" : {
+            "ResourceArn" : {
+               "target" : "com.amazonaws.polly#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) that identifies the resource for which\n      to list the tags. Currently, the only supported resource is an Amazon Polly\n      lexicon.</p>",
+                  "smithy.api#httpQuery" : "arn",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.polly#ListTagsForResourceOutput" : {
+         "members" : {
+            "Tags" : {
+               "target" : "com.amazonaws.polly#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags for the resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.polly#MarksNotSupportedForFormatException" : {
          "members" : {
             "message" : {
@@ -1250,6 +1339,9 @@
                "target" : "com.amazonaws.polly#ListSpeechSynthesisTasks"
             },
             {
+               "target" : "com.amazonaws.polly#ListTagsForResource"
+            },
+            {
                "target" : "com.amazonaws.polly#PutLexicon"
             },
             {
@@ -1260,6 +1352,12 @@
             },
             {
                "target" : "com.amazonaws.polly#SynthesizeSpeech"
+            },
+            {
+               "target" : "com.amazonaws.polly#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.polly#UntagResource"
             }
          ],
          "traits" : {
@@ -1282,7 +1380,7 @@
                   "h2"
                ]
             },
-            "smithy.api#documentation" : "<p>Amazon Polly is a web service that makes it easy to synthesize speech from\n      text.</p>\n         <p>The Amazon Polly service provides API operations for synthesizing\n      high-quality speech from plain text and Speech Synthesis Markup Language\n      (SSML), along with managing pronunciations lexicons that enable you to get\n      the best results for your application domain.</p>",
+            "smithy.api#documentation" : "<p>Amazon Polly is a web service that makes it easy to synthesize speech from\n      text.</p>\n         <p>The Amazon Polly service provides API operations for synthesizing\n      high-quality speech from plain text and Speech Synthesis Markup Language\n      (SSML), along with managing pronunciations lexicons that enable you to get\n      the best results for your application domain.</p>\n         <p>Authenticated API calls must be signed using the Signature Version 4 Signing Process. For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html\">Signing Amazon Web Services API Requests</a> in the <i>IAM User Guide</i>.</p>",
             "smithy.api#title" : "Amazon Polly",
             "smithy.api#xmlNamespace" : {
                "uri" : "http://polly.amazonaws.com/doc/v1"
@@ -2381,6 +2479,9 @@
                "target" : "com.amazonaws.polly#InvalidLexiconException"
             },
             {
+               "target" : "com.amazonaws.polly#InvalidTagParameterException"
+            },
+            {
                "target" : "com.amazonaws.polly#LexiconSizeExceededException"
             },
             {
@@ -2393,10 +2494,16 @@
                "target" : "com.amazonaws.polly#ServiceFailureException"
             },
             {
+               "target" : "com.amazonaws.polly#TooManyTagsException"
+            },
+            {
                "target" : "com.amazonaws.polly#UnsupportedPlsAlphabetException"
             },
             {
                "target" : "com.amazonaws.polly#UnsupportedPlsLanguageException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ValidationException"
             }
          ],
          "input" : {
@@ -2406,7 +2513,7 @@
             "target" : "com.amazonaws.polly#PutLexiconOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Stores a pronunciation lexicon in an Amazon Web Services Region. If\n      a lexicon with the same name already exists in the region, it is\n      overwritten by the new lexicon. Lexicon operations have eventual\n      consistency, therefore, it might take some time before the lexicon is\n      available to the SynthesizeSpeech operation.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html\">Managing Lexicons</a>.</p>",
+            "smithy.api#documentation" : "<p>Stores a pronunciation lexicon in an Amazon Web Services Region. If\n      a lexicon with the same name already exists in the region, it is\n      overwritten by the new lexicon. Lexicon operations have eventual\n      consistency, therefore, it might take some time before the lexicon is\n      available to the SynthesizeSpeech operation.</p>\n         <p>Overwriting a lexicon keeps its existing tags. You can specify tags\n      only when you create a lexicon. If you specify tags for a lexicon that\n      already exists, the request fails with a <code>ValidationException</code>.\n      To change the tags of an existing lexicon, use <code>TagResource</code>\n      and <code>UntagResource</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html\">Managing Lexicons</a>.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -2427,9 +2534,15 @@
             "Name" : {
                "target" : "com.amazonaws.polly#LexiconName",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Name of the lexicon. The name must follow the regular express\n      format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive\n      alphanumeric string up to 20 characters long. </p>",
+                  "smithy.api#documentation" : "<p>Name of the lexicon. The name must follow the regular expression\n      format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive\n      alphanumeric string up to 20 characters long. </p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.polly#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metadata that you apply to the lexicon to help you categorize and\n      organize it. Each tag consists of a key and an optional value, both of\n      which you define. Tag keys can have a maximum character length of 128\n      characters, and tag values can have a maximum length of 256\n      characters. You can't replace the tags of an existing lexicon by\n      overwriting it with PutLexicon.</p>"
                }
             }
          },
@@ -2467,6 +2580,50 @@
             "smithy.api#default" : 0
          },
          "type" : "integer"
+      },
+      "com.amazonaws.polly#ResourceId" : {
+         "type" : "string"
+      },
+      "com.amazonaws.polly#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.polly#ErrorMessage",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "com.amazonaws.polly#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the resource that wasn't found.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "com.amazonaws.polly#ResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource that wasn't found.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Amazon Polly can't find the specified resource. Verify that the resource\n      exists in the Amazon Web Services account and Region of the request and that its ARN is\n      spelled correctly, and then try again.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.polly#ResourceType" : {
+         "members" : {
+            "LEXICON" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "lexicon"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.polly#SampleRate" : {
          "type" : "string"
@@ -2533,7 +2690,7 @@
       },
       "com.amazonaws.polly#SnsTopicArn" : {
          "traits" : {
-            "smithy.api#pattern" : "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,251}([a-zA-Z0-9_-]{0,5}|\\.fifo)$"
+            "smithy.api#pattern" : "^arn:aws(-(cn|iso(-b)?|us-gov|eusc))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,251}([a-zA-Z0-9_-]{0,5}|\\.fifo)$"
          },
          "type" : "string"
       },
@@ -2613,7 +2770,7 @@
             "target" : "com.amazonaws.polly#StartSpeechSynthesisStreamOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Synthesizes UTF-8 input, plain text, or SSML over a bidirectional streaming connection. \n      Specify synthesis parameters in HTTP/2 headers, send text incrementally as events on the input stream,\n       and receive synthesized audio as it becomes available.</p>\n         <p>This operation serves as a bidirectional counterpart to <code>SynthesizeSpeech</code>:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/polly/latest/API/API_SynthesizeSpeech.html\">SynthesizeSpeech</a>\n               </p>\n            </li>\n         </ul>",
+            "smithy.api#documentation" : "<p>Synthesizes UTF-8 input, plain text, or SSML over a bidirectional streaming connection. \n      Specify synthesis parameters in HTTP/2 headers, send text incrementally as events on the input stream,\n       and receive synthesized audio as it becomes available.</p>\n         <p>This operation serves as a bidirectional counterpart to <code>SynthesizeSpeech</code>:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/polly/latest/dg/API_SynthesizeSpeech.html\">SynthesizeSpeech</a>\n               </p>\n            </li>\n         </ul>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -2734,7 +2891,7 @@
             "VoiceId" : {
                "target" : "com.amazonaws.polly#VoiceId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The voice to use in synthesis. To get a list of available voice IDs, use the <a href=\"https://docs.aws.amazon.com/polly/latest/API/API_DescribeVoices.html\">DescribeVoices</a> operation.</p>",
+                  "smithy.api#documentation" : "<p>The voice to use in synthesis. To get a list of available voice IDs, use the <a href=\"https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html\">DescribeVoices</a> operation.</p>",
                   "smithy.api#httpHeader" : "x-amzn-VoiceId",
                   "smithy.api#required" : {}
                }
@@ -3188,6 +3345,117 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.polly#TagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.polly#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.polly#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.polly#TagMap" : {
+         "key" : {
+            "target" : "com.amazonaws.polly#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.polly#TagValue"
+         }
+      },
+      "com.amazonaws.polly#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.polly#InvalidTagParameterException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ServiceFailureException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.polly#TooManyTagsException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.polly#TagResourceInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.polly#TagResourceOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Adds specified tags to a resource with the specified ARN. Existing tags\n      on a resource are not changed if they are not specified in the request\n      parameters. If you specify a tag key that already exists on the resource,\n      the value in the request replaces the existing value.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/v1/tagResource"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.polly#TagResourceInput" : {
+         "members" : {
+            "ResourceArn" : {
+               "target" : "com.amazonaws.polly#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource to which to add tags.\n      Currently, the only supported resource is an Amazon Polly lexicon.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.polly#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to add to the resource, as key-value pairs. Tag keys can have\n      a maximum character length of 128 characters, and tag values can have a\n      maximum length of 256 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.polly#TagResourceOutput" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.polly#TagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.polly#TaskId" : {
          "traits" : {
             "smithy.api#pattern" : "^[a-zA-Z0-9_-]{1,100}$"
@@ -3335,6 +3603,19 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.polly#TooManyTagsException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.polly#ExceptionMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The list of tags on the resource is over the limit. The maximum number\n      of tags that can be applied to a resource is 50. Remove unused tags or\n      reduce the number of tags in the request, and then try again.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.polly#UnsupportedPlsAlphabetException" : {
          "members" : {
             "message" : {
@@ -3342,7 +3623,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The alphabet specified by the lexicon is not a supported alphabet.\n      Valid values are <code>x-sampa</code> and <code>ipa</code>.</p>",
+            "smithy.api#documentation" : "<p>The alphabet specified by the lexicon is not a supported alphabet.\n      Valid values are <code>ipa</code>, <code>x-sampa</code>,\n      <code>x-amazon-pinyin</code>, <code>x-amazon-jyutping</code>,\n      <code>x-amazon-pron-kana</code>, and\n      <code>x-amazon-yomigana</code>. Replace the unsupported alphabet\n      with one of the valid values and resubmit your request.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 400
          },
@@ -3358,6 +3639,69 @@
             "smithy.api#documentation" : "<p>The language specified in the lexicon is unsupported. For a list of\n      supported languages, see <a href=\"https://docs.aws.amazon.com/polly/latest/dg/API_LexiconAttributes.html\">Lexicon Attributes</a>.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.polly#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.polly#InvalidTagParameterException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ServiceFailureException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.polly#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.polly#UntagResourceInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.polly#UntagResourceOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes specified tags from a resource.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/v1/untagResource"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.polly#UntagResourceInput" : {
+         "members" : {
+            "ResourceArn" : {
+               "target" : "com.amazonaws.polly#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource from which to remove\n      tags. Currently, the only supported resource is an Amazon Polly lexicon.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TagKeys" : {
+               "target" : "com.amazonaws.polly#TagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The keys of the tags to be removed.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.polly#UntagResourceOutput" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -3541,6 +3885,12 @@
                   "smithy.api#enumValue" : "Aria"
                }
             },
+            "Arjun" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Arjun"
+               }
+            },
             "Arlet" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -3601,10 +3951,22 @@
                   "smithy.api#enumValue" : "Carla"
                }
             },
+            "Carlos" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Carlos"
+               }
+            },
             "Carmen" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "Carmen"
+               }
+            },
+            "Carolina" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Carolina"
                }
             },
             "Celine" : {
@@ -3629,6 +3991,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "Cristiano"
+               }
+            },
+            "Curtis" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Curtis"
                }
             },
             "Daniel" : {
@@ -3739,6 +4107,12 @@
                   "smithy.api#enumValue" : "Hiujin"
                }
             },
+            "Hyunduk" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Hyunduk"
+               }
+            },
             "Ida" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -3835,10 +4209,22 @@
                   "smithy.api#enumValue" : "Kendra"
                }
             },
+            "Kenneth" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Kenneth"
+               }
+            },
             "Kevin" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "Kevin"
+               }
+            },
+            "Kiara" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Kiara"
                }
             },
             "Kimberly" : {
@@ -3863,6 +4249,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "Lennart"
+               }
+            },
+            "Leo" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Leo"
                }
             },
             "Liam" : {
@@ -3965,6 +4357,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "Naja"
+               }
+            },
+            "Nate" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Nate"
                }
             },
             "Niamh" : {
@@ -4103,6 +4501,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "Tiffany"
+               }
+            },
+            "Tina" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Tina"
                }
             },
             "Tomoko" : {
