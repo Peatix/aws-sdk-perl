@@ -136,6 +136,12 @@
                   "smithy.api#documentation" : "<p>The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.</p>",
                   "smithy.api#required" : {}
                }
+            },
+            "workloadIdentityProviderArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the workload identity provider for the returned credentials. Returned only for associations with workload identity enabled.</p>"
+               }
             }
          },
          "traits" : {
