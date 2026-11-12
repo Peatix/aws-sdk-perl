@@ -4,6 +4,16 @@
          "uri" : "https://acm-acme.{region}.amazonaws.com"
       },
       {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "uri" : "https://acm-acme.{region}.amazonaws.com"
+      },
+      {
          "uri" : "https://acm.{region}.amazonaws.com"
       }
    ],
@@ -784,100 +794,6 @@
             }
          },
          "uri" : "https://networkmanager.us-west-2.amazonaws.com"
-      }
-   ],
-   "organizations" : [
-      {
-         "properties" : {
-            "credentialScope" : {
-               "region" : "us-east-1",
-               "service" : "organizations"
-            }
-         },
-         "uri" : "https://organizations.us-east-1.amazonaws.com"
-      },
-      {
-         "constraints" : [
-            [
-               "region",
-               "startsWith",
-               "cn-"
-            ]
-         ],
-         "properties" : {
-            "credentialScope" : {
-               "region" : "cn-northwest-1",
-               "service" : "organizations"
-            }
-         },
-         "uri" : "https://organizations.cn-northwest-1.amazonaws.com.cn"
-      },
-      {
-         "constraints" : [
-            [
-               "region",
-               "startsWith",
-               "us-gov-"
-            ]
-         ],
-         "properties" : {
-            "credentialScope" : {
-               "region" : "us-gov-west-1",
-               "service" : "organizations"
-            }
-         },
-         "uri" : "https://organizations.us-gov-west-1.amazonaws.com"
-      },
-      {
-         "constraints" : [
-            [
-               "region",
-               "startsWith",
-               "us-iso-"
-            ]
-         ],
-         "properties" : {
-            "credentialScope" : {
-               "region" : "us-iso-east-1",
-               "service" : "organizations"
-            }
-         },
-         "uri" : "https://organizations.us-iso-east-1.c2s.ic.gov"
-      },
-      {
-         "constraints" : [
-            [
-               "region",
-               "startsWith",
-               "us-isob-"
-            ]
-         ],
-         "properties" : {
-            "credentialScope" : {
-               "region" : "us-isob-east-1",
-               "service" : "organizations"
-            }
-         },
-         "uri" : "https://organizations.us-isob-east-1.sc2s.sgov.gov"
-      },
-      {
-         "constraints" : [
-            [
-               "region",
-               "startsWith",
-               "us-isof-"
-            ]
-         ],
-         "properties" : {
-            "credentialScope" : {
-               "region" : "us-isof-south-1",
-               "service" : "organizations"
-            }
-         },
-         "uri" : "https://organizations.us-isof-south-1.csp.hci.ic.gov"
-      },
-      {
-         "uri" : "https://organizations.{region}.amazonaws.com"
       }
    ],
    "partnercentral-channel" : [
@@ -1765,6 +1681,19 @@
       },
       {
          "uri" : "https://waf.{region}.amazonaws.com"
+      }
+   ],
+   "wellarchitected" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "wellarchitected"
+            }
+         },
+         "uri" : "https://wellarchitected-agent.{region}.amazonaws.com"
+      },
+      {
+         "uri" : "https://wellarchitected.{region}.amazonaws.com"
       }
    ]
 }
