@@ -2867,6 +2867,12 @@
                   "smithy.api#documentation" : "<p>The application streaming in this session.</p> <p>This value is an <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html\">Amazon Resource Name (ARN)</a> that uniquely identifies the application resource. Example ARN: <code>arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6</code>. </p>"
                }
             },
+            "ApplicationStartedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A timestamp that indicates when the application launched for this stream session. Timestamps are expressed using in ISO8601 format, such as: <code>2022-12-27T22:29:40+00:00</code> (UTC).</p>"
+               }
+            },
             "Arn" : {
                "target" : "com.amazonaws.gameliftstreams#Arn",
                "traits" : {
@@ -2973,6 +2979,18 @@
                "target" : "com.amazonaws.gameliftstreams#Id",
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: <code>sg-1AB2C3De4</code>.</p>"
+               }
+            },
+            "StreamingEndedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A timestamp that indicates when streaming ended for this stream session. Timestamps are expressed using in ISO8601 format, such as: <code>2022-12-27T22:29:40+00:00</code> (UTC).</p>"
+               }
+            },
+            "StreamingStartedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A timestamp that indicates when streaming started for this stream session, which is when a client connected to the stream session. Timestamps are expressed using in ISO8601 format, such as: <code>2022-12-27T22:29:40+00:00</code> (UTC).</p>"
                }
             },
             "UserId" : {
@@ -4056,7 +4074,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Configuration settings that define a stream group's stream capacity for a location. When configuring a location for the first time, you must specify a numeric value for at least one of the two capacity types. To update the capacity for an existing stream group, call <a href=\"https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html\">UpdateStreamGroup</a>. To add a new location and specify its capacity, call <a href=\"https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_AddStreamGroupLocations.html\">AddStreamGroupLocations</a>.</p>"
+            "smithy.api#documentation" : "<p>Configuration settings that define a stream group's stream capacity for a location. When configuring a location for the first time, you must specify a numeric value for at least one of the two capacity types. To update the capacity for an existing stream group, call <a href=\"https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html\">UpdateStreamGroup</a>. To add a new location and specify its capacity, call <a href=\"https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_AddStreamGroupLocations.html\">AddStreamGroupLocations</a>.</p> <p>When you modify capacity for an existing location, always specify <code>AlwaysOnCapacity</code>, <code>MaximumCapacity</code>, and <code>TargetIdleCapacity</code> in the same request. If you omit one or more of these values, the service applies internal defaults for the missing values. These defaults might not match what you intend.</p>"
          },
          "type" : "structure"
       },
@@ -4898,6 +4916,12 @@
                   "smithy.api#documentation" : "<p>The application streaming in this session.</p> <p>This value is an <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html\">Amazon Resource Name (ARN)</a> that uniquely identifies the application resource. Example ARN: <code>arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6</code>. </p>"
                }
             },
+            "ApplicationStartedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A timestamp that indicates when the application launched for this stream session. Timestamps are expressed using in ISO8601 format, such as: <code>2022-12-27T22:29:40+00:00</code> (UTC).</p>"
+               }
+            },
             "Arn" : {
                "target" : "com.amazonaws.gameliftstreams#Arn",
                "traits" : {
@@ -5004,6 +5028,18 @@
                "target" : "com.amazonaws.gameliftstreams#Id",
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: <code>sg-1AB2C3De4</code>.</p>"
+               }
+            },
+            "StreamingEndedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A timestamp that indicates when streaming ended for this stream session. Timestamps are expressed using in ISO8601 format, such as: <code>2022-12-27T22:29:40+00:00</code> (UTC).</p>"
+               }
+            },
+            "StreamingStartedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A timestamp that indicates when streaming started for this stream session, which is when a client connected to the stream session. Timestamps are expressed using in ISO8601 format, such as: <code>2022-12-27T22:29:40+00:00</code> (UTC).</p>"
                }
             },
             "UserId" : {

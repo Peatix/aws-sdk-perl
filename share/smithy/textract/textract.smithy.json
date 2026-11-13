@@ -4780,6 +4780,7 @@
             "aws.protocols#awsJson1_1" : {},
             "smithy.api#documentation" : "<p>Amazon Textract detects and analyzes text in documents and converts it\n         into machine-readable text. This is the API reference documentation for\n         Amazon Textract.</p>",
             "smithy.api#title" : "Amazon Textract",
+            "smithy.protocols#rpcv2Cbor" : {},
             "smithy.rules#endpointBdd" : {
                "conditions" : [
                   {
