@@ -1175,6 +1175,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "lastModifiedTime" : {
+               "target" : "com.amazonaws.connectcampaignsv2#TimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The timestamp of the most recent modification to the campaign or its configuration. Null for campaigns created before this field was introduced."
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.connectcampaignsv2#CampaignName",
                "traits" : {
@@ -1334,6 +1340,12 @@
                "target" : "com.amazonaws.connectcampaignsv2#CampaignId",
                "traits" : {
                   "smithy.api#required" : {}
+               }
+            },
+            "lastModifiedTime" : {
+               "target" : "com.amazonaws.connectcampaignsv2#TimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The timestamp of the most recent modification to the campaign or its configuration. Null for campaigns created before this field was introduced."
                }
             },
             "name" : {
