@@ -56,6 +56,9 @@
                "target" : "com.amazonaws.cognitoidentityprovider#AdminCreateUser"
             },
             {
+               "target" : "com.amazonaws.cognitoidentityprovider#AdminDeleteSoftwareToken"
+            },
+            {
                "target" : "com.amazonaws.cognitoidentityprovider#AdminDeleteUser"
             },
             {
@@ -98,6 +101,9 @@
                "target" : "com.amazonaws.cognitoidentityprovider#AdminListUserAuthEvents"
             },
             {
+               "target" : "com.amazonaws.cognitoidentityprovider#AdminListUserSessions"
+            },
+            {
                "target" : "com.amazonaws.cognitoidentityprovider#AdminRemoveUserFromGroup"
             },
             {
@@ -105,6 +111,9 @@
             },
             {
                "target" : "com.amazonaws.cognitoidentityprovider#AdminRespondToAuthChallenge"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#AdminRevokeUserSession"
             },
             {
                "target" : "com.amazonaws.cognitoidentityprovider#AdminSetUserMFAPreference"
@@ -233,6 +242,9 @@
                "target" : "com.amazonaws.cognitoidentityprovider#DescribeTerms"
             },
             {
+               "target" : "com.amazonaws.cognitoidentityprovider#DescribeTermsByClient"
+            },
+            {
                "target" : "com.amazonaws.cognitoidentityprovider#DescribeUserImportJob"
             },
             {
@@ -249,6 +261,9 @@
             },
             {
                "target" : "com.amazonaws.cognitoidentityprovider#ForgotPassword"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#GetClientToken"
             },
             {
                "target" : "com.amazonaws.cognitoidentityprovider#GetCSVHeader"
@@ -287,7 +302,13 @@
                "target" : "com.amazonaws.cognitoidentityprovider#GetUserAuthFactors"
             },
             {
+               "target" : "com.amazonaws.cognitoidentityprovider#GetUserPoolClientSessionConfiguration"
+            },
+            {
                "target" : "com.amazonaws.cognitoidentityprovider#GetUserPoolMfaConfig"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#GetUserPoolSessionConfiguration"
             },
             {
                "target" : "com.amazonaws.cognitoidentityprovider#GlobalSignOut"
@@ -332,6 +353,9 @@
                "target" : "com.amazonaws.cognitoidentityprovider#ListUsers"
             },
             {
+               "target" : "com.amazonaws.cognitoidentityprovider#ListUserSessions"
+            },
+            {
                "target" : "com.amazonaws.cognitoidentityprovider#ListUsersInGroup"
             },
             {
@@ -347,6 +371,9 @@
                "target" : "com.amazonaws.cognitoidentityprovider#RevokeToken"
             },
             {
+               "target" : "com.amazonaws.cognitoidentityprovider#RevokeUserSession"
+            },
+            {
                "target" : "com.amazonaws.cognitoidentityprovider#SetLogDeliveryConfiguration"
             },
             {
@@ -359,7 +386,13 @@
                "target" : "com.amazonaws.cognitoidentityprovider#SetUserMFAPreference"
             },
             {
+               "target" : "com.amazonaws.cognitoidentityprovider#SetUserPoolClientSessionConfiguration"
+            },
+            {
                "target" : "com.amazonaws.cognitoidentityprovider#SetUserPoolMfaConfig"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#SetUserPoolSessionConfiguration"
             },
             {
                "target" : "com.amazonaws.cognitoidentityprovider#SetUserSettings"
@@ -2028,6 +2061,75 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.cognitoidentityprovider#AcrConfigurationType" : {
+         "key" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#AcrLevelKeyType"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the custom names that Amazon Cognito reports for the four fixed\n            authentication context class reference (ACR) levels in a user pool. The map is keyed by\n            level, from <code>Level1</code> through <code>Level4</code>, and each value provides the\n            custom name for that level. Amazon Cognito reports the name of the level that a user\n            meets in the <code>acr</code> token claim.</p>",
+            "smithy.api#length" : {
+               "max" : 4,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#AcrLevelConfigType"
+         }
+      },
+      "com.amazonaws.cognitoidentityprovider#AcrLevelConfigType" : {
+         "members" : {
+            "AcrValue" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#AcrValueType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The custom name for this authentication context class reference (ACR) level. This\n            value is the URI that Amazon Cognito reports in the <code>acr</code> token claim when a\n            user meets this level. The name must be unique across all levels in the user pool,\n            including default names.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for a single authentication context class reference (ACR) level in a user pool. Each entry in an <code>AcrConfiguration</code> map associates a level (<code>Level1</code> through <code>Level4</code>) with this configuration, which provides the custom name that Amazon Cognito reports for that level in the <code>acr</code> token claim.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#AcrLevelKeyType" : {
+         "traits" : {
+            "smithy.api#pattern" : "^Level[1-4]$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.cognitoidentityprovider#AcrMappingKeyType" : {
+         "traits" : {
+            "smithy.api#pattern" : "^Level[1-4]$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.cognitoidentityprovider#AcrMappingType" : {
+         "key" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#AcrMappingKeyType"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A map between the authentication context class reference (ACR) levels of a user pool\n            and the ACR values of an external OpenID Connect (OIDC) identity provider (IdP), so that\n            your application gets a consistent step-up experience regardless of which IdP\n            authenticated the user. The map is keyed by level, from <code>Level1</code> through\n            <code>Level4</code>, and each value is the ACR value that the IdP uses for the\n            corresponding level.</p>",
+            "smithy.api#length" : {
+               "max" : 4,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#AcrValueType"
+         }
+      },
+      "com.amazonaws.cognitoidentityprovider#AcrValueType" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\x21\\x23-\\x5B\\x5D-\\x7E]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.cognitoidentityprovider#AddCustomAttributes" : {
          "errors" : [
             {
@@ -2504,6 +2606,73 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.cognitoidentityprovider#AdminDeleteSoftwareToken" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserNotConfirmedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#AdminDeleteSoftwareTokenRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#AdminDeleteSoftwareTokenResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a user's registered time-based one-time password (TOTP) multi-factor\n            authentication (MFA) factor, also known as a software token. After this operation, the\n            user can no longer sign in with TOTP MFA, and can register a new TOTP factor with\n                <code>AssociateSoftwareToken</code>. Use this operation when a user loses access to\n            their TOTP-generating device, for example, a lost or reset phone, and needs to register\n            a new one.</p>\n         <note>\n            <p>Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For\n    this operation, you must use IAM credentials to authorize requests, and you must\n    grant yourself the corresponding IAM permission in a policy.</p>\n            <p class=\"title\">\n               <b>Learn more</b>\n            </p>\n            <ul>\n               <li>\n                  <p>\n                     <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html\">Signing Amazon Web Services API Requests</a>\n                  </p>\n               </li>\n               <li>\n                  <p>\n                     <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html\">Using the Amazon Cognito user pools API and user pool endpoints</a>\n                  </p>\n               </li>\n            </ul>\n         </note>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#AdminDeleteSoftwareTokenRequest" : {
+         "members" : {
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool where you want to delete the user's software\n            token.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Username" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UsernameType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the user that you want to query or modify. The value of this parameter\n            is typically your user's username, but it can be any of their alias attributes. If\n                <code>username</code> isn't an alias attribute in your user pool, this value\n            must be the <code>sub</code> of a local user or the username of a user from a\n            third-party IdP.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#AdminDeleteSoftwareTokenResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.cognitoidentityprovider#AdminDeleteUser" : {
          "errors" : [
@@ -3200,6 +3369,9 @@
       "com.amazonaws.cognitoidentityprovider#AdminInitiateAuth" : {
          "errors" : [
             {
+               "target" : "com.amazonaws.cognitoidentityprovider#FeatureUnavailableInTierException"
+            },
+            {
                "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
             },
             {
@@ -3283,7 +3455,7 @@
             "AuthParameters" : {
                "target" : "com.amazonaws.cognitoidentityprovider#AuthParametersType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The authentication parameters. These are inputs corresponding to the\n                <code>AuthFlow</code> that you're invoking.</p>\n         <p>The following are some authentication flows and their parameters. Add a\n                <code>SECRET_HASH</code> parameter if your app client has a client secret. Add\n                <code>DEVICE_KEY</code> if you want to bypass multi-factor authentication with a\n            remembered device. </p>\n         <dl>\n            <dt>USER_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>PREFERRED_CHALLENGE</code>. If you don't provide a\n                                value for <code>PREFERRED_CHALLENGE</code>, Amazon Cognito responds with the\n                                    <code>AvailableChallenges</code> parameter that specifies the\n                                available sign-in methods.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>USER_SRP_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>SRP_A</code> (required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>ADMIN_USER_PASSWORD_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>PASSWORD</code> (required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>REFRESH_TOKEN_AUTH/REFRESH_TOKEN</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>REFRESH_TOKEN</code>(required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>CUSTOM_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>ChallengeName: SRP_A</code> (when preceding custom\n                                authentication with SRP authentication)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>SRP_A: (An SRP_A value)</code> (when preceding custom\n                                authentication with SRP authentication)</p>\n                  </li>\n               </ul>\n            </dd>\n         </dl>\n         <p>For more information about <code>SECRET_HASH</code>, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash\">Computing secret hash values</a>. For information about\n            <code>DEVICE_KEY</code>, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html\">Working with user devices in your user pool</a>.</p>"
+                  "smithy.api#documentation" : "<p>The authentication parameters. These are inputs corresponding to the\n                <code>AuthFlow</code> that you're invoking.</p>\n         <p>The following are some authentication flows and their parameters. Add a\n                <code>SECRET_HASH</code> parameter if your app client has a client secret. Add\n                <code>DEVICE_KEY</code> if you want to bypass multi-factor authentication with a\n            remembered device. </p>\n         <dl>\n            <dt>USER_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>PREFERRED_CHALLENGE</code>. If you don't provide a\n                                value for <code>PREFERRED_CHALLENGE</code>, Amazon Cognito responds with the\n                                    <code>AvailableChallenges</code> parameter that specifies the\n                                available sign-in methods.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TARGET_ACR_VALUES</code>. An optional, space-separated list\n                                of the authentication context class reference (ACR) level URIs that\n                                you want the user to reach. List the levels in priority order, from\n                                highest to lowest. Amazon Cognito attempts the highest-priority level that the\n                                user can satisfy, and falls back through the list. Amazon Cognito ignores any\n                                value that it doesn't recognize. If none of the requested values are\n                                valid, Amazon Cognito returns an error.</p>\n                     <p>Requesting step-up authentication with this parameter requires the\n                                Essentials or Plus feature plan. On a lower feature plan,\n                                AdminInitiateAuth returns a FeatureUnavailableInTierException.\n                                <code>USERNAME</code> is required. When you provide an\n                                <code>ACCESS_TOKEN</code>, you must also provide\n                                <code>TARGET_ACR_VALUES</code>. Amazon Cognito returns an error if you provide\n                                an <code>ACCESS_TOKEN</code> without <code>TARGET_ACR_VALUES</code>.\n                                The <code>USERNAME</code> that you provide must match the user that the\n                                <code>ACCESS_TOKEN</code> was issued for.</p>\n                     <p>For more information about step-up authentication and how Amazon Cognito\n                                handles multi-factor authentication requirements, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html\">Step-up\n                                authentication with ACR and AMR</a> in the <i>Amazon Cognito\n                                Developer Guide</i>.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>MAX_AGE</code>. An optional integer that sets the maximum\n                                number of seconds allowed since the user last authenticated. If the\n                                user's most recent authentication is older than this value, Amazon Cognito\n                                discards the authentication-methods credit from any access token that\n                                you provide and processes the request as a fresh authentication toward\n                                the target level. The access token itself remains valid.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>USER_SRP_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>SRP_A</code> (required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>ADMIN_USER_PASSWORD_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>PASSWORD</code> (required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>REFRESH_TOKEN_AUTH/REFRESH_TOKEN</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>REFRESH_TOKEN</code>(required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>CUSTOM_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>ChallengeName: SRP_A</code> (when preceding custom\n                                authentication with SRP authentication)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>SRP_A: (An SRP_A value)</code> (when preceding custom\n                                authentication with SRP authentication)</p>\n                  </li>\n               </ul>\n            </dd>\n         </dl>\n         <p>For more information about <code>SECRET_HASH</code>, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash\">Computing secret hash values</a>. For information about\n            <code>DEVICE_KEY</code>, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html\">Working with user devices in your user pool</a>.</p>"
                }
             },
             "ClientId" : {
@@ -3410,7 +3582,7 @@
             "DestinationUser" : {
                "target" : "com.amazonaws.cognitoidentityprovider#ProviderUserIdentifierType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The existing user in the user pool that you want to assign to the external IdP user\n            account. This user can be a local (Username + Password) Amazon Cognito user pools user or a\n            federated user (for example, a SAML or Facebook user). If the user doesn't exist, Amazon Cognito\n            generates an exception. Amazon Cognito returns this user when the new user (with the linked IdP\n            attribute) signs in.</p>\n         <p>For a native username + password user, the <code>ProviderAttributeValue</code> for the\n                <code>DestinationUser</code> should be the username in the user pool. For a\n            federated user, it should be the provider-specific <code>user_id</code>.</p>\n         <p>The <code>ProviderAttributeName</code> of the <code>DestinationUser</code> is\n            ignored.</p>\n         <p>The <code>ProviderName</code> should be set to <code>Cognito</code> for users in\n            Cognito user pools.</p>\n         <important>\n            <p>All attributes in the DestinationUser profile must be mutable. If you have\n                assigned the user any immutable custom attributes, the operation won't\n                succeed.</p>\n         </important>",
+                  "smithy.api#documentation" : "<p>The existing user in the user pool that you want to assign to the external IdP user\n            account. This user can be a local (Username + Password) Amazon Cognito user pools user or a\n            federated user (for example, a SAML or Facebook user). If the user doesn't exist, Amazon Cognito\n            generates an exception. Amazon Cognito returns this user when the new user (with the linked IdP\n            attribute) signs in.</p>\n         <p>For a native username + password user, the <code>ProviderAttributeValue</code> for the\n                <code>DestinationUser</code> should be the username in the user pool. For a\n            federated user, it should be the provider-specific <code>user_id</code>.</p>\n         <p>The <code>ProviderAttributeName</code> of the <code>DestinationUser</code> is\n            ignored.</p>\n         <p>The <code>ProviderName</code> should be set to <code>Cognito</code> for users in\n            Cognito user pools.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -3717,6 +3889,90 @@
                "target" : "com.amazonaws.cognitoidentityprovider#PaginationKey",
                "traits" : {
                   "smithy.api#documentation" : "<p>The identifier that Amazon Cognito returned with the previous request to this operation. When \nyou include a pagination token in your request, Amazon Cognito returns the next set of items in \nthe list. By use of this token, you can paginate through the full list of items.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#AdminListUserSessions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#AdminListUserSessionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#AdminListUserSessionsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the active sessions for a specified user as an administrator. The response\n            includes both token sessions and SSO sessions. Only active sessions are returned;\n            revoked and expired sessions aren't included. Amazon Cognito returns all of a user's sessions in\n            a single page of up to 125 sessions. The results are eventually consistent, and new\n            sessions are typically included within a few seconds.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#AdminListUserSessionsRequest" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#PaginationKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A pagination token that Amazon Cognito returned in a previous response. Use this value to\n            retrieve the next page of results if a <code>NextToken</code> was included in a prior\n            response.</p>"
+               }
+            },
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool that contains the user.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Username" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UsernameType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The username of the user whose sessions you want to list.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#AdminListUserSessionsResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#PaginationKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token to use in a subsequent request to retrieve the next page of\n            results.</p>"
+               }
+            },
+            "Sessions" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionsListType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of the user's active sessions. Each element describes one token session or SSO\n            session.</p>"
                }
             }
          },
@@ -4033,6 +4289,12 @@
                   "smithy.api#documentation" : "<p>The outcome of a successful authentication process. After your application has passed\n            all challenges, Amazon Cognito returns an <code>AuthenticationResult</code> with the JSON web\n            tokens (JWTs) that indicate successful sign-in.</p>"
                }
             },
+            "AvailableChallenges" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#AvailableChallengeListType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>This response parameter lists the available authentication challenges that users can\n            select from in <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flows-selection-sdk.html#authentication-flows-selection-choice\">choice-based authentication</a>. For example, they might be\n            able to choose between passkey authentication, a one-time password from an SMS message,\n            and a traditional password.</p>"
+               }
+            },
             "ChallengeName" : {
                "target" : "com.amazonaws.cognitoidentityprovider#ChallengeNameType",
                "traits" : {
@@ -4054,6 +4316,83 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Responds to the authentication challenge, as an administrator.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#AdminRevokeUserSession" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#AdminRevokeUserSessionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#AdminRevokeUserSessionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Revokes a specific user session as an administrator. Amazon Cognito revokes all refresh and\n            access tokens that are associated with the session and deletes the session record. You\n            can revoke either a token session or an SSO session, and you can optionally cascade the\n            revocation to linked sessions.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#AdminRevokeUserSessionRequest" : {
+         "members" : {
+            "RevokeAssociatedSessions" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#RevokeAssociatedSessionsType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to also revoke the sessions that are linked to the targeted session.\n            <code>NONE</code>, the default, revokes only the targeted session. <code>LINKED</code>\n            also revokes the directly linked session or sessions, interpreted relative to the type\n            of the targeted session: revoking a token session also revokes the parent SSO session it\n            came through, and revoking an SSO session also revokes the token sessions that came\n            through it. The set of linked sessions is eventually consistent, so associated\n            sessions are typically revoked within a few seconds.</p>"
+               }
+            },
+            "SessionId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the session to revoke. This is a 28-character string of lowercase letters\n            and digits, prefixed with <code>tkn</code> for a token session or <code>sso</code> for\n            an SSO session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool that contains the session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Username" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UsernameType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The username of the user who owns the session. The username must match the user\n            associated with the <code>SessionId</code>, to confirm they are the intended target\n            user.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#AdminRevokeUserSessionResponse" : {
+         "members" : {},
+         "traits" : {
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -5722,6 +6061,33 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.cognitoidentityprovider#ClientAuthenticationResultType" : {
+         "members" : {
+            "AccessToken" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#TokenModelType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The access token for the requested app client. Present this token to a resource server\n            to authorize a request, using the scopes granted in the token.</p>"
+               }
+            },
+            "ExpiresIn" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#IntegerType",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The number of seconds until the access token expires.</p>"
+               }
+            },
+            "TokenType" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#StringType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the token. For example, <code>Bearer</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The access token and its metadata from a machine-to-machine (M2M) client credentials\n            grant.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.cognitoidentityprovider#ClientIdType" : {
          "traits" : {
             "smithy.api#length" : {
@@ -5766,6 +6132,21 @@
             }
          },
          "type" : "string"
+      },
+      "com.amazonaws.cognitoidentityprovider#ClientSSOSessionConfigType" : {
+         "members" : {
+            "MaxValidityMinutes" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SSOSessionMaxValidityMinutesType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum amount of time, in minutes, that this app client silently reuses an\n            existing SSO session, returning a new set of tokens without requiring the user to\n            re-authenticate, measured from the user's last fresh authentication. The minimum value\n            is <code>0</code> and the maximum value is <code>129600</code> (90 days). The default is\n            <code>60</code>. A value of <code>0</code> means that this app client never silently\n            reuses the SSO session and always re-authenticates the user. The SSO session record and\n            its cookie are still created regardless of this value, and other app clients in the same\n            user pool can still reuse the session.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The SSO session settings for a user pool app client.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.cognitoidentityprovider#ClientSecretDescriptorListType" : {
          "member" : {
@@ -5821,6 +6202,23 @@
             "smithy.api#sensitive" : {}
          },
          "type" : "string"
+      },
+      "com.amazonaws.cognitoidentityprovider#ClientTypeType" : {
+         "members" : {
+            "DCR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DCR"
+               }
+            },
+            "REGULAR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REGULAR"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.cognitoidentityprovider#CloudWatchLogsConfigurationType" : {
          "members" : {
@@ -6679,6 +7077,12 @@
       },
       "com.amazonaws.cognitoidentityprovider#CreateIdentityProviderRequest" : {
          "members" : {
+            "AcrMapping" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#AcrMappingType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A mapping between the authentication context class reference (ACR) levels of your user\n            pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP).\n            The map is keyed by level, from <code>Level1</code> through <code>Level4</code>, and each\n            value is the ACR value that the IdP uses for the corresponding level. Amazon Cognito uses\n            this mapping to translate a requested user pool ACR level to the value that the IdP\n            expects, and to map an ACR value that the IdP returns back to a user pool level. When the\n            IdP returns an ACR value that isn't mapped, Amazon Cognito resolves it to the lowest\n            level. Only OIDC IdPs support ACR mapping.</p>\n         <p>Setting <code>AcrMapping</code> is available in all feature plans. It isn't restricted\n            to the Essentials or Plus feature plan.</p>"
+               }
+            },
             "AttributeMapping" : {
                "target" : "com.amazonaws.cognitoidentityprovider#AttributeMappingType",
                "traits" : {
@@ -7573,6 +7977,12 @@
                   "smithy.api#documentation" : "<p>The available verified method a user can use to recover their password when they call\n                <code>ForgotPassword</code>. You can use this setting to define a preferred method\n            when a user has more than one method available. With this setting, SMS doesn't qualify\n            for a valid password recovery mechanism if the user also has SMS multi-factor\n            authentication (MFA) activated. Email MFA is also disqualifying for account recovery\n            with email. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine\n            the recovery method where SMS is preferred over email.</p>\n         <p>As a best practice, configure both <code>verified_email</code> and\n                <code>verified_phone_number</code>, with one having a higher priority than the\n            other.</p>"
                }
             },
+            "AcrConfiguration" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#AcrConfigurationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The custom names for the authentication context class reference\n            (ACR) levels in your user pool. Amazon Cognito defines four fixed ACR levels that\n            represent increasing authentication assurance. The combination of authentication factors\n            that satisfies each level is fixed and you can't change it. With this configuration, you\n            customize only the URI name that Amazon Cognito reports for each level in the\n            <code>acr</code> token claim.</p>\n         <p>You can override a subset of the levels. By default, the levels are named\n            <code>urn:cognito:loa:1</code> through <code>urn:cognito:loa:4</code>, and Amazon Cognito\n            applies the default name to any level that you don't specify. Each name must be\n            unique across all four levels, including any default names that apply to levels you\n            don't override. A name can contain any character\n            that is valid in a URL or a URN.</p>\n         <p>Configuring custom ACR level names requires the Essentials or Plus feature plan.\n            To activate this setting, your user pool must be in the <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html\">\n                     Essentials tier</a> or higher.</p>"
+               }
+            },
             "AdminCreateUserConfig" : {
                "target" : "com.amazonaws.cognitoidentityprovider#AdminCreateUserConfigType",
                "traits" : {
@@ -7589,6 +7999,12 @@
                "target" : "com.amazonaws.cognitoidentityprovider#VerifiedAttributesListType",
                "traits" : {
                   "smithy.api#documentation" : "<p>The attributes that you want your user pool to automatically verify. For more\n            information, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#allowing-users-to-sign-up-and-confirm-themselves\">Verifying contact information at sign-up</a>.</p>"
+               }
+            },
+            "DcrConfiguration" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#DcrConfigurationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dynamic client registration configuration for the user pool. With dynamic client\n            registration, applications can register their own app clients at runtime through the\n            registration endpoint of your user pool domain. To activate this setting, your user pool must be in the <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html\">\n                     Essentials tier</a> or higher.</p>"
                }
             },
             "DeletionProtection" : {
@@ -7857,6 +8273,45 @@
       },
       "com.amazonaws.cognitoidentityprovider#DateType" : {
          "type" : "timestamp"
+      },
+      "com.amazonaws.cognitoidentityprovider#DcrConfigurationType" : {
+         "members" : {
+            "AllowedScopes" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ScopeListType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scopes that an app client created through dynamic client registration can request,\n            in addition to the standard OpenID Connect (OIDC) scopes. You can include custom scopes\n            from your resource servers and <code>aws.cognito.signin.user.admin</code>. Registered app\n            clients can request the OIDC scopes <code>openid</code>, <code>email</code>,\n                <code>phone</code>, and <code>profile</code> without listing them here. If you\n            don't set this value, registered app clients can request only the OIDC scopes. A\n            registered app client can't request the <code>aws.cognito/dcr/register</code> scope,\n            even if you include it in this list.</p>"
+               }
+            },
+            "AuthenticatedGrantTypes" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#OAuthFlowsType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The OAuth grant types that an app client created through authenticated registration can\n            request. If you don't set this value, authenticated registration permits the\n                <code>code</code> and <code>client_credentials</code> grant types. If you set an\n            empty list, Amazon Cognito rejects authenticated registration requests. Dynamic client\n            registration supports the following values. Amazon Cognito accepts <code>implicit</code> in this\n            list but ignores it.</p>\n         <dl>\n            <dt>code</dt>\n            <dd>\n               <p>Use a code grant flow, which provides an authorization code as the\n                        response. This code can be exchanged for access tokens with the\n                            <code>/oauth2/token</code> endpoint.</p>\n            </dd>\n            <dt>client_credentials</dt>\n            <dd>\n               <p>Issue the access token from the <code>/oauth2/token</code> endpoint\n                        directly to a non-person user using a combination of the client ID and\n                        client secret.</p>\n            </dd>\n         </dl>"
+               }
+            },
+            "EnableStatus" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#StatusType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether dynamic client registration is turned on for the user pool. If you\n            provide a dynamic client registration configuration without this value, Amazon Cognito turns\n            dynamic client registration on.</p>"
+               }
+            },
+            "OpenDcrEnabled" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#BooleanType",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether open registration is turned on. When open registration is on,\n            applications can register app clients without an initial access token. The default value\n            is <code>false</code>.</p>"
+               }
+            },
+            "OpenDcrGrantTypes" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#OAuthFlowsType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The OAuth grant types that an app client created through open registration can request.\n            If you don't set this value, open registration permits only the <code>code</code>\n            grant type. If you set an empty list, Amazon Cognito rejects open registration requests. If you add\n                <code>client_credentials</code>, anyone can register an app client that requests\n            machine-to-machine (M2M) access tokens, and you pay for the M2M token requests that those\n            app clients make. Dynamic client registration supports the following values. Amazon Cognito\n            accepts <code>implicit</code> in this list but ignores it.</p>\n         <dl>\n            <dt>code</dt>\n            <dd>\n               <p>Use a code grant flow, which provides an authorization code as the\n                        response. This code can be exchanged for access tokens with the\n                            <code>/oauth2/token</code> endpoint.</p>\n            </dd>\n            <dt>client_credentials</dt>\n            <dd>\n               <p>Issue the access token from the <code>/oauth2/token</code> endpoint\n                        directly to a non-person user using a combination of the client ID and\n                        client secret.</p>\n            </dd>\n         </dl>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The dynamic client registration configuration for a user pool. Dynamic client\n            registration lets applications register their own app clients at runtime through the\n            registration endpoint of your user pool domain. To activate this setting, your user pool must be in the <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html\">\n                     Essentials tier</a> or higher.</p>\n         <p>Applications register app clients at the <code>/oauth2/register</code> endpoint of your\n            user pool domain. In authenticated registration, the application sends an access token\n            from your user pool that has the <code>aws.cognito/dcr/register</code> scope. In open\n            registration, the application doesn't send a token.</p>\n         <p>When you include this configuration in an <code>UpdateUserPool</code> request, Amazon Cognito\n            replaces the existing configuration with the one that you provide.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.cognitoidentityprovider#DefaultEmailOptionType" : {
          "members" : {
@@ -9098,6 +9553,81 @@
          },
          "type" : "operation"
       },
+      "com.amazonaws.cognitoidentityprovider#DescribeTermsByClient" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#DescribeTermsByClientRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#DescribeTermsByClientResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns details for the terms documents that are associated with an app client,\n            identified by the app client ID, user pool ID, and terms name. For\n            more information, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html#managed-login-terms-documents\">Terms documents</a>.</p>\n         <p>To call <code>DescribeTermsByClient</code>, you must have the\n            <code>cognito-idp:DescribeTermsByClient</code> Identity and Access Management (IAM) permission. An IAM\n            policy that denies <code>cognito-idp:DescribeTerms</code> also denies requests to\n            <code>DescribeTermsByClient</code>.</p>\n         <note>\n            <p>Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For\n    this operation, you must use IAM credentials to authorize requests, and you must\n    grant yourself the corresponding IAM permission in a policy.</p>\n            <p class=\"title\">\n               <b>Learn more</b>\n            </p>\n            <ul>\n               <li>\n                  <p>\n                     <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html\">Signing Amazon Web Services API Requests</a>\n                  </p>\n               </li>\n               <li>\n                  <p>\n                     <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html\">Using the Amazon Cognito user pools API and user pool endpoints</a>\n                  </p>\n               </li>\n            </ul>\n         </note>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#DescribeTermsByClientRequest" : {
+         "members" : {
+            "ClientId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app client that the terms documents are associated with.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TermsName" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#TermsNameType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the terms documents that you want to describe.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool that contains the terms documents that you want to\n            describe.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#DescribeTermsByClientResponse" : {
+         "members" : {
+            "Terms" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#TermsType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary of the requested terms documents, including a unique identifier for later\n            changes to the terms documents.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.cognitoidentityprovider#DescribeTermsRequest" : {
          "members" : {
             "TermsId" : {
@@ -9334,7 +9864,7 @@
             "target" : "com.amazonaws.cognitoidentityprovider#DescribeUserPoolDomainResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Given a user pool domain name, returns information about the domain\n            configuration.</p>\n         <note>\n            <p>Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For\n    this operation, you must use IAM credentials to authorize requests, and you must\n    grant yourself the corresponding IAM permission in a policy.</p>\n            <p class=\"title\">\n               <b>Learn more</b>\n            </p>\n            <ul>\n               <li>\n                  <p>\n                     <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html\">Signing Amazon Web Services API Requests</a>\n                  </p>\n               </li>\n               <li>\n                  <p>\n                     <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html\">Using the Amazon Cognito user pools API and user pool endpoints</a>\n                  </p>\n               </li>\n            </ul>\n         </note>"
+            "smithy.api#documentation" : "<p>Given a user pool domain name, returns information about the domain\n            configuration.</p>\n         <note>\n            <p>This operation doesn't return results when you query a prefix domain in a\n                secondary Region. Prefix domains are Region-specific and can only be described in\n                the Region where they were created. To describe a prefix domain for a replica user\n                pool, make the request to the primary Region's endpoint.</p>\n         </note>\n         <note>\n            <p>Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For\n    this operation, you must use IAM credentials to authorize requests, and you must\n    grant yourself the corresponding IAM permission in a policy.</p>\n            <p class=\"title\">\n               <b>Learn more</b>\n            </p>\n            <ul>\n               <li>\n                  <p>\n                     <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html\">Signing Amazon Web Services API Requests</a>\n                  </p>\n               </li>\n               <li>\n                  <p>\n                     <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html\">Using the Amazon Cognito user pools API and user pool endpoints</a>\n                  </p>\n               </li>\n            </ul>\n         </note>"
          },
          "type" : "operation"
       },
@@ -10293,7 +10823,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>This exception is thrown when a feature you attempted to configure isn't\n            available in your current feature plan.</p>",
+            "smithy.api#documentation" : "<p>This exception is thrown when a feature that you attempted to use or configure\n            isn't included in your user pool's current feature plan. This can occur\n            when:</p>\n         <ul>\n            <li>\n               <p>You configure a feature that your feature plan doesn't support.</p>\n            </li>\n            <li>\n               <p>You make a request that uses a feature that requires a higher feature\n                    plan.</p>\n            </li>\n         </ul>\n         <p>To resolve this issue, upgrade your user pool to a feature plan that includes the\n            feature.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 403
          },
@@ -10620,6 +11150,89 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Represents the response from the server to the request to get the header information\n            of the CSV file for the user import job.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#GetClientToken" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ForbiddenException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#GetClientTokenRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#GetClientTokenResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Issues an access token for machine-to-machine (M2M) authorization. Your app client\n            provides its client ID and secret, and receives an access token that authorizes requests\n            to your resource servers.</p>\n         <p>To use this operation, you must configure the app client with a client secret and\n            enable the <code>ALLOW_CLIENT_TOKEN_AUTH</code> authentication flow. The\n            <code>ALLOW_CLIENT_TOKEN_AUTH</code> flow is mutually exclusive with user authentication\n            flows. It must be the only authentication flow that you configure for the app client. For\n            more information, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-define-resource-servers.html\">Scopes, M2M, and resource servers</a>.</p>\n         <note>\n            <p>Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For\n    this operation, you can't use IAM credentials to authorize requests, and you can't\n    grant IAM permissions in policies. For more information about authorization models in\n    Amazon Cognito, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html\">Using the Amazon Cognito user pools API and user pool endpoints</a>.</p>\n         </note>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#GetClientTokenRequest" : {
+         "members" : {
+            "ClientId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app client that requests the access token. The app client must have a\n            client secret and the <code>ALLOW_CLIENT_TOKEN_AUTH</code> authentication flow.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ClientMetadata" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientMetadataType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of custom key-value pairs that you can provide as input for any custom workflows\n            that this action triggers. You create custom workflows by assigning Lambda functions\n            to user pool triggers.</p>\n         <p>When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the\n            function receives as input. This payload contains a <code>clientMetadata</code>\n            attribute that provides the data that you assigned to the ClientMetadata parameter in\n            your request. In your function code, you can process the <code>clientMetadata</code>\n            value to enhance your workflow for your specific needs.</p>\n         <p>To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event\">\nConnecting API actions to Lambda triggers</a> in the <i>Amazon Cognito Developer Guide</i>.</p>\n         <note>\n            <p>When you use the <code>ClientMetadata</code> parameter, note that Amazon Cognito won't do the\n                following:</p>\n            <ul>\n               <li>\n                  <p>Store the <code>ClientMetadata</code> value. This data is available only\n                        to Lambda triggers that are assigned to a user pool to support custom\n                        workflows. If your user pool configuration doesn't include triggers, the\n                        <code>ClientMetadata</code> parameter serves no purpose.</p>\n               </li>\n               <li>\n                  <p>Validate the <code>ClientMetadata</code> value.</p>\n               </li>\n               <li>\n                  <p>Encrypt the <code>ClientMetadata</code> value. Don't send sensitive\n                        information in this parameter.</p>\n               </li>\n            </ul>\n         </note>"
+               }
+            },
+            "Scopes" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ScopeListType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The custom scopes to authorize in the access token, in the format\n                <code>resource-server-identifier/scope-name</code>. Each scope must belong to a\n            resource server in your user pool. If you don't specify any scopes, Amazon Cognito authorizes the\n            scopes that are configured for the app client.</p>"
+               }
+            },
+            "Secret" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientSecretType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An active secret for the app client.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#GetClientTokenResponse" : {
+         "members" : {
+            "ClientAuthenticationResult" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientAuthenticationResultType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The access token that Amazon Cognito issues for the app client, and its metadata.</p>"
+               }
+            }
+         },
+         "traits" : {
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -11444,6 +12057,87 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.cognitoidentityprovider#GetUserPoolClientSessionConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#GetUserPoolClientSessionConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#GetUserPoolClientSessionConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the session configuration for a user pool app client. If you have never\n            called <code>SetUserPoolClientSessionConfiguration</code> for the app client, this\n            operation returns the default SSO session maximum validity of <code>60</code>\n            minutes.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#GetUserPoolClientSessionConfigurationRequest" : {
+         "members" : {
+            "ClientId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app client where you want to retrieve the session\n            configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool that contains the app client.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#GetUserPoolClientSessionConfigurationResponse" : {
+         "members" : {
+            "ClientId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app client that the session configuration applies to.</p>"
+               }
+            },
+            "SSOSession" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientSSOSessionConfigType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The SSO session settings for the app client.</p>"
+               }
+            },
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool that contains the app client.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.cognitoidentityprovider#GetUserPoolMfaConfig" : {
          "errors" : [
             {
@@ -11518,6 +12212,80 @@
                "target" : "com.amazonaws.cognitoidentityprovider#WebAuthnConfigurationType",
                "traits" : {
                   "smithy.api#documentation" : "<p>Shows user pool configuration for sign-in with passkey authenticators such as\n            biometric devices and security keys. Includes relying-party configuration,\n            user-verification requirements, and whether passkeys can satisfy MFA\n            requirements.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#GetUserPoolSessionConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#GetUserPoolSessionConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#GetUserPoolSessionConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the session tracking configuration for a user pool, including whether session\n            tracking is enabled and the pool-wide maximum number of active token sessions for\n            each user. If you have never called <code>SetUserPoolSessionConfiguration</code> for the\n            user pool, this operation returns the default values: <code>UserSessionTracking</code> as\n            <code>DISABLED</code> and a <code>MaxPerUser</code> value of <code>20</code>.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#GetUserPoolSessionConfigurationRequest" : {
+         "members" : {
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool where you want to retrieve the session configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#GetUserPoolSessionConfigurationResponse" : {
+         "members" : {
+            "TokenSession" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolTokenSessionConfigType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pool-wide token session settings for the user pool.</p>"
+               }
+            },
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool that the session configuration applies to.</p>"
+               }
+            },
+            "UserSessionTracking" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserSessionTrackingType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether session tracking is enabled for the user pool.</p>"
                }
             }
          },
@@ -11781,6 +12549,12 @@
       },
       "com.amazonaws.cognitoidentityprovider#IdentityProviderType" : {
          "members" : {
+            "AcrMapping" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#AcrMappingType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A mapping between the authentication context class reference (ACR) levels of your user\n            pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP), so\n            that your application gets a consistent step-up experience regardless of which IdP\n            authenticated the user. The map is keyed by level, from <code>Level1</code> through\n            <code>Level4</code>.</p>"
+               }
+            },
             "AttributeMapping" : {
                "target" : "com.amazonaws.cognitoidentityprovider#AttributeMappingType",
                "traits" : {
@@ -11946,6 +12720,9 @@
       "com.amazonaws.cognitoidentityprovider#InitiateAuth" : {
          "errors" : [
             {
+               "target" : "com.amazonaws.cognitoidentityprovider#FeatureUnavailableInTierException"
+            },
+            {
                "target" : "com.amazonaws.cognitoidentityprovider#ForbiddenException"
             },
             {
@@ -12031,7 +12808,7 @@
             "AuthParameters" : {
                "target" : "com.amazonaws.cognitoidentityprovider#AuthParametersType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The authentication parameters. These are inputs corresponding to the\n                <code>AuthFlow</code> that you're invoking.</p>\n         <p>The following are some authentication flows and their parameters. Add a\n                <code>SECRET_HASH</code> parameter if your app client has a client secret. Add\n                <code>DEVICE_KEY</code> if you want to bypass multi-factor authentication with a\n            remembered device. </p>\n         <dl>\n            <dt>USER_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>PREFERRED_CHALLENGE</code>. If you don't provide a\n                                value for <code>PREFERRED_CHALLENGE</code>, Amazon Cognito responds with the\n                                    <code>AvailableChallenges</code> parameter that specifies the\n                                available sign-in methods.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>USER_SRP_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>SRP_A</code> (required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>USER_PASSWORD_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>PASSWORD</code> (required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>REFRESH_TOKEN_AUTH/REFRESH_TOKEN</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>REFRESH_TOKEN</code>(required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>CUSTOM_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>ChallengeName: SRP_A</code> (when doing SRP authentication\n                                before custom challenges)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>SRP_A: (An SRP_A value)</code> (when doing SRP\n                                authentication before custom challenges)</p>\n                  </li>\n               </ul>\n            </dd>\n         </dl>\n         <p>For more information about <code>SECRET_HASH</code>, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash\">Computing secret hash values</a>. For information about\n            <code>DEVICE_KEY</code>, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html\">Working with user devices in your user pool</a>.</p>"
+                  "smithy.api#documentation" : "<p>The authentication parameters. These are inputs corresponding to the\n                <code>AuthFlow</code> that you're invoking.</p>\n         <p>The following are some authentication flows and their parameters. Add a\n                <code>SECRET_HASH</code> parameter if your app client has a client secret. Add\n                <code>DEVICE_KEY</code> if you want to bypass multi-factor authentication with a\n            remembered device. </p>\n         <dl>\n            <dt>USER_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>PREFERRED_CHALLENGE</code>. If you don't provide a\n                                value for <code>PREFERRED_CHALLENGE</code>, Amazon Cognito responds with the\n                                    <code>AvailableChallenges</code> parameter that specifies the\n                                available sign-in methods.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TARGET_ACR_VALUES</code>. An optional, space-separated list\n                                of the authentication context class reference (ACR) level URIs that\n                                you want the user to reach. List the levels in priority order, from\n                                highest to lowest. Amazon Cognito attempts the highest-priority level that the\n                                user can satisfy, and falls back through the list. Amazon Cognito ignores any\n                                value that it doesn't recognize. If none of the requested values are\n                                valid, Amazon Cognito returns an error.</p>\n                     <p>Requesting step-up authentication with this parameter requires the\n                                Essentials or Plus feature plan. On a lower feature plan, InitiateAuth\n                                returns a FeatureUnavailableInTierException. <code>USERNAME</code> is\n                                required. When you provide an <code>ACCESS_TOKEN</code>, you must also\n                                provide <code>TARGET_ACR_VALUES</code>. Amazon Cognito returns an error if you\n                                provide an <code>ACCESS_TOKEN</code> without\n                                <code>TARGET_ACR_VALUES</code>. The <code>USERNAME</code> that you\n                                provide must match the user that the <code>ACCESS_TOKEN</code> was\n                                issued for.</p>\n                     <p>For more information about step-up authentication and how Amazon Cognito\n                                handles multi-factor authentication requirements, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html\">Step-up\n                                authentication with ACR and AMR</a> in the <i>Amazon Cognito\n                                Developer Guide</i>.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>MAX_AGE</code>. An optional integer that sets the maximum\n                                number of seconds allowed since the user last authenticated. If the\n                                user's most recent authentication is older than this value, Amazon Cognito\n                                discards the authentication-methods credit from any access token that\n                                you provide and processes the request as a fresh authentication toward\n                                the target level. The access token itself remains valid.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>USER_SRP_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>SRP_A</code> (required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>USER_PASSWORD_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>PASSWORD</code> (required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>REFRESH_TOKEN_AUTH/REFRESH_TOKEN</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>REFRESH_TOKEN</code>(required)</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>CUSTOM_AUTH</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <code>USERNAME</code> (required)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>ChallengeName: SRP_A</code> (when doing SRP authentication\n                                before custom challenges)</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>SRP_A: (An SRP_A value)</code> (when doing SRP\n                                authentication before custom challenges)</p>\n                  </li>\n               </ul>\n            </dd>\n         </dl>\n         <p>For more information about <code>SECRET_HASH</code>, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash\">Computing secret hash values</a>. For information about\n            <code>DEVICE_KEY</code>, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html\">Working with user devices in your user pool</a>.</p>"
                }
             },
             "ClientId" : {
@@ -13259,6 +14036,12 @@
       },
       "com.amazonaws.cognitoidentityprovider#ListUserPoolClientsRequest" : {
          "members" : {
+            "ClientType" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientTypeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Returns only app clients of this type. For dynamic client registration\n                (<code>DCR</code>) and other app clients, the following values are valid.</p>\n         <dl>\n            <dt>REGULAR</dt>\n            <dd>\n               <p>An app client not created through dynamic client registration.</p>\n            </dd>\n            <dt>DCR</dt>\n            <dd>\n               <p>An app client created through dynamic client registration.</p>\n            </dd>\n         </dl>\n         <p>If you omit <code>ClientType</code>, the response includes app clients of all types.\n            When you set this filter, a page of results can contain fewer app clients than\n                <code>MaxResults</code>, or none, while the response still includes a\n                <code>NextToken</code>. Continue to request pages until the response has no\n                <code>NextToken</code>. The app clients in the response don't include their\n            type. To get the type of an app client, call\n                <code>DescribeUserPoolClient</code>.</p>"
+               }
+            },
             "MaxResults" : {
                "target" : "com.amazonaws.cognitoidentityprovider#QueryLimit",
                "traits" : {
@@ -13465,6 +14248,94 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Represents the response to list user pools.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#ListUserSessions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ForbiddenException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#PasswordResetRequiredException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserNotConfirmedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#ListUserSessionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#ListUserSessionsResponse"
+         },
+         "traits" : {
+            "smithy.api#auth" : [],
+            "smithy.api#documentation" : "<p>Lists the active sessions for the currently signed-in user. Amazon Cognito authorizes this\n            operation with the user's access token and returns all of the user's active sessions\n            across every app client in the user pool, including both token sessions and SSO\n            sessions. The <code>IsCurrentSession</code> field identifies the session that the\n            calling access token belongs to. The results are eventually consistent, and new\n            sessions are typically included within a few seconds.</p>",
+            "smithy.api#optionalAuth" : {},
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#ListUserSessionsRequest" : {
+         "members" : {
+            "AccessToken" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#TokenModelType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A valid access token that Amazon Cognito issued to the user whose sessions you want to list.\n            Amazon Cognito derives the user pool and username from this token.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#PaginationKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A pagination token that Amazon Cognito returned in a previous response. Use this value to\n            retrieve the next page of results if a <code>NextToken</code> was included in a prior\n            response.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#ListUserSessionsResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#PaginationKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token to use in a subsequent request to retrieve the next page of\n            results.</p>"
+               }
+            },
+            "Sessions" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionsListType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of the user's active sessions. Each element describes one token session or SSO\n            session.</p>"
+               }
+            }
+         },
+         "traits" : {
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -13968,6 +14839,15 @@
             "smithy.api#documentation" : "<p>A managed login branding style that's assigned to a user pool app client.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#MaxSessionsPerUserType" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
       },
       "com.amazonaws.cognitoidentityprovider#MessageActionType" : {
          "members" : {
@@ -14944,6 +15824,17 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.cognitoidentityprovider#ResourceServerManagedByType" : {
+         "members" : {
+            "COGNITO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COGNITO"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.cognitoidentityprovider#ResourceServerNameType" : {
          "traits" : {
             "smithy.api#length" : {
@@ -15013,6 +15904,12 @@
                "target" : "com.amazonaws.cognitoidentityprovider#ResourceServerIdentifierType",
                "traits" : {
                   "smithy.api#documentation" : "<p>A unique resource server identifier for the resource server. The identifier can be an\n            API friendly name like <code>solar-system-data</code>. You can also set an API URL like\n                <code>https://solar-system-data-api.example.com</code> as your identifier.</p>\n         <p>Amazon Cognito represents scopes in the access token in the format\n                <code>$resource-server-identifier/$scope</code>. Longer scope-identifier strings\n            increase the size of your access tokens.</p>"
+               }
+            },
+            "ManagedBy" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceServerManagedByType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>This value is reserved for resource servers that Amazon Cognito manages. Resource servers that\n            you create don't have this value.</p>"
                }
             },
             "Name" : {
@@ -15194,6 +16091,12 @@
                   "smithy.api#documentation" : "<p>The outcome of a successful authentication process. After your application has passed\n            all challenges, Amazon Cognito returns an <code>AuthenticationResult</code> with the JSON web\n            tokens (JWTs) that indicate successful sign-in.</p>"
                }
             },
+            "AvailableChallenges" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#AvailableChallengeListType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>This response parameter lists the available authentication challenges that users can\n            select from in <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flows-selection-sdk.html#authentication-flows-selection-choice\">choice-based authentication</a>. For example, they might be\n            able to choose between passkey authentication, a one-time password from an SMS message,\n            and a traditional password.</p>"
+               }
+            },
             "ChallengeName" : {
                "target" : "com.amazonaws.cognitoidentityprovider#ChallengeNameType",
                "traits" : {
@@ -15227,6 +16130,26 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.cognitoidentityprovider#RevokeAssociatedSessionsType" : {
+         "members" : {
+            "LINKED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LINKED"
+               }
+            },
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NONE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Controls whether revoking a session also revokes the sessions that are linked to it.\n            <code>NONE</code> revokes only the targeted session. <code>LINKED</code> also revokes\n            the directly linked session or sessions, interpreted relative to the type of the\n            targeted session: revoking a token session also revokes the parent SSO session it came\n            through, and revoking an SSO session also revokes the token sessions that came through\n            it. The set of linked sessions is eventually consistent, so associated sessions are\n            typically revoked within a few seconds.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.cognitoidentityprovider#RevokeToken" : {
          "errors" : [
@@ -15283,6 +16206,12 @@
                   "smithy.api#documentation" : "<p>The client secret of the requested app client, if the client has a secret.</p>"
                }
             },
+            "RevokeAssociatedSessions" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#RevokeAssociatedSessionsType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to also revoke the SSO session that is linked to the token session\n            being revoked. <code>NONE</code>, the default, revokes only the token session that is\n            associated with the refresh token. <code>LINKED</code> also revokes the parent SSO\n            session that the token session came through; the other token sessions that came through\n            that SSO session aren't revoked. <code>LINKED</code> has no effect when session tracking\n            is disabled or when the token session has no parent SSO session.</p>"
+               }
+            },
             "Token" : {
                "target" : "com.amazonaws.cognitoidentityprovider#TokenModelType",
                "traits" : {
@@ -15297,6 +16226,87 @@
          "type" : "structure"
       },
       "com.amazonaws.cognitoidentityprovider#RevokeTokenResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#RevokeUserSession" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ForbiddenException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#PasswordResetRequiredException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserNotConfirmedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#RevokeUserSessionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#RevokeUserSessionResponse"
+         },
+         "traits" : {
+            "smithy.api#auth" : [],
+            "smithy.api#documentation" : "<p>Revokes a specific session for the currently signed-in user. Amazon Cognito authorizes this\n            operation with the user's access token, revokes all refresh and access tokens that are\n            associated with the session, and deletes the session record. You can't revoke the\n            session that the calling access token belongs to.</p>",
+            "smithy.api#optionalAuth" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#RevokeUserSessionRequest" : {
+         "members" : {
+            "AccessToken" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#TokenModelType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A valid access token that Amazon Cognito issued to the user. Amazon Cognito uses this token to authorize\n            the request and to identify the user.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RevokeAssociatedSessions" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#RevokeAssociatedSessionsType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to also revoke the sessions that are linked to the targeted session.\n            <code>NONE</code>, the default, revokes only the targeted session. <code>LINKED</code>\n            also revokes the directly linked session or sessions, interpreted relative to the type\n            of the targeted session: revoking a token session also revokes the parent SSO session it\n            came through, and revoking an SSO session also revokes the token sessions that came\n            through it. The set of linked sessions is eventually consistent, so associated\n            sessions are typically revoked within a few seconds.</p>"
+               }
+            },
+            "SessionId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the session to revoke. This is a 28-character string of lowercase letters\n            and digits, prefixed with <code>tkn</code> for a token session or <code>sso</code> for\n            an SSO session. This value can't identify the caller's own current session.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#RevokeUserSessionResponse" : {
          "members" : {},
          "traits" : {
             "smithy.api#output" : {}
@@ -15493,6 +16503,15 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.cognitoidentityprovider#SSOSessionMaxValidityMinutesType" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 129600,
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
       "com.amazonaws.cognitoidentityprovider#SchemaAttributeType" : {
          "members" : {
             "AttributeDataType" : {
@@ -15665,15 +16684,182 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.cognitoidentityprovider#SessionDescriptionType" : {
+         "members" : {
+            "ClientId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app client that the session belongs to.</p>"
+               }
+            },
+            "CreateDate" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#DateType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the session was created.</p>"
+               }
+            },
+            "DeviceType" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionDeviceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the device associated with the most recent activity on the session,\n            derived from the parsed user agent (operating system and browser or app). Amazon Cognito\n            overwrites this value on each sign-in, refresh, and rotation. The value can be\n            <code>unknown</code>. The maximum length is 1,024 characters.</p>"
+               }
+            },
+            "IsCurrentSession" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#WrappedBooleanType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether this session matches the access token supplied in the request. This\n            value is always <code>false</code> for the <code>AdminListUserSessions</code> operation,\n            which doesn't take an access token.</p>"
+               }
+            },
+            "LastActiveDate" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#DateType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time of the most recent activity on the session. For a token session,\n            this is the most recent token refresh or rotation; a new authentication creates a new\n            token session rather than updating an existing one. For an SSO session, this is the most\n            recent authentication, token grant, or token rotation.</p>"
+               }
+            },
+            "LastIPAddress" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionIpAddressType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IP address associated with the most recent activity on the session. Amazon Cognito\n            overwrites this value on each refresh and rotation. The maximum length is 128\n            characters.</p>"
+               }
+            },
+            "LastLocation" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionLocationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The geographic location of the most recent activity on the session, derived from the\n            IP address.</p>"
+               }
+            },
+            "OriginSessionId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>For a token session, the ID of the SSO session that the token session originated from.\n            This value is null for sessions that were initiated through the API and didn't come\n            through an SSO session. Amazon Cognito returns this value for token sessions only.</p>"
+               }
+            },
+            "SessionId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the session. This is a 28-character string of lowercase\n            letters and digits, prefixed with <code>tkn</code> for a token session or\n            <code>sso</code> for an SSO session.</p>"
+               }
+            },
+            "SessionType" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionTypeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the session. Valid values are <code>TOKEN</code> and\n            <code>SSO</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes an active user session. Amazon Cognito returns this type in the responses of\n            <code>ListUserSessions</code> and <code>AdminListUserSessions</code>, for both token\n            sessions and SSO sessions.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#SessionDeviceType" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.cognitoidentityprovider#SessionIdType" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 28,
+               "min" : 28
+            },
+            "smithy.api#pattern" : "^(tkn|sso)[a-z0-9]{25}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.cognitoidentityprovider#SessionIpAddressType" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.cognitoidentityprovider#SessionLocationCityType" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.cognitoidentityprovider#SessionLocationCountryType" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.cognitoidentityprovider#SessionLocationType" : {
+         "members" : {
+            "City" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionLocationCityType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The city of the most recent activity on the session, derived from the IP address. This\n            value can be null if geo-IP resolution fails. The maximum length is 256\n            characters.</p>"
+               }
+            },
+            "Country" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#SessionLocationCountryType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The country of the most recent activity on the session, derived from the IP address\n            and returned in English (for example, <code>United States</code>). This is a country\n            name as returned by the geo-IP database, not an ISO country code, and can be\n            <code>unknown</code> if geo-IP resolution fails.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The geographic location of the most recent activity on a session, derived from the IP\n            address.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.cognitoidentityprovider#SessionType" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 2048,
+               "max" : 4096,
                "min" : 20
             },
             "smithy.api#sensitive" : {}
          },
          "type" : "string"
+      },
+      "com.amazonaws.cognitoidentityprovider#SessionTypeType" : {
+         "members" : {
+            "SSO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SSO"
+               }
+            },
+            "TOKEN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TOKEN"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of a user session. <code>TOKEN</code> identifies a token session, which\n            represents an app's authenticated session for a user and is tied to a refresh token.\n            <code>SSO</code> identifies an SSO session, which is a single sign-on (SSO) session that\n            records an authentication through managed login and can let the user sign in to other\n            apps without re-authenticating.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.cognitoidentityprovider#SessionsListType" : {
+         "member" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#SessionDescriptionType"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 125,
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.cognitoidentityprovider#SetLogDeliveryConfiguration" : {
          "errors" : [
@@ -16007,6 +17193,99 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.cognitoidentityprovider#SetUserPoolClientSessionConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ConcurrentModificationException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#FeatureUnavailableInTierException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#SetUserPoolClientSessionConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#SetUserPoolClientSessionConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Sets the session configuration for a user pool app client. The configurable\n            client-level setting is the maximum validity period for silent reuse of an SSO session.\n            This operation performs a full replacement of the client-level session configuration;\n            every request parameter is required, and session tracking must be enabled for the user\n            pool. The user pool must be in the Essentials or Plus tier. Otherwise, this operation\n            returns a <code>FeatureUnavailableInTierException</code>.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#SetUserPoolClientSessionConfigurationRequest" : {
+         "members" : {
+            "ClientId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app client that you want to configure.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SSOSession" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientSSOSessionConfigType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The SSO session settings for the app client.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool that contains the app client.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#SetUserPoolClientSessionConfigurationResponse" : {
+         "members" : {
+            "ClientId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the app client that the session configuration was applied to.</p>"
+               }
+            },
+            "SSOSession" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientSSOSessionConfigType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The SSO session settings that were applied to the app client.</p>"
+               }
+            },
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool that contains the app client.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.cognitoidentityprovider#SetUserPoolMfaConfig" : {
          "errors" : [
             {
@@ -16126,6 +17405,99 @@
                "target" : "com.amazonaws.cognitoidentityprovider#WebAuthnConfigurationType",
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration of your user pool for passkey, or WebAuthn, sign-in with\n            authenticators such as biometric and security-key devices. Includes relying-party\n            configuration and settings for user-verification requirements.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#SetUserPoolSessionConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ConcurrentModificationException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#FeatureUnavailableInTierException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InternalErrorException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#NotAuthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#OperationNotEnabledException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.cognitoidentityprovider#TooManyRequestsException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#SetUserPoolSessionConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.cognitoidentityprovider#SetUserPoolSessionConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Enables or disables session tracking for a user pool, and sets the pool-wide maximum\n            number of active token sessions that each user can have. This operation performs a\n            full replacement of the pool-level session configuration; every request parameter is\n            required. The user pool must be in the Essentials or Plus tier. Otherwise, this\n            operation returns a <code>FeatureUnavailableInTierException</code>.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.cognitoidentityprovider#SetUserPoolSessionConfigurationRequest" : {
+         "members" : {
+            "TokenSession" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolTokenSessionConfigType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pool-wide token session settings to apply.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool where you want to configure session tracking.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserSessionTracking" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserSessionTrackingType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether Amazon Cognito tracks sessions for users in the user pool. Set this value to\n            <code>ENABLED</code> to turn on server-side session tracking, or <code>DISABLED</code>\n            to turn it off. When you set this value to <code>DISABLED</code> while the user pool\n            remains active, existing client-level session configurations are retained but dormant,\n            and are reactivated when you enable tracking again.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#SetUserPoolSessionConfigurationResponse" : {
+         "members" : {
+            "TokenSession" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolTokenSessionConfigType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pool-wide token session settings that were applied.</p>"
+               }
+            },
+            "UserPoolId" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserPoolIdType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the user pool that the session configuration was applied to.</p>"
+               }
+            },
+            "UserSessionTracking" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#UserSessionTrackingType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The session tracking setting that was applied to the user pool.</p>"
                }
             }
          },
@@ -17677,6 +19049,12 @@
       },
       "com.amazonaws.cognitoidentityprovider#UpdateIdentityProviderRequest" : {
          "members" : {
+            "AcrMapping" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#AcrMappingType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A mapping between the authentication context class reference (ACR) levels of your user\n            pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP).\n            This mapping has the same behavior as it does when you create an identity provider. Only\n            OIDC IdPs support ACR mapping.</p>\n         <p>Setting <code>AcrMapping</code> is available in all feature plans. It isn't restricted\n            to the Essentials or Plus feature plan.</p>"
+               }
+            },
             "AttributeMapping" : {
                "target" : "com.amazonaws.cognitoidentityprovider#AttributeMappingType",
                "traits" : {
@@ -18660,6 +20038,12 @@
                   "smithy.api#documentation" : "<p>The available verified method a user can use to recover their password when they call\n                <code>ForgotPassword</code>. You can use this setting to define a preferred method\n            when a user has more than one method available. With this setting, SMS doesn't qualify\n            for a valid password recovery mechanism if the user also has SMS multi-factor\n            authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy\n            behavior to determine the recovery method where SMS is preferred through email.</p>"
                }
             },
+            "AcrConfiguration" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#AcrConfigurationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The custom names for the authentication context class reference\n            (ACR) levels in your user pool. This configuration has the same behavior as it does when\n            you create a user pool: you customize only the URI name that Amazon Cognito reports for\n            each of the four fixed ACR levels, and any level that you don't specify keeps its default\n            name. Each name must be unique across all four levels, including default names.</p>\n         <p>Configuring custom ACR level names requires the Essentials or Plus feature plan.\n            To activate this setting, your user pool must be in the <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html\">\n                     Essentials tier</a> or higher.</p>"
+               }
+            },
             "AdminCreateUserConfig" : {
                "target" : "com.amazonaws.cognitoidentityprovider#AdminCreateUserConfigType",
                "traits" : {
@@ -18670,6 +20054,12 @@
                "target" : "com.amazonaws.cognitoidentityprovider#VerifiedAttributesListType",
                "traits" : {
                   "smithy.api#documentation" : "<p>The attributes that you want your user pool to automatically verify. Possible values:\n                <b>email</b>, <b>phone_number</b>. For more information see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#allowing-users-to-sign-up-and-confirm-themselves\">Verifying contact information at sign-up</a>.</p>"
+               }
+            },
+            "DcrConfiguration" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#DcrConfigurationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dynamic client registration configuration for the user pool. With dynamic client\n            registration, applications can register their own app clients at runtime through the\n            registration endpoint of your user pool domain. To activate this setting, your user pool must be in the <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html\">\n                     Essentials tier</a> or higher.</p>\n         <p>If you omit this parameter, Amazon Cognito keeps the existing configuration. If you include it,\n            Amazon Cognito replaces the existing configuration with the one that you provide. Members that you\n            omit revert to their default values, and an omitted <code>EnableStatus</code> turns\n            dynamic client registration on.</p>\n         <p>To change the feature plan of the user pool to Lite, you must also set\n                <code>EnableStatus</code> to <code>Disabled</code>.</p>"
                }
             },
             "DeletionProtection" : {
@@ -19231,6 +20621,12 @@
                   "smithy.api#documentation" : "<p>The app client secret.</p>"
                }
             },
+            "ClientType" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#ClientTypeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>How the app client was created.</p>\n         <dl>\n            <dt>REGULAR</dt>\n            <dd>\n               <p>The app client wasn't created through dynamic client registration.\n                        For example, you created it with <code>CreateUserPoolClient</code>.</p>\n            </dd>\n            <dt>DCR</dt>\n            <dd>\n               <p>An application registered the app client through dynamic client\n                        registration. These app clients don't support client secret operations\n                        such as <code>AddUserPoolClientSecret</code>, and they can't hold the\n                            <code>aws.cognito/dcr/register</code> scope.</p>\n            </dd>\n         </dl>"
+               }
+            },
             "CreationDate" : {
                "target" : "com.amazonaws.cognitoidentityprovider#DateType",
                "traits" : {
@@ -19545,12 +20941,33 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.cognitoidentityprovider#UserPoolTokenSessionConfigType" : {
+         "members" : {
+            "MaxPerUser" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#MaxSessionsPerUserType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of active token sessions that a user can have across the user\n            pool. The minimum value is <code>1</code> and the maximum value is <code>100</code>. The\n            default is <code>20</code>. When a user reaches this limit, the next successful\n            authentication automatically evicts that user's least recently used token session before\n            it creates the new session. Lowering this value doesn't evict existing sessions on its\n            own; the user is brought back within the limit on their next sign-in.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The pool-wide token session settings for a user pool.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.cognitoidentityprovider#UserPoolType" : {
          "members" : {
             "AccountRecoverySetting" : {
                "target" : "com.amazonaws.cognitoidentityprovider#AccountRecoverySettingType",
                "traits" : {
                   "smithy.api#documentation" : "<p>The available verified method a user can use to recover their password when they call\n                <code>ForgotPassword</code>. You can use this setting to define a preferred method\n            when a user has more than one method available. With this setting, SMS doesn't qualify\n            for a valid password recovery mechanism if the user also has SMS multi-factor\n            authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy\n            behavior to determine the recovery method where SMS is preferred through email.</p>"
+               }
+            },
+            "AcrConfiguration" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#AcrConfigurationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The names of the authentication context class reference (ACR) levels for the user\n            pool. Amazon Cognito always returns the effective configuration, with default names\n            merged in for any level that you haven't customized.</p>\n         <p>Configuring custom ACR level names requires the Essentials or Plus feature plan.\n            To activate this setting, your user pool must be in the <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html\">\n                     Essentials tier</a> or higher.</p>"
                }
             },
             "AdminCreateUserConfig" : {
@@ -19587,6 +21004,12 @@
                "target" : "com.amazonaws.cognitoidentityprovider#DomainType",
                "traits" : {
                   "smithy.api#documentation" : "<p>A custom domain name that you provide to Amazon Cognito. This parameter applies only if you use\n            a custom domain to host the sign-up and sign-in pages for your application. An example\n            of a custom domain name might be <code>auth.example.com</code>.</p>\n         <p>For more information about adding a custom domain to your user pool, see <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html\">Using Your Own Domain for the Hosted UI</a>.</p>"
+               }
+            },
+            "DcrConfiguration" : {
+               "target" : "com.amazonaws.cognitoidentityprovider#DcrConfigurationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dynamic client registration configuration for the user pool. With dynamic client\n            registration, applications can register their own app clients at runtime through the\n            registration endpoint of your user pool domain. To activate this setting, your user pool must be in the <a href=\"https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html\">\n                     Essentials tier</a> or higher.</p>"
                }
             },
             "DeletionProtection" : {
@@ -19772,6 +21195,23 @@
             "smithy.api#documentation" : "<p>The configuration of a user pool.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.cognitoidentityprovider#UserSessionTrackingType" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLED"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.cognitoidentityprovider#UserStatusType" : {
          "members" : {
