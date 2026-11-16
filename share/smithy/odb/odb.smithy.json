@@ -251,6 +251,94 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.odb#AssociateVirtualMachinesToCloudVmCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.odb#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.odb#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.odb#AssociateVirtualMachinesToCloudVmClusterInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.odb#AssociateVirtualMachinesToCloudVmClusterOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Adds virtual machines to the specified VM cluster.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.odb#AssociateVirtualMachinesToCloudVmClusterInput" : {
+         "members" : {
+            "cloudVmClusterId" : {
+               "target" : "com.amazonaws.odb#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the VM cluster to add virtual machines to.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "dbServers" : {
+               "target" : "com.amazonaws.odb#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of database server IDs for the virtual machines to add to the VM cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#AssociateVirtualMachinesToCloudVmClusterOutput" : {
+         "members" : {
+            "cloudVmClusterId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the VM cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user-friendly name for the VM cluster.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.odb#ResourceStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the VM cluster.</p>"
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional information about the current status of the VM cluster, if applicable.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.odb#AssociateVirtualMachinesToExadbVmCluster" : {
          "errors" : [
             {
@@ -2893,6 +2981,12 @@
                   "smithy.api#documentation" : "<p>The Oracle Cloud Identifier (OCID) of the Autonomous VM cluster.</p>"
                }
             },
+            "ocpusLowestScaledValue" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum value to which you can scale down the number of CPU cores.</p>"
+               }
+            },
             "odbNetworkArn" : {
                "target" : "com.amazonaws.odb#ResourceArn",
                "traits" : {
@@ -3040,7 +3134,10 @@
                "name" : "cloud-autonomous-vm-cluster"
             }
          },
-         "type" : "resource"
+         "type" : "resource",
+         "update" : {
+            "target" : "com.amazonaws.odb#UpdateCloudAutonomousVmCluster"
+         }
       },
       "com.amazonaws.odb#CloudAutonomousVmClusterResourceDetails" : {
          "members" : {
@@ -3282,6 +3379,12 @@
                   "smithy.api#documentation" : "<p>The Oracle Cloud Identifier (OCID) of the Autonomous VM cluster.</p>"
                }
             },
+            "ocpusLowestScaledValue" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum value to which you can scale down the number of CPU cores.</p>"
+               }
+            },
             "odbNetworkArn" : {
                "target" : "com.amazonaws.odb#ResourceArn",
                "traits" : {
@@ -3498,6 +3601,12 @@
                   "smithy.api#documentation" : "<p>The user-friendly name for the Exadata infrastructure.</p>"
                }
             },
+            "exascaleConfiguration" : {
+               "target" : "com.amazonaws.odb#ExascaleConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Exascale storage configuration of the Exadata infrastructure. This value is present only when Exascale storage is configured on the infrastructure.</p>"
+               }
+            },
             "lastMaintenanceRunId" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -3621,7 +3730,7 @@
             "totalStorageSizeInGBs" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The total amount of storage, in gigabytes (GB), on the the Exadata infrastructure.</p>"
+                  "smithy.api#documentation" : "<p>The total amount of storage, in gigabytes (GB), on the Exadata infrastructure.</p>"
                }
             }
          },
@@ -3660,6 +3769,12 @@
             },
             {
                "target" : "com.amazonaws.odb#ListDbServers"
+            },
+            {
+               "target" : "com.amazonaws.odb#UpdateCloudExadataInfrastructureStorageCapacity"
+            },
+            {
+               "target" : "com.amazonaws.odb#UpdateExascaleCloudExadataInfrastructure"
             }
          ],
          "read" : {
@@ -3782,6 +3897,12 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The user-friendly name for the Exadata infrastructure.</p>"
+               }
+            },
+            "exascaleConfiguration" : {
+               "target" : "com.amazonaws.odb#ExascaleConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Exascale storage configuration of the Exadata infrastructure. This value is present only when Exascale storage is configured on the infrastructure.</p>"
                }
             },
             "lastMaintenanceRunId" : {
@@ -3907,7 +4028,7 @@
             "totalStorageSizeInGBs" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The total amount of storage, in gigabytes (GB), on the the Exadata infrastructure.</p>"
+                  "smithy.api#documentation" : "<p>The total amount of storage, in gigabytes (GB), on the Exadata infrastructure.</p>"
                }
             }
          },
@@ -4060,6 +4181,24 @@
                   "smithy.api#documentation" : "<p>The domain of the VM cluster.</p>"
                }
             },
+            "exascaleDbStorageVaultArn" : {
+               "target" : "com.amazonaws.odb#ResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Exascale storage vault that the VM cluster uses. This value is present only for VM clusters that use an Exascale storage vault.</p>"
+               }
+            },
+            "exascaleDbStorageVaultId" : {
+               "target" : "com.amazonaws.odb#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Exascale storage vault that the VM cluster uses. This value is present only for VM clusters that use an Exascale storage vault.</p>"
+               }
+            },
+            "fileSystemConfigurationDetails" : {
+               "target" : "com.amazonaws.odb#FileSystemConfigurationDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of file system configurations for the VM cluster.</p>"
+               }
+            },
             "giVersion" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -4204,6 +4343,12 @@
                   "smithy.api#documentation" : "<p>Additional information about the status of the VM cluster.</p>"
                }
             },
+            "storageManagementType" : {
+               "target" : "com.amazonaws.odb#StorageManagementType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of storage management for the VM cluster. A value of <code>ASM</code> indicates Oracle Automatic Storage Management, and <code>EXASCALE</code> indicates Exascale storage.</p>"
+               }
+            },
             "storageSizeInGBs" : {
                "target" : "smithy.api#Integer",
                "traits" : {
@@ -4226,6 +4371,18 @@
                "target" : "com.amazonaws.odb#StringList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The virtual IP (VIP) addresses that are associated with the VM cluster. Oracle's Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the VM cluster to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.</p>"
+               }
+            },
+            "vmBackupStorageType" : {
+               "target" : "com.amazonaws.odb#VmStorageType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of storage that the VM cluster uses for VM backups.</p>"
+               }
+            },
+            "vmFileSystemStorageType" : {
+               "target" : "com.amazonaws.odb#VmStorageType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of storage that the VM cluster uses for its VM file systems.</p>"
                }
             }
          },
@@ -4255,6 +4412,14 @@
          "list" : {
             "target" : "com.amazonaws.odb#ListCloudVmClusters"
          },
+         "operations" : [
+            {
+               "target" : "com.amazonaws.odb#AssociateVirtualMachinesToCloudVmCluster"
+            },
+            {
+               "target" : "com.amazonaws.odb#DisassociateVirtualMachinesFromCloudVmCluster"
+            }
+         ],
          "read" : {
             "target" : "com.amazonaws.odb#GetCloudVmCluster"
          },
@@ -4266,7 +4431,10 @@
                "name" : "cloud-vm-cluster"
             }
          },
-         "type" : "resource"
+         "type" : "resource",
+         "update" : {
+            "target" : "com.amazonaws.odb#UpdateCloudVmCluster"
+         }
       },
       "com.amazonaws.odb#CloudVmClusterSummary" : {
          "members" : {
@@ -4357,6 +4525,24 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The domain of the VM cluster.</p>"
+               }
+            },
+            "exascaleDbStorageVaultArn" : {
+               "target" : "com.amazonaws.odb#ResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Exascale storage vault that the VM cluster uses. This value is present only for VM clusters that use an Exascale storage vault.</p>"
+               }
+            },
+            "exascaleDbStorageVaultId" : {
+               "target" : "com.amazonaws.odb#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Exascale storage vault that the VM cluster uses. This value is present only for VM clusters that use an Exascale storage vault.</p>"
+               }
+            },
+            "fileSystemConfigurationDetails" : {
+               "target" : "com.amazonaws.odb#FileSystemConfigurationDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of file system configurations for the VM cluster.</p>"
                }
             },
             "giVersion" : {
@@ -4500,6 +4686,12 @@
                   "smithy.api#documentation" : "<p>Additional information about the status of the VM cluster.</p>"
                }
             },
+            "storageManagementType" : {
+               "target" : "com.amazonaws.odb#StorageManagementType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of storage management for the VM cluster. A value of <code>ASM</code> indicates Oracle Automatic Storage Management, and <code>EXASCALE</code> indicates Exascale storage.</p>"
+               }
+            },
             "storageSizeInGBs" : {
                "target" : "smithy.api#Integer",
                "traits" : {
@@ -4522,6 +4714,18 @@
                "target" : "com.amazonaws.odb#StringList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The virtual IP (VIP) addresses that are associated with the VM cluster. Oracle's Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the VM cluster to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.</p>"
+               }
+            },
+            "vmBackupStorageType" : {
+               "target" : "com.amazonaws.odb#VmStorageType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of storage that the VM cluster uses for VM backups.</p>"
+               }
+            },
+            "vmFileSystemStorageType" : {
+               "target" : "com.amazonaws.odb#VmStorageType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of storage that the VM cluster uses for its VM file systems.</p>"
                }
             }
          },
@@ -5707,6 +5911,18 @@
                   "smithy.api#required" : {}
                }
             },
+            "exascaleDbStorageVaultId" : {
+               "target" : "com.amazonaws.odb#ResourceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier or Amazon Resource Name (ARN) of the Exascale storage vault to use for the VM cluster. Specify this value to create a VM cluster that uses Exascale storage on dedicated Exadata infrastructure.</p>"
+               }
+            },
+            "fileSystemConfigurationDetails" : {
+               "target" : "com.amazonaws.odb#FileSystemConfigurationDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of file system configurations for the VM cluster. Each entry specifies the mount point of a file system and its size, in gigabytes (GB).</p>"
+               }
+            },
             "giVersion" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -5798,6 +6014,18 @@
                      "min" : 1
                   }
                }
+            },
+            "vmBackupStorageType" : {
+               "target" : "com.amazonaws.odb#VmStorageType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of storage to use for VM backups. Specify <code>EXASCALE</code> to store VM backups in Exascale storage on the storage servers, or <code>LOCAL</code> to store them on the database servers.</p>"
+               }
+            },
+            "vmFileSystemStorageType" : {
+               "target" : "com.amazonaws.odb#VmStorageType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of storage to use for the VM file systems. Specify <code>EXASCALE</code> to store the VM file systems in Exascale storage on the storage servers, or <code>LOCAL</code> to store them on the database servers.</p>"
+               }
             }
          },
          "traits" : {
@@ -5805,6 +6033,9 @@
             "smithy.api#references" : [
                {
                   "resource" : "com.amazonaws.odb#CloudExadataInfrastructureResource"
+               },
+               {
+                  "resource" : "com.amazonaws.odb#ExascaleDbStorageVaultResource"
                },
                {
                   "resource" : "com.amazonaws.odb#OdbNetworkResource"
@@ -5891,7 +6122,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.odb#GeneralInputString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates one and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#length" : {
                      "max" : 64,
@@ -5979,7 +6210,7 @@
             "scanListenerPortTcp" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections to the single client access name (SCAN) listener.</p>",
+                  "smithy.api#documentation" : "<p>The port number for TCP connections to the Single Client Access Name (SCAN) listener.</p>",
                   "smithy.api#range" : {
                      "max" : 8999,
                      "min" : 1024
@@ -5989,7 +6220,7 @@
             "scanListenerPortTcpSsl" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections with SSL to the single client access name (SCAN) listener.</p>",
+                  "smithy.api#documentation" : "<p>Reserved for future use.</p>",
                   "smithy.api#range" : {
                      "max" : 8999,
                      "min" : 1024
@@ -6125,6 +6356,9 @@
                "target" : "com.amazonaws.odb#InternalServerException"
             },
             {
+               "target" : "com.amazonaws.odb#ResourceNotFoundException"
+            },
+            {
                "target" : "com.amazonaws.odb#ServiceQuotaExceededException"
             },
             {
@@ -6145,7 +6379,7 @@
                "aws:RequestTag/${TagKey}",
                "aws:TagKeys"
             ],
-            "smithy.api#documentation" : "<p>Creates an Exascale storage vault.</p>",
+            "smithy.api#documentation" : "<p>Creates an Exascale storage vault.</p> <p>To create the Exascale storage vault on dedicated Exadata infrastructure, specify <code>cloudExadataInfrastructureId</code>.</p>",
             "smithy.api#idempotent" : {}
          },
          "type" : "operation"
@@ -6193,12 +6427,18 @@
             "clientToken" : {
                "target" : "com.amazonaws.odb#GeneralInputString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates one and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.</p>",
                   "smithy.api#idempotencyToken" : {},
                   "smithy.api#length" : {
                      "max" : 64,
                      "min" : 8
                   }
+               }
+            },
+            "cloudExadataInfrastructureId" : {
+               "target" : "com.amazonaws.odb#ResourceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier or Amazon Resource Name (ARN) of the Exadata infrastructure on which to create the Exascale storage vault. Specify this value to create the Exascale storage vault on dedicated Exadata infrastructure that has Exascale storage configured. If you specify <code>availabilityZone</code> or <code>availabilityZoneId</code>, the value must match the Availability Zone of the Exadata infrastructure. If you specify neither, the service uses the Availability Zone of the Exadata infrastructure.</p>"
                }
             },
             "description" : {
@@ -6252,7 +6492,12 @@
             }
          },
          "traits" : {
-            "smithy.api#input" : {}
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "resource" : "com.amazonaws.odb#CloudExadataInfrastructureResource"
+               }
+            ]
          },
          "type" : "structure"
       },
@@ -8809,6 +9054,94 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.odb#DisassociateVirtualMachinesFromCloudVmCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.odb#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.odb#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.odb#DisassociateVirtualMachinesFromCloudVmClusterInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.odb#DisassociateVirtualMachinesFromCloudVmClusterOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Removes virtual machines from the specified VM cluster.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.odb#DisassociateVirtualMachinesFromCloudVmClusterInput" : {
+         "members" : {
+            "cloudVmClusterId" : {
+               "target" : "com.amazonaws.odb#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the VM cluster to remove virtual machines from.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "dbServers" : {
+               "target" : "com.amazonaws.odb#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of database server IDs for the virtual machines to remove from the VM cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#DisassociateVirtualMachinesFromCloudVmClusterOutput" : {
+         "members" : {
+            "cloudVmClusterId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the VM cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user-friendly name for the VM cluster.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.odb#ResourceStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the VM cluster.</p>"
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional information about the current status of the VM cluster, if applicable.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.odb#DisassociateVirtualMachinesFromExadbVmCluster" : {
          "errors" : [
             {
@@ -9288,13 +9621,13 @@
             "scanListenerPortTcp" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections to the single client access name (SCAN) listener for the Exascale VM cluster.</p>"
+                  "smithy.api#documentation" : "<p>The port number for TCP connections to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.</p>"
                }
             },
             "scanListenerPortTcpSsl" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections with SSL to the single client access name (SCAN) listener for the Exascale VM cluster.</p>"
+                  "smithy.api#documentation" : "<p>Reserved for future use.</p>"
                }
             },
             "shape" : {
@@ -9621,13 +9954,13 @@
             "scanListenerPortTcp" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections to the single client access name (SCAN) listener for the Exascale VM cluster.</p>"
+                  "smithy.api#documentation" : "<p>The port number for TCP connections to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.</p>"
                }
             },
             "scanListenerPortTcpSsl" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The port number for TCP connections with SSL to the single client access name (SCAN) listener for the Exascale VM cluster.</p>"
+                  "smithy.api#documentation" : "<p>Reserved for future use.</p>"
                }
             },
             "shape" : {
@@ -9708,6 +10041,38 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.odb#ExascaleConfiguration" : {
+         "members" : {
+            "availableStorageSizeInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of Exascale storage, in gigabytes (GB), that's available on the Exadata infrastructure.</p>"
+               }
+            },
+            "availableVmStorageSizeInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of Exascale VM storage, in gigabytes (GB), that's available on the Exadata infrastructure.</p>"
+               }
+            },
+            "totalStorageSizeInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total amount of Exascale storage, in gigabytes (GB), configured on the Exadata infrastructure.</p>"
+               }
+            },
+            "totalVmStorageSizeInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total amount of Exascale VM storage, in gigabytes (GB), on the Exadata infrastructure. VM clusters use Exascale VM storage for their VM file systems and VM backups.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Exascale storage configuration of an Exadata infrastructure.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.odb#ExascaleDbStorageDetails" : {
          "members" : {
             "availableSizeInGBs" : {
@@ -9758,6 +10123,18 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Availability Zone ID for the Exascale storage vault.</p>"
+               }
+            },
+            "cloudExadataInfrastructureArn" : {
+               "target" : "com.amazonaws.odb#ResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Exadata infrastructure that hosts the Exascale storage vault. This value is present only for vaults on dedicated Exadata infrastructure.</p>"
+               }
+            },
+            "cloudExadataInfrastructureId" : {
+               "target" : "com.amazonaws.odb#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Exadata infrastructure that hosts the Exascale storage vault. This value is present only for vaults on dedicated Exadata infrastructure.</p>"
                }
             },
             "createdAt" : {
@@ -9844,6 +10221,12 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The time zone of the Exascale storage vault.</p>"
+               }
+            },
+            "vaultType" : {
+               "target" : "com.amazonaws.odb#ExascaleDbStorageVaultType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of infrastructure that hosts the Exascale storage vault.</p>"
                }
             },
             "vmClusterArns" : {
@@ -9939,6 +10322,18 @@
                   "smithy.api#documentation" : "<p>The Availability Zone ID for the Exascale storage vault.</p>"
                }
             },
+            "cloudExadataInfrastructureArn" : {
+               "target" : "com.amazonaws.odb#ResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Exadata infrastructure that hosts the Exascale storage vault. This value is present only for vaults on dedicated Exadata infrastructure.</p>"
+               }
+            },
+            "cloudExadataInfrastructureId" : {
+               "target" : "com.amazonaws.odb#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Exadata infrastructure that hosts the Exascale storage vault. This value is present only for vaults on dedicated Exadata infrastructure.</p>"
+               }
+            },
             "createdAt" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
@@ -10025,6 +10420,12 @@
                   "smithy.api#documentation" : "<p>The time zone of the Exascale storage vault.</p>"
                }
             },
+            "vaultType" : {
+               "target" : "com.amazonaws.odb#ExascaleDbStorageVaultType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of infrastructure that hosts the Exascale storage vault.</p>"
+               }
+            },
             "vmClusterArns" : {
                "target" : "com.amazonaws.odb#ResourceArnList",
                "traits" : {
@@ -10048,6 +10449,25 @@
             "smithy.api#documentation" : "<p>Summary information about an Exascale storage vault.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.odb#ExascaleDbStorageVaultType" : {
+         "members" : {
+            "DEDICATED_INFRASTRUCTURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An Exascale storage vault on dedicated Exadata infrastructure for VM clusters.</p>",
+                  "smithy.api#enumValue" : "DEDICATED_INFRASTRUCTURE"
+               }
+            },
+            "EXASCALE_INFRASTRUCTURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An Exascale storage vault for Exascale VM clusters.</p>",
+                  "smithy.api#enumValue" : "EXASCALE_INFRASTRUCTURE"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.odb#ExternalIdType" : {
          "members" : {
@@ -10160,6 +10580,112 @@
          },
          "traits" : {
             "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#FileSystemConfigurationDetails" : {
+         "members" : {
+            "fileSystemSizeInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The size of the file system, in gigabytes (GB).</p>"
+               }
+            },
+            "mountPoint" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The mount point of the file system.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration of a file system on a VM cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#FileSystemConfigurationDetailsList" : {
+         "member" : {
+            "target" : "com.amazonaws.odb#FileSystemConfigurationDetails"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.odb#FlexComponentList" : {
+         "member" : {
+            "target" : "com.amazonaws.odb#FlexComponentSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.odb#FlexComponentSummary" : {
+         "members" : {
+            "availableCoreCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of CPU cores that can be enabled for the flex component.</p>"
+               }
+            },
+            "availableDbStorageInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum amount of database storage, in gigabytes (GB), that can be enabled for the flex component.</p>"
+               }
+            },
+            "availableLocalStorageInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum amount of local storage, in gigabytes (GB), that can be enabled for the flex component.</p>"
+               }
+            },
+            "availableMemoryInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum amount of memory, in gigabytes (GB), that can be enabled for the flex component.</p>"
+               }
+            },
+            "computeModel" : {
+               "target" : "com.amazonaws.odb#ComputeModel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The OCI model compute model used when you create or clone an instance: ECPU or OCPU. An ECPU is an abstracted measure of compute resources. ECPUs are based on the number of cores elastically allocated from a pool of compute and storage servers. An OCPU is a legacy physical measure of compute resources. OCPUs are based on the physical core of a processor with hyper-threading enabled. </p>"
+               }
+            },
+            "descriptionSummary" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary description of the flex component.</p>"
+               }
+            },
+            "hardwareType" : {
+               "target" : "com.amazonaws.odb#HardwareType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of hardware for the flex component. Valid values are <code>COMPUTE</code> for compute servers and <code>CELL</code> for storage servers.</p>"
+               }
+            },
+            "minimumCoreCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum number of CPU cores that can be enabled for the flex component.</p>"
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the flex component.</p>"
+               }
+            },
+            "runtimeMinimumCoreCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The runtime minimum number of CPU cores that can be enabled for the flex component.</p>"
+               }
+            },
+            "shape" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The shape that uses the flex component.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about a flex component that's available for an Exadata infrastructure. A flex component defines the hardware resources, such as CPU cores, memory, and storage, that can be allocated to a shape.</p>"
          },
          "type" : "structure"
       },
@@ -11148,6 +11674,23 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A release update grid image.</p>",
                   "smithy.api#enumValue" : "RELEASE_UPDATE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.odb#HardwareType" : {
+         "members" : {
+            "CELL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CELL"
+               }
+            },
+            "COMPUTE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COMPUTE"
                }
             }
          },
@@ -12803,6 +13346,9 @@
                "target" : "com.amazonaws.odb#InternalServerException"
             },
             {
+               "target" : "com.amazonaws.odb#ResourceNotFoundException"
+            },
+            {
                "target" : "com.amazonaws.odb#ThrottlingException"
             },
             {
@@ -12829,6 +13375,12 @@
       },
       "com.amazonaws.odb#ListExascaleDbStorageVaultsInput" : {
          "members" : {
+            "cloudExadataInfrastructureId" : {
+               "target" : "com.amazonaws.odb#ResourceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier or Amazon Resource Name (ARN) of an Exadata infrastructure. If you specify this value, the operation returns only the Exascale storage vaults on that infrastructure that you own or that are shared with you. The infrastructure can be one that's shared with you through Amazon Web Services Resource Access Manager (Amazon Web Services RAM). You can't combine this filter with a <code>vaultType</code> of <code>EXASCALE_INFRASTRUCTURE</code>.</p>"
+               }
+            },
             "maxResults" : {
                "target" : "smithy.api#Integer",
                "traits" : {
@@ -12850,10 +13402,21 @@
                      "min" : 1
                   }
                }
+            },
+            "vaultType" : {
+               "target" : "com.amazonaws.odb#ExascaleDbStorageVaultType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of Exascale storage vaults to return. Specify <code>DEDICATED_INFRASTRUCTURE</code> to return Exascale storage vaults on dedicated Exadata infrastructure, or <code>EXASCALE_INFRASTRUCTURE</code> to return Exascale storage vaults for Exascale VM clusters. If you don't specify a value, the operation returns both types. You can't combine <code>EXASCALE_INFRASTRUCTURE</code> with the <code>cloudExadataInfrastructureId</code> filter.</p>"
+               }
             }
          },
          "traits" : {
-            "smithy.api#input" : {}
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "resource" : "com.amazonaws.odb#CloudExadataInfrastructureResource"
+               }
+            ]
          },
          "type" : "structure"
       },
@@ -12863,6 +13426,100 @@
                "target" : "com.amazonaws.odb#ExascaleDbStorageVaultList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The list of Exascale storage vaults.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to include in another request to get the next page of items. This value is <code>null</code> when there are no more items to return.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#ListFlexComponents" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.odb#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.odb#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.odb#ListFlexComponentsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.odb#ListFlexComponentsOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about the flex components that are available for an Exadata infrastructure.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "flexComponents",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.odb#ListFlexComponentsInput" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 1000,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.</p>",
+                  "smithy.api#httpQuery" : "nextToken",
+                  "smithy.api#length" : {
+                     "max" : 8192,
+                     "min" : 1
+                  }
+               }
+            },
+            "shape" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The shape to return flex components for. For a list of valid shapes, use the <code>ListDbSystemShapes</code> operation.</p>",
+                  "smithy.api#length" : {
+                     "max" : 256,
+                     "min" : 1
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#ListFlexComponentsOutput" : {
+         "members" : {
+            "flexComponents" : {
+               "target" : "com.amazonaws.odb#FlexComponentList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of flex components along with their properties.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -14184,6 +14841,9 @@
             },
             {
                "target" : "com.amazonaws.odb#ListDbSystemShapes"
+            },
+            {
+               "target" : "com.amazonaws.odb#ListFlexComponents"
             },
             {
                "target" : "com.amazonaws.odb#ListGiMinorVersions"
@@ -15792,7 +16452,7 @@
                "max" : 18,
                "min" : 1
             },
-            "smithy.api#pattern" : "^(?:(?:\\d|[01]?\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d|\\d)\\/(?:[1-2][0-9]|3[0-2]|[1-9])$"
+            "smithy.api#pattern" : "^(?:(?:\\d|[01]?\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d|\\d)\\/(?:[1-2][0-9]|3[0-2]|[0-9])$"
          },
          "type" : "string"
       },
@@ -17216,6 +17876,25 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.odb#StorageManagementType" : {
+         "members" : {
+            "ASM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Oracle Automatic Storage Management (ASM).</p>",
+                  "smithy.api#enumValue" : "ASM"
+               }
+            },
+            "EXASCALE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Exascale storage.</p>",
+                  "smithy.api#enumValue" : "EXASCALE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.odb#StringList" : {
          "member" : {
             "target" : "smithy.api#String"
@@ -18225,6 +18904,143 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.odb#UpdateCloudAutonomousVmCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.odb#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.odb#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.odb#UpdateCloudAutonomousVmClusterInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.odb#UpdateCloudAutonomousVmClusterOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the properties of the specified Autonomous VM cluster.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.odb#UpdateCloudAutonomousVmClusterInput" : {
+         "members" : {
+            "autonomousDataStorageSizeInTBs" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The data storage size to allocate for Autonomous Databases in the Autonomous VM cluster, in terabytes (TB).</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            },
+            "cloudAutonomousVmClusterId" : {
+               "target" : "com.amazonaws.odb#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Autonomous VM cluster to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "cpuCoreCountPerNode" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of CPU cores to enable per node in the Autonomous VM cluster. If you don't specify a value, the existing number of CPU cores per node is retained.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A user-provided description of the Autonomous VM cluster.</p>",
+                  "smithy.api#length" : {
+                     "max" : 400,
+                     "min" : 1
+                  }
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.odb#ResourceDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A new user-friendly name for the Autonomous VM cluster.</p>"
+               }
+            },
+            "licenseModel" : {
+               "target" : "com.amazonaws.odb#LicenseModel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Oracle license model to apply to the Autonomous VM cluster.</p>"
+               }
+            },
+            "maintenanceWindow" : {
+               "target" : "com.amazonaws.odb#MaintenanceWindow",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scheduling details for the maintenance window. Patching and system updates take place during the maintenance window.</p>"
+               }
+            },
+            "totalContainerDatabases" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of Autonomous Container Databases that can be created in the Autonomous VM cluster.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#UpdateCloudAutonomousVmClusterOutput" : {
+         "members" : {
+            "cloudAutonomousVmClusterId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the updated Autonomous VM cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user-friendly name of the updated Autonomous VM cluster.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.odb#ResourceStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the Autonomous VM cluster.</p>"
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional information about the current status of the Autonomous VM cluster, if applicable.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.odb#UpdateCloudExadataInfrastructure" : {
          "errors" : [
             {
@@ -18267,8 +19083,29 @@
                   "smithy.api#required" : {}
                }
             },
+            "computeCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of database servers for the Exadata infrastructure.</p>"
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.odb#ResourceDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A new user-friendly name for the Exadata infrastructure.</p>"
+               }
+            },
             "maintenanceWindow" : {
-               "target" : "com.amazonaws.odb#MaintenanceWindow"
+               "target" : "com.amazonaws.odb#MaintenanceWindow",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maintenance window configuration for the Exadata Cloud infrastructure.</p> <p>This allows you to define when maintenance operations such as patching and updates can be performed on the infrastructure.</p>"
+               }
+            },
+            "storageCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of storage servers to activate for the Exadata infrastructure.</p>"
+               }
             }
          },
          "traits" : {
@@ -18301,6 +19138,237 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>Additional information about the status of the Exadata infrastructure after the update operation.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#UpdateCloudExadataInfrastructureStorageCapacity" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.odb#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.odb#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.odb#UpdateCloudExadataInfrastructureStorageCapacityInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.odb#UpdateCloudExadataInfrastructureStorageCapacityOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Adds storage capacity to the specified Exadata infrastructure.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.odb#UpdateCloudExadataInfrastructureStorageCapacityInput" : {
+         "members" : {
+            "cloudExadataInfrastructureId" : {
+               "target" : "com.amazonaws.odb#ResourceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier or Amazon Resource Name (ARN) of the Exadata infrastructure to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#UpdateCloudExadataInfrastructureStorageCapacityOutput" : {
+         "members" : {
+            "cloudExadataInfrastructureId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the updated Exadata infrastructure.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user-friendly name of the updated Exadata infrastructure.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.odb#ResourceStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the Exadata infrastructure.</p>"
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional information about the current status of the Exadata infrastructure, if applicable.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#UpdateCloudVmCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.odb#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.odb#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.odb#UpdateCloudVmClusterInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.odb#UpdateCloudVmClusterOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the properties of the specified VM cluster.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.odb#UpdateCloudVmClusterInput" : {
+         "members" : {
+            "cloudVmClusterId" : {
+               "target" : "com.amazonaws.odb#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the VM cluster to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "cpuCoreCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of CPU cores to enable on the VM cluster. If you don't specify a value, the existing number of CPU cores is retained.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            },
+            "dataCollectionOptions" : {
+               "target" : "com.amazonaws.odb#DataCollectionOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The set of preferences for the diagnostic collection options for the VM cluster.</p>"
+               }
+            },
+            "dataStorageSizeInTBs" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The size of the data disk group, in terabytes (TB), to allocate for the VM cluster.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            },
+            "dbNodeStorageSizeInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of local node storage, in gigabytes (GB), to allocate for the VM cluster.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.odb#ResourceDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A new user-friendly name for the VM cluster.</p>"
+               }
+            },
+            "licenseModel" : {
+               "target" : "com.amazonaws.odb#LicenseModel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Oracle license model to apply to the VM cluster.</p>"
+               }
+            },
+            "memorySizeInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of memory, in gigabytes (GB), to allocate for the VM cluster.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            },
+            "sshPublicKeys" : {
+               "target" : "com.amazonaws.odb#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The public key portion of one or more key pairs used for SSH access to the VM cluster.</p>"
+               }
+            },
+            "storageSizeInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The amount of local node storage, in gigabytes (GB), to allocate to the VM cluster.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#UpdateCloudVmClusterOutput" : {
+         "members" : {
+            "cloudVmClusterId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the updated VM cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user-friendly name of the updated VM cluster.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.odb#ResourceStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the VM cluster.</p>"
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional information about the current status of the VM cluster, if applicable.</p>"
                }
             }
          },
@@ -18458,6 +19526,100 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>Additional information about the status of the Exascale VM cluster.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#UpdateExascaleCloudExadataInfrastructure" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.odb#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.odb#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.odb#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.odb#UpdateExascaleCloudExadataInfrastructureInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.odb#UpdateExascaleCloudExadataInfrastructureOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configures or updates the Exascale storage on an Exadata infrastructure. After you configure Exascale storage, you can create Exascale storage vaults on the infrastructure and VM clusters that use Exascale storage.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.odb#UpdateExascaleCloudExadataInfrastructureInput" : {
+         "members" : {
+            "cloudExadataInfrastructureId" : {
+               "target" : "com.amazonaws.odb#ResourceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier or Amazon Resource Name (ARN) of the Exadata infrastructure to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "totalStorageSizeInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total amount of Exascale storage, in gigabytes (GB), to configure on the Exadata infrastructure.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "totalVmStorageSizeInGBs" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total amount of Exascale storage, in gigabytes (GB), to allocate for VM storage on the Exadata infrastructure. VM clusters that store their VM file systems or VM backups in Exascale storage use this capacity.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.odb#UpdateExascaleCloudExadataInfrastructureOutput" : {
+         "members" : {
+            "cloudExadataInfrastructureId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the updated Exadata infrastructure.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user-friendly name of the updated Exadata infrastructure.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.odb#ResourceStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the Exadata infrastructure after the update operation.</p>"
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional information about the status of the Exadata infrastructure after the update operation.</p>"
                }
             }
          },
@@ -18928,6 +20090,25 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "unknownOperation"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.odb#VmStorageType" : {
+         "members" : {
+            "EXASCALE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Exascale storage on the storage servers.</p>",
+                  "smithy.api#enumValue" : "EXASCALE"
+               }
+            },
+            "LOCAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Local storage on the database servers.</p>",
+                  "smithy.api#enumValue" : "LOCAL"
                }
             }
          },

@@ -385,6 +385,7 @@
             "smithy.api#xmlNamespace" : {
                "uri" : "http://memorydb.amazonaws.com/doc/2021-01-01/"
             },
+            "smithy.protocols#rpcv2Cbor" : {},
             "smithy.rules#endpointBdd" : {
                "conditions" : [
                   {

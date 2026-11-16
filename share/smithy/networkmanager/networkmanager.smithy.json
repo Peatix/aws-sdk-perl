@@ -595,6 +595,18 @@
                   "smithy.api#documentation" : "<p>Describes the error associated with the attachment request.</p>"
                }
             },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of NAT gateway support on the attachment. This is returned only to the core network owner for attachment types that support NAT.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. This is returned only to the core network owner for attachment types that support NAT.</p>"
+               }
+            },
             "NetworkFunctionGroupName" : {
                "target" : "com.amazonaws.networkmanager#NetworkFunctionGroupName",
                "traits" : {
@@ -689,6 +701,18 @@
       },
       "com.amazonaws.networkmanager#AttachmentErrorCode" : {
          "members" : {
+            "CREATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATION_FAILED"
+               }
+            },
+            "DELETION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETION_FAILED"
+               }
+            },
             "DIRECT_CONNECT_GATEWAY_EXISTING_ATTACHMENTS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -707,10 +731,22 @@
                   "smithy.api#enumValue" : "DIRECT_CONNECT_GATEWAY_NO_PRIVATE_VIF"
                }
             },
+            "DIRECT_CONNECT_GATEWAY_TOPOLOGY_RESTRICTIONS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DIRECT_CONNECT_GATEWAY_TOPOLOGY_RESTRICTIONS"
+               }
+            },
             "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED"
+               }
+            },
+            "SECURITY_GROUP_REFERENCING_UNSUPPORTED_AVAILABILITY_ZONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SECURITY_GROUP_REFERENCING_UNSUPPORTED_AVAILABILITY_ZONE"
                }
             },
             "SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE" : {
@@ -743,6 +779,12 @@
                   "smithy.api#enumValue" : "SUBNET_UNSUPPORTED_AVAILABILITY_ZONE"
                }
             },
+            "UPDATE_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATE_FAILED"
+               }
+            },
             "VPC_NOT_FOUND" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -765,6 +807,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "VPN_EXISTING_ASSOCIATIONS"
+               }
+            },
+            "VPN_STATIC_ROUTES_NAT_UNSUPPORTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VPN_STATIC_ROUTES_NAT_UNSUPPORTED"
                }
             }
          },
@@ -795,6 +843,50 @@
       "com.amazonaws.networkmanager#AttachmentList" : {
          "member" : {
             "target" : "com.amazonaws.networkmanager#Attachment"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.networkmanager#AttachmentNatConfiguration" : {
+         "members" : {
+            "AttachmentId" : {
+               "target" : "com.amazonaws.networkmanager#AttachmentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the attachment.</p>"
+               }
+            },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules of the attachment.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of NAT gateway support on the attachment.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the NAT configuration of a core network attachment.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#AttachmentNatConfigurationList" : {
+         "member" : {
+            "target" : "com.amazonaws.networkmanager#AttachmentNatConfiguration"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 500,
+               "min" : 0
+            }
          },
          "type" : "list"
       },
@@ -968,6 +1060,9 @@
          "traits" : {
             "smithy.api#default" : false
          },
+         "type" : "boolean"
+      },
+      "com.amazonaws.networkmanager#BoxedBoolean" : {
          "type" : "boolean"
       },
       "com.amazonaws.networkmanager#ChangeAction" : {
@@ -1483,6 +1578,18 @@
       },
       "com.amazonaws.networkmanager#ConnectPeerErrorCode" : {
          "members" : {
+            "CREATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATION_FAILED"
+               }
+            },
+            "DELETION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETION_FAILED"
+               }
+            },
             "EDGE_LOCATION_NO_FREE_IPS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -2059,7 +2166,7 @@
             "RoutingPolicyAssociationDetails" : {
                "target" : "com.amazonaws.networkmanager#RoutingPolicyAssociationDetailsList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The names of the routing policies and other association details in the core network change values.</p>"
+                  "smithy.api#documentation" : "<p>The names of the routing policies and other association details in a core network change event.</p>"
                }
             },
             "RoutingPolicyDirection" : {
@@ -2158,7 +2265,7 @@
             "RoutingPolicyDirection" : {
                "target" : "com.amazonaws.networkmanager#RoutingPolicyDirection",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The routing policy direction (inbound/outbound) in a core network change event.</p>"
+                  "smithy.api#documentation" : "<p>The routing policy direction (inbound/outbound) in the core network change values.</p>"
                }
             },
             "SecurityGroupReferencingSupport" : {
@@ -2739,6 +2846,18 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The Region where the edge is located.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules for the Connect attachment, up to 50 rules.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable NAT gateway support on the Connect attachment. NAT is supported only on Connect attachments that use the GRE tunnel protocol. Tunnel-less Connect attachments aren't supported. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.</p>"
                }
             },
             "Options" : {
@@ -3389,6 +3508,24 @@
                   "smithy.api#required" : {}
                }
             },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules for the Direct Connect gateway attachment, up to 50 rules.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable NAT gateway support on the Direct Connect gateway attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of <code>SYSTEM</code>. NAT is applied to traffic whether or not this option is enabled. The default is <code>true</code>.</p>"
+               }
+            },
             "RoutingPolicyLabel" : {
                "target" : "com.amazonaws.networkmanager#ConstrainedString",
                "traits" : {
@@ -3741,6 +3878,24 @@
                   "smithy.api#required" : {}
                }
             },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules for the Site-to-Site VPN attachment, up to 50 rules.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable NAT gateway support on the Site-to-Site VPN attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of <code>SYSTEM</code>. NAT is applied to traffic whether or not this option is enabled. The default is <code>true</code> for VPN connections that use BGP and <code>false</code> for VPN connections that use static routing. If the VPN connection uses static routing, you must specify <code>false</code> or omit this parameter.</p>"
+               }
+            },
             "RoutingPolicyLabel" : {
                "target" : "com.amazonaws.networkmanager#ConstrainedString",
                "traits" : {
@@ -4009,6 +4164,18 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of a core network for the VPC attachment.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules for the VPC attachment, up to 50 rules.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable NAT gateway support on the VPC attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.</p>"
                }
             },
             "Options" : {
@@ -7372,6 +7539,12 @@
                "code" : 200,
                "method" : "POST",
                "uri" : "/global-networks/{GlobalNetworkId}/network-routes"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "NetworkRoutes",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
             }
          },
          "type" : "operation"
@@ -7402,6 +7575,18 @@
                "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The most specific route that matches the traffic (longest prefix match).</p>"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.networkmanager#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
                }
             },
             "PrefixListIds" : {
@@ -7449,6 +7634,12 @@
       },
       "com.amazonaws.networkmanager#GetNetworkRoutesResponse" : {
          "members" : {
+            "CoreNetworkNetworkFunctionGroup" : {
+               "target" : "com.amazonaws.networkmanager#CoreNetworkNetworkFunctionGroupIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the network function group route table that the routes are from. This field is present only when you specify <code>CoreNetworkNetworkFunctionGroup</code> in <code>RouteTableIdentifier</code>.</p>"
+               }
+            },
             "CoreNetworkSegmentEdge" : {
                "target" : "com.amazonaws.networkmanager#CoreNetworkSegmentEdgeIdentifier",
                "traits" : {
@@ -7459,6 +7650,12 @@
                "target" : "com.amazonaws.networkmanager#NetworkRouteList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The network routes.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
                }
             },
             "RouteTableArn" : {
@@ -8643,6 +8840,105 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.networkmanager#ListAttachmentNatConfigurations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#ListAttachmentNatConfigurationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#ListAttachmentNatConfigurationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the NAT configurations of core network attachments. You must specify either a core network ID or an attachment ID. Only the core network owner can list NAT configurations.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/nat-configurations"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "AttachmentNatConfigurations",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#ListAttachmentNatConfigurationsRequest" : {
+         "members" : {
+            "AttachmentId" : {
+               "target" : "com.amazonaws.networkmanager#AttachmentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of an attachment. Returns the NAT configuration of the specified attachment. If you specify both an attachment ID and a core network ID, the attachment ID is used.</p>"
+               }
+            },
+            "CoreNetworkId" : {
+               "target" : "com.amazonaws.networkmanager#CoreNetworkId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of a core network. Returns the NAT configurations of attachments in the core network that support NAT.</p>"
+               }
+            },
+            "Filters" : {
+               "target" : "com.amazonaws.networkmanager#FilterMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The filters to apply to the results. Values for the same filter are joined with OR, and different filters are joined with AND. You can specify up to 10 filter values in total. The following filters are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>nat-gateway-support</code>: The state of NAT gateway support on the attachment, for example <code>ENABLED</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>nat-system-route-support</code>: Whether system routes are installed for the attachment, <code>true</code> or <code>false</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>rule-number</code>: The rule number of a NAT rule.</p>\n            </li>\n            <li>\n               <p>\n                  <code>match-source-cidr</code>: The source CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.</p>\n            </li>\n            <li>\n               <p>\n                  <code>nat-cidr</code>: The NAT CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.</p>\n            </li>\n            <li>\n               <p>\n                  <code>nat-rule-state</code>: The state of a NAT rule, for example <code>ACTIVATED</code>.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.networkmanager#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ListAttachmentNatConfigurationsResponse" : {
+         "members" : {
+            "AttachmentNatConfigurations" : {
+               "target" : "com.amazonaws.networkmanager#AttachmentNatConfigurationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT configurations of the attachments.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.networkmanager#ListAttachmentRoutingPolicyAssociations" : {
          "errors" : [
             {
@@ -9196,10 +9492,22 @@
                   "smithy.api#documentation" : "<p>Exact AS path values to match when filtering routing information.</p>"
                }
             },
+            "ExactPrefixMatches" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Exact prefix values to match when filtering routing information.</p>"
+               }
+            },
             "LocalPreferenceMatches" : {
                "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
                "traits" : {
                   "smithy.api#documentation" : "<p>Local preference values to match when filtering routing information.</p>"
+               }
+            },
+            "LongestPrefixMatches" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters routing information based on the longest prefix that matches each provided IP address.</p>"
                }
             },
             "MaxResults" : {
@@ -9218,7 +9526,7 @@
             "NextHopFilters" : {
                "target" : "com.amazonaws.networkmanager#FilterMap",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters to apply based on next hop information.</p>"
+                  "smithy.api#documentation" : "<p>Filters to apply based on next hop information. Each filter value must exactly match the corresponding next hop value. Values for the same filter are joined with OR, and different filters are joined with AND. The following filters are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>core-network-attachment-id</code>: The ID of the core network attachment for the next hop, for example <code>attachment-0123456789abcdef0</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>segment-name</code>: The name of the segment for the next hop.</p>\n            </li>\n            <li>\n               <p>\n                  <code>edge-location</code>: The edge location for the next hop, for example <code>us-east-1</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource-id</code>: The ID of the resource for the next hop.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource-type</code>: The type of resource for the next hop. The possible values are <code>vpc</code>, <code>vpn</code>, <code>connect-peer</code>, <code>direct-connect-gateway</code>, <code>transit-gateway-route-table</code>, <code>attachment</code>, and <code>blackhole</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ip-address</code>: The IP address of the next hop. For a Site-to-Site VPN next hop, this is the outside IP address of the AWS side of the VPN tunnel. For a Connect peer next hop, this is the core network BGP address of the Connect peer. The value must be a single IPv4 or IPv6 address.</p>\n            </li>\n         </ul>\n         <p>You can specify up to 10 filter values in total across <code>NextHopFilters</code> and the other match parameters in the request. Each filter value can be up to 256 characters.</p>"
                }
             },
             "NextToken" : {
@@ -9233,6 +9541,18 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the segment to filter routing information by.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "SubnetOfMatches" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Prefix values to filter routing information whose prefix is a subnet of the prefixes provided.</p>"
+               }
+            },
+            "SupernetOfMatches" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Prefix values to filter routing information whose prefix is a supernet of the prefixes provided.</p>"
                }
             }
          },
@@ -9609,6 +9929,211 @@
          },
          "type" : "integer"
       },
+      "com.amazonaws.networkmanager#NatGatewaySupportState" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLED"
+               }
+            },
+            "DISABLING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLING"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            },
+            "ENABLING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLING"
+               }
+            },
+            "PENDING_ATTACHMENT_ACCEPTANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_ATTACHMENT_ACCEPTANCE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.networkmanager#NatGatewaySupportValue" : {
+         "members" : {
+            "DISABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLE"
+               }
+            },
+            "ENABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.networkmanager#NatRule" : {
+         "members" : {
+            "MatchSourceCidr" : {
+               "target" : "com.amazonaws.networkmanager#IPAddress",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source CIDR block that the rule matches for traffic from the attachment.</p>"
+               }
+            },
+            "NatCidr" : {
+               "target" : "com.amazonaws.networkmanager#IPAddress",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The CIDR block that matching source addresses are translated to.</p>"
+               }
+            },
+            "RuleNumber" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleNumber",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The rule number. Rule numbers identify the rules of an attachment and don't set the order in which rules are evaluated.</p>"
+               }
+            },
+            "State" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the NAT rule. The possible values are the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CREATING</code>: The rule is being created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MODIFYING</code>: The rule is being modified.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETING</code>: The rule is being deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ACTIVATING</code>: NAT gateway support is being enabled, and the rule is being applied.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ACTIVATED</code>: NAT gateway support is enabled, and the rule is applied.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DEACTIVATING</code>: NAT gateway support is being disabled, and the rule is being removed from use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DEACTIVATED</code>: NAT gateway support is disabled, and the rule isn't applied.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED</code>: The attachment failed to be created, and the rule isn't applied.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PENDING_ATTACHMENT_ACCEPTANCE</code>: The attachment is pending acceptance. The rule is applied after the attachment is accepted.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a NAT rule of an attachment.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#NatRuleList" : {
+         "member" : {
+            "target" : "com.amazonaws.networkmanager#NatRule"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.networkmanager#NatRuleNumber" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 32766,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.networkmanager#NatRuleRequest" : {
+         "members" : {
+            "MatchSourceCidr" : {
+               "target" : "com.amazonaws.networkmanager#IPAddress",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IPv4 CIDR block to match against the source address of traffic from the attachment. The CIDR block can't overlap with the multicast range (224.0.0.0/4).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NatCidr" : {
+               "target" : "com.amazonaws.networkmanager#IPAddress",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IPv4 CIDR block to translate matching source addresses to. The prefix length must be the same as the prefix length of <code>MatchSourceCidr</code>. The CIDR block must be within a private (RFC 1918) or shared address space (RFC 6598) range. The CIDR blocks of the NAT rules of an attachment can't overlap with each other.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RuleNumber" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleNumber",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The rule number, from 1 to 32766. Each rule number must be unique for the attachment.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a NAT rule to configure on an attachment. Source addresses in the source CIDR block of traffic from the attachment are translated to the same host addresses in the NAT CIDR block. Traffic to an address in the NAT CIDR block is translated back to the matching address in the source CIDR block.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#NatRuleRequestList" : {
+         "member" : {
+            "target" : "com.amazonaws.networkmanager#NatRuleRequest"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.networkmanager#NatRuleState" : {
+         "members" : {
+            "ACTIVATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVATED"
+               }
+            },
+            "ACTIVATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVATING"
+               }
+            },
+            "CREATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATING"
+               }
+            },
+            "DEACTIVATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEACTIVATED"
+               }
+            },
+            "DEACTIVATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEACTIVATING"
+               }
+            },
+            "DELETING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETING"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "MODIFYING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MODIFYING"
+               }
+            },
+            "PENDING_ATTACHMENT_ACCEPTANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_ATTACHMENT_ACCEPTANCE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.networkmanager#NetworkFunctionGroup" : {
          "members" : {
             "Name" : {
@@ -9833,6 +10358,9 @@
                "target" : "com.amazonaws.networkmanager#GetVpcAttachment"
             },
             {
+               "target" : "com.amazonaws.networkmanager#ListAttachmentNatConfigurations"
+            },
+            {
                "target" : "com.amazonaws.networkmanager#ListAttachmentRoutingPolicyAssociations"
             },
             {
@@ -9894,6 +10422,9 @@
             },
             {
                "target" : "com.amazonaws.networkmanager#UntagResource"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#UpdateAttachmentNatConfiguration"
             },
             {
                "target" : "com.amazonaws.networkmanager#UpdateConnection"
@@ -11650,7 +12181,7 @@
             "Type" : {
                "target" : "com.amazonaws.networkmanager#RouteType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The route type. The possible values are <code>propagated</code> and <code>static</code>.</p>"
+                  "smithy.api#documentation" : "<p>The route type. The possible values are <code>PROPAGATED</code>, <code>STATIC</code>, and <code>SYSTEM</code>. A <code>SYSTEM</code> route is installed by the core network for the NAT CIDR block of an attachment's NAT rule.</p>"
                }
             }
          },
@@ -11912,7 +12443,7 @@
             "LastModificationErrors" : {
                "target" : "com.amazonaws.networkmanager#PeeringErrorList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Describes the error associated with the Connect peer request.</p>"
+                  "smithy.api#documentation" : "<p>Describes the error associated with the peering request.</p>"
                }
             },
             "OwnerAccountId" : {
@@ -11997,6 +12528,18 @@
       },
       "com.amazonaws.networkmanager#PeeringErrorCode" : {
          "members" : {
+            "CREATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATION_FAILED"
+               }
+            },
+            "DELETION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETION_FAILED"
+               }
+            },
             "EDGE_LOCATION_PEER_DUPLICATE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -12019,6 +12562,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "MISSING_PERMISSIONS"
+               }
+            },
+            "TRANSIT_GATEWAY_ENCRYPTION_NOT_SUPPORTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRANSIT_GATEWAY_ENCRYPTION_NOT_SUPPORTED"
                }
             },
             "TRANSIT_GATEWAY_NOT_FOUND" : {
@@ -12133,7 +12682,7 @@
             "CoreNetworkId" : {
                "target" : "com.amazonaws.networkmanager#CoreNetworkId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The core network id in the association.</p>"
+                  "smithy.api#documentation" : "<p>The ID of the core network in the association.</p>"
                }
             },
             "PrefixListAlias" : {
@@ -13251,6 +13800,12 @@
                "traits" : {
                   "smithy.api#enumValue" : "STATIC"
                }
+            },
+            "SYSTEM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SYSTEM"
+               }
             }
          },
          "type" : "enum"
@@ -14344,6 +14899,119 @@
       },
       "com.amazonaws.networkmanager#UntagResourceResponse" : {
          "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#UpdateAttachmentNatConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#UpdateAttachmentNatConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#UpdateAttachmentNatConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the NAT configuration of a core network attachment. You can enable or disable NAT gateway support, specify whether the core network installs system routes for the NAT CIDR blocks, and replace the NAT rules of the attachment. Specify at least one of <code>NatGatewaySupport</code>, <code>NatSystemRouteSupport</code>, or <code>NatGatewayRules</code>.</p>\n         <p>Only the core network owner can update the NAT configuration of an attachment. The attachment must be in the <code>AVAILABLE</code>, <code>PENDING_ATTACHMENT_ACCEPTANCE</code>, or <code>PENDING_TAG_ACCEPTANCE</code> state. Changes are applied asynchronously, and the attachment is in the <code>UPDATING</code> state while they are applied. If the attachment is pending acceptance, the NAT configuration is stored and is applied after the attachment is accepted.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/attachments/{AttachmentId}/nat-configuration"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#UpdateAttachmentNatConfigurationRequest" : {
+         "members" : {
+            "AttachmentId" : {
+               "target" : "com.amazonaws.networkmanager#AttachmentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the attachment to update the NAT configuration for.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ClientToken" : {
+               "target" : "com.amazonaws.networkmanager#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client token associated with the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The complete set of NAT rules for the attachment, up to 50 rules. The rules that you specify replace the existing rules of the attachment, matched by rule number. Existing rules that aren't included in the request are deleted. To delete all NAT rules, specify an empty list. You can delete all NAT rules only when NAT gateway support is disabled, or when you disable it in the same request. If you omit this parameter, the existing rules are unchanged.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable or disable NAT gateway support on the attachment. When you disable NAT gateway support, the attachment keeps its NAT rules but doesn't apply them. To enable NAT gateway support, the attachment must have at least one NAT rule, either specified in this request or already configured on the attachment. If you omit this parameter, NAT gateway support is unchanged.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of <code>SYSTEM</code>. NAT is applied to traffic whether or not this option is enabled. If you omit this parameter, the current value is unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#UpdateAttachmentNatConfigurationResponse" : {
+         "members" : {
+            "AttachmentId" : {
+               "target" : "com.amazonaws.networkmanager#AttachmentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the attachment.</p>"
+               }
+            },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules of the attachment, including rules that are being deleted.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of NAT gateway support on the attachment. The transitional states <code>ENABLING</code> and <code>DISABLING</code> change to <code>ENABLED</code> or <code>DISABLED</code> after the update is applied. The state is <code>PENDING_ATTACHMENT_ACCEPTANCE</code> when NAT gateway support is enabled on an attachment that is pending acceptance.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules.</p>"
+               }
+            }
+         },
          "traits" : {
             "smithy.api#output" : {}
          },

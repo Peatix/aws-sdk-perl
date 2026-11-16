@@ -217,10 +217,22 @@
       },
       "com.amazonaws.appstream#AgentAccessConfig" : {
          "members" : {
+            "KmsKeyArn" : {
+               "target" : "com.amazonaws.appstream#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the customer managed symmetric encryption KMS key that encrypts Replay Session artifacts while WorkSpaces Applications processes them. The key must be in the same Region as the stack, and ReplaySessionEnabled must be true.</p>"
+               }
+            },
+            "ReplaySessionEnabled" : {
+               "target" : "com.amazonaws.appstream#BooleanObject",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether Replay Session is enabled for agent sessions. WorkSpaces Applications delivers a video combining session screenshots, a transcript, and a report for each session. Requires the COMPUTER_VISION agent action.</p>"
+               }
+            },
             "S3BucketArn" : {
                "target" : "com.amazonaws.appstream#S3BucketArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. Required when ScreenshotsUploadEnabled is true.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots and Replay Session artifacts are stored. Required when ScreenshotsUploadEnabled or ReplaySessionEnabled is true.</p>"
                }
             },
             "ScreenImageFormat" : {
@@ -249,7 +261,7 @@
                "target" : "com.amazonaws.appstream#AgentAccessSettingList",
                "traits" : {
                   "smithy.api#clientOptional" : {},
-                  "smithy.api#documentation" : "<p>The list of agent access settings that define permissions for each agent action. You must specify at least one setting.</p>",
+                  "smithy.api#documentation" : "<p>The list of agent access settings that define permissions for each agent action. You must specify at least one setting, and at least one agent action must be enabled.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -267,10 +279,22 @@
       },
       "com.amazonaws.appstream#AgentAccessConfigForUpdate" : {
          "members" : {
+            "KmsKeyArn" : {
+               "target" : "com.amazonaws.appstream#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the customer managed symmetric encryption KMS key that encrypts Replay Session artifacts while WorkSpaces Applications processes them. To remove the key, use AttributesToDelete with the AGENT_ACCESS_CONFIG_KMS_KEY_ARN value.</p>"
+               }
+            },
+            "ReplaySessionEnabled" : {
+               "target" : "com.amazonaws.appstream#BooleanObject",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether Replay Session is enabled for agent sessions. Setting this attribute to false also removes the KmsKeyArn value from the stack.</p>"
+               }
+            },
             "S3BucketArn" : {
                "target" : "com.amazonaws.appstream#S3BucketArn",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored.</p>"
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots and Replay Session artifacts are stored.</p>"
                }
             },
             "ScreenImageFormat" : {
@@ -294,7 +318,7 @@
             "Settings" : {
                "target" : "com.amazonaws.appstream#AgentAccessSettingList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The list of agent access settings that define permissions for each agent action.</p>"
+                  "smithy.api#documentation" : "<p>The list of agent access settings that define permissions for each agent action. The merged settings must have at least one agent action enabled.</p>"
                }
             },
             "UserControlMode" : {
@@ -387,7 +411,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "The image type is the type of AppStream image resource."
+            "smithy.api#documentation" : "<p>The image type is the type of AppStream image resource.</p>"
          },
          "type" : "enum"
       },
@@ -2775,6 +2799,12 @@
                   "smithy.api#documentation" : "<p>The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.</p>"
                }
             },
+            "AgentAccessConfig" : {
+               "target" : "com.amazonaws.appstream#ImageBuilderAgentAccessConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for agent access on the image builder. If specified, agent access is enabled for the image builder.</p>"
+               }
+            },
             "AppstreamAgentVersion" : {
                "target" : "com.amazonaws.appstream#AppstreamAgentVersion",
                "traits" : {
@@ -3182,6 +3212,12 @@
                "target" : "com.amazonaws.appstream#RedirectURL",
                "traits" : {
                   "smithy.api#documentation" : "<p>The URL that users are redirected to after their streaming session ends.</p>"
+               }
+            },
+            "StorageConnectorAuthentication" : {
+               "target" : "com.amazonaws.appstream#StorageConnectorAuthentication",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.</p>"
                }
             },
             "StorageConnectors" : {
@@ -4984,7 +5020,7 @@
             "target" : "com.amazonaws.appstream#DescribeImageBuildersResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.</p>"
+            "smithy.api#documentation" : "<p>Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.</p>\n         <p>The description of each image builder includes its agent access configuration, if agent access is enabled.</p>"
          },
          "type" : "operation"
       },
@@ -7339,6 +7375,12 @@
                   "smithy.api#documentation" : "<p>Indicates whether the image is shared with another account ID.</p>"
                }
             },
+            "ImageSoftwareMetadata" : {
+               "target" : "com.amazonaws.appstream#ImageSoftwareMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The software metadata associated with the image.</p>"
+               }
+            },
             "ImageType" : {
                "target" : "com.amazonaws.appstream#ImageType",
                "traits" : {
@@ -7413,6 +7455,12 @@
                "target" : "com.amazonaws.appstream#AccessEndpointList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The list of virtual private cloud (VPC) interface endpoint objects. Administrators can connect to the image builder only through the specified endpoints.</p>"
+               }
+            },
+            "AgentAccessConfig" : {
+               "target" : "com.amazonaws.appstream#ImageBuilderAgentAccessConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The agent access configuration of the image builder, if agent access is enabled.</p>"
                }
             },
             "AppstreamAgentVersion" : {
@@ -7539,6 +7587,127 @@
             "smithy.api#documentation" : "<p>Describes a virtual machine that is used to create an image. </p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.appstream#ImageBuilderAgentAccessConfig" : {
+         "members" : {
+            "S3BucketArn" : {
+               "target" : "com.amazonaws.appstream#S3BucketArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. Required when ScreenshotsUploadEnabled is true.</p>"
+               }
+            },
+            "ScreenImageFormat" : {
+               "target" : "com.amazonaws.appstream#ScreenImageFormat",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The image format for agent screen captures.</p>\n         <ul>\n            <li>\n               <p>PNG - PNG format.</p>\n            </li>\n            <li>\n               <p>JPEG - JPEG format.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ScreenResolution" : {
+               "target" : "com.amazonaws.appstream#ScreenResolution",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The screen resolution for the agent streaming environment.</p>\n         <ul>\n            <li>\n               <p>W_1280xH_720 - 1280 x 720 pixels.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ScreenshotsUploadEnabled" : {
+               "target" : "com.amazonaws.appstream#BooleanObject",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether screenshot uploads to Amazon S3 are enabled for agent sessions.</p>"
+               }
+            },
+            "Settings" : {
+               "target" : "com.amazonaws.appstream#AgentAccessSettingList",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The list of agent access settings that define permissions for each agent action. You must specify at least one setting, and at least one agent action must be enabled.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserControlMode" : {
+               "target" : "com.amazonaws.appstream#UserControlMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user control mode for agent sessions. This setting determines how users can interact with agent sessions.</p>\n         <ul>\n            <li>\n               <p>VIEW_ONLY - Users can view and observe agent actions as they happen.</p>\n            </li>\n            <li>\n               <p>VIEW_STOP - Users can view agent actions and stop the agent if needed.</p>\n            </li>\n            <li>\n               <p>DISABLED - Users cannot view or stop the agent session.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for agent access on an image builder. Agent access enables AI agents to interact with desktop applications during streaming sessions to the image builder.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appstream#ImageBuilderAgentAccessConfigForUpdate" : {
+         "members" : {
+            "S3BucketArn" : {
+               "target" : "com.amazonaws.appstream#S3BucketArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. If ScreenshotsUploadEnabled is false after the merge, the stored bucket ARN is removed.</p>"
+               }
+            },
+            "ScreenImageFormat" : {
+               "target" : "com.amazonaws.appstream#ScreenImageFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The image format for agent screen captures.</p>\n         <ul>\n            <li>\n               <p>PNG - PNG format.</p>\n            </li>\n            <li>\n               <p>JPEG - JPEG format.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "ScreenResolution" : {
+               "target" : "com.amazonaws.appstream#ScreenResolution",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The screen resolution for the agent streaming environment.</p>\n         <ul>\n            <li>\n               <p>W_1280xH_720 - 1280 x 720 pixels.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "ScreenshotsUploadEnabled" : {
+               "target" : "com.amazonaws.appstream#BooleanObject",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether screenshot uploads to Amazon S3 are enabled for agent sessions.</p>"
+               }
+            },
+            "Settings" : {
+               "target" : "com.amazonaws.appstream#AgentAccessSettingList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of agent access settings that define permissions for each agent action. These settings are merged with the stored settings by agent action. A setting that you specify replaces the stored setting for the same agent action. The merged settings must have at least one agent action enabled.</p>"
+               }
+            },
+            "UserControlMode" : {
+               "target" : "com.amazonaws.appstream#UserControlMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user control mode for agent sessions. This setting determines how users can interact with agent sessions.</p>\n         <ul>\n            <li>\n               <p>VIEW_ONLY - Users can view and observe agent actions as they happen.</p>\n            </li>\n            <li>\n               <p>VIEW_STOP - Users can view agent actions and stop the agent if needed.</p>\n            </li>\n            <li>\n               <p>DISABLED - Users cannot view or stop the agent session.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for updating agent access on an image builder. This type supports partial updates, so you only need to specify the fields you want to change. Fields that you omit keep their stored values.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appstream#ImageBuilderAttribute" : {
+         "members" : {
+            "AGENT_ACCESS_CONFIG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AGENT_ACCESS_CONFIG"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An image builder attribute that you can delete by using the AttributesToDelete parameter of UpdateImageBuilder.</p>\n         <ul>\n            <li>\n               <p>AGENT_ACCESS_CONFIG - Removes the stored agent access configuration from the image builder.</p>\n            </li>\n         </ul>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appstream#ImageBuilderAttributes" : {
+         "member" : {
+            "target" : "com.amazonaws.appstream#ImageBuilderAttribute"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The image builder attributes.</p>",
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.appstream#ImageBuilderList" : {
          "member" : {
@@ -7735,6 +7904,20 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.appstream#ImageSoftwareMetadata" : {
+         "members" : {
+            "nvidiaGridDriverVersion" : {
+               "target" : "com.amazonaws.appstream#NvidiaGridDriverVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the NVIDIA GRID driver installed on the image. This field is empty if no NVIDIA GRID driver is installed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the software metadata for an image, such as the installed NVIDIA GRID driver version.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.appstream#ImageState" : {
          "members" : {
             "AVAILABLE" : {
@@ -7865,7 +8048,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "The image type is the type of AppStream image resource."
+            "smithy.api#documentation" : "<p>The image type is the type of AppStream image resource.</p>"
          },
          "type" : "enum"
       },
@@ -7955,6 +8138,12 @@
             "smithy.api#httpError" : 400
          },
          "type" : "structure"
+      },
+      "com.amazonaws.appstream#KmsKeyArn" : {
+         "traits" : {
+            "smithy.api#pattern" : "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:kms:[a-z0-9\\-]+:\\d{12}:key/[A-Za-z0-9\\-]+$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.appstream#LastReportGenerationExecutionError" : {
          "members" : {
@@ -8390,6 +8579,16 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.appstream#NvidiaGridDriverVersion" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[0-9]+(\\.[0-9]+){1,2}$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.appstream#OperationNotPermittedException" : {
          "members" : {
             "Message" : {
@@ -8711,6 +8910,9 @@
             },
             {
                "target" : "com.amazonaws.appstream#UpdateFleet"
+            },
+            {
+               "target" : "com.amazonaws.appstream#UpdateImageBuilder"
             },
             {
                "target" : "com.amazonaws.appstream#UpdateImagePermissions"
@@ -9822,6 +10024,12 @@
                   "smithy.api#enumValue" : "WINDOWS"
                }
             },
+            "WINDOWS_11" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WINDOWS_11"
+               }
+            },
             "WINDOWS_SERVER_2016" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -10515,6 +10723,12 @@
                   "smithy.api#documentation" : "<p>The errors for the stack.</p>"
                }
             },
+            "StorageConnectorAuthentication" : {
+               "target" : "com.amazonaws.appstream#StorageConnectorAuthentication",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether users' cloud storage authentication persists across streaming sessions. When this attribute is FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.</p>"
+               }
+            },
             "StorageConnectors" : {
                "target" : "com.amazonaws.appstream#StorageConnectorList",
                "traits" : {
@@ -10553,6 +10767,12 @@
                   "smithy.api#enumValue" : "AGENT_ACCESS_CONFIG"
                }
             },
+            "AGENT_ACCESS_CONFIG_KMS_KEY_ARN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AGENT_ACCESS_CONFIG_KMS_KEY_ARN"
+               }
+            },
             "CONTENT_REDIRECTION" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -10587,6 +10807,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "STORAGE_CONNECTORS"
+               }
+            },
+            "STORAGE_CONNECTOR_AUTHENTICATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STORAGE_CONNECTOR_AUTHENTICATION"
                }
             },
             "STORAGE_CONNECTOR_GOOGLE_DRIVE" : {
@@ -10627,7 +10853,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The stack attributes to delete.</p>\n         <ul>\n            <li>\n               <p>STORAGE_CONNECTORS</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_HOMEFOLDERS</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_GOOGLE_DRIVE</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_ONE_DRIVE</p>\n            </li>\n            <li>\n               <p>REDIRECT_URL</p>\n            </li>\n            <li>\n               <p>FEEDBACK_URL</p>\n            </li>\n            <li>\n               <p>THEME_NAME</p>\n            </li>\n            <li>\n               <p>USER_SETTINGS</p>\n            </li>\n            <li>\n               <p>EMBED_HOST_DOMAINS</p>\n            </li>\n            <li>\n               <p>IAM_ROLE_ARN</p>\n            </li>\n            <li>\n               <p>ACCESS_ENDPOINTS</p>\n            </li>\n            <li>\n               <p>STREAMING_EXPERIENCE_SETTINGS</p>\n            </li>\n            <li>\n               <p>AGENT_ACCESS_CONFIG</p>\n            </li>\n         </ul>"
+            "smithy.api#documentation" : "<p>The stack attributes to delete.</p>\n         <ul>\n            <li>\n               <p>STORAGE_CONNECTORS</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_HOMEFOLDERS</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_GOOGLE_DRIVE</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_ONE_DRIVE</p>\n            </li>\n            <li>\n               <p>REDIRECT_URL</p>\n            </li>\n            <li>\n               <p>FEEDBACK_URL</p>\n            </li>\n            <li>\n               <p>THEME_NAME</p>\n            </li>\n            <li>\n               <p>USER_SETTINGS</p>\n            </li>\n            <li>\n               <p>EMBED_HOST_DOMAINS</p>\n            </li>\n            <li>\n               <p>IAM_ROLE_ARN</p>\n            </li>\n            <li>\n               <p>ACCESS_ENDPOINTS</p>\n            </li>\n            <li>\n               <p>STREAMING_EXPERIENCE_SETTINGS</p>\n            </li>\n            <li>\n               <p>AGENT_ACCESS_CONFIG</p>\n            </li>\n            <li>\n               <p>AGENT_ACCESS_CONFIG_KMS_KEY_ARN</p>\n            </li>\n            <li>\n               <p>STORAGE_CONNECTOR_AUTHENTICATION</p>\n            </li>\n         </ul>"
          },
          "type" : "enum"
       },
@@ -11111,6 +11337,26 @@
             "smithy.api#documentation" : "<p>Describes a connector that enables persistent storage for users.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.appstream#StorageConnectorAuthentication" : {
+         "members" : {
+            "FORCE_REAUTHENTICATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FORCE_REAUTHENTICATION"
+               }
+            },
+            "REUSE_CREDENTIALS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REUSE_CREDENTIALS"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies whether users' cloud storage authentication persists across streaming sessions.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.appstream#StorageConnectorList" : {
          "member" : {
@@ -12148,6 +12394,95 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.appstream#UpdateImageBuilder" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appstream#ConcurrentModificationException"
+            },
+            {
+               "target" : "com.amazonaws.appstream#IncompatibleImageException"
+            },
+            {
+               "target" : "com.amazonaws.appstream#InvalidAccountStatusException"
+            },
+            {
+               "target" : "com.amazonaws.appstream#InvalidParameterCombinationException"
+            },
+            {
+               "target" : "com.amazonaws.appstream#OperationNotPermittedException"
+            },
+            {
+               "target" : "com.amazonaws.appstream#RequestLimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.appstream#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appstream#UpdateImageBuilderRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appstream#UpdateImageBuilderResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the specified fields for the specified image builder. The image builder must be in the STOPPED state.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appstream#UpdateImageBuilderRequest" : {
+         "members" : {
+            "AgentAccessConfig" : {
+               "target" : "com.amazonaws.appstream#ImageBuilderAgentAccessConfigForUpdate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for agent access on the image builder. Specify this to update agent access settings. To remove agent access, use AttributesToDelete with the AGENT_ACCESS_CONFIG value.</p>"
+               }
+            },
+            "AttributesToDelete" : {
+               "target" : "com.amazonaws.appstream#ImageBuilderAttributes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The image builder attributes to delete.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.appstream#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description to display.</p>"
+               }
+            },
+            "DisplayName" : {
+               "target" : "com.amazonaws.appstream#DisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The image builder name to display.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.appstream#Name",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The name of the image builder.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appstream#UpdateImageBuilderResult" : {
+         "members" : {
+            "ImageBuilder" : {
+               "target" : "com.amazonaws.appstream#ImageBuilder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the image builder.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.appstream#UpdateImagePermissions" : {
          "errors" : [
             {
@@ -12323,6 +12658,12 @@
                "target" : "com.amazonaws.appstream#RedirectURL",
                "traits" : {
                   "smithy.api#documentation" : "<p>The URL that users are redirected to after their streaming session ends.</p>"
+               }
+            },
+            "StorageConnectorAuthentication" : {
+               "target" : "com.amazonaws.appstream#StorageConnectorAuthentication",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. To clear this attribute, add STORAGE_CONNECTOR_AUTHENTICATION to AttributesToDelete.</p>"
                }
             },
             "StorageConnectors" : {
@@ -12938,6 +13279,7 @@
       },
       "com.amazonaws.appstream#WorkspaceImageId" : {
          "traits" : {
+            "smithy.api#documentation" : "<p>WorkspaceImageId type with validation pattern</p>",
             "smithy.api#length" : {
                "max" : 67,
                "min" : 12
