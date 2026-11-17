@@ -1105,6 +1105,20 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.kinesisanalyticsv2#ApplicationOperationDescription" : {
+         "members" : {
+            "ApplicationName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ApplicationName"
+            },
+            "ApplicationOperationId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#OperationId"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the application operation that initiated a snapshot operation. To get information about the application operation, use <code>DescribeApplicationOperation</code>.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.kinesisanalyticsv2#ApplicationOperationInfo" : {
          "members" : {
             "EndTime" : {
@@ -1192,6 +1206,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "SnapshotArn" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of an existing enhanced snapshot of application state to use to restart an application. The application uses this value if <code>RESTORE_FROM_CUSTOM_SNAPSHOT</code> is specified for the <code>ApplicationRestoreType</code> and <code>SnapshotMode</code> is <code>ENHANCED_SNAPSHOTS</code>.</p>"
+               }
+            },
             "SnapshotName" : {
                "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotName",
                "traits" : {
@@ -1229,6 +1249,12 @@
       },
       "com.amazonaws.kinesisanalyticsv2#ApplicationSnapshotConfiguration" : {
          "members" : {
+            "SnapshotMode" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the snapshot mode for a Managed Service for Apache Flink application. To use enhanced snapshots, specify <code>ENHANCED_SNAPSHOTS</code>. If you don't specify this parameter, the application uses <code>APPLICATION_SNAPSHOTS_LEGACY</code>. For more information, see <a href=\"https://docs.aws.amazon.com/managed-flink/latest/java/how-snapshots.html\">Enhanced Snapshots</a>.</p>\n         <p>To use <code>ENHANCED_SNAPSHOTS</code>, the application must use Apache Flink version 1.20 or later.</p>"
+               }
+            },
             "SnapshotsEnabled" : {
                "target" : "com.amazonaws.kinesisanalyticsv2#BooleanObject",
                "traits" : {
@@ -1244,6 +1270,12 @@
       },
       "com.amazonaws.kinesisanalyticsv2#ApplicationSnapshotConfigurationDescription" : {
          "members" : {
+            "SnapshotMode" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the snapshot mode of a Managed Service for Apache Flink application.</p>"
+               }
+            },
             "SnapshotsEnabled" : {
                "target" : "com.amazonaws.kinesisanalyticsv2#BooleanObject",
                "traits" : {
@@ -1259,6 +1291,12 @@
       },
       "com.amazonaws.kinesisanalyticsv2#ApplicationSnapshotConfigurationUpdate" : {
          "members" : {
+            "SnapshotModeUpdate" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes updates to the snapshot mode of a Managed Service for Apache Flink application. You can update the snapshot mode from <code>APPLICATION_SNAPSHOTS_LEGACY</code> to <code>ENHANCED_SNAPSHOTS</code>. You can't use <code>UpdateApplication</code> to change the snapshot mode back to <code>APPLICATION_SNAPSHOTS_LEGACY</code>.</p>\n         <p>To return to <code>APPLICATION_SNAPSHOTS_LEGACY</code>, use <code>RollbackApplication</code>. After you update an application that uses <code>ENHANCED_SNAPSHOTS</code>, you can't roll it back to <code>APPLICATION_SNAPSHOTS_LEGACY</code>.</p>\n         <p>To use <code>ENHANCED_SNAPSHOTS</code>, the application must use Apache Flink version 1.20 or later.</p>"
+               }
+            },
             "SnapshotsEnabledUpdate" : {
                "target" : "com.amazonaws.kinesisanalyticsv2#BooleanObject",
                "traits" : {
@@ -1942,7 +1980,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Exception thrown as a result of concurrent modifications to an application. This error can\n      be the result of attempting to modify an application without using the current application\n      ID.</p>",
+            "smithy.api#documentation" : "<p>Exception thrown as a result of concurrent modifications to an application or snapshot. This error can\n      be the result of attempting to modify an application without using the current application\n      ID.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 409
          },
@@ -2211,6 +2249,110 @@
       },
       "com.amazonaws.kinesisanalyticsv2#CreateApplicationSnapshotResponse" : {
          "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#CreateSnapshot" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ConcurrentModificationException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#InvalidApplicationConfigurationException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#InvalidArgumentException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ResourceInUseException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#TooManyTagsException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#UnsupportedOperationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#CreateSnapshotRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#CreateSnapshotResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates an enhanced snapshot of the state data of a running Managed Service for Apache Flink application. The application must be in the <code>RUNNING</code> status, use Apache Flink version 1.20 or later, and use the <code>ENHANCED_SNAPSHOTS</code> snapshot mode.</p>\n         <p>This operation is asynchronous. The response returns the snapshot ARN with the <code>CREATING</code> status. To check the status of the snapshot, use <code>DescribeSnapshot</code>. To track the progress of the operation, use <code>DescribeSnapshotOperation</code>.</p>\n         <p>An application can have only one <code>CreateSnapshot</code> operation in progress at a time. For information about limits, see <a href=\"https://docs.aws.amazon.com/managed-flink/latest/java/limits.html\">Managed Service for Apache Flink Quotas</a>. For more information about snapshots, see <a href=\"https://docs.aws.amazon.com/managed-flink/latest/java/how-snapshots.html\">Enhanced Snapshots</a>.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.kinesisanalyticsv2#CreateSnapshotRequest" : {
+         "members" : {
+            "ApplicationName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ApplicationName",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary description of the snapshot.</p>"
+               }
+            },
+            "SnapshotName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the enhanced snapshot. The name must be unique among the snapshots in your account and Region. You can't reuse the name of an existing snapshot, including a snapshot in the <code>FAILED</code> status, until you delete that snapshot. Names that begin with <code>SYSTEMSNAPSHOT</code> are reserved.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#Tags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of one or more tags to assign to the snapshot. A tag is a key-value pair that identifies a snapshot. For more information, see <a href=\"https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html\">Using Tagging</a>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#CreateSnapshotResponse" : {
+         "members" : {
+            "SnapshotArn" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the snapshot operation. You can use this value with <code>DescribeSnapshotOperation</code> to track the progress of the operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the snapshot operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the snapshot. When Managed Service for Apache Flink accepts the request, the status is <code>CREATING</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
          "traits" : {
             "smithy.api#output" : {}
          },
@@ -2847,6 +2989,93 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.kinesisanalyticsv2#DeleteSnapshot" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ConcurrentModificationException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#InvalidArgumentException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ResourceInUseException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#UnsupportedOperationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#DeleteSnapshotRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#DeleteSnapshotResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes an enhanced snapshot. Snapshots are not scoped to an application, so you can delete a snapshot independently of the application that it was created from.</p>\n         <p>This operation is asynchronous. The response returns the snapshot ARN with the <code>DELETING</code> status. To track the progress of the operation, use <code>DescribeSnapshotOperation</code>.</p>\n         <p>You can delete a snapshot in the <code>READY</code> or <code>FAILED</code> status. If a snapshot operation, such as an export, uses the snapshot, Managed Service for Apache Flink waits for that operation to finish before it deletes the snapshot. For a snapshot in any other status, <code>ResourceInUseException</code> is returned.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.kinesisanalyticsv2#DeleteSnapshotRequest" : {
+         "members" : {
+            "SnapshotCreationTimestamp" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The creation timestamp of the enhanced snapshot to delete. Use the <code>DescribeSnapshot</code> operation to get this value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the enhanced snapshot to delete.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#DeleteSnapshotResponse" : {
+         "members" : {
+            "SnapshotArn" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the snapshot operation. You can use this value with <code>DescribeSnapshotOperation</code> to track the progress of the operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the snapshot operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the snapshot. When Managed Service for Apache Flink accepts the request, the status is <code>DELETING</code>. If a snapshot operation, such as an export, uses the snapshot, the status stays <code>DELETING</code> until that operation finishes and Managed Service for Apache Flink deletes the snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.kinesisanalyticsv2#DeployAsApplicationConfiguration" : {
          "members" : {
             "S3ContentLocation" : {
@@ -3122,6 +3351,119 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.kinesisanalyticsv2#DescribeSnapshot" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#InvalidArgumentException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#UnsupportedOperationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#DescribeSnapshotRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#DescribeSnapshotResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about an enhanced snapshot. To see a list of the snapshots in your account, use <code>ListSnapshots</code>.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.kinesisanalyticsv2#DescribeSnapshotOperation" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#InvalidArgumentException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#UnsupportedOperationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#DescribeSnapshotOperationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#DescribeSnapshotOperationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Provides a detailed description of a specified operation that was performed on an enhanced snapshot. To see a list of the operations of a snapshot, use <code>ListSnapshotOperations</code>.</p>\n         <p>Snapshot operations are available for 90 days after they are created.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.kinesisanalyticsv2#DescribeSnapshotOperationRequest" : {
+         "members" : {
+            "SnapshotName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the snapshot operation. You can retrieve this value using <code>ListSnapshotOperations</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#DescribeSnapshotOperationResponse" : {
+         "members" : {
+            "SnapshotOperationInfoDetails" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationInfoDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An object containing information about the snapshot operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#DescribeSnapshotRequest" : {
+         "members" : {
+            "SnapshotName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the enhanced snapshot. You can retrieve this value using <code>ListSnapshots</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#DescribeSnapshotResponse" : {
+         "members" : {
+            "SnapshotInfoDetails" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotInfoDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An object containing information about the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.kinesisanalyticsv2#DestinationSchema" : {
          "members" : {
             "RecordFormatType" : {
@@ -3240,6 +3582,27 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.kinesisanalyticsv2#EncryptionConfigurationDescription" : {
+         "members" : {
+            "KeyId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#KeyId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The KMS key used for encryption.</p>"
+               }
+            },
+            "KeyType" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#KeyType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the type of key used for encryption.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the encryption configuration of snapshot data for a snapshot operation.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.kinesisanalyticsv2#EnvironmentProperties" : {
          "members" : {
             "PropertyGroups" : {
@@ -3307,6 +3670,117 @@
             }
          },
          "type" : "string"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ExportDestinationConfiguration" : {
+         "members" : {
+            "DestinationEncryptionConfiguration" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotEncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The encryption configuration of the exported snapshot data. If you don't specify this parameter, Managed Service for Apache Flink uses a key of type <code>AWS_OWNED_KEY</code>. If you specify a KMS key, you must specify the key ARN.</p>"
+               }
+            },
+            "DestinationS3PrefixLocation" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#S3PrefixLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 bucket and key prefix to export the snapshot data to. Managed Service for Apache Flink writes the data under a unique prefix that it appends to the key prefix that you specify. After the export completes, use <code>DescribeSnapshotOperation</code> to get the full prefix. The bucket must be owned by your account and must be in the same Region as the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "DestinationType" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#StorageLocationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the destination location. The only supported value is <code>S3</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ExportRoleArn" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#RoleARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the IAM role that Managed Service for Apache Flink assumes to write the snapshot data to the destination location. For information about the permissions that this role requires, see <a href=\"https://docs.aws.amazon.com/managed-flink/latest/java/snapshots-import-export.html\">Import and export</a>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the destination of the exported snapshot data.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ExportSnapshot" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ConcurrentModificationException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#InvalidArgumentException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ResourceInUseException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#UnsupportedOperationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#ExportSnapshotRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#ExportSnapshotResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Exports the data of an enhanced snapshot to an Amazon S3 location. Managed Service for Apache Flink assumes the IAM role that you specify in <code>ExportDestinationConfiguration</code> to write the snapshot data. The snapshot must be in the <code>READY</code> status.</p>\n         <p>This operation is asynchronous. To track the progress of the export, use <code>DescribeSnapshotOperation</code>.</p>\n         <p>A snapshot can have only one export in progress at a time. If an export of the snapshot is already in progress, <code>LimitExceededException</code> is returned.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/managed-flink/latest/java/snapshots-import-export.html\">Import and export</a>.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ExportSnapshotRequest" : {
+         "members" : {
+            "ExportDestinationConfiguration" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ExportDestinationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the location, IAM role, and encryption configuration of the export destination.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the enhanced snapshot to export.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ExportSnapshotResponse" : {
+         "members" : {
+            "SnapshotOperationId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the snapshot operation. You can use this value with <code>DescribeSnapshotOperation</code> to track the progress of the export.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the snapshot operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.kinesisanalyticsv2#FileKey" : {
          "traits" : {
@@ -3469,6 +3943,155 @@
             "smithy.api#pattern" : "^[a-zA-Z0-9_.-]+$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ImportSnapshot" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ConcurrentModificationException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#InvalidArgumentException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ResourceInUseException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#TooManyTagsException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#UnsupportedOperationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#ImportSnapshotRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#ImportSnapshotResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Imports an Apache Flink savepoint from an Amazon S3 location as an enhanced snapshot. Managed Service for Apache Flink assumes the IAM role that you specify in <code>ImportSourceConfiguration</code> to read the savepoint data.</p>\n         <p>This operation is asynchronous. The response returns the snapshot ARN with the <code>CREATING</code> status. To track the progress of the import, use <code>DescribeSnapshotOperation</code>.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/managed-flink/latest/java/snapshots-import-export.html\">Import and export</a>.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ImportSnapshotRequest" : {
+         "members" : {
+            "DestinationEncryptionConfiguration" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotEncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The encryption configuration of the imported snapshot. If you don't specify this parameter, the snapshot is encrypted using a key of type <code>AWS_OWNED_KEY</code>. If you specify a KMS key, you must specify the key ARN.</p>"
+               }
+            },
+            "ImportSourceConfiguration" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ImportSourceConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the location, IAM role, and encryption configuration of the savepoint data to import.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary description of the snapshot.</p>"
+               }
+            },
+            "SnapshotFormat" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format of the snapshot being imported.</p>"
+               }
+            },
+            "SnapshotName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the enhanced snapshot. The name must be unique among the snapshots in your account and Region. You can't reuse the name of an existing snapshot, including a snapshot in the <code>FAILED</code> status, until you delete that snapshot. Names that begin with <code>SYSTEMSNAPSHOT</code> are reserved.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#Tags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of one or more tags to assign to the snapshot. A tag is a key-value pair that identifies a snapshot. For more information, see <a href=\"https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html\">Using Tagging</a>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ImportSnapshotResponse" : {
+         "members" : {
+            "SnapshotArn" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the snapshot operation. You can use this value with <code>DescribeSnapshotOperation</code> to track the progress of the import.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the snapshot operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the snapshot. When Managed Service for Apache Flink accepts the request, the status is <code>CREATING</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ImportSourceConfiguration" : {
+         "members" : {
+            "ImportRoleArn" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#RoleARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the IAM role that Managed Service for Apache Flink assumes to read the savepoint data from the source location. For information about the permissions that this role requires, see <a href=\"https://docs.aws.amazon.com/managed-flink/latest/java/snapshots-import-export.html\">Import and export</a>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SourceEncryptionConfiguration" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotEncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The encryption configuration of the savepoint data at the source location. If you don't specify this parameter, Managed Service for Apache Flink uses a key of type <code>AWS_OWNED_KEY</code>. If you specify a KMS key, you must specify the key ARN.</p>"
+               }
+            },
+            "SourceS3PrefixLocation" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#S3PrefixLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 bucket and key prefix that contain the savepoint data to import. The bucket must be owned by your account and must be in the same Region as the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SourceType" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#StorageLocationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the source location. The only supported value is <code>S3</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the source of the savepoint data to import.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.kinesisanalyticsv2#InAppStreamName" : {
          "traits" : {
@@ -3931,6 +4554,15 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.kinesisanalyticsv2#KeyPrefix" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.kinesisanalyticsv2#KeyType" : {
          "members" : {
             "AWS_OWNED_KEY" : {
@@ -3988,6 +4620,9 @@
                "target" : "com.amazonaws.kinesisanalyticsv2#CreateApplicationSnapshot"
             },
             {
+               "target" : "com.amazonaws.kinesisanalyticsv2#CreateSnapshot"
+            },
+            {
                "target" : "com.amazonaws.kinesisanalyticsv2#DeleteApplication"
             },
             {
@@ -4009,6 +4644,9 @@
                "target" : "com.amazonaws.kinesisanalyticsv2#DeleteApplicationVpcConfiguration"
             },
             {
+               "target" : "com.amazonaws.kinesisanalyticsv2#DeleteSnapshot"
+            },
+            {
                "target" : "com.amazonaws.kinesisanalyticsv2#DescribeApplication"
             },
             {
@@ -4021,7 +4659,19 @@
                "target" : "com.amazonaws.kinesisanalyticsv2#DescribeApplicationVersion"
             },
             {
+               "target" : "com.amazonaws.kinesisanalyticsv2#DescribeSnapshot"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#DescribeSnapshotOperation"
+            },
+            {
                "target" : "com.amazonaws.kinesisanalyticsv2#DiscoverInputSchema"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ExportSnapshot"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ImportSnapshot"
             },
             {
                "target" : "com.amazonaws.kinesisanalyticsv2#ListApplicationOperations"
@@ -4034,6 +4684,12 @@
             },
             {
                "target" : "com.amazonaws.kinesisanalyticsv2#ListApplicationVersions"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ListSnapshotOperations"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ListSnapshots"
             },
             {
                "target" : "com.amazonaws.kinesisanalyticsv2#ListTagsForResource"
@@ -5719,6 +6375,124 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.kinesisanalyticsv2#ListSnapshotOperations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#InvalidArgumentException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#UnsupportedOperationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#ListSnapshotOperationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#ListSnapshotOperationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the operations that were performed on the specified enhanced snapshot, such as <code>CreateSnapshot</code>, <code>ImportSnapshot</code>, and <code>ExportSnapshot</code>. The response includes a summary of each operation.</p>\n         <p>You can specify only one of the <code>SnapshotOperation</code> or <code>SnapshotOperationStatus</code> filters in a request. If you specify both, <code>InvalidArgumentException</code> is returned.</p>\n         <p>To get the complete description of a specific operation, use <code>DescribeSnapshotOperation</code>. Snapshot operations are available for 90 days after they are created.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "SnapshotOperationInfoList",
+               "outputToken" : "NextToken",
+               "pageSize" : "Limit"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ListSnapshotOperationsLimit" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ListSnapshotOperationsRequest" : {
+         "members" : {
+            "Limit" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ListSnapshotOperationsLimit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of snapshot operations to list.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#NextToken"
+            },
+            "SnapshotName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperation" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Use this parameter to list only the operations of the specified type.</p>"
+               }
+            },
+            "SnapshotOperationStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Use this parameter to list only the operations with the specified status.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ListSnapshotOperationsResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#NextToken"
+            },
+            "SnapshotOperationInfoList" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationInfoList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of <code>SnapshotOperationInfo</code> objects.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ListSnapshots" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#InvalidArgumentException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#UnsupportedOperationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#ListSnapshotsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#ListSnapshotsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the enhanced snapshots in your account. Snapshots are not scoped to an application. To list the snapshots that were created from a specific application, use the <code>SourceApplicationName</code> parameter.</p>\n         <p>You can specify only one of the following filters in a request: <code>SourceApplicationName</code>, <code>SnapshotInitiator</code>, <code>SnapshotInitiatorOperation</code>, or <code>SnapshotStatus</code>. If you specify more than one filter, <code>InvalidArgumentException</code> is returned.</p>\n         <p>The results are sorted in descending order of snapshot creation timestamp. To get detailed information about a specific snapshot, use <code>DescribeSnapshot</code>.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "SnapshotInfoList",
+               "outputToken" : "NextToken",
+               "pageSize" : "Limit"
+            }
+         },
+         "type" : "operation"
+      },
       "com.amazonaws.kinesisanalyticsv2#ListSnapshotsInputLimit" : {
          "traits" : {
             "smithy.api#range" : {
@@ -5727,6 +6501,71 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ListSnapshotsLimit" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ListSnapshotsRequest" : {
+         "members" : {
+            "Limit" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ListSnapshotsLimit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of snapshots to list.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#NextToken"
+            },
+            "SnapshotInitiator" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotInitiator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Use this parameter to list only the snapshots with the specified initiator.</p>"
+               }
+            },
+            "SnapshotInitiatorOperation" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotInitiatorOperation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Use this parameter to list only the snapshots that were created by the specified operation.</p>"
+               }
+            },
+            "SnapshotStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Use this parameter to list only the snapshots with the specified status.</p>"
+               }
+            },
+            "SourceApplicationName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ApplicationName"
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#ListSnapshotsResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#NextToken"
+            },
+            "SnapshotInfoList" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotInfoList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of <code>SnapshotInfo</code> objects.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.kinesisanalyticsv2#ListTagsForResource" : {
          "errors" : [
@@ -6743,7 +7582,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The application is not available for this operation.</p>",
+            "smithy.api#documentation" : "<p>The application or snapshot is not available for this operation.</p>",
             "smithy.api#error" : "client"
          },
          "type" : "structure"
@@ -6755,7 +7594,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Specified application can't be found.</p>",
+            "smithy.api#documentation" : "<p>The specified application, snapshot, or snapshot operation can't be found.</p>",
             "smithy.api#error" : "client"
          },
          "type" : "structure"
@@ -7174,6 +8013,28 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.kinesisanalyticsv2#S3PrefixLocation" : {
+         "members" : {
+            "BucketARN" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#BucketARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Amazon S3 bucket.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "KeyPrefix" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#KeyPrefix",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key prefix in the Amazon S3 bucket.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies an Amazon S3 bucket and key prefix.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.kinesisanalyticsv2#S3ReferenceDataSource" : {
          "members" : {
             "BucketARN" : {
@@ -7279,6 +8140,15 @@
          },
          "type" : "long"
       },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.kinesisanalyticsv2#SnapshotDetails" : {
          "members" : {
             "ApplicationEncryptionConfigurationDescription" : {
@@ -7326,6 +8196,270 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotEncryptionConfiguration" : {
+         "members" : {
+            "KeyId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#KeyId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The KMS key used for encryption. <code>KeyId</code> is used only when <code>KeyType</code> is <code>CUSTOMER_MANAGED_KEY</code>.</p>"
+               }
+            },
+            "KeyType" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#KeyType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the type of key used for encryption.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies the encryption configuration of snapshot data.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotErrorInfo" : {
+         "members" : {
+            "ErrorCode" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationErrorCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error code that identifies the cause of the failure.</p>"
+               }
+            },
+            "ErrorString" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ErrorString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An error message that is returned when an operation fails.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A description of the error that caused a snapshot operation to fail.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotFormat" : {
+         "members" : {
+            "CANONICAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CANONICAL"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotInfo" : {
+         "members" : {
+            "SnapshotArn" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotCreationTimestamp" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp that indicates when the snapshot was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotFormat" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format of the snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotInitiator" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotInitiator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates who initiated the snapshot. <code>USER</code> indicates a snapshot that you created or imported. <code>SYSTEM</code> indicates a snapshot that Managed Service for Apache Flink created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotInitiatorOperation" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotInitiatorOperation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The operation that created the snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SourceApplicationName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ApplicationName"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Provides summary information about an enhanced snapshot.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotInfoDetails" : {
+         "members" : {
+            "RuntimeEnvironment" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#RuntimeEnvironment",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Flink runtime of the application that the snapshot was created from. This field is not present for imported snapshots.</p>"
+               }
+            },
+            "SnapshotArn" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotCreationTimestamp" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp that indicates when the snapshot was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The summary description of the snapshot.</p>"
+               }
+            },
+            "SnapshotEncryptionConfigurationDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotEncryptionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the encryption settings of data at rest for the snapshot.</p>"
+               }
+            },
+            "SnapshotFormat" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format of the snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotInitiator" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotInitiator",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates who initiated the snapshot. <code>USER</code> indicates a snapshot that you created or imported. <code>SYSTEM</code> indicates a snapshot that Managed Service for Apache Flink created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotInitiatorOperation" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotInitiatorOperation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The operation that created the snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotV2Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotSizeInBytes" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotSizeInBytes",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The size of the snapshot, in bytes. The value is <code>0</code> until the snapshot status is <code>READY</code>.</p>"
+               }
+            },
+            "SnapshotSourceDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotSourceDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the source of the snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Provides details about an enhanced snapshot.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotInfoList" : {
+         "member" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotInfo"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotInitiator" : {
+         "members" : {
+            "SYSTEM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SYSTEM"
+               }
+            },
+            "USER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "USER"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotInitiatorOperation" : {
+         "members" : {
+            "CreateSnapshot" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CreateSnapshot"
+               }
+            },
+            "ImportSnapshot" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ImportSnapshot"
+               }
+            },
+            "SystemCreateSnapshot" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SystemCreateSnapshot"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotMode" : {
+         "members" : {
+            "APPLICATION_SNAPSHOTS_LEGACY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "APPLICATION_SNAPSHOTS_LEGACY"
+               }
+            },
+            "ENHANCED_SNAPSHOTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENHANCED_SNAPSHOTS"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.kinesisanalyticsv2#SnapshotName" : {
          "traits" : {
             "smithy.api#length" : {
@@ -7335,6 +8469,309 @@
             "smithy.api#pattern" : "^[a-zA-Z0-9_.-]+$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotOperation" : {
+         "members" : {
+            "CreateSnapshot" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CreateSnapshot"
+               }
+            },
+            "DeleteSnapshot" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DeleteSnapshot"
+               }
+            },
+            "ExportSnapshot" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ExportSnapshot"
+               }
+            },
+            "ImportSnapshot" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ImportSnapshot"
+               }
+            },
+            "SystemCreateSnapshot" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SystemCreateSnapshot"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotOperationErrorCode" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotOperationFailureDetails" : {
+         "members" : {
+            "ErrorInfo" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotErrorInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the error that caused the snapshot operation to fail.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Provides a description of the snapshot operation failure.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotOperationId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotOperationInfo" : {
+         "members" : {
+            "EndTime" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp that indicates when the operation finished. This field is present only after the operation completes.</p>"
+               }
+            },
+            "SnapshotOperation" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of operation that was performed on the snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the snapshot operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the snapshot operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "StartTime" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp that indicates when the operation was created.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Provides summary information about an operation that was performed on an enhanced snapshot.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotOperationInfoDetails" : {
+         "members" : {
+            "ApplicationOperationDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ApplicationOperationDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the application operation that initiated the snapshot operation. This field is present only for <code>SystemCreateSnapshot</code> operations.</p>"
+               }
+            },
+            "DestinationEncryptionConfigurationDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#EncryptionConfigurationDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the encryption configuration of the destination data. This field is present only for <code>ImportSnapshot</code> and <code>ExportSnapshot</code> operations.</p>"
+               }
+            },
+            "EndTime" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp that indicates when the operation finished. This field is present only after the operation completes.</p>"
+               }
+            },
+            "SnapshotArn" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the enhanced snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotDestinationLocationDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationLocationDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the location that the snapshot data was written to. This field is present only for <code>ExportSnapshot</code> operations, after the operation completes.</p>"
+               }
+            },
+            "SnapshotOperation" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of operation that was performed on the snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationFailureDetails" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationFailureDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides a description of the operation failure. This field is present only if <code>SnapshotOperationStatus</code> is <code>FAILED</code>.</p>"
+               }
+            },
+            "SnapshotOperationId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the snapshot operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotOperationStatus" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the snapshot operation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "SnapshotSourceLocationDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationLocationDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the location that the snapshot data was read from. This field is present only for <code>ImportSnapshot</code> operations.</p>"
+               }
+            },
+            "SourceEncryptionConfigurationDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#EncryptionConfigurationDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the encryption configuration of the source data. This field is present only for <code>ImportSnapshot</code> operation.</p>"
+               }
+            },
+            "StartTime" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp that indicates when the operation was created.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A description of a snapshot operation that provides information about the operation that was performed on an enhanced snapshot.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotOperationInfoList" : {
+         "member" : {
+            "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationInfo"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotOperationLocationDescription" : {
+         "members" : {
+            "LocationType" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#StorageLocationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the location. The only supported value is <code>S3</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "S3PrefixLocation" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotOperationS3PrefixLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the Amazon S3 bucket and key prefix of the location.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the location of snapshot data for a snapshot operation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotOperationS3PrefixLocation" : {
+         "members" : {
+            "BucketARN" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#BucketARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Amazon S3 bucket.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ExportedPrefix" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#KeyPrefix",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The full key prefix that the exported snapshot data was written to. This value includes the unique prefix that Managed Service for Apache Flink appends to <code>KeyPrefix</code>. This field is present only after an <code>ExportSnapshot</code> operation completes successfully.</p>"
+               }
+            },
+            "KeyPrefix" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#KeyPrefix",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key prefix in the Amazon S3 bucket that you specified in the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes an Amazon S3 bucket and key prefix for a snapshot operation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotOperationStatus" : {
+         "members" : {
+            "CANCELLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CANCELLED"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IN_PROGRESS"
+               }
+            },
+            "SUCCESSFUL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUCCESSFUL"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotSizeInBytes" : {
+         "traits" : {
+            "smithy.api#default" : 0
+         },
+         "type" : "long"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotSourceDescription" : {
+         "members" : {
+            "S3PrefixLocation" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#S3PrefixLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon S3 location that the snapshot was imported from. This field is present only if <code>SnapshotInitiatorOperation</code> is <code>ImportSnapshot</code>.</p>"
+               }
+            },
+            "SourceApplicationDescription" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#SourceApplicationDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the application that the snapshot was created from. This field is not present for imported snapshots.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the source of an enhanced snapshot. For a snapshot that was created from an application, <code>SourceApplicationDescription</code> is present. For an imported snapshot, <code>S3PrefixLocation</code> is present.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.kinesisanalyticsv2#SnapshotStatus" : {
          "members" : {
@@ -7370,6 +8807,54 @@
             "target" : "com.amazonaws.kinesisanalyticsv2#SnapshotDetails"
          },
          "type" : "list"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotV2Description" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[^\\u0000-\\u001F\\u007F]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SnapshotV2Name" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_.-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.kinesisanalyticsv2#SourceApplicationDescription" : {
+         "members" : {
+            "ApplicationCreationTimestamp" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp that indicates when the source application was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ApplicationName" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ApplicationName",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "ApplicationVersionId" : {
+               "target" : "com.amazonaws.kinesisanalyticsv2#ApplicationVersionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version ID of the source application when the snapshot was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the application that an enhanced snapshot was created from.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.kinesisanalyticsv2#SourceSchema" : {
          "members" : {
@@ -7521,6 +9006,9 @@
             },
             {
                "target" : "com.amazonaws.kinesisanalyticsv2#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#UnsupportedOperationException"
             }
          ],
          "input" : {
@@ -7635,6 +9123,17 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.kinesisanalyticsv2#StorageLocationType" : {
+         "members" : {
+            "S3" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "S3"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.kinesisanalyticsv2#SubnetId" : {
          "type" : "string"
@@ -7915,6 +9414,9 @@
             },
             {
                "target" : "com.amazonaws.kinesisanalyticsv2#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.kinesisanalyticsv2#UnsupportedOperationException"
             }
          ],
          "input" : {

@@ -330,6 +330,13 @@
                   "smithy.api#notProperty" : {}
                }
             },
+            "metricGroups" : {
+               "target" : "com.amazonaws.dsql#MetricGroupRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metric groups to enable for advanced monitoring on the cluster. Advanced monitoring collects detailed, query-level database metrics to help you analyze and resolve performance issues. If you omit this parameter, no metric groups are enabled.</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            },
             "multiRegionProperties" : {
                "target" : "com.amazonaws.dsql#MultiRegionProperties",
                "traits" : {
@@ -399,6 +406,13 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of the created cluster.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "metricGroups" : {
+               "target" : "com.amazonaws.dsql#MetricGroupResponseList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metric groups that you enabled for advanced monitoring on the created cluster.</p>",
+                  "smithy.api#notProperty" : {}
                }
             },
             "multiRegionProperties" : {
@@ -1452,6 +1466,13 @@
                   "smithy.api#required" : {}
                }
             },
+            "metricGroups" : {
+               "target" : "com.amazonaws.dsql#MetricGroupResponseList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metric groups that you enabled for advanced monitoring on the cluster. If you haven't enabled any metric groups, the list is empty.</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            },
             "multiRegionProperties" : {
                "target" : "com.amazonaws.dsql#MultiRegionProperties",
                "traits" : {
@@ -1824,7 +1845,7 @@
                "max" : 2048,
                "min" : 1
             },
-            "smithy.api#pattern" : "^arn:aws[a-zA-Z\\-]*:kinesis:[a-zA-Z0-9\\-]*:\\d{12}:stream/[a-zA-Z0-9+=,.@_/\\-]+$"
+            "smithy.api#pattern" : "^arn:aws[a-zA-Z-]*:kinesis:[a-z0-9-]*:[0-9]{12}:stream/[a-zA-Z0-9+=,.@_/\\-]+$"
          },
          "type" : "string"
       },
@@ -2106,6 +2127,76 @@
          },
          "type" : "integer"
       },
+      "com.amazonaws.dsql#MetricGroup" : {
+         "members" : {
+            "STATEMENT_STATISTICS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Shows which SQL statements run most often or take the most time. Collects execution count, execution time, and rows for each statement.</p>",
+                  "smithy.api#enumValue" : "STATEMENT_STATISTICS"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name of an advanced monitoring metric group. Advanced monitoring collects detailed, query-level database metrics to help you analyze and resolve performance issues. You choose which metric groups to collect for each cluster.</p> <p>The following metric groups are available:</p> <dl> <dt>STATEMENT_STATISTICS</dt> <dd> <p>Shows which SQL statements run most often or take the most time. Collects execution count, execution time, and rows for each statement.</p> </dd> </dl>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.dsql#MetricGroupRequest" : {
+         "members" : {
+            "metricGroup" : {
+               "target" : "com.amazonaws.dsql#MetricGroup",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the metric group to enable.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A metric group to enable for advanced monitoring.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.dsql#MetricGroupRequestList" : {
+         "member" : {
+            "target" : "com.amazonaws.dsql#MetricGroupRequest"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of metric groups to enable for advanced monitoring. Each metric group can appear only once.</p>",
+            "smithy.api#length" : {
+               "max" : 20
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.dsql#MetricGroupResponse" : {
+         "members" : {
+            "metricGroup" : {
+               "target" : "com.amazonaws.dsql#MetricGroup",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the metric group that you enabled.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A metric group that you enabled for advanced monitoring on a cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.dsql#MetricGroupResponseList" : {
+         "member" : {
+            "target" : "com.amazonaws.dsql#MetricGroupResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of metric groups that you enabled for advanced monitoring on a cluster.</p>",
+            "smithy.api#length" : {
+               "max" : 20
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.dsql#MultiRegionProperties" : {
          "members" : {
             "clusters" : {
@@ -2291,7 +2382,7 @@
                "max" : 128,
                "min" : 1
             },
-            "smithy.api#pattern" : "^com\\.amazonaws\\.[a-z0-9-]+\\.dsql-[a-f0-9]{6}$"
+            "smithy.api#pattern" : "^com\\.amazonaws\\.[a-z0-9-]+\\.dsql[a-z0-9-]*$"
          },
          "type" : "string"
       },
@@ -2874,6 +2965,13 @@
                "target" : "com.amazonaws.dsql#KmsEncryptionKey",
                "traits" : {
                   "smithy.api#documentation" : "<p>The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.</p> <p>To switch to the key owned by Amazon Web Services, specify the reserved value <code>AWS_OWNED_KMS_KEY</code>.</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            },
+            "metricGroups" : {
+               "target" : "com.amazonaws.dsql#MetricGroupRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The complete set of metric groups to enable for advanced monitoring on the cluster. This list replaces the current set, so any metric group that you don't include is disabled. To disable all metric groups, specify an empty list (<code>[]</code>). If you omit this parameter, the current setting doesn't change.</p> <p>To view the metric groups enabled on a cluster, use <i>GetCluster</i>.</p>",
                   "smithy.api#notProperty" : {}
                }
             },
