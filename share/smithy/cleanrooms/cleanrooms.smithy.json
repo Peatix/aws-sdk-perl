@@ -1411,6 +1411,12 @@
                   "smithy.api#enumValue" : "PYSPARK_1_0"
                }
             },
+            "PYSPARK_2_0" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PYSPARK_2_0"
+               }
+            },
             "SQL" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -5708,6 +5714,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "tableType" : {
+               "target" : "com.amazonaws.cleanrooms#TableReferenceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of the Configured Table DataSource, example: Glue, Snowflake, Athena, Databricks</p>"
+               }
+            },
             "updateTime" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
@@ -6401,6 +6413,12 @@
                "target" : "com.amazonaws.cleanrooms#SelectedAnalysisMethods",
                "traits" : {
                   "smithy.api#documentation" : "<p> The selected analysis methods for the configured table summary.</p>"
+               }
+            },
+            "tableType" : {
+               "target" : "com.amazonaws.cleanrooms#TableReferenceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of the Configured Table DataSource, example: Glue, Snowflake, Athena, Databricks</p>"
                }
             },
             "updateTime" : {
@@ -8236,6 +8254,108 @@
             "smithy.api#documentation" : "<p>The settings for client-side encryption for cryptographic computing.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.cleanrooms#DatabricksConnectionType" : {
+         "members" : {
+            "deltaSharing" : {
+               "target" : "com.amazonaws.cleanrooms#DatabricksDeltaSharingConnection",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about Connector for Databricks</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Type of the connector to be used for connecting to Databricks. Supported connector: Delta Sharing</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.cleanrooms#DatabricksDeltaSharingConnection" : {
+         "members" : {
+            "deltaShareEndpoint" : {
+               "target" : "com.amazonaws.cleanrooms#DatabricksEndpointUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The base URL of a Delta Sharing server that hosts shared datasets.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "shareName" : {
+               "target" : "com.amazonaws.cleanrooms#DatabricksObject",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name of the Share used for OpenSharing (Delta Sharing) the Databricks Table.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details about Delta Sharing Connector for Databricks</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cleanrooms#DatabricksEndpointUrl" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 10
+            },
+            "smithy.api#pattern" : "^https://(?:[a-zA-Z0-9.-]+\\.cloud\\.databricks\\.com/api/2\\.0/delta-sharing|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.opensharing\\.[a-z0-9-]+\\.cloud\\.databricks\\.com/api/2\\.0/opensharing)/metastores/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/recipients/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.cleanrooms#DatabricksObject" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.cleanrooms#DatabricksTableReference" : {
+         "members" : {
+            "connectionType" : {
+               "target" : "com.amazonaws.cleanrooms#DatabricksConnectionType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of the connector to be used for connecting to Databricks. Supported connector: Delta Sharing</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "schemaName" : {
+               "target" : "com.amazonaws.cleanrooms#DatabricksObject",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name of the Schema within Databricks.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tableName" : {
+               "target" : "com.amazonaws.cleanrooms#DatabricksObject",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name of the Table within Databricks.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workspaceUrl" : {
+               "target" : "com.amazonaws.cleanrooms#DatabricksWorkspaceUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>URL for the Databricks Workspace.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p> A reference to a table within Databricks.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cleanrooms#DatabricksWorkspaceUrl" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 10
+            },
+            "smithy.api#pattern" : "^https://[a-zA-Z0-9.-]+\\.cloud\\.databricks\\.com/?$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.cleanrooms#DeleteAnalysisTemplate" : {
          "errors" : [
@@ -17717,20 +17837,26 @@
             "code" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p> The error code for the protected job.</p>",
+                  "smithy.api#documentation" : "<p>A code that identifies the category of the failure. Valid values are:</p> <ul> <li> <p> <code>MALFORMED_SCRIPT</code> – The job script or its execution environment is not valid (code, imports, entry point, virtual environment, or dependencies).</p> </li> <li> <p> <code>RESOURCE_NOT_FOUND</code> – A referenced resource doesn't exist.</p> </li> <li> <p> <code>INVALID_RESOURCE</code> – A referenced resource exists, but you can't use it because its configuration, state, or data is not valid.</p> </li> <li> <p> <code>RESOURCE_ACCESS_DENIED</code> – A required permission is missing for a data source or resource.</p> </li> <li> <p> <code>INSUFFICIENT_COMPUTE</code> – The job exceeded the available compute (memory, disk, or time).</p> </li> <li> <p> <code>TRANSIENT_ERROR</code> – A temporary condition caused the failure, such as throttling or a network interruption.</p> </li> <li> <p> <code>INTERNAL_ERROR</code> – Clean Rooms encountered an unexpected error. If the error persists, contact AWS Support.</p> </li> <li> <p> <code>UNKNOWN_ERROR</code> – The failure couldn't be classified.</p> </li> </ul> <p>For more information about error codes, see <a href=\"https://docs.aws.amazon.com/clean-rooms/latest/userguide/error-codes.html\">https://docs.aws.amazon.com/clean-rooms/latest/userguide/error-codes.html</a> in the Clean Rooms User Guide.</p>",
                   "smithy.api#required" : {}
                }
             },
             "message" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p> The message for the protected job error.</p>",
+                  "smithy.api#documentation" : "<p>A description of why the protected job failed.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "retry" : {
+               "target" : "com.amazonaws.cleanrooms#RetryInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about whether running the same protected job again might succeed.</p>"
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The protected job error.</p>"
+            "smithy.api#documentation" : "<p>Details of the error that caused the protected job to fail.</p>"
          },
          "type" : "structure"
       },
@@ -17966,6 +18092,12 @@
                "target" : "com.amazonaws.cleanrooms#KeyPrefix",
                "traits" : {
                   "smithy.api#documentation" : "<p>The S3 prefix to unload the protected job results.</p>"
+               }
+            },
+            "resultFormat" : {
+               "target" : "com.amazonaws.cleanrooms#ResultFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The file format of the protected job results. If you don't specify a format, results are written as CSV.</p>"
                }
             }
          },
@@ -18352,20 +18484,26 @@
             "code" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>An error code for the error.</p>",
+                  "smithy.api#documentation" : "<p>A code that identifies the category of the failure. Valid values are:</p> <ul> <li> <p> <code>MALFORMED_QUERY</code> – The query is not valid (syntax, semantics, columns, or an unsupported operation).</p> </li> <li> <p> <code>RESOURCE_NOT_FOUND</code> – A referenced resource doesn't exist.</p> </li> <li> <p> <code>INVALID_RESOURCE</code> – A referenced resource exists, but you can't use it because its configuration, state, or data is not valid.</p> </li> <li> <p> <code>RESOURCE_ACCESS_DENIED</code> – A required permission is missing for a data source or resource.</p> </li> <li> <p> <code>INSUFFICIENT_COMPUTE</code> – The query exceeded the available compute (memory, disk, or time).</p> </li> <li> <p> <code>TRANSIENT_ERROR</code> – A temporary condition caused the failure, such as throttling or a network interruption.</p> </li> <li> <p> <code>INTERNAL_ERROR</code> – Clean Rooms encountered an unexpected error. If the error persists, contact AWS Support.</p> </li> <li> <p> <code>UNKNOWN_ERROR</code> – The failure couldn't be classified.</p> </li> </ul> <p>For more information about error codes, see <a href=\"https://docs.aws.amazon.com/clean-rooms/latest/userguide/error-codes.html\">https://docs.aws.amazon.com/clean-rooms/latest/userguide/error-codes.html</a> in the Clean Rooms User Guide.</p>",
                   "smithy.api#required" : {}
                }
             },
             "message" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A description of why the query failed.</p>",
+                  "smithy.api#documentation" : "<p>A description of why the protected query failed.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "retry" : {
+               "target" : "com.amazonaws.cleanrooms#RetryInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about whether running the same protected query again might succeed.</p>"
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Details of errors thrown by the protected query.</p>"
+            "smithy.api#documentation" : "<p>Details of the error that caused the protected query to fail.</p>"
          },
          "type" : "structure"
       },
@@ -18961,6 +19099,20 @@
             "smithy.api#documentation" : "File format of the returned data.\n"
          },
          "type" : "enum"
+      },
+      "com.amazonaws.cleanrooms#RetryInfo" : {
+         "members" : {
+            "retryable" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether running the same request again might succeed. <code>true</code> means that the failure was transient. <code>false</code> means that running the same request again is not expected to succeed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about whether running a failed protected query or protected job again might succeed.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.cleanrooms#RoleArn" : {
          "traits" : {
@@ -20498,6 +20650,12 @@
                   "smithy.api#documentation" : "<p> If present, a reference to the Athena table referred to by this table reference.</p>"
                }
             },
+            "databricks" : {
+               "target" : "com.amazonaws.cleanrooms#DatabricksTableReference",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> If present, a reference to the Databricks table referred to by this table reference.</p>"
+               }
+            },
             "glue" : {
                "target" : "com.amazonaws.cleanrooms#GlueTableReference",
                "traits" : {
@@ -20515,6 +20673,35 @@
             "smithy.api#documentation" : "<p>A pointer to the dataset that underlies this table.</p>"
          },
          "type" : "union"
+      },
+      "com.amazonaws.cleanrooms#TableReferenceType" : {
+         "members" : {
+            "ATHENA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ATHENA"
+               }
+            },
+            "DATABRICKS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DATABRICKS"
+               }
+            },
+            "GLUE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GLUE"
+               }
+            },
+            "SNOWFLAKE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SNOWFLAKE"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.cleanrooms#TagKey" : {
          "traits" : {

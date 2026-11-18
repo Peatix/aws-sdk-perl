@@ -956,6 +956,12 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.pcs#AmiIdOrEmpty" : {
+         "traits" : {
+            "smithy.api#pattern" : "^(ami-[a-z0-9]+)?$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.pcs#Arn" : {
          "traits" : {
             "smithy.api#length" : {
@@ -1394,7 +1400,7 @@
             "amiId" : {
                "target" : "com.amazonaws.pcs#AmiId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.</p>"
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not present, PCS uses the AMI ID specified in the custom launch template.</p>"
                }
             },
             "arn" : {
@@ -1422,7 +1428,7 @@
             "customLaunchTemplate" : {
                "target" : "com.amazonaws.pcs#CustomLaunchTemplate",
                "traits" : {
-                  "smithy.api#required" : {}
+                  "smithy.api#documentation" : "<p>The custom Amazon EC2 launch template associated with the compute node group. This value is present when <code>launchTemplateMode</code> is <code>CUSTOM</code> and isn't present when <code>launchTemplateMode</code> is <code>MANAGED</code>.</p>"
                }
             },
             "errorInfo" : {
@@ -1450,6 +1456,13 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A list of EC2 instance configurations that PCS can provision in the compute node group.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "launchTemplateMode" : {
+               "target" : "com.amazonaws.pcs#LaunchTemplateMode",
+               "traits" : {
+                  "smithy.api#default" : "CUSTOM",
+                  "smithy.api#documentation" : "<p>Indicates whether the compute node group uses a custom launch template or a launch template that PCS manages. The default value is <code>CUSTOM</code>.</p> <p>Valid values:</p> <ul> <li> <p> <code>CUSTOM</code> – The compute node group uses the launch template in <code>customLaunchTemplate</code>.</p> </li> <li> <p> <code>MANAGED</code> – PCS creates and manages the launch template.</p> </li> </ul>"
                }
             },
             "modifiedAt" : {
@@ -1485,11 +1498,23 @@
                   "smithy.api#required" : {}
                }
             },
+            "securityGroupIds" : {
+               "target" : "com.amazonaws.pcs#SecurityGroupIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IDs of the EC2 security groups configured directly on the compute node group. PCS uses these security groups instead of the security groups in the custom launch template. This value isn't present if security groups aren't configured directly on the compute node group. In that case, PCS uses the security groups in the custom launch template.</p>"
+               }
+            },
             "slurmConfiguration" : {
                "target" : "com.amazonaws.pcs#ComputeNodeGroupSlurmConfiguration"
             },
             "spotOptions" : {
                "target" : "com.amazonaws.pcs#SpotOptions"
+            },
+            "sshKeyName" : {
+               "target" : "com.amazonaws.pcs#KeyPairName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the EC2 key pair configured directly on the compute node group. PCS uses this key pair instead of the key pair in the custom launch template. This value isn't present if a key pair isn't configured directly on the compute node group. In that case, PCS uses the key pair in the custom launch template, if one is specified.</p>"
+               }
             },
             "status" : {
                "target" : "com.amazonaws.pcs#ComputeNodeGroupStatus",
@@ -1596,6 +1621,12 @@
       },
       "com.amazonaws.pcs#ComputeNodeGroupSlurmConfiguration" : {
          "members" : {
+            "gresCustomSettings" : {
+               "target" : "com.amazonaws.pcs#GresCustomSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The additional Slurm <code>gres.conf</code> records for the compute node group. Each item is a map of <code>gres.conf</code> attribute names to values that describes one <code>gres.conf</code> record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the <code>NodeName=</code> prefix and merges these records with the GPU record it derives from the instance type.</p>"
+               }
+            },
             "scaleDownIdleTimeInSeconds" : {
                "target" : "smithy.api#Integer",
                "traits" : {
@@ -1620,6 +1651,12 @@
       },
       "com.amazonaws.pcs#ComputeNodeGroupSlurmConfigurationRequest" : {
          "members" : {
+            "gresCustomSettings" : {
+               "target" : "com.amazonaws.pcs#GresCustomSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The additional Slurm <code>gres.conf</code> records for the compute node group. Each item is a map of <code>gres.conf</code> attribute names to values that describes one <code>gres.conf</code> record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the <code>NodeName=</code> prefix and merges these records with the GPU record it derives from the instance type.</p>"
+               }
+            },
             "scaleDownIdleTimeInSeconds" : {
                "target" : "smithy.api#Integer",
                "traits" : {
@@ -1847,7 +1884,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.pcs#SBClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.</p>",
                   "smithy.api#idempotencyToken" : {}
                }
             },
@@ -1947,7 +1984,7 @@
                "aws:RequestTag/${TagKey}",
                "aws:TagKeys"
             ],
-            "smithy.api#documentation" : "<p>Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html\">Launch an instance from a launch template</a> in the <i>Amazon Elastic Compute Cloud User Guide for Linux Instances</i>.</p>",
+            "smithy.api#documentation" : "<p>Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You can configure common instance settings, such as the AMI, security groups, and SSH key pair, directly on the compute node group, or you can provide a custom EC2 launch template. To use a launch template that PCS manages, set <code>launchTemplateMode</code> to <code>MANAGED</code> and don't provide <code>customLaunchTemplate</code>. In this case, you must specify <code>amiId</code> and <code>securityGroupIds</code>. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/working-with_cng_instance-settings.html\">Configuring instance settings for compute node groups in PCS</a> in the <i>PCS User Guide</i>.</p>",
             "smithy.api#idempotent" : {},
             "smithy.api#tags" : [
                "ComputeNodeGroup"
@@ -1995,13 +2032,13 @@
             "amiId" : {
                "target" : "com.amazonaws.pcs#AmiId",
                "traits" : {
-                  "smithy.api#documentation" : "<p> The ID of the Amazon Machine Image (AMI) that PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, PCS uses the AMI ID specified in the custom launch template.</p>"
+                  "smithy.api#documentation" : "<p> The ID of the Amazon Machine Image (AMI) that PCS uses to launch compute nodes (Amazon EC2 instances). This value overrides the AMI ID in the custom launch template. If you don't provide this value, PCS uses the AMI ID specified in the custom launch template. You must provide this value if <code>launchTemplateMode</code> is <code>MANAGED</code>.</p>"
                }
             },
             "clientToken" : {
                "target" : "com.amazonaws.pcs#SBClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.</p>",
                   "smithy.api#idempotencyToken" : {}
                }
             },
@@ -2023,7 +2060,7 @@
             "customLaunchTemplate" : {
                "target" : "com.amazonaws.pcs#CustomLaunchTemplate",
                "traits" : {
-                  "smithy.api#required" : {}
+                  "smithy.api#documentation" : "<p>The custom Amazon EC2 launch template to associate with the compute node group. Specify the launch template <code>id</code> and <code>version</code> when <code>launchTemplateMode</code> is <code>CUSTOM</code>. Don't specify this value when <code>launchTemplateMode</code> is <code>MANAGED</code>.</p>"
                }
             },
             "iamInstanceProfileArn" : {
@@ -2038,6 +2075,13 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A list of EC2 instance configurations that PCS can provision in the compute node group.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "launchTemplateMode" : {
+               "target" : "com.amazonaws.pcs#LaunchTemplateMode",
+               "traits" : {
+                  "smithy.api#default" : "CUSTOM",
+                  "smithy.api#documentation" : "<p>Specifies whether the compute node group uses a custom launch template or a launch template that PCS manages. The default value is <code>CUSTOM</code>.</p> <p>If the value is <code>CUSTOM</code>, provide <code>customLaunchTemplate</code>. If the value is <code>MANAGED</code>, omit <code>customLaunchTemplate</code> and provide <code>amiId</code> and <code>securityGroupIds</code>.</p>"
                }
             },
             "nodeLifecycleActions" : {
@@ -2059,6 +2103,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "securityGroupIds" : {
+               "target" : "com.amazonaws.pcs#SecurityGroupIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IDs of the EC2 security groups to configure directly on the compute node group. The security groups must be in the same VPC as the cluster. PCS uses these security groups instead of the security groups in the custom launch template. You can't specify this value if the custom launch template defines network interfaces. If you don't provide this value, PCS uses the security groups in the custom launch template. You must provide this value if <code>launchTemplateMode</code> is <code>MANAGED</code>. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/working-with_cng_instance-settings.html\">Configuring instance settings for compute node groups in PCS</a> in the <i>PCS User Guide</i>.</p>"
+               }
+            },
             "slurmConfiguration" : {
                "target" : "com.amazonaws.pcs#ComputeNodeGroupSlurmConfigurationRequest",
                "traits" : {
@@ -2067,6 +2117,12 @@
             },
             "spotOptions" : {
                "target" : "com.amazonaws.pcs#SpotOptions"
+            },
+            "sshKeyName" : {
+               "target" : "com.amazonaws.pcs#KeyPairName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the EC2 key pair to configure directly on the compute node group. The key pair must exist in your account and Amazon Web Services Region. PCS uses this key pair instead of the key pair in the custom launch template. If you don't provide this value, PCS uses the key pair in the custom launch template, if one is specified. You must have permission for <code>ec2:DescribeKeyPairs</code>. If you delete the key pair later, future instance launches can fail. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/working-with_cng_instance-settings.html\">Configuring instance settings for compute node groups in PCS</a> in the <i>PCS User Guide</i>.</p>"
+               }
             },
             "subnetIds" : {
                "target" : "com.amazonaws.pcs#StringList",
@@ -2146,7 +2202,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.pcs#SBClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.</p>",
                   "smithy.api#idempotencyToken" : {}
                }
             },
@@ -2205,20 +2261,20 @@
             "id" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The ID of the EC2 launch template to use to provision instances.</p> <p> Example: <code>lt-xxxx</code> </p>",
+                  "smithy.api#documentation" : "<p>The ID of the EC2 launch template to use to provision instances. Specify this value together with <code>version</code>.</p> <p> Example: <code>lt-xxxx</code> </p>",
                   "smithy.api#required" : {}
                }
             },
             "version" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The version of the EC2 launch template to use to provision instances.</p>",
+                  "smithy.api#documentation" : "<p>The version of the EC2 launch template to use to provision instances. Specify this value together with <code>id</code>.</p>",
                   "smithy.api#required" : {}
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>An Amazon EC2 launch template PCS uses to launch compute nodes.</p>"
+            "smithy.api#documentation" : "<p>An Amazon EC2 launch template PCS uses to launch compute nodes. The structure contains the launch template ID and version.</p>"
          },
          "type" : "structure"
       },
@@ -2263,7 +2319,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.pcs#SBClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.</p>",
                   "smithy.api#idempotencyToken" : {}
                }
             },
@@ -2328,7 +2384,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.pcs#SBClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.</p>",
                   "smithy.api#idempotencyToken" : {}
                }
             },
@@ -2400,7 +2456,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.pcs#SBClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.</p>",
                   "smithy.api#idempotencyToken" : {}
                }
             },
@@ -2803,6 +2859,24 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.pcs#GresCustomSettingMap" : {
+         "key" : {
+            "target" : "smithy.api#String"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single Slurm <code>gres.conf</code> record, expressed as a map of <code>gres.conf</code> attribute names to their values. For example, <code>{\"Name\": \"gpu\", \"Type\": \"a100\", \"File\": \"/dev/nvidia[0-7]\"}</code> or <code>{\"AutoDetect\": \"nvml\"}</code>. PCS adds the <code>NodeName=</code> prefix for the compute node group.</p> <important> <p>PCS supports a subset of <code>gres.conf</code> settings. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/gres-custom-settings.html\">Configuring custom GRES settings in PCS</a> in the <i>PCS User Guide</i>.</p> </important>"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "smithy.api#String"
+         }
+      },
+      "com.amazonaws.pcs#GresCustomSettings" : {
+         "member" : {
+            "target" : "com.amazonaws.pcs#GresCustomSettingMap"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.pcs#InstanceConfig" : {
          "members" : {
             "instanceType" : {
@@ -2881,6 +2955,40 @@
             "smithy.api#documentation" : "<p>The JWT key stored in Amazon Web Services Secrets Manager for Slurm REST API authentication.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.pcs#KeyPairName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.pcs#KeyPairNameOrEmpty" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.pcs#LaunchTemplateMode" : {
+         "members" : {
+            "CUSTOM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOM"
+               }
+            },
+            "MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANAGED"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.pcs#ListClusters" : {
          "errors" : [
@@ -3920,6 +4028,12 @@
                   "smithy.api#documentation" : "<p>The node lifecycle actions configured for the node group, including scripts to run when a compute node finishes bootstrapping or becomes ready to accept jobs.</p>"
                }
             },
+            "schedulerVersion" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scheduler version that the cluster is running. A compute node uses this value to run the matching scheduler version.</p>"
+               }
+            },
             "sharedSecret" : {
                "target" : "com.amazonaws.pcs#SharedSecret",
                "traits" : {
@@ -4068,7 +4182,7 @@
             "version" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. You can update this version using the <code>UpdateCluster</code> API action. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html\">Updating the scheduler version on a cluster</a> and <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html\">Slurm versions in PCS</a> in the <i>PCS User Guide</i>.</p> <p>Valid Values: <code>23.11 | 24.05 | 24.11 | 25.05 | 25.11</code> </p>",
+                  "smithy.api#documentation" : "<p>The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. You can update this version using the <code>UpdateCluster</code> API action. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html\">Updating the scheduler version on a cluster</a> and <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html\">Slurm versions in PCS</a> in the <i>PCS User Guide</i>.</p> <p>Valid Values: <code>23.11 | 24.05 | 24.11 | 25.05 | 25.11 | 26.05</code> </p>",
                   "smithy.api#required" : {}
                }
             }
@@ -4090,7 +4204,7 @@
             "version" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html\">Slurm versions in PCS</a> in the <i>PCS User Guide</i>.</p> <p>Valid Values: <code>24.11 | 25.05 | 25.11</code> </p>",
+                  "smithy.api#documentation" : "<p>The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html\">Slurm versions in PCS</a> in the <i>PCS User Guide</i>.</p> <p>Valid Values: <code>24.11 | 25.05 | 25.11 | 26.05</code> </p>",
                   "smithy.api#required" : {}
                }
             }
@@ -4178,6 +4292,12 @@
          "type" : "string"
       },
       "com.amazonaws.pcs#SecurityGroupIdList" : {
+         "member" : {
+            "target" : "com.amazonaws.pcs#SecurityGroupId"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.pcs#SecurityGroupIdListOrEmpty" : {
          "member" : {
             "target" : "com.amazonaws.pcs#SecurityGroupId"
          },
@@ -4726,7 +4846,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.pcs#SBClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.</p>",
                   "smithy.api#idempotencyToken" : {}
                }
             },
@@ -4856,15 +4976,15 @@
       "com.amazonaws.pcs#UpdateComputeNodeGroupRequest" : {
          "members" : {
             "amiId" : {
-               "target" : "com.amazonaws.pcs#AmiId",
+               "target" : "com.amazonaws.pcs#AmiIdOrEmpty",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.</p>"
+                  "smithy.api#documentation" : "<p>The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. This value overrides the AMI ID in the custom launch template. Specify an empty string (<code>\"\"</code>) to remove the AMI ID from the compute node group and use the AMI ID specified in the custom launch template. Omit this value to leave the current setting unchanged.</p>"
                }
             },
             "clientToken" : {
                "target" : "com.amazonaws.pcs#SBClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.</p>",
                   "smithy.api#idempotencyToken" : {}
                }
             },
@@ -4883,12 +5003,21 @@
                }
             },
             "customLaunchTemplate" : {
-               "target" : "com.amazonaws.pcs#CustomLaunchTemplate"
+               "target" : "com.amazonaws.pcs#CustomLaunchTemplate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The custom Amazon EC2 launch template to associate with the compute node group. To set or change the custom launch template, specify <code>id</code> and <code>version</code>. If you provide this value and omit <code>launchTemplateMode</code>, the compute node group must already use <code>CUSTOM</code> mode. To switch from <code>MANAGED</code> to <code>CUSTOM</code>, specify <code>launchTemplateMode</code> as <code>CUSTOM</code> and provide this value. If the compute node group already uses <code>CUSTOM</code>, omit this value while also omitting <code>launchTemplateMode</code>, or while specifying <code>CUSTOM</code>, to keep the existing custom launch template. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/working-with_cng_instance-settings-migrate.html\">Migrating a compute node group from a custom launch template</a> in the <i>PCS User Guide</i>.</p>"
+               }
             },
             "iamInstanceProfileArn" : {
                "target" : "com.amazonaws.pcs#InstanceProfileArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the <code>pcs:RegisterComputeNodeGroupInstance</code> permission and the role name must start with <code>AWSPCS</code> or must have the path <code>/aws-pcs/</code>. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html\">IAM instance profiles for PCS</a> in the <i>PCS User Guide</i>.</p>"
+               }
+            },
+            "launchTemplateMode" : {
+               "target" : "com.amazonaws.pcs#LaunchTemplateMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the compute node group uses a custom launch template or a launch template that PCS manages. Omit this value to keep the current mode.</p> <p>Valid values:</p> <ul> <li> <p> <code>CUSTOM</code> – Use a custom launch template. To switch from <code>MANAGED</code>, also provide <code>customLaunchTemplate</code>. If the compute node group already uses <code>CUSTOM</code> and you omit <code>customLaunchTemplate</code>, the existing launch template is unchanged.</p> </li> <li> <p> <code>MANAGED</code> – Use a launch template created and managed by PCS. Omit <code>customLaunchTemplate</code>. Switching to this mode removes the custom launch template association but doesn't delete the launch template.</p> </li> </ul> <p>When switching to <code>MANAGED</code>, the compute node group must have <code>amiId</code> and <code>securityGroupIds</code> configured. You can set these values in the same request.</p>"
                }
             },
             "nodeLifecycleActions" : {
@@ -4909,6 +5038,12 @@
                   "smithy.api#documentation" : "<p>Specifies the boundaries of the compute node group auto scaling.</p>"
                }
             },
+            "securityGroupIds" : {
+               "target" : "com.amazonaws.pcs#SecurityGroupIdListOrEmpty",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IDs of the EC2 security groups to configure directly on the compute node group. The security groups must be in the same VPC as the cluster. PCS uses these security groups instead of the security groups in the custom launch template. You can't specify this value if the custom launch template defines network interfaces. Specify an empty list (<code>[]</code>) to remove the security groups from the compute node group and use the security groups in the custom launch template. Omit this value to leave the current setting unchanged.</p>"
+               }
+            },
             "slurmConfiguration" : {
                "target" : "com.amazonaws.pcs#UpdateComputeNodeGroupSlurmConfigurationRequest",
                "traits" : {
@@ -4917,6 +5052,12 @@
             },
             "spotOptions" : {
                "target" : "com.amazonaws.pcs#SpotOptions"
+            },
+            "sshKeyName" : {
+               "target" : "com.amazonaws.pcs#KeyPairNameOrEmpty",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the EC2 key pair to configure directly on the compute node group. The key pair must exist in your account and Amazon Web Services Region. PCS uses this key pair instead of the key pair in the custom launch template. Specify an empty string (<code>\"\"</code>) to remove the key pair from the compute node group and use the key pair in the custom launch template. Omit this value to leave the current setting unchanged. You must have permission for <code>ec2:DescribeKeyPairs</code> to specify a key pair. If you delete the key pair later, future instance launches can fail.</p>"
+               }
             },
             "subnetIds" : {
                "target" : "com.amazonaws.pcs#StringList",
@@ -4943,6 +5084,12 @@
       },
       "com.amazonaws.pcs#UpdateComputeNodeGroupSlurmConfigurationRequest" : {
          "members" : {
+            "gresCustomSettings" : {
+               "target" : "com.amazonaws.pcs#GresCustomSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The additional Slurm <code>gres.conf</code> records for the compute node group. Each item is a map of <code>gres.conf</code> attribute names to values that describes one <code>gres.conf</code> record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the <code>NodeName=</code> prefix and merges these records with the GPU record it derives from the instance type.</p>"
+               }
+            },
             "scaleDownIdleTimeInSeconds" : {
                "target" : "smithy.api#Integer",
                "traits" : {
@@ -5031,7 +5178,7 @@
             "clientToken" : {
                "target" : "com.amazonaws.pcs#SBClientToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.</p>",
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.</p>",
                   "smithy.api#idempotencyToken" : {}
                }
             },
@@ -5097,7 +5244,7 @@
             "version" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The scheduler version to update the cluster to. You can only update to a newer version. For more information about supported versions and update paths, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html\">Updating the scheduler version on a cluster</a> in the <i>PCS User Guide</i>.</p> <p>Valid Values: <code>24.05 | 24.11 | 25.05 | 25.11</code> </p>",
+                  "smithy.api#documentation" : "<p>The scheduler version to update the cluster to. You can only update to a newer version. For more information about supported versions and update paths, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html\">Updating the scheduler version on a cluster</a> in the <i>PCS User Guide</i>.</p> <p>Valid Values: <code>24.05 | 24.11 | 25.05 | 25.11 | 26.05</code> </p>",
                   "smithy.api#required" : {}
                }
             }
