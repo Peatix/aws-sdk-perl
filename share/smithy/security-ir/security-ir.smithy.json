@@ -2002,6 +2002,146 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.securityir#GetFindingMetrics" : {
+         "input" : {
+            "target" : "com.amazonaws.securityir#GetFindingMetricsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.securityir#GetFindingMetricsResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to retrieve finding-lifecycle metrics for a membership over a date range",
+               "name" : "GetFindingMetrics"
+            },
+            "smithy.api#documentation" : "Returns finding-lifecycle metrics for a membership over a date range.",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/membership/{membershipId}/finding-metrics"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.securityir#GetFindingMetricsRequest" : {
+         "members" : {
+            "endDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The end of the day-aligned UTC window, inclusive.",
+                  "smithy.api#httpQuery" : "endDate",
+                  "smithy.api#required" : {}
+               }
+            },
+            "membershipId" : {
+               "target" : "com.amazonaws.securityir#MembershipId",
+               "traits" : {
+                  "smithy.api#documentation" : "The membership ID to retrieve metrics for.",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "startDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The start of the day-aligned UTC window, inclusive.",
+                  "smithy.api#httpQuery" : "startDate",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.securityir#GetFindingMetricsResponse" : {
+         "members" : {
+            "findingsEscalated" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of findings escalated during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "findingsEscalatedFalsePositive" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of escalated findings that were closed as false positives during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "findingsEscalatedInProgress" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of findings whose escalation was in progress during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "findingsIngestedGuardDuty" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of findings ingested from Amazon GuardDuty during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "findingsIngestedSecurityHub" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of findings ingested from AWS Security Hub during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "findingsInvestigated" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of findings investigated during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "findingsInvestigatedFalsePositive" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of investigated findings that were closed as false positives during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "findingsInvestigatedInProgress" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of findings whose investigation was in progress during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "findingsTriaged" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of findings triaged during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "findingsTriagedFalsePositive" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of triaged findings that were closed as false positives during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "findingsTruePositive" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "The number of findings confirmed as true positives during the requested date range.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Finding-lifecycle metrics for a membership over the requested date range.",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.securityir#GetMembership" : {
          "input" : {
             "target" : "com.amazonaws.securityir#GetMembershipRequest"
@@ -3439,6 +3579,9 @@
             },
             {
                "target" : "com.amazonaws.securityir#CancelMembership"
+            },
+            {
+               "target" : "com.amazonaws.securityir#GetFindingMetrics"
             }
          ],
          "read" : {
