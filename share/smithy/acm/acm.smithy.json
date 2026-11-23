@@ -37,6 +37,12 @@
                   "smithy.api#documentation" : "<p>The origin of the certificate's key pair.</p>"
                }
             },
+            "CertificateUsage" : {
+               "target" : "com.amazonaws.acm#CertificateUsage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Extended Key Usage profile of the certificate. This value exists only for Amazon N2 certificates. If <code>CertificateUsage</code> was omitted from the request, this value is <code>CLIENT_AND_SERVER_AUTH</code>.</p>"
+               }
+            },
             "CreatedAt" : {
                "target" : "com.amazonaws.acm#TStamp",
                "traits" : {
@@ -95,6 +101,12 @@
                "target" : "com.amazonaws.acm#TStamp",
                "traits" : {
                   "smithy.api#documentation" : "<p>The time at which the certificate was revoked. This value exists only when the certificate status is <code>REVOKED</code>. </p>"
+               }
+            },
+            "RootHierarchyType" : {
+               "target" : "com.amazonaws.acm#RootHierarchyType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The root hierarchy from which the certificate was issued. This value exists only for Amazon N2 certificates, which have a <code>Type</code> of <code>AMAZON_ISSUED</code>.</p>"
                }
             },
             "Status" : {
@@ -169,6 +181,12 @@
                "target" : "com.amazonaws.acm#RenewalStatus",
                "traits" : {
                   "smithy.api#documentation" : "<p>Filter by certificate renewal status.</p>"
+               }
+            },
+            "RootHierarchyType" : {
+               "target" : "com.amazonaws.acm#RootHierarchyType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by root hierarchy type. Specify <code>N2_AMAZON_MANAGED</code> or <code>N2_SFG2_AMAZON_MANAGED</code> to return Amazon N2 certificates.</p>"
                }
             },
             "Status" : {
@@ -1058,6 +1076,12 @@
                   "smithy.api#documentation" : "<p>The origin of the certificate's key pair.</p>"
                }
             },
+            "CertificateUsage" : {
+               "target" : "com.amazonaws.acm#CertificateUsage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Extended Key Usage profile of the certificate. This value exists only for Amazon N2 certificates. If <code>CertificateUsage</code> was omitted from the request, this value is <code>CLIENT_AND_SERVER_AUTH</code>.</p>"
+               }
+            },
             "CreatedAt" : {
                "target" : "com.amazonaws.acm#TStamp",
                "traits" : {
@@ -1145,7 +1169,7 @@
             "Options" : {
                "target" : "com.amazonaws.acm#CertificateOptions",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Contains the certificate options. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log.</p>"
+                  "smithy.api#documentation" : "<p>Contains the certificate options. Certificate transparency logging opt-out is no longer available. ACM records all public certificates other than Amazon N2 certificates in a certificate transparency log.</p>"
                }
             },
             "RenewalEligibility" : {
@@ -1170,6 +1194,12 @@
                "target" : "com.amazonaws.acm#TStamp",
                "traits" : {
                   "smithy.api#documentation" : "<p>The time at which the certificate was revoked. This value exists only when the certificate status is <code>REVOKED</code>. </p>"
+               }
+            },
+            "RootHierarchyType" : {
+               "target" : "com.amazonaws.acm#RootHierarchyType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The root hierarchy from which the certificate was issued. This value exists only for Amazon N2 certificates, which have a <code>Type</code> of <code>AMAZON_ISSUED</code>.</p>"
                }
             },
             "Serial" : {
@@ -1532,6 +1562,15 @@
                   {
                      "argv" : [
                         {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
                            "argv" : [
                               {
                                  "ref" : "PartitionResult"
@@ -1543,15 +1582,6 @@
                         "aws"
                      ],
                      "fn" : "stringEquals"
-                  },
-                  {
-                     "argv" : [
-                        {
-                           "ref" : "UseFIPS"
-                        },
-                        true
-                     ],
-                     "fn" : "booleanEquals"
                   },
                   {
                      "argv" : [
@@ -1578,8 +1608,8 @@
                      "fn" : "stringEquals"
                   }
                ],
-               "nodeCount" : 10,
-               "nodes" : "/////wAAAAH/////AAAAAAX14QEAAAADAAAAAQAAAAQF9eEKAAAAAgAAAAkAAAAFAAAABAAAAAcAAAAGAAAABQX14QgF9eEJAAAABQX14QUAAAAIAAAABgX14QYF9eEHAAAAAwAAAAoF9eEEAAAABAX14QIF9eED",
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAX14QEAAAADAAAAAQAAAAQF9eEKAAAAAgAAAAkAAAAFAAAAAwAAAAcAAAAGAAAABQX14QgF9eEJAAAABQX14QUAAAAIAAAABgX14QYF9eEHAAAAAwAAAAwAAAAKAAAABAX14QMAAAALAAAABgX14QMF9eEEAAAABAX14QIAAAANAAAABgX14QIF9eEE",
                "parameters" : {
                   "Endpoint" : {
                      "builtIn" : "SDK::Endpoint",
@@ -1640,8 +1670,8 @@
                   },
                   {
                      "conditions" : [],
-                     "documentation" : "ACME operations are only available in commercial AWS partitions",
-                     "error" : "ACME operations are only available in commercial AWS partitions",
+                     "documentation" : "ACME operations are only available in the aws and aws-us-gov partitions",
+                     "error" : "ACME operations are only available in the aws and aws-us-gov partitions",
                      "type" : "error"
                   },
                   {
@@ -1815,7 +1845,54 @@
                                        "fn" : "stringEquals"
                                     }
                                  ],
-                                 "documentation" : "ACME operations are only available in commercial AWS partitions",
+                                 "documentation" : "ACME in the aws partition",
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "documentation" : "FIPS endpoints are not available for ACME operations",
+                                       "error" : "FIPS endpoints are not available for ACME operations",
+                                       "type" : "error"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "documentation" : "ACME standard",
+                                       "endpoint" : {
+                                          "url" : "https://acm-acme.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "PartitionResult"
+                                                },
+                                                "name"
+                                             ],
+                                             "fn" : "getAttr"
+                                          },
+                                          "aws-us-gov"
+                                       ],
+                                       "fn" : "stringEquals"
+                                    }
+                                 ],
+                                 "documentation" : "ACME in the aws-us-gov partition",
                                  "rules" : [
                                     {
                                        "conditions" : [
@@ -1846,8 +1923,8 @@
                               },
                               {
                                  "conditions" : [],
-                                 "documentation" : "ACME operations are only available in commercial AWS partitions",
-                                 "error" : "ACME operations are only available in commercial AWS partitions",
+                                 "documentation" : "ACME operations are only available in the aws and aws-us-gov partitions",
+                                 "error" : "ACME operations are only available in the aws and aws-us-gov partitions",
                                  "type" : "error"
                               }
                            ],
@@ -2609,9 +2686,11 @@
                      }
                   },
                   {
-                     "documentation" : "ACM-ACME in us-gov-west-1 returns partition error",
+                     "documentation" : "ACM-ACME standard endpoint for us-gov-west-1",
                      "expect" : {
-                        "error" : "ACME operations are only available in commercial AWS partitions"
+                        "endpoint" : {
+                           "url" : "https://acm-acme.us-gov-west-1.api.aws"
+                        }
                      },
                      "params" : {
                         "Region" : "us-gov-west-1",
@@ -2621,15 +2700,67 @@
                      }
                   },
                   {
+                     "documentation" : "ACM-ACME standard endpoint for us-gov-east-1",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://acm-acme.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "ServiceType" : "ACM-ACME",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
                      "documentation" : "ACM-ACME in cn-north-1 returns partition error",
                      "expect" : {
-                        "error" : "ACME operations are only available in commercial AWS partitions"
+                        "error" : "ACME operations are only available in the aws and aws-us-gov partitions"
                      },
                      "params" : {
                         "Region" : "cn-north-1",
                         "ServiceType" : "ACM-ACME",
                         "UseDualStack" : false,
                         "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "ACM-ACME in cn-northwest-1 returns partition error",
+                     "expect" : {
+                        "error" : "ACME operations are only available in the aws and aws-us-gov partitions"
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "ServiceType" : "ACM-ACME",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "ACM-ACME with DualStack enabled for us-gov-west-1",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://acm-acme.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "ServiceType" : "ACM-ACME",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "ACM-ACME FIPS in us-gov-west-1 returns error",
+                     "expect" : {
+                        "error" : "FIPS endpoints are not available for ACME operations"
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "ServiceType" : "ACM-ACME",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
                      }
                   }
                ],
@@ -2662,7 +2793,7 @@
                      "message" : "Certificate transparency logging opt-out is no longer available.",
                      "since" : "12th June 2026"
                   },
-                  "smithy.api#documentation" : "<p>This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log.</p>"
+                  "smithy.api#documentation" : "<p>This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. ACM records all public certificates other than Amazon N2 certificates in a certificate transparency log.</p>"
                }
             },
             "Export" : {
@@ -2679,7 +2810,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Structure that contains options for your certificate. You can use this structure to change the domain validation method or specify whether to export your certificate.</p> <p>All public certificates are recorded in a certificate transparency log. For general information, see <a href=\"https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency\">Certificate Transparency Logging</a>.</p> <p>You can export public ACM certificates to use with Amazon Web Services services as well as outside Amazon Web Services Cloud. For more information, see <a href=\"https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html\">Certificate Manager exportable public certificate</a>.</p>"
+            "smithy.api#documentation" : "<p>Structure that contains options for your certificate. You can use this structure to change the domain validation method or specify whether to export your certificate.</p> <p>ACM records all public certificates other than Amazon N2 certificates in a certificate transparency log. For general information, see <a href=\"https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency\">Certificate Transparency Logging</a>.</p> <p>You can export public ACM certificates to use with Amazon Web Services services as well as outside Amazon Web Services Cloud. For more information, see <a href=\"https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html\">Certificate Manager exportable public certificate</a>.</p>"
          },
          "type" : "structure"
       },
@@ -2785,6 +2916,12 @@
                   "smithy.api#documentation" : "<p>The origin of the certificate's key pair.</p>"
                }
             },
+            "CertificateUsage" : {
+               "target" : "com.amazonaws.acm#CertificateUsage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Extended Key Usage profile of the certificate. This value exists only for Amazon N2 certificates. If <code>CertificateUsage</code> was omitted from the request, this value is <code>CLIENT_AND_SERVER_AUTH</code>.</p>"
+               }
+            },
             "CreatedAt" : {
                "target" : "com.amazonaws.acm#TStamp",
                "traits" : {
@@ -2881,6 +3018,12 @@
                   "smithy.api#documentation" : "<p>The time at which the certificate was revoked. This value exists only when the certificate status is <code>REVOKED</code>. </p>"
                }
             },
+            "RootHierarchyType" : {
+               "target" : "com.amazonaws.acm#RootHierarchyType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The root hierarchy from which the certificate was issued. This value exists only for Amazon N2 certificates, which have a <code>Type</code> of <code>AMAZON_ISSUED</code>.</p>"
+               }
+            },
             "Status" : {
                "target" : "com.amazonaws.acm#CertificateStatus",
                "traits" : {
@@ -2954,6 +3097,26 @@
                   "smithy.api#enumValue" : "PRIVATE"
                }
             }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.acm#CertificateUsage" : {
+         "members" : {
+            "CLIENT_AND_SERVER_AUTH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CLIENT_AND_SERVER_AUTH"
+               }
+            },
+            "CLIENT_AUTH_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CLIENT_AUTH_ONLY"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Extended Key Usage profile of an Amazon N2 certificate. Valid values:</p> <ul> <li> <p> <code>CLIENT_AND_SERVER_AUTH</code> – Authenticates both the client and the server.</p> </li> <li> <p> <code>CLIENT_AUTH_ONLY</code> – Authenticates only the client.</p> </li> </ul>"
          },
          "type" : "enum"
       },
@@ -6022,7 +6185,7 @@
             "target" : "com.amazonaws.acm#ListCertificatesResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only <code>RSA_2048</code> certificates. For more information, see <a>Filters</a>.</p> <note> <p>By default, this action does not return certificates with a <code>CertificateKeyPairOrigin</code> of <code>ACME</code>. To include ACME certificates, specify <code>ACME</code> in the <code>CertificateKeyPairOrigins</code> filter.</p> </note>",
+            "smithy.api#documentation" : "<p>Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only <code>RSA_2048</code> certificates. For more information, see <a>Filters</a>.</p> <note> <p>By default, this action does not return certificates with a <code>CertificateKeyPairOrigin</code> of <code>ACME</code>. To include ACME certificates, specify <code>ACME</code> in the <code>CertificateKeyPairOrigins</code> filter.</p> </note> <note> <p>By default, this action does not return certificates with a <code>RootHierarchyType</code> of <code>N2_AMAZON_MANAGED</code> or <code>N2_SFG2_AMAZON_MANAGED</code>. To list only Amazon N2 certificates, specify one or both of these values in the <code>RootHierarchyTypes</code> filter.</p> </note>",
             "smithy.api#paginated" : {
                "inputToken" : "NextToken",
                "items" : "CertificateSummaryList",
@@ -6080,6 +6243,12 @@
                "target" : "com.amazonaws.acm#NextToken",
                "traits" : {
                   "smithy.api#documentation" : "<p>Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of <code>NextToken</code> from the response you just received.</p>"
+               }
+            },
+            "RootHierarchyTypes" : {
+               "target" : "com.amazonaws.acm#RootHierarchyTypes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter the certificate list by root hierarchy type. Specify one or more <code>RootHierarchyType</code> values. By default, this action does not return certificates with a <code>RootHierarchyType</code> of <code>N2_AMAZON_MANAGED</code> or <code>N2_SFG2_AMAZON_MANAGED</code>. To list only Amazon N2 certificates, specify one or both of these values in the <code>RootHierarchyTypes</code> filter.</p>"
                }
             },
             "SortBy" : {
@@ -6364,7 +6533,7 @@
       "com.amazonaws.acm#PrivateKeyBlob" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 5120,
+               "max" : 8192,
                "min" : 1
             },
             "smithy.api#sensitive" : {}
@@ -6714,6 +6883,12 @@
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the <a href=\"https://docs.aws.amazon.com/privateca/latest/userguide/PcaWelcome.html\">Amazon Web Services Private Certificate Authority</a> user guide. The ARN must have the following form: </p> <p> <code>arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012</code> </p>"
                }
             },
+            "CertificateUsage" : {
+               "target" : "com.amazonaws.acm#CertificateUsage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Extended Key Usage profile of the certificate. You can specify this parameter only when <code>RootHierarchyType</code> is <code>N2_AMAZON_MANAGED</code> or <code>N2_SFG2_AMAZON_MANAGED</code>. If you specify <code>CertificateUsage</code> with any other root hierarchy type, or without <code>RootHierarchyType</code>, the request fails with a <code>ValidationException</code>.</p> <ul> <li> <p> <code>CLIENT_AND_SERVER_AUTH</code> authenticates both the client and the server. Valid for both N2 root hierarchy types.</p> </li> <li> <p> <code>CLIENT_AUTH_ONLY</code> authenticates only the client. Valid only for <code>N2_AMAZON_MANAGED</code>.</p> </li> </ul> <p>Default: CLIENT_AND_SERVER_AUTH</p>"
+               }
+            },
             "DomainName" : {
                "target" : "com.amazonaws.acm#DomainNameString",
                "traits" : {
@@ -6748,7 +6923,13 @@
             "Options" : {
                "target" : "com.amazonaws.acm#CertificateOptions",
                "traits" : {
-                  "smithy.api#documentation" : "<p>You can use this parameter to specify whether to export your certificate.</p> <p>Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see <a href=\"https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency\">Certificate Transparency Logging</a>.</p> <p>You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see <a href=\"https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html\">Certificate Manager exportable public certificate</a>.</p>"
+                  "smithy.api#documentation" : "<p>You can use this parameter to specify whether to export your certificate.</p> <p>Certificate transparency logging opt-out is no longer available. ACM records all public certificates other than Amazon N2 certificates in a certificate transparency log. For more information, see <a href=\"https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency\">Certificate Transparency Logging</a>.</p> <p>You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see <a href=\"https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html\">Certificate Manager exportable public certificate</a>.</p>"
+               }
+            },
+            "RootHierarchyType" : {
+               "target" : "com.amazonaws.acm#RootHierarchyType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The root hierarchy from which ACM issues the certificate. Specify one of the following values to request an Amazon N2 certificate:</p> <ul> <li> <p> <code>N2_AMAZON_MANAGED</code> – An Amazon N2 certificate that chains to an Amazon N2 root. The maximum validity period, which is also the default, is 395 days.</p> </li> <li> <p> <code>N2_SFG2_AMAZON_MANAGED</code> – An Amazon N2 certificate that chains to an Amazon N2 root cross-signed by Starfield G2. The maximum validity period, which is also the default, is 98 days.</p> </li> </ul> <p>You cannot specify <code>RootHierarchyType</code> together with <code>CertificateAuthorityArn</code>.</p> <p>If you omit this parameter, ACM issues a standard public certificate. A request that specifies any value other than <code>N2_AMAZON_MANAGED</code> or <code>N2_SFG2_AMAZON_MANAGED</code> fails with a <code>ValidationException</code>.</p> <p>An Amazon N2 certificate request must specify a <code>ValidationMethod</code> of <code>DNS</code>. Amazon N2 certificates are not recorded in a certificate transparency log.</p> <p>A request for a validity period longer than the maximum fails with a <code>ValidationException</code>.</p> <note> <p>Algorithms supported for an N2 certificate request include: </p> <ul> <li> <p> <code>RSA_2048</code> </p> </li> <li> <p> <code>EC_prime256v1</code> </p> </li> <li> <p> <code>EC_secp384r1</code> </p> </li> </ul> </note>"
                }
             },
             "SubjectAlternativeNames" : {
@@ -7187,6 +7368,39 @@
             "smithy.api#pattern" : "^arn:aws[a-z-]*:iam::[0-9]{12}:role/.+$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.acm#RootHierarchyType" : {
+         "members" : {
+            "N2_AMAZON_MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "N2_AMAZON_MANAGED"
+               }
+            },
+            "N2_SFG2_AMAZON_MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "N2_SFG2_AMAZON_MANAGED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The root hierarchy from which a certificate is issued. Valid values:</p> <ul> <li> <p> <code>N2_AMAZON_MANAGED</code> – An Amazon N2 certificate that chains to an Amazon N2 root.</p> </li> <li> <p> <code>N2_SFG2_AMAZON_MANAGED</code> – An Amazon N2 certificate that chains to an Amazon N2 root cross-signed by Starfield G2.</p> </li> </ul>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.acm#RootHierarchyTypes" : {
+         "member" : {
+            "target" : "com.amazonaws.acm#RootHierarchyType"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of <code>RootHierarchyType</code> values used to filter certificates.</p>",
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.acm#SearchCertificates" : {
          "errors" : [
