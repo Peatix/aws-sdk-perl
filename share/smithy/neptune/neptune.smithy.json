@@ -321,6 +321,9 @@
                "target" : "com.amazonaws.neptune#DescribePendingMaintenanceActions"
             },
             {
+               "target" : "com.amazonaws.neptune#DescribeServerlessV2PlatformVersions"
+            },
+            {
                "target" : "com.amazonaws.neptune#DescribeValidDBInstanceModifications"
             },
             {
@@ -2540,7 +2543,7 @@
             "target" : "com.amazonaws.neptune#CreateDBClusterParameterGroupResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a new DB cluster parameter group.</p>\n         <p>Parameters in a DB cluster parameter group apply to all of the instances in a DB\n      cluster.</p>\n         <p> A DB cluster parameter group is initially created with the default\n      parameters for the database engine used by instances in the DB cluster.\n      To provide custom values for any of the parameters, you must modify the\n      group after creating it using <a>ModifyDBClusterParameterGroup</a>.\n      Once you've created a DB cluster parameter group, you need to associate it\n      with your DB cluster using <a>ModifyDBCluster</a>.\n      When you associate a new DB cluster parameter group with a running DB cluster,\n      you need to reboot the DB instances in the DB cluster without failover for the\n      new DB cluster parameter group and associated settings to take effect.</p>\n         <important>\n            <p>After you create a DB cluster parameter group, you should wait at least\n        5 minutes before creating your first DB cluster that uses that DB cluster\n        parameter group as the default parameter group. This allows Amazon Neptune\n        to fully complete the create action before the DB cluster parameter group\n        is used as the default for a new DB cluster. This is especially important for\n        parameters that are critical when creating the default database for a DB\n        cluster, such as the character set for the default database defined by the\n        <code>character_set_database</code> parameter. You can use the <i>Parameter\n        Groups</i> option of the <a href=\"https://console.aws.amazon.com/rds/\">Amazon Neptune\n        console</a> or the <a>DescribeDBClusterParameters</a>\n        command to verify that your DB cluster parameter group has been created or modified.</p>\n         </important>"
+            "smithy.api#documentation" : "<p>Creates a new DB cluster parameter group.</p>\n         <p>Parameters in a DB cluster parameter group apply to all of the instances in a DB\n      cluster.</p>\n         <p> A DB cluster parameter group is initially created with the default\n      parameters for the database engine used by instances in the DB cluster.\n      To provide custom values for any of the parameters, you must modify the\n      group after creating it using <a>ModifyDBClusterParameterGroup</a>.\n      Once you've created a DB cluster parameter group, you need to associate it\n      with your DB cluster using <a>ModifyDBCluster</a>.\n      When you associate a new DB cluster parameter group with a running DB cluster,\n      you need to reboot the DB instances in the DB cluster without failover for the\n      new DB cluster parameter group and associated settings to take effect.</p>"
          },
          "type" : "operation"
       },
@@ -3615,6 +3618,12 @@
                "target" : "com.amazonaws.neptune#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>Not supported by Neptune.</p>"
+               }
+            },
+            "ServerlessV2PlatformVersion" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The serverless platform version used by the Neptune Serverless DB cluster.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html\">Using Amazon Neptune Serverless</a> in the\n      <i>Amazon Neptune User Guide</i>.</p>"
                }
             },
             "ServerlessV2ScalingConfiguration" : {
@@ -7236,6 +7245,74 @@
                "target" : "com.amazonaws.neptune#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ARN of a resource to return pending maintenance actions for.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.neptune#DescribeServerlessV2PlatformVersions" : {
+         "input" : {
+            "target" : "com.amazonaws.neptune#DescribeServerlessV2PlatformVersionsMessage"
+         },
+         "output" : {
+            "target" : "com.amazonaws.neptune#ServerlessV2PlatformVersionsMessage"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the properties of specific platform versions for Neptune Serverless.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "Marker",
+               "items" : "ServerlessV2PlatformVersions",
+               "outputToken" : "Marker",
+               "pageSize" : "MaxRecords"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.neptune#DescribeServerlessV2PlatformVersionsMessage" : {
+         "members" : {
+            "DefaultOnly" : {
+               "target" : "com.amazonaws.neptune#BooleanOptional",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to return only the default platform versions for each engine. The default platform\n      version is the version used for new DB clusters.</p>"
+               }
+            },
+            "Engine" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The database engine to return platform version details for.</p>"
+               }
+            },
+            "Filters" : {
+               "target" : "com.amazonaws.neptune#FilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>This parameter isn't currently supported.</p>"
+               }
+            },
+            "IncludeAll" : {
+               "target" : "com.amazonaws.neptune#BooleanOptional",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to also include platform versions which are no longer in use.</p>"
+               }
+            },
+            "Marker" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional pagination token provided by a previous request.\n      If this parameter is specified, the response includes\n      only records beyond the marker,\n      up to the value specified by <code>MaxRecords</code>.</p>"
+               }
+            },
+            "MaxRecords" : {
+               "target" : "com.amazonaws.neptune#IntegerOptional",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of records to include in the response.\n      If more than the <code>MaxRecords</code> value is available, a pagination token called a marker is\n      included in the response so you can retrieve the remaining results.</p>\n         <p>Default: 20</p>\n         <p>Constraints: Minimum 1, maximum 200.</p>"
+               }
+            },
+            "ServerlessV2PlatformVersion" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A specific platform version to return details for.</p>\n         <p>Example: <code>3</code>\n         </p>"
                }
             }
          },
@@ -11113,6 +11190,97 @@
             "smithy.api#sensitive" : {}
          },
          "type" : "string"
+      },
+      "com.amazonaws.neptune#ServerlessV2FeaturesSupport" : {
+         "members" : {
+            "MaxCapacity" : {
+               "target" : "com.amazonaws.neptune#DoubleOptional",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the upper Neptune capacity unit (NCU) limit that a serverless platform version supports.</p>"
+               }
+            },
+            "MinCapacity" : {
+               "target" : "com.amazonaws.neptune#DoubleOptional",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the lower Neptune capacity unit (NCU) limit that a serverless platform version supports.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies any Neptune Serverless properties or limits that differ between serverless platform versions.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.neptune#ServerlessV2PlatformVersionInfo" : {
+         "members" : {
+            "Engine" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the database engine.</p>"
+               }
+            },
+            "IsDefault" : {
+               "target" : "com.amazonaws.neptune#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether this platform version is the default version for the engine. The default platform\n      version is the version used for new DB clusters.</p>"
+               }
+            },
+            "ServerlessV2FeaturesSupport" : {
+               "target" : "com.amazonaws.neptune#ServerlessV2FeaturesSupport",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies any Neptune Serverless properties or limits that differ between serverless platform versions.\n      You can retrieve the platform version of an existing DB cluster and check whether that version\n      supports certain serverless features before you attempt to use those features.</p>"
+               }
+            },
+            "ServerlessV2PlatformVersion" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version number of the serverless platform.</p>"
+               }
+            },
+            "ServerlessV2PlatformVersionDescription" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the serverless platform.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the serverless platform version. Valid statuses are the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>enabled</code> - The platform version is in use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>disabled</code> - The platform version is not in use.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>This data type is used as a response element in the <code>DescribeServerlessV2PlatformVersions</code> action.\n      It describes the properties of a specific Neptune Serverless platform version.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html\">Using Amazon Neptune Serverless</a> in the\n      <i>Amazon Neptune User Guide</i>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.neptune#ServerlessV2PlatformVersionList" : {
+         "member" : {
+            "target" : "com.amazonaws.neptune#ServerlessV2PlatformVersionInfo"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.neptune#ServerlessV2PlatformVersionsMessage" : {
+         "members" : {
+            "Marker" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional pagination token provided by a previous request.\n      If this parameter is specified, the response includes\n      only records beyond the marker,\n      up to the value specified by <code>MaxRecords</code>.</p>"
+               }
+            },
+            "ServerlessV2PlatformVersions" : {
+               "target" : "com.amazonaws.neptune#ServerlessV2PlatformVersionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of <a>ServerlessV2PlatformVersionInfo</a> elements.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the result of a successful invocation of the <code>DescribeServerlessV2PlatformVersions</code> action.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.neptune#ServerlessV2ScalingConfiguration" : {
          "members" : {

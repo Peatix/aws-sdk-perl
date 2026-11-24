@@ -35,6 +35,9 @@
                "target" : "com.amazonaws.marketplacediscovery#ListFulfillmentOptions"
             },
             {
+               "target" : "com.amazonaws.marketplacediscovery#ListListingAttributes"
+            },
+            {
                "target" : "com.amazonaws.marketplacediscovery#ListPurchaseOptions"
             },
             {
@@ -53,10 +56,17 @@
             "aws.auth#sigv4" : {
                "name" : "aws-marketplace"
             },
+            "aws.auth#sigv4a" : {
+               "name" : "aws-marketplace"
+            },
             "aws.endpoints#dualStackOnlyEndpoints" : {},
             "aws.endpoints#standardRegionalEndpoints" : {},
             "aws.protocols#restJson1" : {},
-            "smithy.api#documentation" : "<p>The AWS Marketplace Discovery API provides programmatic access to the AWS Marketplace catalog, including searching and browsing listings, retrieving product details and fulfillment options, and accessing public and private offer pricing and terms.</p>",
+            "smithy.api#auth" : [
+               "aws.auth#sigv4",
+               "aws.auth#sigv4a"
+            ],
+            "smithy.api#documentation" : "<p>With the AWS Marketplace Discovery API (Discovery API), you have programmatic access to the AWS Marketplace catalog. You can search and browse listings, retrieve product details and fulfillment options, and access public and private offer pricing and terms. For more information, see <a href=\"https://docs.aws.amazon.com/marketplace/latest/developerguide/discovery-apis.html\">Using the AWS Marketplace Discovery API</a> in the <i>AWS Marketplace Developer Guide</i>.</p>",
             "smithy.api#title" : "AWS Marketplace Discovery",
             "smithy.rules#endpointBdd" : {
                "conditions" : [
@@ -415,7 +425,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>You don't have sufficient access to perform this action.</p>",
+            "smithy.api#documentation" : "<p>You don't have sufficient access to perform this action. Verify that you have the required permissions.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 403
          },
@@ -431,8 +441,94 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.marketplacediscovery#AmazonMachineImageCidrIpAddressList" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#AmazonMachineImageEbsVolume" : {
+         "members" : {
+            "iops" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of provisioned input/output operations per second (IOPS) that the volume supports.</p>",
+                  "smithy.api#range" : {
+                     "min" : 0
+                  }
+               }
+            },
+            "volumeTypes" : {
+               "target" : "com.amazonaws.marketplacediscovery#AmazonMachineImageEbsVolumeTypeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The supported Amazon EBS volume types.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains supported Amazon EBS volume information for an AMI fulfillment option.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#AmazonMachineImageEbsVolumeTypeList" : {
+         "member" : {
+            "target" : "smithy.api#String",
+            "traits" : {
+               "smithy.api#length" : {
+                  "max" : 256
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.marketplacediscovery#AmazonMachineImageFulfillmentOption" : {
          "members" : {
+            "accessUrlTemplate" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL pattern for accessing the product when an instance is running.</p>",
+                  "smithy.api#length" : {
+                     "max" : 1024
+                  }
+               }
+            },
+            "amiAlias" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The alias of the AMI associated with this fulfillment option.</p>",
+                  "smithy.api#length" : {
+                     "max" : 1024
+                  }
+               }
+            },
+            "architecture" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The architecture of the AMI, such as <code>x86_64</code>.</p>",
+                  "smithy.api#length" : {
+                     "max" : 256
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "availableFromTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the AMI became available for fulfillment.</p>"
+               }
+            },
+            "ebsVolume" : {
+               "target" : "com.amazonaws.marketplacediscovery#AmazonMachineImageEbsVolume",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The supported Amazon Elastic Block Store (Amazon EBS) volume configuration for the AMI.</p>"
+               }
+            },
             "fulfillmentOptionDisplayName" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -477,13 +573,22 @@
             "recommendation" : {
                "target" : "com.amazonaws.marketplacediscovery#AmazonMachineImageRecommendation",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Recommended instance types for running this AMI.</p>"
+                  "smithy.api#documentation" : "<p>The recommended instance types for running this AMI.</p>"
                }
             },
             "releaseNotes" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Release notes describing changes in this version of the fulfillment option.</p>"
+                  "smithy.api#documentation" : "<p>Release notes that describe the changes in this version of the fulfillment option.</p>"
+               }
+            },
+            "shortDescription" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A short description of the fulfillment option.</p>",
+                  "smithy.api#length" : {
+                     "max" : 4096
+                  }
                }
             },
             "usageInstructions" : {
@@ -522,7 +627,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Describes an operating system supported by an AMI fulfillment option.</p>"
+            "smithy.api#documentation" : "<p>Describes an operating system that an AMI fulfillment option supports.</p>"
          },
          "type" : "structure"
       },
@@ -537,15 +642,63 @@
             "instanceType" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The recommended EC2 instance type for this AMI.</p>",
+                  "smithy.api#documentation" : "<p>The recommended Amazon Elastic Compute Cloud (Amazon EC2) instance type for this AMI.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "securityGroups" : {
+               "target" : "com.amazonaws.marketplacediscovery#AmazonMachineImageSecurityGroupList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The recommended security group configurations for this AMI.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The recommended instance types for running an AMI fulfillment option.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#AmazonMachineImageSecurityGroup" : {
+         "members" : {
+            "cidrIpAddresses" : {
+               "target" : "com.amazonaws.marketplacediscovery#AmazonMachineImageCidrIpAddressList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IP address ranges in Classless Inter-Domain Routing (CIDR) format.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "fromPort" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start of the port range.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "protocol" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IP protocol name, such as <code>tcp</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "toPort" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end of the port range.</p>",
                   "smithy.api#required" : {}
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Recommended instance types for running an AMI fulfillment option.</p>"
+            "smithy.api#documentation" : "<p>Contains a recommended security group configuration for an AMI fulfillment option.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#AmazonMachineImageSecurityGroupList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#AmazonMachineImageSecurityGroup"
+         },
+         "type" : "list"
       },
       "com.amazonaws.marketplacediscovery#ApiFulfillmentOption" : {
          "members" : {
@@ -585,7 +738,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Describes an API-based fulfillment option, where the product is accessed through an API integration.</p>"
+            "smithy.api#documentation" : "<p>Describes an API-based fulfillment option, where you access the product through an API integration.</p>"
          },
          "type" : "structure"
       },
@@ -663,9 +816,194 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a Bring Your Own License (BYOL) pricing term, where buyers use their existing license for the product.</p>"
+            "smithy.api#documentation" : "<p>Describes a Bring Your Own License (BYOL) pricing term. With this term, you use your existing license for the product.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#CaseStudiesSummary" : {
+         "members" : {
+            "caseStudyCount" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonNegativeCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of case studies associated with the listing.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of the case studies associated with a listing.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#CaseStudy" : {
+         "members" : {
+            "caseStudyId" : {
+               "target" : "com.amazonaws.marketplacediscovery#CaseStudyId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the case study.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "caseStudyName" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The case study name displayed to you.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "challenge" : {
+               "target" : "com.amazonaws.marketplacediscovery#NullableString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The business challenge that the engagement addresses.</p>",
+                  "smithy.api#length" : {
+                     "max" : 5000
+                  }
+               }
+            },
+            "engagementDates" : {
+               "target" : "com.amazonaws.marketplacediscovery#EngagementDates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key implementation dates for the engagement.</p>"
+               }
+            },
+            "implementationApproach" : {
+               "target" : "com.amazonaws.marketplacediscovery#NullableString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The implementation approach used for the engagement.</p>",
+                  "smithy.api#length" : {
+                     "max" : 5000
+                  }
+               }
+            },
+            "outcome" : {
+               "target" : "com.amazonaws.marketplacediscovery#NullableString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The results and outcomes achieved by the engagement.</p>",
+                  "smithy.api#length" : {
+                     "max" : 3000
+                  }
+               }
+            },
+            "resolution" : {
+               "target" : "com.amazonaws.marketplacediscovery#NullableString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>How the partner resolved the challenge.</p>",
+                  "smithy.api#length" : {
+                     "max" : 5000
+                  }
+               }
+            },
+            "resources" : {
+               "target" : "com.amazonaws.marketplacediscovery#CaseStudyResourceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Resources related to the case study.</p>"
+               }
+            },
+            "shortDescription" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A brief value proposition for the case study.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A case study associated with a listing.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#CaseStudyId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\w\\-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacediscovery#CaseStudyIdList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#CaseStudyId"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The identifiers of the case studies that a specialization cites.</p>",
+            "smithy.api#length" : {
+               "max" : 25
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#CaseStudyResource" : {
+         "members" : {
+            "contentType" : {
+               "target" : "com.amazonaws.marketplacediscovery#ResourceContentType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format of the resource value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource name displayed to you.</p>",
+                  "smithy.api#length" : {
+                     "max" : 255,
+                     "min" : 1
+                  },
+                  "smithy.api#recommended" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "com.amazonaws.marketplacediscovery#CaseStudyResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of case study resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource value, such as a URL.</p>",
+                  "smithy.api#length" : {
+                     "max" : 8192,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A resource that a case study cites, such as supporting documentation or a web page.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#CaseStudyResourceList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#CaseStudyResource"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Resources related to a case study.</p>",
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#CaseStudyResourceType" : {
+         "members" : {
+            "CASE_STUDY_WEBSITE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CASE_STUDY_WEBSITE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of a case study resource. This field has one of the following values:</p> <dl> <dt>CASE_STUDY_WEBSITE</dt> <dd> <p>A link to a public web page about the case study.</p> </dd> </dl>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.marketplacediscovery#Catalog" : {
          "traits" : {
@@ -695,7 +1033,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>A category used to classify a listing or product into a logical group.</p>"
+            "smithy.api#documentation" : "<p>A category that classifies a listing or product into a logical group.</p>"
          },
          "type" : "structure"
       },
@@ -712,6 +1050,24 @@
       },
       "com.amazonaws.marketplacediscovery#CloudFormationFulfillmentOption" : {
          "members" : {
+            "architectureDiagramUrl" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL of the architecture diagram for the CloudFormation template.</p>"
+               }
+            },
+            "availableFromTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the CloudFormation fulfillment option became available for fulfillment.</p>"
+               }
+            },
+            "deploymentTemplateUrl" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL of the CloudFormation template.</p>"
+               }
+            },
             "fulfillmentOptionDisplayName" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -746,10 +1102,28 @@
                   "smithy.api#documentation" : "<p>The version identifier of the fulfillment option.</p>"
                }
             },
+            "longDescription" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A detailed description of the fulfillment option.</p>",
+                  "smithy.api#length" : {
+                     "max" : 8192
+                  }
+               }
+            },
             "releaseNotes" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Release notes describing changes in this version of the fulfillment option.</p>"
+                  "smithy.api#documentation" : "<p>Release notes that describe the changes in this version of the fulfillment option.</p>"
+               }
+            },
+            "shortDescription" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A short description of the fulfillment option.</p>",
+                  "smithy.api#length" : {
+                     "max" : 4096
+                  }
                }
             },
             "usageInstructions" : {
@@ -795,7 +1169,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a configurable upfront pricing term with selectable rate cards, where buyers choose from predefined pricing configurations.</p>"
+            "smithy.api#documentation" : "<p>Describes a configurable upfront pricing term with selectable rate cards. You choose from predefined pricing configurations.</p>"
          },
          "type" : "structure"
       },
@@ -804,7 +1178,7 @@
             "constraints" : {
                "target" : "com.amazonaws.marketplacediscovery#Constraints",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Constraints on how the buyer can configure this rate card, such as whether multiple dimensions can be selected.</p>",
+                  "smithy.api#documentation" : "<p>Constraints on how you can configure this rate card, such as whether you can select multiple dimensions.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -839,20 +1213,20 @@
             "multipleDimensionSelection" : {
                "target" : "com.amazonaws.marketplacediscovery#RateCardConstraintType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Whether the buyer can select multiple dimensions. Values are <code>Allowed</code> or <code>Disallowed</code>.</p>",
+                  "smithy.api#documentation" : "<p>Specifies whether you can select multiple dimensions. This field has one of the following values:</p> <dl> <dt>Allowed</dt> <dd> <p>You can select more than one dimension.</p> </dd> <dt>Disallowed</dt> <dd> <p>You can select only one dimension.</p> </dd> </dl>",
                   "smithy.api#required" : {}
                }
             },
             "quantityConfiguration" : {
                "target" : "com.amazonaws.marketplacediscovery#RateCardConstraintType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Whether the buyer can configure quantities. Values are <code>Allowed</code> or <code>Disallowed</code>.</p>",
+                  "smithy.api#documentation" : "<p>Specifies whether you can configure quantities. This field has one of the following values:</p> <dl> <dt>Allowed</dt> <dd> <p>You can set the quantity of each dimension.</p> </dd> <dt>Disallowed</dt> <dd> <p>You cannot change the quantity.</p> </dd> </dl>",
                   "smithy.api#required" : {}
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Constraints that control how a buyer can configure a rate card.</p>"
+            "smithy.api#documentation" : "<p>Constraints that control how you can configure a rate card.</p>"
          },
          "type" : "structure"
       },
@@ -907,7 +1281,7 @@
             "releaseNotes" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Release notes describing changes in this version of the fulfillment option.</p>"
+                  "smithy.api#documentation" : "<p>Release notes that describe the changes in this version of the fulfillment option.</p>"
                }
             },
             "usageInstructions" : {
@@ -940,7 +1314,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Describes an operating system supported by a container fulfillment option.</p>"
+            "smithy.api#documentation" : "<p>Describes an operating system that a container fulfillment option supports.</p>"
          },
          "type" : "structure"
       },
@@ -1069,7 +1443,7 @@
             "labelType" : {
                "target" : "com.amazonaws.marketplacediscovery#DimensionLabelType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of the dimension label, such as <code>Region</code> or <code>SagemakerOption</code>.</p>",
+                  "smithy.api#documentation" : "<p>The type of the dimension label. This field has one of the following values:</p> <dl> <dt>Region</dt> <dd> <p>The label groups dimensions by AWS Region.</p> </dd> <dt>SagemakerOption</dt> <dd> <p>The label groups dimensions by Amazon SageMaker option.</p> </dd> </dl>",
                   "smithy.api#required" : {}
                }
             },
@@ -1082,7 +1456,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>A label used to group or categorize pricing dimensions, such as by region or SageMaker option.</p>"
+            "smithy.api#documentation" : "<p>A label that groups or categorizes pricing dimensions, such as by region or SageMaker option.</p>"
          },
          "type" : "structure"
       },
@@ -1133,7 +1507,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>A legal document associated with a legal term, such as a EULA or data subscription agreement.</p>"
+            "smithy.api#documentation" : "<p>A legal document associated with a legal term, such as an End User License Agreement (EULA) or a data subscription agreement.</p>"
          },
          "type" : "structure"
       },
@@ -1148,7 +1522,7 @@
             "awsSupportedServices" : {
                "target" : "com.amazonaws.marketplacediscovery#AwsSupportedServiceList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS services supported by this EC2 Image Builder component.</p>"
+                  "smithy.api#documentation" : "<p>The AWS services that this EC2 Image Builder component supports.</p>"
                }
             },
             "fulfillmentOptionDisplayName" : {
@@ -1194,7 +1568,7 @@
             "releaseNotes" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Release notes describing changes in this version of the fulfillment option.</p>"
+                  "smithy.api#documentation" : "<p>Release notes that describe the changes in this version of the fulfillment option.</p>"
                }
             },
             "usageInstructions" : {
@@ -1205,7 +1579,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Describes an EC2 Image Builder component fulfillment option.</p>"
+            "smithy.api#documentation" : "<p>Describes an Amazon Elastic Compute Cloud (Amazon EC2) Image Builder component fulfillment option.</p>"
          },
          "type" : "structure"
       },
@@ -1260,7 +1634,7 @@
             "releaseNotes" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Release notes describing changes in this version of the fulfillment option.</p>"
+                  "smithy.api#documentation" : "<p>Release notes that describe the changes in this version of the fulfillment option.</p>"
                }
             },
             "usageInstructions" : {
@@ -1271,7 +1645,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Describes an Amazon EKS add-on fulfillment option.</p>"
+            "smithy.api#documentation" : "<p>Describes an Amazon Elastic Kubernetes Service (Amazon EKS) add-on fulfillment option.</p>"
          },
          "type" : "structure"
       },
@@ -1293,7 +1667,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Describes an operating system supported by an EKS add-on fulfillment option.</p>"
+            "smithy.api#documentation" : "<p>Describes an operating system that an Amazon EKS add-on fulfillment option supports.</p>"
          },
          "type" : "structure"
       },
@@ -1302,6 +1676,27 @@
             "target" : "com.amazonaws.marketplacediscovery#EksAddOnOperatingSystem"
          },
          "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#EngagementDates" : {
+         "members" : {
+            "completionDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The implementation completion date. The service omits this field for an engagement in progress.</p>"
+               }
+            },
+            "startDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The implementation start date.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Key implementation dates for a case study.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.marketplacediscovery#ExceptionMessage" : {
          "type" : "string"
@@ -1316,6 +1711,21 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#FixedPercentage" : {
+         "members" : {
+            "percentageValue" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The percentage value applied at each renewal cycle.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single fixed price increase percentage applied at each renewal cycle.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.marketplacediscovery#FixedUpfrontPricingTerm" : {
          "members" : {
@@ -1335,7 +1745,7 @@
             "grants" : {
                "target" : "com.amazonaws.marketplacediscovery#GrantList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The entitlements granted to the buyer as part of this term.</p>",
+                  "smithy.api#documentation" : "<p>The entitlements that you receive as part of this term.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -1362,7 +1772,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a fixed upfront pricing term with a pre-paid amount and granted entitlements.</p>"
+            "smithy.api#documentation" : "<p>Describes a fixed upfront pricing term with a pre-paid amount and granted entitlements.</p>"
          },
          "type" : "structure"
       },
@@ -1377,7 +1787,7 @@
             "grants" : {
                "target" : "com.amazonaws.marketplacediscovery#GrantList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The entitlements granted to the buyer during the free trial.</p>",
+                  "smithy.api#documentation" : "<p>The entitlements that you receive during the free trial.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -1397,7 +1807,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a free trial pricing term that enables customers to try the product before purchasing.</p>"
+            "smithy.api#documentation" : "<p>Describes a free trial pricing term. With this term, you can try the product before you purchase it.</p>"
          },
          "type" : "structure"
       },
@@ -1406,7 +1816,7 @@
             "amazonMachineImageFulfillmentOption" : {
                "target" : "com.amazonaws.marketplacediscovery#AmazonMachineImageFulfillmentOption",
                "traits" : {
-                  "smithy.api#documentation" : "<p>An Amazon Machine Image (AMI) fulfillment option for EC2 deployment.</p>"
+                  "smithy.api#documentation" : "<p>An Amazon Machine Image (AMI) fulfillment option for Amazon Elastic Compute Cloud (Amazon EC2) deployment.</p>"
                }
             },
             "apiFulfillmentOption" : {
@@ -1436,7 +1846,7 @@
             "ec2ImageBuilderComponentFulfillmentOption" : {
                "target" : "com.amazonaws.marketplacediscovery#Ec2ImageBuilderComponentFulfillmentOption",
                "traits" : {
-                  "smithy.api#documentation" : "<p>An EC2 Image Builder component fulfillment option.</p>"
+                  "smithy.api#documentation" : "<p>An Amazon Elastic Compute Cloud (Amazon EC2) Image Builder component fulfillment option.</p>"
                }
             },
             "eksAddOnFulfillmentOption" : {
@@ -1589,6 +1999,9 @@
                }
             }
          },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of a fulfillment option, which is how you deploy or access the product. This field has one of the following values:</p> <dl> <dt>AMAZON_MACHINE_IMAGE</dt> <dd> <p>An Amazon Machine Image (AMI) that you launch on Amazon EC2.</p> </dd> <dt>API</dt> <dd> <p>An API that you call, such as an agent, a guardrail, a knowledge base, or a Model Context Protocol (MCP) server.</p> </dd> <dt>CLOUDFORMATION_TEMPLATE</dt> <dd> <p>An AWS CloudFormation template that you deploy.</p> </dd> <dt>CONTAINER</dt> <dd> <p>A container image.</p> </dd> <dt>DATA_EXCHANGE</dt> <dd> <p>A data set that you access through AWS Data Exchange.</p> </dd> <dt>EC2_IMAGE_BUILDER_COMPONENT</dt> <dd> <p>An EC2 Image Builder component.</p> </dd> <dt>EKS_ADD_ON</dt> <dd> <p>An Amazon EKS add-on.</p> </dd> <dt>HELM</dt> <dd> <p>A Helm chart.</p> </dd> <dt>PROFESSIONAL_SERVICES</dt> <dd> <p>A professional service that the seller delivers to you.</p> </dd> <dt>SAAS</dt> <dd> <p>A Software as a Service (SaaS) product that you access through the seller's website.</p> </dd> <dt>SAGEMAKER_ALGORITHM</dt> <dd> <p>An Amazon SageMaker algorithm.</p> </dd> <dt>SAGEMAKER_MODEL</dt> <dd> <p>An Amazon SageMaker model.</p> </dd> </dl>"
+         },
          "type" : "enum"
       },
       "com.amazonaws.marketplacediscovery#FulfillmentOptionsList" : {
@@ -1645,6 +2058,12 @@
                   "smithy.api#documentation" : "<p>The unique identifier of the listing to retrieve.</p>",
                   "smithy.api#required" : {}
                }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preferred locale for response content, as a Best Current Practice 47 (BCP 47) language tag or a comma-separated priority list of language tags. See <code>Locale</code> for supported values, constraints, fallback behavior, and the default locale. If you omit this field, the service returns content in the default locale.</p>"
+               }
             }
          },
          "traits" : {
@@ -1678,14 +2097,14 @@
             "categories" : {
                "target" : "com.amazonaws.marketplacediscovery#CategoryList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The categories used to classify this listing into logical groups.</p>",
+                  "smithy.api#documentation" : "<p>The categories that classify this listing into logical groups.</p>",
                   "smithy.api#required" : {}
                }
             },
             "fulfillmentOptionSummaries" : {
                "target" : "com.amazonaws.marketplacediscovery#FulfillmentOptionSummaryList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A summary of fulfillment options available for deploying or accessing the listing, such as AMI, SaaS, or Container.</p>",
+                  "smithy.api#documentation" : "<p>A summary of fulfillment options available for deploying or accessing the listing, such as Amazon Machine Image (AMI), Software as a Service (SaaS), or Container.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -1716,6 +2135,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The locale of the returned content. This value indicates whether the response contains content in the requested locale or fell back to the default locale. See <code>Locale</code> for details.</p>"
+               }
+            },
             "logoThumbnailUrl" : {
                "target" : "com.amazonaws.marketplacediscovery#URL",
                "traits" : {
@@ -1736,7 +2161,7 @@
             "pricingModels" : {
                "target" : "com.amazonaws.marketplacediscovery#PricingModelList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The pricing models for offers associated with this listing, such as usage-based, contract, BYOL, or free.</p>",
+                  "smithy.api#documentation" : "<p>The pricing models for offers associated with this listing, such as usage-based, contract, Bring Your Own License (BYOL), or free.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -1761,6 +2186,14 @@
                   "smithy.api#required" : {}
                }
             },
+            "purchaseIndicators" : {
+               "target" : "com.amazonaws.marketplacediscovery#PurchaseIndicatorList",
+               "traits" : {
+                  "smithy.api#default" : [],
+                  "smithy.api#documentation" : "<p>Indicators describing purchase characteristics of this listing, such as whether you can subscribe to it or use it without a subscription. The list is empty when no special purchase conditions apply.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
             "resources" : {
                "target" : "com.amazonaws.marketplacediscovery#ResourceList",
                "traits" : {
@@ -1777,7 +2210,7 @@
             "sellerEngagements" : {
                "target" : "com.amazonaws.marketplacediscovery#SellerEngagementList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Engagement options available to potential buyers, such as requesting a private offer or requesting a demo.</p>",
+                  "smithy.api#documentation" : "<p>The engagement options available to you, such as buying now, requesting a private offer, or requesting a demo.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -1791,7 +2224,7 @@
             "useCases" : {
                "target" : "com.amazonaws.marketplacediscovery#UseCaseList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Use cases associated with the listing, describing scenarios where the product can be applied.</p>",
+                  "smithy.api#documentation" : "<p>Use cases associated with the listing, describing scenarios where you can apply the product.</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -1843,6 +2276,12 @@
       },
       "com.amazonaws.marketplacediscovery#GetOfferInput" : {
          "members" : {
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preferred locale for response content, as a Best Current Practice 47 (BCP 47) language tag or a comma-separated priority list of language tags. See <code>Locale</code> for supported values, constraints, fallback behavior, and the default locale. If you omit this field, the service returns content in the default locale.</p>"
+               }
+            },
             "offerId" : {
                "target" : "com.amazonaws.marketplacediscovery#OfferId",
                "traits" : {
@@ -1861,7 +2300,7 @@
             "agreementProposalId" : {
                "target" : "com.amazonaws.marketplacediscovery#AgreementResourceId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>An encoded string to be passed by the acceptor of the terms when creating an agreement.</p>",
+                  "smithy.api#documentation" : "<p>An encoded string that you pass when you accept the terms and create an agreement.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -1875,13 +2314,13 @@
             "availableFromTime" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date and time when the offer became available to the buyer.</p>"
+                  "smithy.api#documentation" : "<p>The date and time when the offer became available to you.</p>"
                }
             },
             "badges" : {
                "target" : "com.amazonaws.marketplacediscovery#PurchaseOptionBadgeList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Badges indicating special attributes of the offer, such as private pricing, future dated, or replacement offer.</p>",
+                  "smithy.api#documentation" : "<p>Badges indicating special attributes of the offer, such as private pricing, future-dated, or replacement offer.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -1895,7 +2334,13 @@
             "expirationTime" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date and time until when the offer can be procured. This value is null for offers that never expire.</p>"
+                  "smithy.api#documentation" : "<p>The date and time until which you can procure the offer. This value is null for offers that never expire.</p>"
+               }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The locale of the returned content. This value indicates whether the response contains content in the requested locale or fell back to the default locale. See <code>Locale</code> for details.</p>"
                }
             },
             "offerId" : {
@@ -1908,20 +2353,20 @@
             "offerName" : {
                "target" : "com.amazonaws.marketplacediscovery#NullableString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The display name of the offer. This is free-form text provided by the seller.</p>"
+                  "smithy.api#documentation" : "<p>The display name of the offer. The seller provides this free-form text.</p>"
                }
             },
             "pricingModel" : {
                "target" : "com.amazonaws.marketplacediscovery#PricingModel",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The pricing model that determines how buyers are charged, such as usage-based, contract, BYOL, or free.</p>",
+                  "smithy.api#documentation" : "<p>The pricing model that determines how you are charged, such as usage-based, contract, Bring Your Own License (BYOL), or free.</p>",
                   "smithy.api#required" : {}
                }
             },
             "replacementAgreementId" : {
                "target" : "com.amazonaws.marketplacediscovery#AgreementResourceId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the existing agreement that this offer would replace. Enables agreement-based offer functionality.</p>"
+                  "smithy.api#documentation" : "<p>The identifier of the existing agreement that this offer would replace.</p>"
                }
             },
             "sellerOfRecord" : {
@@ -1979,6 +2424,12 @@
       },
       "com.amazonaws.marketplacediscovery#GetOfferSetInput" : {
          "members" : {
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preferred locale for response content, as a Best Current Practice 47 (BCP 47) language tag or a comma-separated priority list of language tags. See <code>Locale</code> for supported values, constraints, fallback behavior, and the default locale. If you omit this field, the service returns content in the default locale.</p>"
+               }
+            },
             "offerSetId" : {
                "target" : "com.amazonaws.marketplacediscovery#OfferSetId",
                "traits" : {
@@ -2004,20 +2455,20 @@
             "availableFromTime" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date and time when the offer set became available to the buyer.</p>"
+                  "smithy.api#documentation" : "<p>The date and time when the offer set became available to you.</p>"
                }
             },
             "badges" : {
                "target" : "com.amazonaws.marketplacediscovery#PurchaseOptionBadgeList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Badges indicating special attributes of the offer set, such as private pricing or future dated.</p>",
+                  "smithy.api#documentation" : "<p>Badges indicating special attributes of the offer set, such as private pricing or future-dated.</p>",
                   "smithy.api#required" : {}
                }
             },
             "buyerNotes" : {
                "target" : "com.amazonaws.marketplacediscovery#NullableString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Detailed information about the offer set that helps buyers understand its purpose and contents.</p>"
+                  "smithy.api#documentation" : "<p>Detailed information about the offer set that helps you understand its purpose and contents.</p>"
                }
             },
             "catalog" : {
@@ -2031,6 +2482,12 @@
                "target" : "smithy.api#Timestamp",
                "traits" : {
                   "smithy.api#documentation" : "<p>The date and time when the offer set expires and is no longer available for procurement.</p>"
+               }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The locale of the returned content. This value indicates whether the response contains content in the requested locale or fell back to the default locale. See <code>Locale</code> for details.</p>"
                }
             },
             "offerSetId" : {
@@ -2072,7 +2529,7 @@
             "target" : "com.amazonaws.marketplacediscovery#GetOfferTermsOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns the terms attached to an offer, such as pricing terms (usage-based, contract, BYOL, free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms.</p>",
+            "smithy.api#documentation" : "<p>Retrieves the terms attached to an offer, such as pricing terms (usage-based, contract, Bring Your Own License (BYOL), free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms. The operation returns results in pages. Use <code>nextToken</code> to retrieve the next page.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -2107,11 +2564,17 @@
       },
       "com.amazonaws.marketplacediscovery#GetOfferTermsInput" : {
          "members" : {
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preferred locale for response content, as a Best Current Practice 47 (BCP 47) language tag or a comma-separated priority list of language tags. See <code>Locale</code> for supported values, constraints, fallback behavior, and the default locale. If you omit this field, the service returns content in the default locale.</p>"
+               }
+            },
             "maxResults" : {
                "target" : "smithy.api#Integer",
                "traits" : {
                   "smithy.api#default" : 10,
-                  "smithy.api#documentation" : "<p>The maximum number of results that are returned per call. You can use <code>nextToken</code> to get more results.</p>",
+                  "smithy.api#documentation" : "<p>The maximum number of terms to return in each call. If you omit this field, the default is 10. Use <code>nextToken</code> to retrieve the next page.</p>",
                   "smithy.api#range" : {
                      "max" : 25,
                      "min" : 1
@@ -2121,7 +2584,7 @@
             "nextToken" : {
                "target" : "com.amazonaws.marketplacediscovery#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. Make the call again using the returned token to retrieve the next page.</p>"
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
                }
             },
             "offerId" : {
@@ -2139,10 +2602,16 @@
       },
       "com.amazonaws.marketplacediscovery#GetOfferTermsOutput" : {
          "members" : {
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The locale of the returned content. This value indicates whether the response contains content in the requested locale or fell back to the default locale. See <code>Locale</code> for details.</p>"
+               }
+            },
             "nextToken" : {
                "target" : "com.amazonaws.marketplacediscovery#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. Make the call again using the returned token to retrieve the next page.</p>"
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
                }
             },
             "offerTerms" : {
@@ -2200,6 +2669,12 @@
       },
       "com.amazonaws.marketplacediscovery#GetProductInput" : {
          "members" : {
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preferred locale for response content, as a Best Current Practice 47 (BCP 47) language tag or a comma-separated priority list of language tags. See <code>Locale</code> for supported values, constraints, fallback behavior, and the default locale. If you omit this field, the service returns content in the default locale.</p>"
+               }
+            },
             "productId" : {
                "target" : "com.amazonaws.marketplacediscovery#ProductId",
                "traits" : {
@@ -2225,21 +2700,21 @@
             "categories" : {
                "target" : "com.amazonaws.marketplacediscovery#CategoryList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The categories used to classify this product into logical groups.</p>",
+                  "smithy.api#documentation" : "<p>The categories that classify this product into logical groups.</p>",
                   "smithy.api#required" : {}
                }
             },
             "deployedOnAws" : {
                "target" : "com.amazonaws.marketplacediscovery#DeployedOnAwsStatus",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Indicates whether the product is deployed on AWS infrastructure.</p>",
+                  "smithy.api#documentation" : "<p>Specifies whether the product is deployed on AWS infrastructure.</p>",
                   "smithy.api#required" : {}
                }
             },
             "fulfillmentOptionSummaries" : {
                "target" : "com.amazonaws.marketplacediscovery#FulfillmentOptionSummaryList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A summary of fulfillment options available for deploying or accessing the product, such as AMI, SaaS, or Container.</p>",
+                  "smithy.api#documentation" : "<p>A summary of fulfillment options available for deploying or accessing the product, such as Amazon Machine Image (AMI), Software as a Service (SaaS), or Container.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -2248,6 +2723,19 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A list of key features that the product offers to customers.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "listingId" : {
+               "target" : "com.amazonaws.marketplacediscovery#ListingId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default listing identifier associated with the product.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The locale of the returned content. This value indicates whether the response contains content in the requested locale or fell back to the default locale. See <code>Locale</code> for details.</p>"
                }
             },
             "logoThumbnailUrl" : {
@@ -2295,6 +2783,14 @@
                   "smithy.api#required" : {}
                }
             },
+            "purchaseIndicators" : {
+               "target" : "com.amazonaws.marketplacediscovery#PurchaseIndicatorList",
+               "traits" : {
+                  "smithy.api#default" : [],
+                  "smithy.api#documentation" : "<p>Indicators describing purchase characteristics of this product, such as whether you can subscribe to it or use it without a subscription. The list is empty when no special purchase conditions apply.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
             "resources" : {
                "target" : "com.amazonaws.marketplacediscovery#ResourceList",
                "traits" : {
@@ -2305,7 +2801,7 @@
             "sellerEngagements" : {
                "target" : "com.amazonaws.marketplacediscovery#SellerEngagementList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Engagement options available to potential buyers, such as requesting a private offer or requesting a demo.</p>",
+                  "smithy.api#documentation" : "<p>The engagement options available to you, such as buying now, requesting a private offer, or requesting a demo.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -2340,7 +2836,7 @@
             "dimensionLabels" : {
                "target" : "com.amazonaws.marketplacediscovery#DimensionLabelList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Labels used to categorize this entitlement, such as by region.</p>"
+                  "smithy.api#documentation" : "<p>Labels that categorize this entitlement, such as by region.</p>"
                }
             },
             "displayName" : {
@@ -2353,7 +2849,7 @@
             "maxQuantity" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The maximum quantity of the entitlement that can be granted.</p>"
+                  "smithy.api#documentation" : "<p>The maximum quantity of the entitlement that you can receive.</p>"
                }
             },
             "unit" : {
@@ -2365,7 +2861,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>An entitlement granted to the buyer as part of a pricing term.</p>"
+            "smithy.api#documentation" : "<p>An entitlement that you receive as part of a pricing term.</p>"
          },
          "type" : "structure"
       },
@@ -2426,7 +2922,7 @@
             "releaseNotes" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Release notes describing changes in this version of the fulfillment option.</p>"
+                  "smithy.api#documentation" : "<p>Release notes that describe the changes in this version of the fulfillment option.</p>"
                }
             },
             "usageInstructions" : {
@@ -2459,7 +2955,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Describes an operating system supported by a Helm chart fulfillment option.</p>"
+            "smithy.api#documentation" : "<p>Describes an operating system that a Helm chart fulfillment option supports.</p>"
          },
          "type" : "structure"
       },
@@ -2533,7 +3029,7 @@
             "documents" : {
                "target" : "com.amazonaws.marketplacediscovery#DocumentList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The legal documents proposed to the buyer as part of this term.</p>",
+                  "smithy.api#documentation" : "<p>The legal documents proposed to you as part of this term.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -2553,7 +3049,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a legal term containing documents proposed to buyers, such as EULAs and data subscription agreements.</p>"
+            "smithy.api#documentation" : "<p>Describes a legal term containing documents proposed to you, such as End User License Agreements (EULAs) and data subscription agreements.</p>"
          },
          "type" : "structure"
       },
@@ -2570,7 +3066,7 @@
             "target" : "com.amazonaws.marketplacediscovery#ListFulfillmentOptionsOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns the fulfillment options available for a product, including deployment details such as version information, operating systems, usage instructions, and release notes.</p>",
+            "smithy.api#documentation" : "<p>Retrieves the fulfillment options available for a product, including deployment details such as version information, operating systems, usage instructions, and release notes. The operation returns results in pages. Use <code>nextToken</code> to retrieve the next page.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -2605,11 +3101,17 @@
       },
       "com.amazonaws.marketplacediscovery#ListFulfillmentOptionsInput" : {
          "members" : {
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preferred locale for response content, as a Best Current Practice 47 (BCP 47) language tag or a comma-separated priority list of language tags. See <code>Locale</code> for supported values, constraints, fallback behavior, and the default locale. If you omit this field, the service returns content in the default locale.</p>"
+               }
+            },
             "maxResults" : {
                "target" : "smithy.api#Integer",
                "traits" : {
                   "smithy.api#default" : 25,
-                  "smithy.api#documentation" : "<p>The maximum number of results that are returned per call. You can use <code>nextToken</code> to get more results.</p>",
+                  "smithy.api#documentation" : "<p>The maximum number of fulfillment options to return in each call. If you omit this field, the default is 25. Use <code>nextToken</code> to retrieve the next page.</p>",
                   "smithy.api#range" : {
                      "max" : 50,
                      "min" : 1
@@ -2619,7 +3121,7 @@
             "nextToken" : {
                "target" : "com.amazonaws.marketplacediscovery#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. Make the call again using the returned token to retrieve the next page.</p>"
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
                }
             },
             "productId" : {
@@ -2640,18 +3142,140 @@
             "fulfillmentOptions" : {
                "target" : "com.amazonaws.marketplacediscovery#FulfillmentOptionsList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The fulfillment options available for the product. Each option describes how the buyer can deploy or access the product.</p>",
+                  "smithy.api#documentation" : "<p>The fulfillment options available for the product. Each option describes how you can deploy or access the product.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale"
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.marketplacediscovery#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#ListListingAttributes" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.marketplacediscovery#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.marketplacediscovery#ListListingAttributesInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.marketplacediscovery#ListListingAttributesOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the requested attributes for a listing, including case studies and trust center information. The operation returns results in pages. Use <code>nextToken</code> to retrieve the next page.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/2026-02-05/listListingAttributes"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "listingAttributes",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {
+                        "errorId" : "com.amazonaws.marketplacediscovery#ResourceNotFoundException"
+                     }
+                  },
+                  "id" : "ListListingAttributesFailure",
+                  "params" : {
+                     "attributeTypes" : [
+                        "CASE_STUDY"
+                     ],
+                     "listingId" : "non-existent-listing-id"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.marketplacediscovery#ListListingAttributesInput" : {
+         "members" : {
+            "attributeTypes" : {
+               "target" : "com.amazonaws.marketplacediscovery#ListingAttributeTypeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The attribute types to retrieve. Specify one or more of the following values:</p> <dl> <dt>CASE_STUDY</dt> <dd> <p>Case studies associated with the listing.</p> </dd> <dt>SPECIALIZATION_DETAIL</dt> <dd> <p>Specializations earned for the listing.</p> </dd> <dt>TRUST_CENTER_CERTIFICATION</dt> <dd> <p>Trust center certifications associated with the listing.</p> </dd> <dt>TRUST_CENTER_CONTROL</dt> <dd> <p>Trust center controls associated with the listing.</p> </dd> <dt>TRUST_CENTER_DOCUMENT</dt> <dd> <p>Trust center documents associated with the listing.</p> </dd> <dt>TRUST_CENTER_FAQ</dt> <dd> <p>The trust center FAQ associated with the listing.</p> </dd> <dt>TRUST_CENTER_SOURCE</dt> <dd> <p>Trust center sources associated with the listing.</p> </dd> <dt>TRUST_CENTER_UPDATE</dt> <dd> <p>Trust center updates associated with the listing.</p> </dd> </dl>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "listingId" : {
+               "target" : "com.amazonaws.marketplacediscovery#ListingId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the listing whose attributes are requested.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preferred locale for response content, as a Best Current Practice 47 (BCP 47) language tag or a comma-separated priority list of language tags. See <code>Locale</code> for supported values, constraints, fallback behavior, and the default locale. If you omit this field, the service returns content in the default locale.</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.marketplacediscovery#MaxResults",
+               "traits" : {
+                  "smithy.api#default" : 25,
+                  "smithy.api#documentation" : "<p>The maximum number of attributes to return in each call. If you omit this field, the default is 25. Use <code>nextToken</code> to retrieve the next page.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.marketplacediscovery#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. Make the call again using the returned token to retrieve the next page.</p>"
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
                }
             }
          },
          "traits" : {
+            "smithy.api#documentation" : "<p>Contains the listing and attribute types to retrieve.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#ListListingAttributesOutput" : {
+         "members" : {
+            "listingAttributes" : {
+               "target" : "com.amazonaws.marketplacediscovery#ListingAttributeResultsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The requested attributes. Each entry contains one attribute type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The locale of the returned content. See <code>Locale</code> for details.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.marketplacediscovery#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the requested listing attributes and pagination information.</p>",
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -2664,7 +3288,7 @@
             "target" : "com.amazonaws.marketplacediscovery#ListPurchaseOptionsOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns the purchase options (offers and offer sets) available to the buyer. You can filter results by product, seller, purchase option type, visibility scope, and availability status.</p> <note> <p>You must include at least one of the following filters in the request: a <code>PRODUCT_ID</code> filter to specify the product for which to retrieve purchase options, or a <code>VISIBILITY_SCOPE</code> filter to retrieve purchase options by visibility.</p> </note>",
+            "smithy.api#documentation" : "<p>Retrieves the purchase options (offers and offer sets) available to you. You can filter results by product, seller, purchase option type, visibility scope, and availability status. The operation returns results in pages. Use <code>nextToken</code> to retrieve the next page.</p> <note> <p>You must include at least one of the following filters in the request: a <code>PRODUCT_ID</code> filter to specify the product for which to retrieve purchase options, or a <code>VISIBILITY_SCOPE</code> filter to retrieve purchase options by visibility.</p> </note>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -2706,14 +3330,20 @@
             "filters" : {
                "target" : "com.amazonaws.marketplacediscovery#PurchaseOptionFilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters to narrow the results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.</p>"
+                  "smithy.api#documentation" : "<p>Filters to narrow the results. A result must match every filter. Within one filter, a result matches if it has any of the values.</p>"
+               }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preferred locale for response content, as a Best Current Practice 47 (BCP 47) language tag or a comma-separated priority list of language tags. See <code>Locale</code> for supported values, constraints, fallback behavior, and the default locale. If you omit this field, the service returns content in the default locale.</p>"
                }
             },
             "maxResults" : {
                "target" : "com.amazonaws.marketplacediscovery#MaxResults",
                "traits" : {
                   "smithy.api#default" : 25,
-                  "smithy.api#documentation" : "<p>The maximum number of results that are returned per call. You can use <code>nextToken</code> to get more results.</p>",
+                  "smithy.api#documentation" : "<p>The maximum number of purchase options to return in each call. If you omit this field, the default is 25. Use <code>nextToken</code> to retrieve the next page.</p>",
                   "smithy.api#range" : {
                      "max" : 100,
                      "min" : 1
@@ -2723,7 +3353,7 @@
             "nextToken" : {
                "target" : "com.amazonaws.marketplacediscovery#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. Make the call again using the returned token to retrieve the next page.</p>"
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
                }
             }
          },
@@ -2737,13 +3367,13 @@
             "nextToken" : {
                "target" : "com.amazonaws.marketplacediscovery#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. Make the call again using the returned token to retrieve the next page.</p>"
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
                }
             },
             "purchaseOptions" : {
                "target" : "com.amazonaws.marketplacediscovery#PurchaseOptionSummaryList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The purchase options available to the buyer. Each option is either an offer for a single product or an offer set spanning multiple products.</p>"
+                  "smithy.api#documentation" : "<p>The purchase options available to you. Each option is either an offer for a single product or an offer set spanning multiple products.</p>"
                }
             }
          },
@@ -2783,12 +3413,147 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.marketplacediscovery#ListingAttributeResults" : {
+         "members" : {
+            "caseStudy" : {
+               "target" : "com.amazonaws.marketplacediscovery#CaseStudy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A case study associated with the listing.</p>"
+               }
+            },
+            "specializationDetail" : {
+               "target" : "com.amazonaws.marketplacediscovery#SpecializationDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A specialization earned for the listing. Each result is either a specialization or a category under a specialization.</p>"
+               }
+            },
+            "trustCenterCertification" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterCertificationAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A trust center certification associated with the listing.</p>"
+               }
+            },
+            "trustCenterControl" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterControl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A trust center control associated with the listing.</p>"
+               }
+            },
+            "trustCenterDocument" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterDocumentAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A trust center document associated with the listing.</p>"
+               }
+            },
+            "trustCenterFaq" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterFaqAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A trust center frequently asked question associated with the listing.</p>"
+               }
+            },
+            "trustCenterSource" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A trust center source associated with the listing.</p>"
+               }
+            },
+            "trustCenterUpdate" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterUpdateAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A trust center update associated with the listing.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An attribute associated with a listing. Each entry contains one attribute type.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.marketplacediscovery#ListingAttributeResultsList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#ListingAttributeResults"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The requested listing attributes.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#ListingAttributeType" : {
+         "members" : {
+            "CASE_STUDY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CASE_STUDY"
+               }
+            },
+            "SPECIALIZATION_DETAIL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SPECIALIZATION_DETAIL"
+               }
+            },
+            "TRUST_CENTER_CERTIFICATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRUST_CENTER_CERTIFICATION"
+               }
+            },
+            "TRUST_CENTER_CONTROL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRUST_CENTER_CONTROL"
+               }
+            },
+            "TRUST_CENTER_DOCUMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRUST_CENTER_DOCUMENT"
+               }
+            },
+            "TRUST_CENTER_FAQ" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRUST_CENTER_FAQ"
+               }
+            },
+            "TRUST_CENTER_SOURCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRUST_CENTER_SOURCE"
+               }
+            },
+            "TRUST_CENTER_UPDATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRUST_CENTER_UPDATE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of a listing attribute. This field has one of the following values:</p> <dl> <dt>CASE_STUDY</dt> <dd> <p>Case studies associated with the listing.</p> </dd> <dt>SPECIALIZATION_DETAIL</dt> <dd> <p>Specializations earned for the listing.</p> </dd> <dt>TRUST_CENTER_CERTIFICATION</dt> <dd> <p>Trust center certifications associated with the listing.</p> </dd> <dt>TRUST_CENTER_CONTROL</dt> <dd> <p>Trust center controls associated with the listing.</p> </dd> <dt>TRUST_CENTER_DOCUMENT</dt> <dd> <p>Trust center documents associated with the listing.</p> </dd> <dt>TRUST_CENTER_FAQ</dt> <dd> <p>The trust center FAQ associated with the listing.</p> </dd> <dt>TRUST_CENTER_SOURCE</dt> <dd> <p>Trust center sources associated with the listing.</p> </dd> <dt>TRUST_CENTER_UPDATE</dt> <dd> <p>Trust center updates associated with the listing.</p> </dd> </dl>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.marketplacediscovery#ListingAttributeTypeList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#ListingAttributeType"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The attribute types to retrieve.</p>",
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
       "com.amazonaws.marketplacediscovery#ListingBadge" : {
          "members" : {
             "badgeType" : {
                "target" : "com.amazonaws.marketplacediscovery#ListingBadgeType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The machine-readable type of the badge.</p>",
+                  "smithy.api#documentation" : "<p>The machine-readable type of the badge. See <code>ListingBadgeType</code> for the values.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -2848,6 +3613,9 @@
                   "smithy.api#enumValue" : "QUICK_LAUNCH"
                }
             }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of a listing badge. This field has one of the following values:</p> <dl> <dt>AWS_FREE_TIER</dt> <dd> <p>The listing is eligible for the AWS Free Tier.</p> </dd> <dt>DEPLOYED_ON_AWS</dt> <dd> <p>The products in the listing are deployed on AWS infrastructure.</p> </dd> <dt>FREE_TRIAL</dt> <dd> <p>The listing offers a free trial.</p> </dd> <dt>MULTI_PRODUCT</dt> <dd> <p>The listing is a multi-product solution.</p> </dd> <dt>QUICK_LAUNCH</dt> <dd> <p>The listing supports Quick Launch, an AWS Marketplace deployment option that reduces the time, resources, and steps required to configure, deploy, and launch the software.</p> </dd> </dl>"
          },
          "type" : "enum"
       },
@@ -2923,6 +3691,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "caseStudiesSummary" : {
+               "target" : "com.amazonaws.marketplacediscovery#CaseStudiesSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary of the case studies associated with the listing. Retrieve the case studies with <code>ListListingAttributes</code>.</p>"
+               }
+            },
             "catalog" : {
                "target" : "com.amazonaws.marketplacediscovery#Catalog",
                "traits" : {
@@ -2933,7 +3707,7 @@
             "categories" : {
                "target" : "com.amazonaws.marketplacediscovery#CategoryList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The categories used to classify this listing into logical groups.</p>",
+                  "smithy.api#documentation" : "<p>The categories that classify this listing into logical groups.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -2993,11 +3767,29 @@
                   "smithy.api#required" : {}
                }
             },
+            "sellerEngagements" : {
+               "target" : "com.amazonaws.marketplacediscovery#SellerEngagementList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The seller engagement options available for this listing, such as buying now, requesting a private offer, or requesting a demo.</p>"
+               }
+            },
             "shortDescription" : {
                "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
                "traits" : {
                   "smithy.api#documentation" : "<p>A 1–3 sentence summary describing the key aspects of the listing.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "trustCenterSummary" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary of trust center sources and certifications associated with the listing.</p>"
+               }
+            },
+            "useCaseSummary" : {
+               "target" : "com.amazonaws.marketplacediscovery#UseCaseSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A summary of the use cases the listing is written for: the name and identifier of each, without descriptions. The summary is empty when the listing has none.</p>"
                }
             }
          },
@@ -3037,6 +3829,17 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.marketplacediscovery#Locale" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A Best Current Practice 47 (BCP 47) language tag or comma-separated priority list of language tags that specifies the preferred locale for response content. The field accepts a maximum of two language tags.</p> <p>The service resolves a locale string to the nearest supported locale. If no supported locale matches, the service applies the fallback behavior described in the following lists.</p> <ul> <li> <p> <b>Preferred locale</b> (first tag) – The locale you want the service to return content in.</p> </li> <li> <p> <b>Fallback locale</b> (optional, second tag) – The service default locale (<code>en-US</code> or <code>en</code>). The service returns content in this locale when translated content for the preferred locale is unavailable.</p> </li> </ul> <p>The field is optional. If you omit this field or set it to null, the service returns content in the default locale (<code>en-US</code>).</p> <p>The service supports the following locales:</p> <dl> <dt>en-US</dt> <dd> <p>English (service default, also resolves from <code>en</code>)</p> </dd> <dt>fr</dt> <dd> <p>French</p> </dd> <dt>es</dt> <dd> <p>Spanish</p> </dd> <dt>ko</dt> <dd> <p>Korean</p> </dd> <dt>ja</dt> <dd> <p>Japanese</p> </dd> </dl> <p>The fallback behavior is as follows:</p> <ul> <li> <p>If translated content for the preferred locale is unavailable, the service returns content in the default locale.</p> </li> <li> <p>If the preferred locale is not supported and you provide no fallback, the service returns a <code>ValidationException</code>.</p> </li> <li> <p>If you provide an unsupported locale with the default locale as fallback (for example, <code>xx, en-US</code>), the service returns content in the default locale.</p> </li> </ul> <p>The <code>locale</code> field in Get API responses indicates the locale of the returned content. You can use this field to determine whether the response contains content in the requested locale or the default locale.</p> <p>The following examples show how the field works:</p> <dl> <dt>fr</dt> <dd> <p>Request French content. If unavailable, falls back to <code>en-US</code>.</p> </dd> <dt>fr, en-US</dt> <dd> <p>Request French content with explicit fallback to English.</p> </dd> <dt>en-US</dt> <dd> <p>Request content in the default locale.</p> </dd> </dl>",
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[^;,]+(\\s*,\\s*[^;,]+){0,1}$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.marketplacediscovery#MaxResults" : {
          "traits" : {
             "smithy.api#default" : 25,
@@ -3072,7 +3875,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a net payment term that sets how many days after the invoice date the payment is due.</p>"
+            "smithy.api#documentation" : "<p>Describes a net payment term that sets how many days after the invoice date the payment is due.</p>"
          },
          "type" : "structure"
       },
@@ -3303,6 +4106,50 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.marketplacediscovery#PaymentScheduleEntry" : {
+         "members" : {
+            "chargeDateOffset" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The relative offset from the renewal agreement start date when this installment is due, represented in ISO 8601 duration format (for example, P1M or P30D).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "chargePercentage" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The percentage of the increased Total Contract Value (TCV) to charge in this installment. All entries in a schedule sum to 100.00.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "dayOfMonth" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The optional calendar day of month on which the charge occurs. When absent, the charge day is derived from <code>chargeDateOffset</code>. For months with fewer days than the specified day, the charge occurs on the last day of the month. For example, if <code>dayOfMonth</code> is 31, the charge in April occurs on April 30.</p>",
+                  "smithy.api#range" : {
+                     "max" : 31,
+                     "min" : 1
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A single installment entry in the renewal payment schedule.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#PaymentScheduleEntryList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#PaymentScheduleEntry"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.marketplacediscovery#PaymentScheduleTerm" : {
          "members" : {
             "currencyCode" : {
@@ -3335,9 +4182,73 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a payment schedule term with installment payments at specified dates.</p>"
+            "smithy.api#documentation" : "<p>Describes a payment schedule term with installment payments at specified dates.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#PaymentScheduleTermTemplate" : {
+         "members" : {
+            "schedule" : {
+               "target" : "com.amazonaws.marketplacediscovery#PaymentScheduleEntryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An ordered list of installment entries for the renewal payment schedule.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A template for the payment schedule term on the renewal offer.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#PercentageRange" : {
+         "members" : {
+            "defaultValue" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The percentage increase applied by default when no other value is finalized before the adjustment deadline. Falls between <code>minimumValue</code> and <code>maximumValue</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "maximumValue" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum percentage by which the price can increase at each renewal cycle.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "minimumValue" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum percentage by which the price can increase at each renewal cycle.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A price increase percentage range with minimum, maximum, and default values.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#PriceIncrease" : {
+         "members" : {
+            "fixedPercentage" : {
+               "target" : "com.amazonaws.marketplacediscovery#FixedPercentage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A single fixed percentage applied uniformly at every renewal cycle.</p>"
+               }
+            },
+            "percentageRange" : {
+               "target" : "com.amazonaws.marketplacediscovery#PercentageRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A percentage band with minimum, maximum, and default values that bound the price increase at each renewal cycle.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The pricing adjustment that applies at each renewal cycle, expressed as either a fixed percentage or a percentage range. Exactly one of the following members is present:</p> <dl> <dt>fixedPercentage</dt> <dd> <p>A single fixed percentage applied uniformly at every renewal cycle.</p> </dd> <dt>percentageRange</dt> <dd> <p>A percentage range with minimum, maximum, and default values that bound the price increase at each renewal cycle.</p> </dd> </dl>"
+         },
+         "type" : "union"
       },
       "com.amazonaws.marketplacediscovery#PricingModel" : {
          "members" : {
@@ -3351,13 +4262,13 @@
             "pricingModelType" : {
                "target" : "com.amazonaws.marketplacediscovery#PricingModelType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The machine-readable type of the pricing model.</p>",
+                  "smithy.api#documentation" : "<p>The machine-readable type of the pricing model. See <code>PricingModelType</code> for the values.</p>",
                   "smithy.api#required" : {}
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>A pricing model that determines how buyers are charged for a listing, such as usage-based, contract, BYOL, or free.</p>"
+            "smithy.api#documentation" : "<p>A pricing model that determines how you are charged for a listing, such as usage-based, contract, Bring Your Own License (BYOL), or free.</p>"
          },
          "type" : "structure"
       },
@@ -3398,6 +4309,9 @@
                   "smithy.api#enumValue" : "USAGE"
                }
             }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of a pricing model. This field has one of the following values:</p> <dl> <dt>BYOL</dt> <dd> <p>You bring your own license to use the product.</p> </dd> <dt>CONTRACT</dt> <dd> <p>You pay in advance for the use of the product, or on a flexible payment schedule. You can also pay for additional usage beyond the contract.</p> </dd> <dt>FREE</dt> <dd> <p>You pay nothing for the product. No pricing term or payment schedule term has a non-zero rate.</p> </dd> <dt>USAGE</dt> <dd> <p>You pay for your usage of the product.</p> </dd> </dl>"
          },
          "type" : "enum"
       },
@@ -3644,6 +4558,53 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.marketplacediscovery#PurchaseIndicator" : {
+         "members" : {
+            "indicatorType" : {
+               "target" : "com.amazonaws.marketplacediscovery#PurchaseIndicatorType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of purchase indicator.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An indicator describing a purchase characteristic, such as availability for use without a subscription.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#PurchaseIndicatorList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#PurchaseIndicator"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A collection of indicators describing the purchase characteristics of a product or listing.</p>",
+            "smithy.api#length" : {
+               "max" : 20
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#PurchaseIndicatorType" : {
+         "members" : {
+            "AVAILABLE_FOR_USE_WITHOUT_SUBSCRIPTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AVAILABLE_FOR_USE_WITHOUT_SUBSCRIPTION"
+               }
+            },
+            "NOT_AVAILABLE_FOR_SUBSCRIPTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NOT_AVAILABLE_FOR_SUBSCRIPTION"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of purchase condition that applies to a product or listing.</p> <dl> <dt>AVAILABLE_FOR_USE_WITHOUT_SUBSCRIPTION</dt> <dd> <p>Indicates the product can be used without a subscription.</p> </dd> <dt>NOT_AVAILABLE_FOR_SUBSCRIPTION</dt> <dd> <p>Indicates the product is not available for new subscriptions.</p> </dd> </dl>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.marketplacediscovery#PurchaseOptionAssociatedEntity" : {
          "members" : {
             "offer" : {
@@ -3688,7 +4649,7 @@
             "badgeType" : {
                "target" : "com.amazonaws.marketplacediscovery#PurchaseOptionBadgeType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The machine-readable type of the badge.</p>",
+                  "smithy.api#documentation" : "<p>The machine-readable type of the badge. See <code>PurchaseOptionBadgeType</code> for the values.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -3701,7 +4662,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>A badge indicating a special attribute of a purchase option, such as private pricing or future dated.</p>"
+            "smithy.api#documentation" : "<p>A badge indicating a special attribute of a purchase option, such as private pricing or future-dated.</p>"
          },
          "type" : "structure"
       },
@@ -3718,6 +4679,12 @@
       },
       "com.amazonaws.marketplacediscovery#PurchaseOptionBadgeType" : {
          "members" : {
+            "AUTO_RENEW" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AUTO_RENEW"
+               }
+            },
             "FUTURE_DATED" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -3737,6 +4704,9 @@
                }
             }
          },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of a purchase option badge. This field has one of the following values:</p> <dl> <dt>AUTO_RENEW</dt> <dd> <p>The purchase option includes auto-renewal terms that the seller configured.</p> </dd> <dt>FUTURE_DATED</dt> <dd> <p>The purchase option is future-dated.</p> </dd> <dt>PRIVATE_PRICING</dt> <dd> <p>The purchase option has private pricing.</p> </dd> <dt>REPLACEMENT_OFFER</dt> <dd> <p>The purchase option replaces an existing agreement.</p> </dd> </dl>"
+         },
          "type" : "enum"
       },
       "com.amazonaws.marketplacediscovery#PurchaseOptionFilter" : {
@@ -3744,14 +4714,14 @@
             "filterType" : {
                "target" : "com.amazonaws.marketplacediscovery#PurchaseOptionFilterType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of filter to apply, such as <code>PRODUCT_ID</code>, <code>VISIBILITY_SCOPE</code>, or <code>PURCHASE_OPTION_TYPE</code>.</p>",
+                  "smithy.api#documentation" : "<p>The type of filter to apply. This field has one of the following values:</p> <dl> <dt>AVAILABILITY_STATUS</dt> <dd> <p>Filters by whether the purchase option is available or expired.</p> </dd> <dt>PRODUCT_ID</dt> <dd> <p>Filters by product.</p> </dd> <dt>PURCHASE_OPTION_TYPE</dt> <dd> <p>Filters by offer or offer set.</p> </dd> <dt>SELLER_OF_RECORD_PROFILE_ID</dt> <dd> <p>Filters by seller.</p> </dd> <dt>VISIBILITY_SCOPE</dt> <dd> <p>Filters by visibility.</p> </dd> </dl> <p>See <code>filterValues</code> for the values that each type accepts.</p>",
                   "smithy.api#required" : {}
                }
             },
             "filterValues" : {
                "target" : "com.amazonaws.marketplacediscovery#PurchaseOptionFilterValueList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The values to filter by. Multiple values within the same filter are combined with OR logic.</p>",
+                  "smithy.api#documentation" : "<p>The values to filter by. Supported values depend on <code>filterType</code>:</p> <dl> <dt>AVAILABILITY_STATUS</dt> <dd> <p>One or more availability statuses to filter by: <code>AVAILABLE</code> or <code>EXPIRED</code>.</p> </dd> <dt>PRODUCT_ID</dt> <dd> <p>One or more product identifiers to filter by.</p> </dd> <dt>PURCHASE_OPTION_TYPE</dt> <dd> <p>One or more purchase option types to filter by: <code>OFFER</code> or <code>OFFERSET</code>.</p> </dd> <dt>SELLER_OF_RECORD_PROFILE_ID</dt> <dd> <p>One or more seller profile identifiers to filter by.</p> </dd> <dt>VISIBILITY_SCOPE</dt> <dd> <p>The visibility scope to filter by: <code>PRIVATE</code>.</p> </dd> </dl> <p>To retrieve private offers and offer sets visible to you, use <code>VISIBILITY_SCOPE</code> with <code>PRIVATE</code>. Within one filter, a result matches if it has any of the values.</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -3842,13 +4812,13 @@
             "availableFromTime" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date and time when the purchase option became available to the buyer.</p>"
+                  "smithy.api#documentation" : "<p>The date and time when the purchase option became available to you.</p>"
                }
             },
             "badges" : {
                "target" : "com.amazonaws.marketplacediscovery#PurchaseOptionBadgeList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Badges indicating special attributes of the purchase option, such as private pricing or future dated.</p>"
+                  "smithy.api#documentation" : "<p>Badges indicating special attributes of the purchase option, such as private pricing or future-dated.</p>"
                }
             },
             "catalog" : {
@@ -3880,7 +4850,7 @@
             "purchaseOptionType" : {
                "target" : "com.amazonaws.marketplacediscovery#PurchaseOptionType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of purchase option. Values are <code>OFFER</code> for a single-product offer or <code>OFFERSET</code> for a bundled offer set.</p>",
+                  "smithy.api#documentation" : "<p>The type of purchase option. This field has one of the following values:</p> <dl> <dt>OFFER</dt> <dd> <p>An offer for a single product.</p> </dd> <dt>OFFERSET</dt> <dd> <p>An offer set that bundles offers for several products.</p> </dd> </dl>",
                   "smithy.api#required" : {}
                }
             },
@@ -3893,7 +4863,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Summary information about a purchase option (offer or offer set) available to the buyer, including the seller, badges, and associated products.</p>"
+            "smithy.api#documentation" : "<p>Summary information about a purchase option (offer or offer set) available to you, including the seller, badges, and associated products.</p>"
          },
          "type" : "structure"
       },
@@ -3960,7 +4930,7 @@
             "dimensionLabels" : {
                "target" : "com.amazonaws.marketplacediscovery#DimensionLabelList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Labels used to categorize this dimension, such as by region.</p>"
+                  "smithy.api#documentation" : "<p>Labels that categorize this dimension, such as by region.</p>"
                }
             },
             "displayName" : {
@@ -3974,6 +4944,14 @@
                "target" : "com.amazonaws.marketplacediscovery#BoundedString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The price per unit for the dimension.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "regionalPrices" : {
+               "target" : "com.amazonaws.marketplacediscovery#RegionalPriceList",
+               "traits" : {
+                  "smithy.api#default" : [],
+                  "smithy.api#documentation" : "<p>The price overrides for the dimension in individual AWS Regions. When a Regional price is present for an AWS Region, it replaces the default price.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -4035,17 +5013,96 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a recurring payment term with fixed charges at regular billing intervals.</p>"
+            "smithy.api#documentation" : "<p>Describes a recurring payment term with fixed charges at regular billing intervals.</p>"
          },
          "type" : "structure"
       },
+      "com.amazonaws.marketplacediscovery#RegionalPrice" : {
+         "members" : {
+            "displayName" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The human-readable display name of the Region.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "price" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The per-unit price for the dimension in this Region.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "region" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Region the override applies to.</p>",
+                  "smithy.api#length" : {
+                     "max" : 64,
+                     "min" : 1
+                  },
+                  "smithy.api#pattern" : "^[a-z0-9-]+$",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A price override for a pricing dimension in one AWS Region.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#RegionalPriceList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#RegionalPrice"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.marketplacediscovery#RenewalTerm" : {
          "members" : {
+            "adjustmentDeadline" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The duration before the agreement end date by which the renewal price is finalized, represented in ISO 8601 format (for example, P30D). This field applies only with <code>PercentageRange</code>.</p>"
+               }
+            },
             "id" : {
                "target" : "com.amazonaws.marketplacediscovery#TermId",
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique identifier of the term.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "lockoutPeriod" : {
+               "target" : "com.amazonaws.marketplacediscovery#BoundedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The duration before the agreement end date when the lockout window begins, in ISO 8601 format (for example, P30D). Absent means no lockout.</p>"
+               }
+            },
+            "maxRenewals" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of renewals allowed on this offer. Absent means unlimited renewals.</p>",
+                  "smithy.api#range" : {
+                     "min" : 1
+                  }
+               }
+            },
+            "priceIncrease" : {
+               "target" : "com.amazonaws.marketplacediscovery#PriceIncrease",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The price increase applied at each renewal cycle. Absent means identical pricing on renewal.</p>"
+               }
+            },
+            "termTemplates" : {
+               "target" : "com.amazonaws.marketplacediscovery#TermTemplateList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Structural templates defining how specific terms are reshaped on each renewal cycle. Absent for upfront-only offers.</p>"
                }
             },
             "type" : {
@@ -4057,7 +5114,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a renewal term that enables automatic agreement renewal.</p>"
+            "smithy.api#documentation" : "<p>Describes a renewal term that renews the agreement automatically.</p>"
          },
          "type" : "structure"
       },
@@ -4066,7 +5123,7 @@
             "contentType" : {
                "target" : "com.amazonaws.marketplacediscovery#ResourceContentType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The format of the resource content, such as a URL, email address, or text.</p>",
+                  "smithy.api#documentation" : "<p>The format of the resource content, such as a URL, email address, or text. This field has one of the following values:</p> <dl> <dt>EMAIL</dt> <dd> <p>An email address.</p> </dd> <dt>LINK</dt> <dd> <p>A URL.</p> </dd> <dt>OTHER</dt> <dd> <p>Text in another format.</p> </dd> <dt>PHONE_NUMBER</dt> <dd> <p>A phone number.</p> </dd> </dl>",
                   "smithy.api#required" : {}
                }
             },
@@ -4079,7 +5136,7 @@
             "resourceType" : {
                "target" : "com.amazonaws.marketplacediscovery#ResourceType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The category of the resource, such as manufacturer support or usage instructions.</p>",
+                  "smithy.api#documentation" : "<p>The category of the resource, such as manufacturer support or usage instructions. This field has one of the following values:</p> <dl> <dt>MANUFACTURER_INSTRUCTIONS</dt> <dd> <p>Usage instructions from the seller.</p> </dd> <dt>MANUFACTURER_SUPPORT</dt> <dd> <p>Support information from the seller.</p> </dd> </dl>",
                   "smithy.api#required" : {}
                }
             },
@@ -4123,6 +5180,9 @@
                }
             }
          },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The format of a resource value. This field has one of the following values:</p> <dl> <dt>EMAIL</dt> <dd> <p>An email address.</p> </dd> <dt>LINK</dt> <dd> <p>A URL.</p> </dd> <dt>OTHER</dt> <dd> <p>Text in another format.</p> </dd> <dt>PHONE_NUMBER</dt> <dd> <p>A phone number.</p> </dd> </dl>"
+         },
          "type" : "enum"
       },
       "com.amazonaws.marketplacediscovery#ResourceList" : {
@@ -4143,7 +5203,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The specified resource doesn't exist.</p>",
+            "smithy.api#documentation" : "<p>The specified resource doesn't exist. Verify that the identifier is correct.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 404
          },
@@ -4164,6 +5224,9 @@
                }
             }
          },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The category of a resource. This field has one of the following values:</p> <dl> <dt>MANUFACTURER_INSTRUCTIONS</dt> <dd> <p>Usage instructions from the seller.</p> </dd> <dt>MANUFACTURER_SUPPORT</dt> <dd> <p>Support information from the seller.</p> </dd> </dl>"
+         },
          "type" : "enum"
       },
       "com.amazonaws.marketplacediscovery#ReviewSourceId" : {
@@ -4172,6 +5235,18 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "AWS_MARKETPLACE"
+               }
+            },
+            "G2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "G2"
+               }
+            },
+            "PEERSPOT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PEERSPOT"
                }
             }
          },
@@ -4189,21 +5264,21 @@
             "sourceId" : {
                "target" : "com.amazonaws.marketplacediscovery#ReviewSourceId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The machine-readable identifier of the review source.</p>",
+                  "smithy.api#documentation" : "<p>The machine-readable identifier of the review source. This field has one of the following values:</p> <dl> <dt>AWS_MARKETPLACE</dt> <dd> <p>The reviews come from AWS Marketplace.</p> </dd> <dt>G2</dt> <dd> <p>The reviews come from G2.</p> </dd> <dt>PEERSPOT</dt> <dd> <p>The reviews come from PeerSpot.</p> </dd> </dl>",
                   "smithy.api#required" : {}
                }
             },
             "sourceName" : {
                "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the review source, such as AWS Marketplace.</p>",
+                  "smithy.api#documentation" : "<p>The name of the review source. This field has one of the following values:</p> <ul> <li> <p>AWS Marketplace</p> </li> <li> <p>G2</p> </li> <li> <p>PeerSpot</p> </li> </ul>",
                   "smithy.api#required" : {}
                }
             },
             "sourceUrl" : {
                "target" : "com.amazonaws.marketplacediscovery#URL",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The URL where the reviews can be accessed at the source.</p>"
+                  "smithy.api#documentation" : "<p>The URL where you can read the reviews at their source.</p>"
                }
             },
             "totalReviews" : {
@@ -4235,7 +5310,7 @@
             "reviewSourceSummaries" : {
                "target" : "com.amazonaws.marketplacediscovery#ReviewSourceSummaryList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Review summaries from different sources, such as AWS Marketplace.</p>",
+                  "smithy.api#documentation" : "<p>Review summaries from different sources, such as AWS Marketplace, G2, and PeerSpot.</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -4245,8 +5320,96 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.marketplacediscovery#SaasCloudFormationDeploymentTemplate" : {
+         "members" : {
+            "defaultStackName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The default CloudFormation stack name used when deploying this template.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the deployment template.</p>",
+                  "smithy.api#length" : {
+                     "max" : 8192
+                  }
+               }
+            },
+            "iamPolicy" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Identity and Access Management (IAM) policy that you need to deploy this template.</p>",
+                  "smithy.api#length" : {
+                     "max" : 8192
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "templateName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the deployment template.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "templateUrl" : {
+               "target" : "com.amazonaws.marketplacediscovery#URL",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL of the CloudFormation deployment template.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains a single AWS CloudFormation deployment template for a Software as a Service (SaaS) product.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#SaasDeploymentTemplate" : {
+         "members" : {
+            "cloudFormationDeploymentTemplate" : {
+               "target" : "com.amazonaws.marketplacediscovery#SaasCloudFormationDeploymentTemplate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An AWS CloudFormation deployment template.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains a deployment template for a SaaS product. Exactly one member is set, indicating the deployment template type.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.marketplacediscovery#SaasDeploymentTemplateList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#SaasDeploymentTemplate"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.marketplacediscovery#SaasFulfillmentOption" : {
          "members" : {
+            "availableFromTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the SaaS product became available for fulfillment.</p>"
+               }
+            },
+            "deploymentTemplates" : {
+               "target" : "com.amazonaws.marketplacediscovery#SaasDeploymentTemplateList",
+               "traits" : {
+                  "smithy.api#default" : [],
+                  "smithy.api#documentation" : "<p>The AWS CloudFormation deployment templates available for this SaaS product. The list is empty when no deployment templates are available.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
             "fulfillmentOptionDisplayName" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -4274,10 +5437,23 @@
                   "smithy.api#documentation" : "<p>The URL of the seller's software registration landing page.</p>"
                }
             },
+            "launchUrl" : {
+               "target" : "com.amazonaws.marketplacediscovery#URL",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL that you use to launch the seller's SaaS product. This URL is distinct from <code>fulfillmentUrl</code>, which is the seller's software registration landing page.</p>"
+               }
+            },
+            "quickLaunch" : {
+               "target" : "com.amazonaws.marketplacediscovery#SaasQuickLaunchStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the SaaS product supports Quick Launch deployment. This field has one of the following values:</p> <dl> <dt>DISABLED</dt> <dd> <p>The product does not support Quick Launch.</p> </dd> <dt>ENABLED</dt> <dd> <p>The product supports Quick Launch.</p> </dd> </dl>",
+                  "smithy.api#required" : {}
+               }
+            },
             "usageInstructions" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Instructions on how to access and use this SaaS product.</p>"
+                  "smithy.api#documentation" : "<p>Instructions on how you access and use this SaaS product.</p>"
                }
             }
          },
@@ -4285,6 +5461,23 @@
             "smithy.api#documentation" : "<p>Describes a Software as a Service (SaaS) fulfillment option.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#SaasQuickLaunchStatus" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLED"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.marketplacediscovery#SageMakerAlgorithmFulfillmentOption" : {
          "members" : {
@@ -4318,13 +5511,13 @@
             "recommendation" : {
                "target" : "com.amazonaws.marketplacediscovery#SageMakerAlgorithmRecommendation",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Recommended instance types for training and inference with this algorithm.</p>"
+                  "smithy.api#documentation" : "<p>The recommended instance types for training and inference with this algorithm.</p>"
                }
             },
             "releaseNotes" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Release notes describing changes in this version of the fulfillment option.</p>"
+                  "smithy.api#documentation" : "<p>Release notes that describe the changes in this version of the fulfillment option.</p>"
                }
             },
             "usageInstructions" : {
@@ -4344,14 +5537,14 @@
             "recommendedBatchTransformInstanceType" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The recommended instance type for batch inference.</p>",
+                  "smithy.api#documentation" : "<p>The instance type that the seller recommends for batch transform jobs with this algorithm.</p>",
                   "smithy.api#required" : {}
                }
             },
             "recommendedRealtimeInferenceInstanceType" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The recommended instance type for real-time inference.</p>"
+                  "smithy.api#documentation" : "<p>The instance type that the seller recommends for real-time inference endpoints with this algorithm.</p>"
                }
             },
             "recommendedTrainingInstanceType" : {
@@ -4363,9 +5556,25 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Recommended instance types for training and inference with a SageMaker algorithm.</p>"
+            "smithy.api#documentation" : "<p>The recommended instance types for training and inference with a SageMaker algorithm.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#SageMakerModelContentTypeList" : {
+         "member" : {
+            "target" : "smithy.api#String",
+            "traits" : {
+               "smithy.api#length" : {
+                  "max" : 256
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.marketplacediscovery#SageMakerModelFulfillmentOption" : {
          "members" : {
@@ -4399,13 +5608,25 @@
             "recommendation" : {
                "target" : "com.amazonaws.marketplacediscovery#SageMakerModelRecommendation",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Recommended instance types for inference with this model.</p>"
+                  "smithy.api#documentation" : "<p>The recommended instance types for inference with this model.</p>"
                }
             },
             "releaseNotes" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Release notes describing changes in this version of the fulfillment option.</p>"
+                  "smithy.api#documentation" : "<p>Release notes that describe the changes in this version of the fulfillment option.</p>"
+               }
+            },
+            "supportedContentTypes" : {
+               "target" : "com.amazonaws.marketplacediscovery#SageMakerModelContentTypeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Multipurpose Internet Mail Extensions (MIME) types that this model accepts as input.</p>"
+               }
+            },
+            "supportedResponseMimeTypes" : {
+               "target" : "com.amazonaws.marketplacediscovery#SageMakerModelResponseMimeTypeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The MIME types that this model returns as output.</p>"
                }
             },
             "usageInstructions" : {
@@ -4425,21 +5646,37 @@
             "recommendedBatchTransformInstanceType" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The recommended instance type for batch inference.</p>",
+                  "smithy.api#documentation" : "<p>The instance type that the seller recommends for batch transform jobs with this model package.</p>",
                   "smithy.api#required" : {}
                }
             },
             "recommendedRealtimeInferenceInstanceType" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The recommended instance type for real-time inference.</p>"
+                  "smithy.api#documentation" : "<p>The instance type that the seller recommends for real-time inference endpoints with this model package.</p>"
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Recommended instance types for inference with a SageMaker model.</p>"
+            "smithy.api#documentation" : "<p>The recommended instance types for inference with a SageMaker model.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#SageMakerModelResponseMimeTypeList" : {
+         "member" : {
+            "target" : "smithy.api#String",
+            "traits" : {
+               "smithy.api#length" : {
+                  "max" : 256
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.marketplacediscovery#ScheduleItem" : {
          "members" : {
@@ -4483,6 +5720,12 @@
                   "smithy.api#enumValue" : "CATEGORY"
                }
             },
+            "CERTIFICATES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CERTIFICATES"
+               }
+            },
             "DEPLOYED_ON_AWS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -4518,6 +5761,30 @@
                "traits" : {
                   "smithy.api#enumValue" : "PUBLISHER"
                }
+            },
+            "SELLER_ENGAGEMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SELLER_ENGAGEMENT"
+               }
+            },
+            "SPECIALIZATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SPECIALIZATION"
+               }
+            },
+            "SPECIALIZATION_CATEGORY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SPECIALIZATION_CATEGORY"
+               }
+            },
+            "TRUST_CENTER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRUST_CENTER"
+               }
             }
          },
          "type" : "enum"
@@ -4530,7 +5797,7 @@
             "target" : "com.amazonaws.marketplacediscovery#SearchFacetsOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns available facet values for filtering listings, such as categories, pricing models, fulfillment option types, publishers, and customer ratings. Each facet value includes a count of matching listings.</p>",
+            "smithy.api#documentation" : "<p>Retrieves the available facet values for filtering listings, such as categories, pricing models, fulfillment option types, publishers, and customer ratings. Each facet value includes a count of matching listings.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -4563,19 +5830,25 @@
             "facetTypes" : {
                "target" : "com.amazonaws.marketplacediscovery#FacetTypeList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A list of specific facet types to retrieve. If empty or null, all available facets are returned.</p>"
+                  "smithy.api#documentation" : "<p>The facet types to retrieve. If you omit this field or leave it empty, the service returns all available facets.</p>"
                }
             },
             "filters" : {
                "target" : "com.amazonaws.marketplacediscovery#SearchFilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters to apply before retrieving facets. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.</p>"
+                  "smithy.api#documentation" : "<p>Filters to apply before retrieving facets. A result must match every filter. Within one filter, a result matches if it has any of the values.</p>"
+               }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preferred locale for response content, as a Best Current Practice 47 (BCP 47) language tag or a comma-separated priority list of language tags. See <code>Locale</code> for supported values, constraints, fallback behavior, and the default locale. If you omit this field, the service returns content in the default locale.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.marketplacediscovery#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. Make the call again using the returned token to retrieve the next page.</p>"
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
                }
             },
             "searchText" : {
@@ -4602,7 +5875,7 @@
             "nextToken" : {
                "target" : "com.amazonaws.marketplacediscovery#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. Make the call again using the returned token to retrieve the next page.</p>"
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
                }
             },
             "totalResults" : {
@@ -4623,14 +5896,14 @@
             "filterType" : {
                "target" : "com.amazonaws.marketplacediscovery#SearchFilterType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of filter to apply.</p>",
+                  "smithy.api#documentation" : "<p>The type of filter to apply. See <code>filterValues</code> for the supported types and their values.</p>",
                   "smithy.api#required" : {}
                }
             },
             "filterValues" : {
                "target" : "com.amazonaws.marketplacediscovery#SearchFilterValueList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The values to filter by. Term filters accept multiple values (OR logic). Range filters (MIN/MAX_AVERAGE_CUSTOMER_RATING) accept a single value between 0.0 and 5.0.</p>",
+                  "smithy.api#documentation" : "<p>The values to filter by. Term filters accept multiple values, and a result matches if it has any of them. Range filters accept a single value. The supported values for each <code>filterType</code> are as follows:</p> <dl> <dt>CATEGORY</dt> <dd> <p>One or more category identifiers. Matches listings in those categories.</p> </dd> <dt>CERTIFICATES</dt> <dd> <p>One or more certification identifiers, such as <code>ISO_27001</code> or <code>SOC2_TYPE_2</code>. Matches listings that hold those certifications.</p> </dd> <dt>DEPLOYED_ON_AWS</dt> <dd> <p>The single value <code>DEPLOYED_ON_AWS</code>. Matches listings whose products are deployed on AWS infrastructure.</p> </dd> <dt>FULFILLMENT_OPTION_TYPE</dt> <dd> <p>One or more fulfillment option types, such as <code>SAAS</code>, <code>AMAZON_MACHINE_IMAGE</code>, or <code>CONTAINER</code>. Matches listings that you can deploy or access in those ways.</p> </dd> <dt>MAX_AVERAGE_CUSTOMER_RATING</dt> <dd> <p>A single rating between <code>0.0</code> and <code>5.0</code>. Matches listings whose average customer rating is at or below that value.</p> </dd> <dt>MIN_AVERAGE_CUSTOMER_RATING</dt> <dd> <p>A single rating between <code>0.0</code> and <code>5.0</code>. Matches listings whose average customer rating is at or above that value.</p> </dd> <dt>NUMBER_OF_PRODUCTS</dt> <dd> <p> <code>SINGLE_PRODUCT</code> or <code>MULTI_PRODUCT</code>. Matches single-product listings or multi-product solutions.</p> </dd> <dt>PRICING_MODEL</dt> <dd> <p>One or more of <code>BYOL</code>, <code>CONTRACT</code>, <code>FREE</code>, and <code>USAGE</code>. Matches listings with offers that use those pricing models.</p> </dd> <dt>PRICING_UNIT</dt> <dd> <p>One or more pricing units, such as <code>USERS</code>, <code>HOSTS</code>, or <code>REQUESTS</code>. Matches listings that bill by those units.</p> </dd> <dt>PRODUCT_ID</dt> <dd> <p>One or more product identifiers. Matches listings that contain those products.</p> </dd> <dt>PUBLISHER</dt> <dd> <p>One or more publisher identifiers. Matches listings from those sellers.</p> </dd> <dt>SELLER_ENGAGEMENT</dt> <dd> <p>One or more <code>SellerEngagementType</code> values, such as <code>BUY_NOW</code> or <code>REQUEST_FOR_DEMO</code>. Matches listings that offer those ways to engage with the seller.</p> </dd> <dt>SPECIALIZATION</dt> <dd> <p>One or more specialization identifiers. Matches listings that earned those specializations.</p> </dd> <dt>SPECIALIZATION_CATEGORY</dt> <dd> <p>One or more specialization category identifiers. Matches listings that earned a category under a specialization.</p> </dd> <dt>TRUST_CENTER</dt> <dd> <p>The single value <code>HAS_TRUST_CENTER</code>. Matches listings that have a trust center.</p> </dd> </dl> <p>Use <code>SearchFacets</code> to retrieve the values available for <code>CATEGORY</code>, <code>PUBLISHER</code>, <code>CERTIFICATES</code>, <code>SPECIALIZATION</code>, and <code>SPECIALIZATION_CATEGORY</code>.</p>",
                   "smithy.api#length" : {
                      "max" : 30,
                      "min" : 1
@@ -4662,6 +5935,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "CATEGORY"
+               }
+            },
+            "CERTIFICATES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CERTIFICATES"
                }
             },
             "DEPLOYED_ON_AWS" : {
@@ -4706,10 +5985,40 @@
                   "smithy.api#enumValue" : "PRICING_UNIT"
                }
             },
+            "PRODUCT_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRODUCT_ID"
+               }
+            },
             "PUBLISHER" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "PUBLISHER"
+               }
+            },
+            "SELLER_ENGAGEMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SELLER_ENGAGEMENT"
+               }
+            },
+            "SPECIALIZATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SPECIALIZATION"
+               }
+            },
+            "SPECIALIZATION_CATEGORY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SPECIALIZATION_CATEGORY"
+               }
+            },
+            "TRUST_CENTER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRUST_CENTER"
                }
             }
          },
@@ -4745,7 +6054,7 @@
             "target" : "com.amazonaws.marketplacediscovery#SearchListingsOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns a list of product listings based on search criteria and filters. You can search by keyword, filter by category, pricing model, fulfillment type, and other attributes, and sort results by relevance or customer rating.</p>",
+            "smithy.api#documentation" : "<p>Searches for listings that match your search criteria and filters. You can search by keyword, filter by category, pricing model, fulfillment type, and other attributes, and sort results by relevance or customer rating. The operation returns results in pages. Use <code>nextToken</code> to retrieve the next page.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -4779,20 +6088,26 @@
             "filters" : {
                "target" : "com.amazonaws.marketplacediscovery#SearchFilterList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters to narrow search results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.</p>"
+                  "smithy.api#documentation" : "<p>Filters to narrow search results. A result must match every filter. Within one filter, a result matches if it has any of the values.</p>"
+               }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.marketplacediscovery#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preferred locale for response content, as a Best Current Practice 47 (BCP 47) language tag or a comma-separated priority list of language tags. See <code>Locale</code> for supported values, constraints, fallback behavior, and the default locale. If you omit this field, the service returns content in the default locale.</p>"
                }
             },
             "maxResults" : {
                "target" : "com.amazonaws.marketplacediscovery#MaxResults",
                "traits" : {
                   "smithy.api#default" : 25,
-                  "smithy.api#documentation" : "<p>The maximum number of results that are returned per call. You can use <code>nextToken</code> to get more results.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of listings to return in each call. If you omit this field, the default is 25. Use <code>nextToken</code> to retrieve the next page.</p>"
                }
             },
             "nextToken" : {
                "target" : "com.amazonaws.marketplacediscovery#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. Make the call again using the returned token to retrieve the next page.</p>"
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
                }
             },
             "searchText" : {
@@ -4805,14 +6120,14 @@
                "target" : "com.amazonaws.marketplacediscovery#SearchListingsSortBy",
                "traits" : {
                   "smithy.api#default" : "RELEVANCE",
-                  "smithy.api#documentation" : "<p>The field to sort results by. Valid values are <code>RELEVANCE</code> and <code>AVERAGE_CUSTOMER_RATING</code>.</p>"
+                  "smithy.api#documentation" : "<p>The field to sort results by. If you do not specify a value, the service sorts by <code>RELEVANCE</code>. This field has one of the following values:</p> <dl> <dt>AVERAGE_CUSTOMER_RATING</dt> <dd> <p>Sorts by average customer rating.</p> </dd> <dt>RELEVANCE</dt> <dd> <p>Sorts by relevance to the search query.</p> </dd> </dl>"
                }
             },
             "sortOrder" : {
                "target" : "com.amazonaws.marketplacediscovery#SearchListingsSortOrder",
                "traits" : {
                   "smithy.api#default" : "DESCENDING",
-                  "smithy.api#documentation" : "<p>The sort direction. Valid values are <code>DESCENDING</code> and <code>ASCENDING</code>.</p>"
+                  "smithy.api#documentation" : "<p>The sort direction. If you do not specify a value, the service sorts in <code>DESCENDING</code> order. This field has one of the following values:</p> <dl> <dt>ASCENDING</dt> <dd> <p>Sorts from lowest to highest.</p> </dd> <dt>DESCENDING</dt> <dd> <p>Sorts from highest to lowest.</p> </dd> </dl>"
                }
             }
          },
@@ -4833,7 +6148,7 @@
             "nextToken" : {
                "target" : "com.amazonaws.marketplacediscovery#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. Make the call again using the returned token to retrieve the next page.</p>"
+                  "smithy.api#documentation" : "<p>If the service returns <code>nextToken</code>, more results are available. The value of <code>nextToken</code> is a unique pagination token for each page. Make the call again with the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. An expired pagination token returns a <code>ValidationException</code>.</p>"
                }
             },
             "totalResults" : {
@@ -4938,7 +6253,7 @@
             "engagementType" : {
                "target" : "com.amazonaws.marketplacediscovery#SellerEngagementType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The type of engagement, such as <code>REQUEST_FOR_PRIVATE_OFFER</code> or <code>REQUEST_FOR_DEMO</code>.</p>",
+                  "smithy.api#documentation" : "<p>The type of engagement. This field has one of the following values:</p> <dl> <dt>BUY_NOW</dt> <dd> <p>The product is available for immediate purchase.</p> </dd> <dt>EXPRESS_PRIVATE_OFFER</dt> <dd> <p>You can request an express private offer and accept it immediately.</p> </dd> <dt>REQUEST_FOR_DEMO</dt> <dd> <p>You can request a demo from the seller.</p> </dd> <dt>REQUEST_FOR_PRIVATE_OFFER</dt> <dd> <p>You can request a private offer from the seller.</p> </dd> <dt>TRY_FOR_FREE</dt> <dd> <p>The product offers a free trial.</p> </dd> </dl>",
                   "smithy.api#required" : {}
                }
             },
@@ -4951,7 +6266,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>An engagement option available to potential buyers of a product, such as requesting a private offer or a demo.</p>"
+            "smithy.api#documentation" : "<p>A way you can engage with the seller of a product, such as requesting a private offer or a demo.</p>"
          },
          "type" : "structure"
       },
@@ -4979,6 +6294,18 @@
       },
       "com.amazonaws.marketplacediscovery#SellerEngagementType" : {
          "members" : {
+            "BUY_NOW" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BUY_NOW"
+               }
+            },
+            "EXPRESS_PRIVATE_OFFER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EXPRESS_PRIVATE_OFFER"
+               }
+            },
             "REQUEST_FOR_DEMO" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -4989,6 +6316,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "REQUEST_FOR_PRIVATE_OFFER"
+               }
+            },
+            "TRY_FOR_FREE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRY_FOR_FREE"
                }
             }
          },
@@ -5026,6 +6359,166 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.marketplacediscovery#Specialization" : {
+         "members" : {
+            "caseStudyIds" : {
+               "target" : "com.amazonaws.marketplacediscovery#CaseStudyIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifiers of the case studies that this specialization cites. Retrieve the case studies with the <code>CASE_STUDY</code> attribute type.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the specialization displayed to you.</p>"
+               }
+            },
+            "specializationId" : {
+               "target" : "com.amazonaws.marketplacediscovery#SpecializationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the specialization.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "specializationName" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the specialization displayed to you.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "specializationTypes" : {
+               "target" : "com.amazonaws.marketplacediscovery#SpecializationTypeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The types that categorize this specialization.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A specialization earned for the listing, such as an AWS Competency.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#SpecializationCategory" : {
+         "members" : {
+            "parentSpecializationId" : {
+               "target" : "com.amazonaws.marketplacediscovery#SpecializationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the parent specialization.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "specializationCategoryId" : {
+               "target" : "com.amazonaws.marketplacediscovery#SpecializationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the category.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "specializationCategoryName" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the category displayed to you.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A category under a specialization that the listing earned.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#SpecializationDetail" : {
+         "members" : {
+            "specialization" : {
+               "target" : "com.amazonaws.marketplacediscovery#Specialization",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A specialization earned for the listing.</p>"
+               }
+            },
+            "specializationCategory" : {
+               "target" : "com.amazonaws.marketplacediscovery#SpecializationCategory",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A category under a specialization that the listing earned.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A specialization result for a listing. Exactly one member is set: a specialization or a category under one.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.marketplacediscovery#SpecializationId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-z0-9\\-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacediscovery#SpecializationType" : {
+         "members" : {
+            "INDUSTRY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INDUSTRY"
+               }
+            },
+            "SERVICES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SERVICES"
+               }
+            },
+            "USE_CASE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "USE_CASE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type a specialization is categorized under. This field has one of the following values:</p> <dl> <dt>INDUSTRY</dt> <dd> <p>An industry specialization.</p> </dd> <dt>SERVICES</dt> <dd> <p>A services specialization.</p> </dd> <dt>USE_CASE</dt> <dd> <p>A use-case specialization.</p> </dd> </dl>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.marketplacediscovery#SpecializationTypeDetail" : {
+         "members" : {
+            "displayName" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the specialization type displayed to you.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "specializationType" : {
+               "target" : "com.amazonaws.marketplacediscovery#SpecializationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The specialization type.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a specialization type with its display information.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#SpecializationTypeList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#SpecializationTypeDetail"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specialization types that categorize a specialization, with their display information.</p>",
+            "smithy.api#length" : {
+               "max" : 3
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.marketplacediscovery#SupportTerm" : {
          "members" : {
             "id" : {
@@ -5051,7 +6544,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a support term that includes the refund policy for the offer.</p>"
+            "smithy.api#documentation" : "<p>Describes a support term that includes the refund policy for the offer.</p>"
          },
          "type" : "structure"
       },
@@ -5064,6 +6557,31 @@
             "smithy.api#pattern" : "^[A-Za-z0-9+=;,.@\\-_]+$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.marketplacediscovery#TermTemplate" : {
+         "members" : {
+            "paymentScheduleTermTemplate" : {
+               "target" : "com.amazonaws.marketplacediscovery#PaymentScheduleTermTemplate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The installment schedule used to structure payments on the renewal offer.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A structural template defining how a specific term type is reshaped on each renewal cycle. Exactly one variant is present.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.marketplacediscovery#TermTemplateList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#TermTemplate"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.marketplacediscovery#TermType" : {
          "members" : {
@@ -5155,9 +6673,448 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The request was denied due to request throttling.</p>",
+            "smithy.api#documentation" : "<p>The request was denied due to request throttling. Reduce the frequency of your requests and retry.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 429
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterCertificationAttribute" : {
+         "members" : {
+            "certificationType" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The certification type. The set of values is open and can include provider-defined certifications.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authoritative certification name displayed to you.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "logoUrl" : {
+               "target" : "com.amazonaws.marketplacediscovery#URL",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL of the certification logo.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A trust center certification associated with a listing.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterCertificationSummary" : {
+         "members" : {
+            "certificationType" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The certification type. The set of values is open and can include provider-defined certifications.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The certification name displayed to you.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "logoUrl" : {
+               "target" : "com.amazonaws.marketplacediscovery#URL",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL of the certification logo.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information for a certification associated with a listing.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterCertificationSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#TrustCenterCertificationSummary"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Certification summaries associated with a listing.</p>",
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterControl" : {
+         "members" : {
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the control.</p>",
+                  "smithy.api#length" : {
+                     "max" : 4096,
+                     "min" : 1
+                  }
+               }
+            },
+            "domains" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterControlDomainList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The trust center domains to which the control applies.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the control.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A control that a trust center publishes.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterControlDomain" : {
+         "members" : {
+            "AI_GOVERNANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AI_GOVERNANCE"
+               }
+            },
+            "RESILIENCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RESILIENCE"
+               }
+            },
+            "SECURITY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SECURITY"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A broad classification of trust center controls.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterControlDomainList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#TrustCenterControlDomain"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The trust center domains to which a control applies.</p>",
+            "smithy.api#length" : {
+               "max" : 3,
+               "min" : 1
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterDocumentAccessType" : {
+         "members" : {
+            "DOWNLOAD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DOWNLOAD"
+               }
+            },
+            "REQUEST_ACCESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REQUEST_ACCESS"
+               }
+            },
+            "VIEW" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VIEW"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Ways to access a trust center document.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterDocumentAttribute" : {
+         "members" : {
+            "accessType" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterDocumentAccessType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>How the document can be accessed.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "contentType" : {
+               "target" : "com.amazonaws.marketplacediscovery#ResourceContentType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format of the document resource value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The document name displayed to you.</p>",
+                  "smithy.api#length" : {
+                     "max" : 512,
+                     "min" : 1
+                  },
+                  "smithy.api#recommended" : {}
+               }
+            },
+            "subjectArea" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The subject area of the document.</p>"
+               }
+            },
+            "value" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL used to download, view, or request access to the document.</p>",
+                  "smithy.api#length" : {
+                     "max" : 8192,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A trust center document associated with a listing.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterFaqAttribute" : {
+         "members" : {
+            "answer" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The answer.</p>",
+                  "smithy.api#length" : {
+                     "max" : 8192,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "question" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The question.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "subjectArea" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The subject area of the question.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A frequently asked question that a trust center publishes.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterProvider" : {
+         "members" : {
+            "DRATA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DRATA"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OTHER"
+               }
+            },
+            "VANTA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VANTA"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The provider hosting a trust center.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterSource" : {
+         "members" : {
+            "contentType" : {
+               "target" : "com.amazonaws.marketplacediscovery#ResourceContentType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format of the trust center source value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The trust center provider name displayed to you.</p>",
+                  "smithy.api#length" : {
+                     "max" : 255,
+                     "min" : 1
+                  },
+                  "smithy.api#recommended" : {}
+               }
+            },
+            "provider" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterProvider",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The provider hosting the trust center.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL of the trust center.</p>",
+                  "smithy.api#length" : {
+                     "max" : 8192,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A source of trust center information.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterSourceSummary" : {
+         "members" : {
+            "contentType" : {
+               "target" : "com.amazonaws.marketplacediscovery#ResourceContentType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format of the trust center source value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The trust center provider name displayed to you.</p>",
+                  "smithy.api#length" : {
+                     "max" : 255,
+                     "min" : 1
+                  },
+                  "smithy.api#recommended" : {}
+               }
+            },
+            "provider" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterProvider",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The provider hosting the trust center.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL of the trust center.</p>",
+                  "smithy.api#length" : {
+                     "max" : 8192,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information for a source of trust center information.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterSourceSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#TrustCenterSourceSummary"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Trust center source summaries associated with a listing.</p>",
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterSummary" : {
+         "members" : {
+            "certificationSummaries" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterCertificationSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A subset of certifications associated with the listing, selected by importance.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sourceSummaries" : {
+               "target" : "com.amazonaws.marketplacediscovery#TrustCenterSourceSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Trust center source summaries associated with the listing.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "totalCertificationCount" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonNegativeCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of distinct certifications associated with the listing, including certifications omitted from <code>certificationSummaries</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of trust center information associated with a listing.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#TrustCenterUpdateAttribute" : {
+         "members" : {
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The update description.</p>",
+                  "smithy.api#length" : {
+                     "max" : 8192,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "publishedTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when the update was published.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "title" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The update title.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An update that a trust center publishes.</p>"
          },
          "type" : "structure"
       },
@@ -5212,7 +7169,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a usage-based pricing term (typically pay-as-you-go), where buyers are charged based on product usage.</p>"
+            "smithy.api#documentation" : "<p>Describes a usage-based pricing term, typically pay-as-you-go. You are charged based on your use of the product.</p>"
          },
          "type" : "structure"
       },
@@ -5281,6 +7238,28 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.marketplacediscovery#UseCaseInformation" : {
+         "members" : {
+            "displayName" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The human-readable name of the use case.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.marketplacediscovery#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The machine-readable identifier of the use case.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name and identifier of a use case.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.marketplacediscovery#UseCaseList" : {
          "member" : {
             "target" : "com.amazonaws.marketplacediscovery#UseCaseEntry"
@@ -5288,6 +7267,47 @@
          "traits" : {
             "smithy.api#length" : {
                "max" : 100
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacediscovery#UseCaseSummary" : {
+         "members" : {
+            "useCases" : {
+               "target" : "com.amazonaws.marketplacediscovery#UseCaseSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The use cases, in the order the seller defined them.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The use cases of a listing, in summary form.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#UseCaseSummaryEntry" : {
+         "members" : {
+            "useCase" : {
+               "target" : "com.amazonaws.marketplacediscovery#UseCaseInformation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name and identifier of the use case.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A use case entry, as in <code>GetListing</code> without the description.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacediscovery#UseCaseSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.marketplacediscovery#UseCaseSummaryEntry"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 3
             }
          },
          "type" : "list"
@@ -5300,12 +7320,12 @@
             "reason" : {
                "target" : "com.amazonaws.marketplacediscovery#ValidationExceptionReason",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The reason that the input fails to satisfy the constraints specified by the service.</p>"
+                  "smithy.api#documentation" : "<p>The reason that the input fails to satisfy the constraints that the Discovery API specifies. This field has one of the following values:</p> <dl> <dt>INVALID_PAGINATION_TOKEN</dt> <dd> <p>The <code>nextToken</code> value is malformed, expired, or belongs to a different request. Start the pagination again from the first page.</p> </dd> <dt>MALFORMED_REQUEST_PARAMETERS</dt> <dd> <p>One or more request parameters have an invalid value. Correct the parameters that you specified, and then resubmit your request.</p> </dd> <dt>PAGINATION_LIMIT_EXCEEDED</dt> <dd> <p>The request asks for results beyond the deepest page that the operation returns. Narrow your request with filters or a more specific search.</p> </dd> </dl>"
                }
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The input fails to satisfy the constraints specified by the service.</p>",
+            "smithy.api#documentation" : "<p>The input fails to satisfy the constraints specified by the service. Check the <code>reason</code> field for the constraint that failed.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 400
          },
@@ -5370,7 +7390,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a validity term that specifies the duration or date range of an agreement.</p>"
+            "smithy.api#documentation" : "<p>Describes a validity term that specifies the duration or date range of an agreement.</p>"
          },
          "type" : "structure"
       },
@@ -5406,7 +7426,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Defines a variable payment term with a maximum total charge amount.</p>"
+            "smithy.api#documentation" : "<p>Describes a variable payment term with a maximum total charge amount.</p>"
          },
          "type" : "structure"
       }

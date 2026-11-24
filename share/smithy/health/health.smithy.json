@@ -31,6 +31,12 @@
       "com.amazonaws.health#AWSHealth_20160804" : {
          "operations" : [
             {
+               "target" : "com.amazonaws.health#ConfigureTags"
+            },
+            {
+               "target" : "com.amazonaws.health#ConfigureTagsForOrganization"
+            },
+            {
                "target" : "com.amazonaws.health#DescribeAffectedAccountsForOrganization"
             },
             {
@@ -67,10 +73,43 @@
                "target" : "com.amazonaws.health#DescribeHealthServiceStatusForOrganization"
             },
             {
+               "target" : "com.amazonaws.health#DescribeServiceLifecycle"
+            },
+            {
+               "target" : "com.amazonaws.health#DescribeTagKeys"
+            },
+            {
+               "target" : "com.amazonaws.health#DescribeTagKeysForOrganization"
+            },
+            {
+               "target" : "com.amazonaws.health#DescribeTags"
+            },
+            {
+               "target" : "com.amazonaws.health#DescribeTagsForOrganization"
+            },
+            {
+               "target" : "com.amazonaws.health#DescribeTagsOnboardingStatus"
+            },
+            {
+               "target" : "com.amazonaws.health#DescribeTagsOnboardingStatusForOrganization"
+            },
+            {
                "target" : "com.amazonaws.health#DisableHealthServiceAccessForOrganization"
             },
             {
+               "target" : "com.amazonaws.health#DisableTags"
+            },
+            {
+               "target" : "com.amazonaws.health#DisableTagsForOrganization"
+            },
+            {
                "target" : "com.amazonaws.health#EnableHealthServiceAccessForOrganization"
+            },
+            {
+               "target" : "com.amazonaws.health#EnableTags"
+            },
+            {
+               "target" : "com.amazonaws.health#EnableTagsForOrganization"
             }
          ],
          "traits" : {
@@ -85,8 +124,9 @@
                "name" : "health"
             },
             "aws.protocols#awsJson1_1" : {},
-            "smithy.api#documentation" : "<fullname>Health</fullname>\n         <p>The Health API provides access to the Health information that appears in the\n            <a href=\"https://health.aws.amazon.com/health/home\">Health Dashboard</a>. You can use\n         the API operations to get information about events that might affect your Amazon Web Services services and resources.</p>\n         <p>You must have a Business, Enterprise On-Ramp, or Enterprise Support plan from <a href=\"http://aws.amazon.com/premiumsupport/\">Amazon Web Services Support</a> to use the Health API. If you call the Health API from an\n            Amazon Web Services account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, you receive a\n            <code>SubscriptionRequiredException</code> error.</p>\n         <p>For API access, you need an access key ID and a secret access key. Use temporary\n         credentials instead of long-term access keys when possible. Temporary credentials include\n         an access key ID, a secret access key, and a security token that indicates when the\n         credentials expire. For more information, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html\">Best practices for managing\n            Amazon Web Services access keys</a> in the <i>Amazon Web Services General Reference</i>.</p>\n         <p>You can use the Health endpoint health.us-east-1.amazonaws.com (HTTPS) to call the\n         Health API operations. Health supports a multi-Region application architecture\n         and has two regional endpoints in an active-passive configuration. You can use the high\n         availability endpoint example to determine which Amazon Web Services Region is active, so that you can\n         get the latest information from the API. For more information, see <a href=\"https://docs.aws.amazon.com/health/latest/ug/health-api.html\">Accessing the Health\n            API</a> in the <i>Health User Guide</i>.</p>\n         <p>For authentication of requests, Health uses the <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 Signing\n            Process</a>.</p>\n         <p>If your Amazon Web Services account is part of Organizations, you can use the Health organizational\n         view feature. This feature provides a centralized view of Health events across all\n         accounts in your organization. You can aggregate Health events in real time to\n         identify accounts in your organization that are affected by an operational event or get\n         notified of security vulnerabilities. Use the organizational view API operations to enable\n         this feature and return event information. For more information, see <a href=\"https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html\">Aggregating\n            Health events</a> in the <i>Health User Guide</i>.</p>\n         <note>\n            <p>When you use the Health API operations to return Health events, see the\n            following recommendations:</p>\n            <ul>\n               <li>\n                  <p>Use the <a href=\"https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html#AWSHealth-Type-Event-eventScopeCode\">eventScopeCode</a> parameter to specify whether to return Health\n                  events that are public or account-specific.</p>\n               </li>\n               <li>\n                  <p>Use pagination to view all events from the response. For example, if you call\n                  the <code>DescribeEventsForOrganization</code> operation to get all events in your\n                  organization, you might receive several page results. Specify the\n                     <code>nextToken</code> in the next request to return more results.</p>\n               </li>\n            </ul>\n         </note>",
+            "smithy.api#documentation" : "<fullname>Health</fullname>\n         <p>The Health API provides access to the Health information that appears in the\n            <a href=\"https://health.aws.amazon.com/health/home\">Health Dashboard</a>. You can use\n         the API operations to get information about events that might affect your Amazon Web Services services and resources.</p>\n         <p>You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan from <a href=\"http://aws.amazon.com/premiumsupport/\">Amazon Web Services Support</a> to use the Health API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Health API with a Business, Enterprise On-Ramp, or Enterprise Support plan. If you call the Health API from an\n         Amazon Web Services account that isn't enrolled in one of these plans, then you receive a\n         <code>SubscriptionRequiredException</code> error.</p>\n         <p>For API access, you need an access key ID and a secret access key. Use temporary\n         credentials instead of long-term access keys when possible. Temporary credentials include\n         an access key ID, a secret access key, and a security token that indicates when the\n         credentials expire. For more information, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html\">Best practices for managing\n            Amazon Web Services access keys</a> in the <i>Amazon Web Services General Reference</i>.</p>\n         <p>You can use the Health endpoint health.us-east-1.amazonaws.com (HTTPS) to call the\n         Health API operations. Health supports a multi-Region application architecture\n         and has two regional endpoints in an active-passive configuration. You can use the high\n         availability endpoint example to determine which Amazon Web Services Region is active, so that you can\n         get the latest information from the API. For more information, see <a href=\"https://docs.aws.amazon.com/health/latest/ug/health-api.html\">Accessing the Health\n            API</a> in the <i>Health User Guide</i>.</p>\n         <p>For authentication of requests, Health uses the <a href=\"https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html\">Signature Version 4 Signing\n            Process</a>.</p>\n         <p>If your Amazon Web Services account is part of Organizations, you can use the Health organizational\n         view feature. This feature provides a centralized view of Health events across all\n         accounts in your organization. You can aggregate Health events in real time to\n         identify accounts in your organization that are affected by an operational event or get\n         notified of security vulnerabilities. Use the organizational view API operations to enable\n         this feature and return event information. For more information, see <a href=\"https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html\">Aggregating\n            Health events</a> in the <i>Health User Guide</i>.</p>\n         <note>\n            <p>When you use the Health API operations to return Health events, see the\n            following recommendations:</p>\n            <ul>\n               <li>\n                  <p>Use the <a href=\"https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html#AWSHealth-Type-Event-eventScopeCode\">eventScopeCode</a> parameter to specify whether to return Health\n                  events that are public or account-specific.</p>\n               </li>\n               <li>\n                  <p>Use pagination to view all events from the response. For example, if you call\n                  the <code>DescribeEventsForOrganization</code> operation to get all events in your\n                  organization, you might receive several page results. Specify the\n                     <code>nextToken</code> in the next request to return more results.</p>\n               </li>\n            </ul>\n         </note>",
             "smithy.api#title" : "AWS Health APIs and Notifications",
+            "smithy.protocols#rpcv2Cbor" : {},
             "smithy.rules#endpointBdd" : {
                "conditions" : [
                   {
@@ -1849,6 +1889,26 @@
          "type" : "service",
          "version" : "2016-08-04"
       },
+      "com.amazonaws.health#AccountEntity" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.health#accountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The 12-digit Amazon Web Services account numbers that contains the affected entities.</p>"
+               }
+            },
+            "accountTags" : {
+               "target" : "com.amazonaws.health#AccountTagSet",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of tag key-value pairs attached to the affected account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An entity representing an affected account, including its account ID and associated tags.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.health#AccountEntityAggregate" : {
          "members" : {
             "accountId" : {
@@ -1882,8 +1942,172 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.health#AccountTag" : {
+         "members" : {
+            "key" : {
+               "target" : "com.amazonaws.health#tagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag key.</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.health#AccountTagType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of tag (resource tag or account tag).</p>"
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.health#tagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A tag key-value pair associated with a resource in an account.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#AccountTagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 127,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9 _.:\\/=+\\-@]{1,127}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.health#AccountTagList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#AccountTag"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#AccountTagSet" : {
+         "key" : {
+            "target" : "com.amazonaws.health#AccountTagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.health#AccountTagValue"
+         }
+      },
+      "com.amazonaws.health#AccountTagType" : {
+         "members" : {
+            "ACCOUNT_RESOURCE_TAG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACCOUNT_RESOURCE_TAG"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.health#AccountTagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9 _.:\\/=+\\-@]{0,255}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.health#AffectedAccountEntityList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#AccountEntity"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#AffectedAccountFilter" : {
+         "members" : {
+            "eventArn" : {
+               "target" : "com.amazonaws.health#eventArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the event. The event ARN has the\n<code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>\n            </code>\nformat.</p>\n         <p>For example, an event ARN might look like the following:</p>\n         <p>\n            <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>\n         </p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.health#AffectedAccountsForOrganizationTagFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. Matching is case sensitive, and the filter matches when at least one key in the map matches.</p>\n         <p>An account is returned when its own tags, or the tags of one of its affected resources, match.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter for narrowing down affected accounts in an organization event.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#AffectedAccountsForOrganizationTagFilter" : {
+         "key" : {
+            "target" : "com.amazonaws.health#TagFilterKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.health#AffectedAccountsForOrganizationTagValueList"
+         }
+      },
+      "com.amazonaws.health#AffectedAccountsForOrganizationTagValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#TagFilterValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#AffectedEntitiesForOrganizationTagFilter" : {
+         "key" : {
+            "target" : "com.amazonaws.health#TagFilterKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.health#AffectedEntitiesForOrganizationTagValueList"
+         }
+      },
+      "com.amazonaws.health#AffectedEntitiesForOrganizationTagValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#TagFilterValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.health#AffectedEntity" : {
          "members" : {
+            "accountTags" : {
+               "target" : "com.amazonaws.health#AccountTagSet",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of account tag key-value pairs for the account that owns the affected entity. This field is returned only by DescribeAffectedEntitiesForOrganization and is not populated by DescribeAffectedEntities.</p>"
+               }
+            },
             "awsAccountId" : {
                "target" : "com.amazonaws.health#accountId",
                "traits" : {
@@ -1926,16 +2150,16 @@
                   "smithy.api#documentation" : "<p>The most recent time that the entity was updated.</p>"
                }
             },
+            "resourceTags" : {
+               "target" : "com.amazonaws.health#ResourceTagSet",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of resource tag key-value pairs attached to the affected entity.</p>"
+               }
+            },
             "statusCode" : {
                "target" : "com.amazonaws.health#entityStatusCode",
                "traits" : {
                   "smithy.api#documentation" : "<p>The most recent status of the entity affected by the event. The possible values are\n            <code>IMPAIRED</code>, <code>UNIMPAIRED</code>, <code>UNKNOWN</code>, <code>PENDING</code>, and <code>RESOLVED</code>.</p>"
-               }
-            },
-            "tags" : {
-               "target" : "com.amazonaws.health#tagSet",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>A map of entity tags attached to the affected entity.</p>\n         <note>\n            <p>Currently, the <code>tags</code> property isn't supported.</p>\n         </note>"
                }
             }
          },
@@ -1943,6 +2167,12 @@
             "smithy.api#documentation" : "<p>Information about an entity that is affected by a Health event.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.health#Boolean" : {
+         "traits" : {
+            "smithy.api#default" : false
+         },
+         "type" : "boolean"
       },
       "com.amazonaws.health#ConcurrentModificationException" : {
          "members" : {
@@ -1953,6 +2183,160 @@
          "traits" : {
             "smithy.api#documentation" : "<p>\n            <a href=\"https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html\">EnableHealthServiceAccessForOrganization</a> is already in progress. Wait for the\n         action to complete before trying again. To get the current status, use the <a href=\"https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeHealthServiceStatusForOrganization.html\">DescribeHealthServiceStatusForOrganization</a> operation.</p>",
             "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#ConfigureTags" : {
+         "input" : {
+            "target" : "com.amazonaws.health#ConfigureTagsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.health#ConfigureTagsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configures which resource tag keys are tracked by Health for your account. This operation replaces the existing configuration with the specified tag keys. Only configured tag keys will appear in Health event data.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#ConfigureTagsForOrganization" : {
+         "input" : {
+            "target" : "com.amazonaws.health#ConfigureTagsForOrganizationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.health#ConfigureTagsForOrganizationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configures which tag keys are tracked by Health for all accounts in your organization. This operation replaces the existing configuration with the specified tag keys. Only configured tag keys will appear in Health event data across the organization.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#ConfigureTagsForOrganizationRequest" : {
+         "members" : {
+            "tagKeys" : {
+               "target" : "com.amazonaws.health#ConfigureTagsForOrganizationTagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of tag keys to configure for Health event tracking across the organization.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#ConfigureTagsForOrganizationResponse" : {
+         "members" : {
+            "configuredTagKeys" : {
+               "target" : "com.amazonaws.health#ConfigureTagsForOrganizationResponseTagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of tag keys that were successfully configured for the organization, with the current status of each tag key.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#ConfigureTagsForOrganizationResponseTagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#OrganizationTagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#ConfigureTagsForOrganizationTagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#TagKeyForOrganization"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#ConfigureTagsRequest" : {
+         "members" : {
+            "tagKeys" : {
+               "target" : "com.amazonaws.health#ConfigureTagsRequestTagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of resource tag keys to configure for Health event tracking.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#ConfigureTagsRequestTagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#ConfigureTagsTagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#ConfigureTagsResourceTagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#ResourceTagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#ConfigureTagsResponse" : {
+         "members" : {
+            "configuredTagKeys" : {
+               "target" : "com.amazonaws.health#ConfigureTagsResourceTagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of resource tag keys that were successfully configured.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#ConfigureTagsTagKey" : {
+         "members" : {
+            "enabledForEventBridge" : {
+               "target" : "com.amazonaws.health#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Whether this tag key is enabled for EventBridge notifications.</p>"
+               }
+            },
+            "key" : {
+               "target" : "com.amazonaws.health#ResourceTagKey2",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag key name.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A resource tag key to configure for Health event tracking.</p>"
          },
          "type" : "structure"
       },
@@ -2009,6 +2393,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "filter" : {
+               "target" : "com.amazonaws.health#AffectedAccountFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Values to narrow the results returned.</p>"
+               }
+            },
             "maxResults" : {
                "target" : "com.amazonaws.health#maxResults",
                "traits" : {
@@ -2029,6 +2419,12 @@
       },
       "com.amazonaws.health#DescribeAffectedAccountsForOrganizationResponse" : {
          "members" : {
+            "affectedAccountEntities" : {
+               "target" : "com.amazonaws.health#AffectedAccountEntityList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of affected account entities, including account IDs and their associated tags.</p>"
+               }
+            },
             "affectedAccounts" : {
                "target" : "com.amazonaws.health#affectedAccountsList",
                "traits" : {
@@ -2233,6 +2629,33 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.health#DescribeAffectedEntitiesTagFilter" : {
+         "key" : {
+            "target" : "com.amazonaws.health#TagFilterKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.health#DescribeAffectedEntitiesTagValueList"
+         }
+      },
+      "com.amazonaws.health#DescribeAffectedEntitiesTagValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#TagFilterValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.health#DescribeEntityAggregates" : {
          "input" : {
             "target" : "com.amazonaws.health#DescribeEntityAggregatesRequest"
@@ -2273,6 +2696,12 @@
                   "smithy.api#documentation" : "<p>A list of event ARNs (unique identifiers). For example: <code>\"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456\", \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101\"</code>\n         </p>",
                   "smithy.api#required" : {}
                }
+            },
+            "filter" : {
+               "target" : "com.amazonaws.health#OrganizationEntityAggregateFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Values to narrow the results returned.</p>"
+               }
             }
          },
          "traits" : {
@@ -2301,6 +2730,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A list of event ARNs (unique identifiers). For example: <code>\"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456\", \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101\"</code>\n         </p>"
                }
+            },
+            "filter" : {
+               "target" : "com.amazonaws.health#EntityAggregateFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Values to narrow the results returned.</p>"
+               }
             }
          },
          "traits" : {
@@ -2321,6 +2756,33 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeEntityAggregatesTagFilter" : {
+         "key" : {
+            "target" : "com.amazonaws.health#TagFilterKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.health#DescribeEntityAggregatesTagValueList"
+         }
+      },
+      "com.amazonaws.health#DescribeEntityAggregatesTagValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#TagFilterValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.health#DescribeEventAggregates" : {
          "errors" : [
@@ -2778,6 +3240,33 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.health#DescribeEventsTagFilter" : {
+         "key" : {
+            "target" : "com.amazonaws.health#TagFilterKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.health#DescribeEventsTagValueList"
+         }
+      },
+      "com.amazonaws.health#DescribeEventsTagValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#TagFilterValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.health#DescribeHealthServiceStatusForOrganization" : {
          "input" : {
             "target" : "smithy.api#Unit"
@@ -2805,6 +3294,332 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.health#DescribeServiceLifecycle" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.health#InvalidPaginationToken"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.health#DescribeServiceLifecycleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.health#DescribeServiceLifecycleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns lifecycle information for Amazon Web Services services, including end-of-life dates, version recommendations, and lifecycle events.</p>",
+            "smithy.api#idempotent" : {},
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "serviceLifecycles",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#DescribeServiceLifecycleRequest" : {
+         "members" : {
+            "filter" : {
+               "target" : "com.amazonaws.health#ServiceLifecycleFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Values to narrow the results returned.</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.health#LifecycleMaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in one batch, between 10 and 100, inclusive.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.health#nextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the results of a search are large, only a portion of the\nresults are returned, and a <code>nextToken</code> pagination token is returned in the response. To\nretrieve the next batch of results, reissue the search request and include the returned token.\nWhen all results have been returned, the response does not contain a pagination token value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeServiceLifecycleResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.health#nextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the results of a search are large, only a portion of the\nresults are returned, and a <code>nextToken</code> pagination token is returned in the response. To\nretrieve the next batch of results, reissue the search request and include the returned token.\nWhen all results have been returned, the response does not contain a pagination token value.</p>"
+               }
+            },
+            "serviceLifecycles" : {
+               "target" : "com.amazonaws.health#ServiceLifecycleList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of service lifecycle entries matching the filter criteria.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeTagKeys" : {
+         "input" : {
+            "target" : "smithy.api#Unit"
+         },
+         "output" : {
+            "target" : "com.amazonaws.health#DescribeTagKeysResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the list of resource tag keys configured for Health event tracking in your account.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#DescribeTagKeysForOrganization" : {
+         "input" : {
+            "target" : "smithy.api#Unit"
+         },
+         "output" : {
+            "target" : "com.amazonaws.health#DescribeTagKeysForOrganizationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the list of tag keys configured for Health event tracking across your organization.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#DescribeTagKeysForOrganizationResponse" : {
+         "members" : {
+            "keys" : {
+               "target" : "com.amazonaws.health#OrganizationTagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of configured tag keys for the organization and their status.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeTagKeysResponse" : {
+         "members" : {
+            "keys" : {
+               "target" : "com.amazonaws.health#ResourceTagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of configured resource tag keys and their status.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeTags" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.health#InvalidPaginationToken"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.health#DescribeTagsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.health#DescribeTagsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the resource tags associated with Health events for your account. Use this operation to retrieve the actual tag key-value pairs attached to affected entities.</p>",
+            "smithy.api#idempotent" : {},
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "tags",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#DescribeTagsForOrganization" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.health#InvalidPaginationToken"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.health#DescribeTagsForOrganizationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.health#DescribeTagsForOrganizationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the tags associated with Health events across all accounts in your organization.</p>",
+            "smithy.api#idempotent" : {},
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "tags",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#DescribeTagsForOrganizationFilter" : {
+         "members" : {
+            "tagTypes" : {
+               "target" : "com.amazonaws.health#OrganizationTagTypeFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The types of tags to include in the results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter for narrowing down the tags returned by DescribeTagsForOrganization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeTagsForOrganizationRequest" : {
+         "members" : {
+            "filter" : {
+               "target" : "com.amazonaws.health#DescribeTagsForOrganizationFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Values to narrow the results returned.</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.health#maxResultsLowerRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in one batch, between 10 and 100, inclusive.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.health#nextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the results of a search are large, only a portion of the\nresults are returned, and a <code>nextToken</code> pagination token is returned in the response. To\nretrieve the next batch of results, reissue the search request and include the returned token.\nWhen all results have been returned, the response does not contain a pagination token value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeTagsForOrganizationResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.health#nextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the results of a search are large, only a portion of the\nresults are returned, and a <code>nextToken</code> pagination token is returned in the response. To\nretrieve the next batch of results, reissue the search request and include the returned token.\nWhen all results have been returned, the response does not contain a pagination token value.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.health#OrganizationTagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of tags associated with Health events across the organization.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeTagsOnboardingStatus" : {
+         "input" : {
+            "target" : "smithy.api#Unit"
+         },
+         "output" : {
+            "target" : "com.amazonaws.health#DescribeTagsOnboardingStatusResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the current onboarding status of the Health tags feature for your account.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#DescribeTagsOnboardingStatusForOrganization" : {
+         "input" : {
+            "target" : "smithy.api#Unit"
+         },
+         "output" : {
+            "target" : "com.amazonaws.health#DescribeTagsOnboardingStatusForOrganizationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the current onboarding status of the Health tags feature for your organization.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#DescribeTagsOnboardingStatusForOrganizationResponse" : {
+         "members" : {
+            "status" : {
+               "target" : "com.amazonaws.health#TagsOnboardingStatusForOrganization",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current onboarding status of the tags feature for the organization.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeTagsOnboardingStatusResponse" : {
+         "members" : {
+            "status" : {
+               "target" : "com.amazonaws.health#TagsOnboardingStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current onboarding status of the tags feature for the account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeTagsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.health#maxResultsLowerRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of items to return in one batch, between 10 and 100, inclusive.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.health#nextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the results of a search are large, only a portion of the\nresults are returned, and a <code>nextToken</code> pagination token is returned in the response. To\nretrieve the next batch of results, reissue the search request and include the returned token.\nWhen all results have been returned, the response does not contain a pagination token value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#DescribeTagsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.health#nextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the results of a search are large, only a portion of the\nresults are returned, and a <code>nextToken</code> pagination token is returned in the response. To\nretrieve the next batch of results, reissue the search request and include the returned token.\nWhen all results have been returned, the response does not contain a pagination token value.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.health#AccountTagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of resource tags associated with Health events.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.health#DisableHealthServiceAccessForOrganization" : {
          "errors" : [
             {
@@ -2823,6 +3638,32 @@
          },
          "type" : "operation"
       },
+      "com.amazonaws.health#DisableTags" : {
+         "input" : {
+            "target" : "smithy.api#Unit"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Disables the Health tags feature for your account. After disabling, Health events will no longer include resource tag information. Previously configured tag keys are discarded.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#DisableTagsForOrganization" : {
+         "input" : {
+            "target" : "smithy.api#Unit"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Disables the Health tags feature for all accounts in your organization.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
       "com.amazonaws.health#EnableHealthServiceAccessForOrganization" : {
          "errors" : [
             {
@@ -2836,7 +3677,33 @@
             "target" : "smithy.api#Unit"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Enables Health to work with Organizations. You can use the organizational view feature\n         to aggregate events from all Amazon Web Services accounts in your organization in a centralized location. </p>\n         <p>This operation also creates a service-linked role for the management account in the\n         organization. </p>\n         <note>\n            <p>To call this operation, you must meet the following requirements:</p>\n            <ul>\n               <li>\n                  <p>You must have a Business, Enterprise On-Ramp, or Enterprise Support plan from <a href=\"http://aws.amazon.com/premiumsupport/\">Amazon Web Services Support</a> to use the Health API. If you call\n                  the Health API from an Amazon Web Services account that doesn't have a\n                  Business, Enterprise On-Ramp, or Enterprise Support plan, you receive a <code>SubscriptionRequiredException</code>\n                  error.</p>\n               </li>\n               <li>\n                  <p>You must have permission to call this operation from the organization's\n                  management account. For example IAM policies, see <a href=\"https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html\">Health\n                     identity-based policy examples</a>.</p>\n               </li>\n            </ul>\n         </note>\n         <p>If you don't have the required support plan, you can instead use the Health console\n         to enable the organizational view feature. For more information, see <a href=\"https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html\">Aggregating\n            Health events</a> in the <i>Health User Guide</i>.</p>",
+            "smithy.api#documentation" : "<p>Enables Health to work with Organizations. You can use the organizational view feature\n         to aggregate events from all Amazon Web Services accounts in your organization in a centralized location. </p>\n         <p>This operation also creates a service-linked role for the management account in the\n         organization. </p>\n         <note>\n            <p>To call this operation, you must meet the following requirements:</p>\n            <ul>\n               <li>\n                  <p>You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan from <a href=\"http://aws.amazon.com/premiumsupport/\">Amazon Web Services Support</a> to use the Health API. If you call\n                  the Health API from an Amazon Web Services account that doesn't have a\n                  Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, you receive a <code>SubscriptionRequiredException</code>\n                  error.</p>\n               </li>\n               <li>\n                  <p>You must have permission to call this operation from the organization's\n                  management account. For example IAM policies, see <a href=\"https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html\">Health\n                     identity-based policy examples</a>.</p>\n               </li>\n            </ul>\n         </note>\n         <p>If you don't have the required support plan, you can instead use the Health console\n         to enable the organizational view feature. For more information, see <a href=\"https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html\">Aggregating\n            Health events</a> in the <i>Health User Guide</i>.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#EnableTags" : {
+         "input" : {
+            "target" : "smithy.api#Unit"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Enables the Health tags feature for your account. Once enabled, Health events will include resource tag information for affected entities. If the feature is already enabled, this operation has no effect.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.health#EnableTagsForOrganization" : {
+         "input" : {
+            "target" : "smithy.api#Unit"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Enables the Health tags feature for all accounts in your organization. Once enabled, Health events will include resource tag information for affected entities across your organization.</p>",
             "smithy.api#idempotent" : {}
          },
          "type" : "operation"
@@ -2860,6 +3727,12 @@
                "target" : "com.amazonaws.health#entityStatusCodeList",
                "traits" : {
                   "smithy.api#documentation" : "<p>A list of entity status codes.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.health#AffectedEntitiesForOrganizationTagFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. Matching is case sensitive, and the filter matches when at least one key in the map matches.</p>\n         <p>An entity is returned when the tags of the resource, or of the account it belongs to, match. When you specify several filters in <code>organizationEntityAccountFilters</code>, the tags must be identical in every filter.</p>"
                }
             }
          },
@@ -2892,6 +3765,20 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>The number of entities that are affected by one or more events. Returned by the <a href=\"https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEntityAggregates.html\">DescribeEntityAggregates</a> operation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#EntityAggregateFilter" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.health#DescribeEntityAggregatesTagFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. Matching is case sensitive, and the filter matches when at least one key in the map matches.</p>\n         <p>Only entities whose tags match are included in the aggregates.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter for narrowing down the entity aggregates returned by DescribeEntityAggregates.</p>"
          },
          "type" : "structure"
       },
@@ -2935,9 +3822,9 @@
                }
             },
             "tags" : {
-               "target" : "com.amazonaws.health#tagFilter",
+               "target" : "com.amazonaws.health#DescribeAffectedEntitiesTagFilter",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A map of entity tags attached to the affected entity.</p>\n         <note>\n            <p>Currently, the <code>tags</code> property isn't supported.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. The filter matches when at least one key in the map matches.</p>"
                }
             }
          },
@@ -3289,9 +4176,9 @@
                }
             },
             "tags" : {
-               "target" : "com.amazonaws.health#tagFilter",
+               "target" : "com.amazonaws.health#DescribeEventsTagFilter",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A map of entity tags attached to the affected entity.</p>\n         <note>\n            <p>Currently, the <code>tags</code> property isn't supported.</p>\n         </note>"
+                  "smithy.api#documentation" : "<p>A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. The filter matches when at least one key in the map matches.</p>"
                }
             }
          },
@@ -3527,6 +4414,12 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.health#ImpactRiskList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#string"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.health#InvalidPaginationToken" : {
          "members" : {
             "message" : {
@@ -3538,6 +4431,59 @@
             "smithy.api#error" : "client"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.health#LifecycleEvent" : {
+         "members" : {
+            "date" : {
+               "target" : "com.amazonaws.health#timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date of the lifecycle event.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.health#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the lifecycle event.</p>"
+               }
+            },
+            "impactRisks" : {
+               "target" : "com.amazonaws.health#ImpactRiskList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The potential impact risks associated with this lifecycle event.</p>"
+               }
+            },
+            "lifecycleEventType" : {
+               "target" : "com.amazonaws.health#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of lifecycle event (for example, end-of-support, end-of-life).</p>"
+               }
+            },
+            "regions" : {
+               "target" : "com.amazonaws.health#regionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Regions affected by this lifecycle event.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A lifecycle event for an Amazon Web Services service version, such as end-of-support or end-of-life.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#LifecycleEventList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#LifecycleEvent"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#LifecycleMaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 20,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
       },
       "com.amazonaws.health#OrganizationAccountIdsList" : {
          "member" : {
@@ -3627,6 +4573,47 @@
             "smithy.api#documentation" : "<p>The aggregate results of entities affected by the specified event in your organization.\n         The results are aggregated by the entity status codes for the specified set of accountsIDs.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.health#OrganizationEntityAggregateFilter" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.health#OrganizationEntityAggregateTagFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. Matching is case sensitive, and the filter matches when at least one key in the map matches.</p>\n         <p>Only entities whose tags match are included in the aggregates.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter for narrowing down the entity aggregates returned by DescribeEntityAggregatesForOrganization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#OrganizationEntityAggregateTagFilter" : {
+         "key" : {
+            "target" : "com.amazonaws.health#TagFilterKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.health#OrganizationEntityAggregateTagValueList"
+         }
+      },
+      "com.amazonaws.health#OrganizationEntityAggregateTagValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#TagFilterValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.health#OrganizationEntityAggregatesList" : {
          "member" : {
@@ -3787,7 +4774,7 @@
             "errorMessage" : {
                "target" : "com.amazonaws.health#string",
                "traits" : {
-                  "smithy.api#documentation" : "<p>A message that describes the error.</p>\n         <p>If you call the <code>DescribeEventDetailsForOrganization</code> operation and receive one of the following errors, follow the recommendations in the message:</p>\n         <ul>\n            <li>\n               <p>We couldn't find a public event that matches your request. To find an event that is account specific, you must enter an Amazon Web Services account ID in the request.</p>\n            </li>\n            <li>\n               <p>We couldn't find an account specific event for the specified Amazon Web Services account. To find an event that is public, you must enter a null value for the Amazon Web Services account ID in the request.</p>\n            </li>\n            <li>\n               <p>Your Amazon Web Services account doesn't include the Amazon Web Services Support plan required to use the\nHealth API. You must have either a Business, Enterprise On-Ramp, or Enterprise Support plan.</p>\n            </li>\n         </ul>"
+                  "smithy.api#documentation" : "<p>A message that describes the error.</p>\n         <p>If you call the <code>DescribeEventDetailsForOrganization</code> operation and receive one of the following errors, follow the recommendations in the message:</p>\n         <ul>\n            <li>\n               <p>We couldn't find a public event that matches your request. To find an event that is account specific, you must enter an Amazon Web Services account ID in the request.</p>\n            </li>\n            <li>\n               <p>We couldn't find an account specific event for the specified Amazon Web Services account. To find an event that is public, you must enter a null value for the Amazon Web Services account ID in the request.</p>\n            </li>\n            <li>\n               <p>Your Amazon Web Services account doesn't include the Amazon Web Services Support plan required to use the\nHealth API. You must have either a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan.</p>\n            </li>\n         </ul>"
                }
             },
             "errorName" : {
@@ -3878,6 +4865,12 @@
             },
             "startTime" : {
                "target" : "com.amazonaws.health#DateTimeRange"
+            },
+            "tags" : {
+               "target" : "com.amazonaws.health#OrganizationEventTagFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. Matching is case sensitive, and the filter matches when at least one key in the map matches.</p>\n         <p>An event is returned when one of its affected accounts, or one of the entities of those accounts, has tags that match.</p>"
+               }
             }
          },
          "traits" : {
@@ -3890,6 +4883,356 @@
             "target" : "com.amazonaws.health#OrganizationEvent"
          },
          "type" : "list"
+      },
+      "com.amazonaws.health#OrganizationEventTagFilter" : {
+         "key" : {
+            "target" : "com.amazonaws.health#TagFilterKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.health#OrganizationEventTagValueList"
+         }
+      },
+      "com.amazonaws.health#OrganizationEventTagValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#TagFilterValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#OrganizationTag" : {
+         "members" : {
+            "key" : {
+               "target" : "com.amazonaws.health#tagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag key.</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.health#OrganizationTagType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of organization tag.</p>"
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.health#tagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A tag key-value pair associated with a resource across an organization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#OrganizationTagKey" : {
+         "members" : {
+            "enabledForEventBridge" : {
+               "target" : "com.amazonaws.health#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Whether this tag key is enabled for EventBridge notifications.</p>"
+               }
+            },
+            "key" : {
+               "target" : "com.amazonaws.health#OrganizationTagKey2",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag key name.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.health#TagKeyStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the tag key configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A tag key configured for Health event tracking across an organization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#OrganizationTagKey2" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 127,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9 _.:/=+\\-@]{1,127}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.health#OrganizationTagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#OrganizationTagKey"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#OrganizationTagList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#OrganizationTag"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#OrganizationTagType" : {
+         "members" : {
+            "ORGANIZATION_ACCOUNT_TAG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ORGANIZATION_ACCOUNT_TAG"
+               }
+            },
+            "ORGANIZATION_RESOURCE_TAG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ORGANIZATION_RESOURCE_TAG"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.health#OrganizationTagTypeFilter" : {
+         "member" : {
+            "target" : "com.amazonaws.health#OrganizationTagType"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#ResourceTagKey" : {
+         "members" : {
+            "enabledForEventBridge" : {
+               "target" : "com.amazonaws.health#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Whether this tag key is enabled for EventBridge notifications.</p>"
+               }
+            },
+            "key" : {
+               "target" : "com.amazonaws.health#ResourceTagKey2",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag key name.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.health#TagKeyStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the tag key configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A resource tag key configured for Health event tracking.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#ResourceTagKey2" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 127,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9 _.:\\/=+\\-@]{1,127}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.health#ResourceTagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#ResourceTagKey"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#ResourceTagSet" : {
+         "key" : {
+            "target" : "com.amazonaws.health#ResourceTagKey2"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.health#ResourceTagValue"
+         }
+      },
+      "com.amazonaws.health#ResourceTagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9 _.:\\/=+\\-@]{0,255}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.health#ServiceLifecycle" : {
+         "members" : {
+            "lifecycleEvents" : {
+               "target" : "com.amazonaws.health#LifecycleEventList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of lifecycle events for this service version.</p>"
+               }
+            },
+            "recommendedVersion" : {
+               "target" : "com.amazonaws.health#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The recommended version to upgrade to.</p>"
+               }
+            },
+            "service" : {
+               "target" : "com.amazonaws.health#service",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Amazon Web Services service.</p>"
+               }
+            },
+            "title" : {
+               "target" : "com.amazonaws.health#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable title for the lifecycle entry.</p>"
+               }
+            },
+            "version" : {
+               "target" : "com.amazonaws.health#string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the service.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains lifecycle information for an Amazon Web Services service version, including lifecycle events and version recommendations.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#ServiceLifecycleFilter" : {
+         "members" : {
+            "service" : {
+               "target" : "com.amazonaws.health#service",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services service name to filter by.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A filter for narrowing down service lifecycle results.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#ServiceLifecycleList" : {
+         "member" : {
+            "target" : "com.amazonaws.health#ServiceLifecycle"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.health#TagFilterKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 127,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9 _.:\\/=+\\-@]{1,127}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.health#TagFilterValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9 _.:\\/=+\\-@]{0,255}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.health#TagKeyForOrganization" : {
+         "members" : {
+            "enabledForEventBridge" : {
+               "target" : "com.amazonaws.health#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Whether this tag key is enabled for EventBridge notifications.</p>"
+               }
+            },
+            "key" : {
+               "target" : "com.amazonaws.health#OrganizationTagKey2",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag key name.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A tag key configured for an organization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.health#TagKeyStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "PENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.health#TagsOnboardingStatus" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLED"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.health#TagsOnboardingStatusForOrganization" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLED"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.health#UnsupportedLocale" : {
          "members" : {
@@ -4373,18 +5716,6 @@
       "com.amazonaws.health#string" : {
          "type" : "string"
       },
-      "com.amazonaws.health#tagFilter" : {
-         "member" : {
-            "target" : "com.amazonaws.health#tagSet"
-         },
-         "traits" : {
-            "smithy.api#length" : {
-               "max" : 50,
-               "min" : 0
-            }
-         },
-         "type" : "list"
-      },
       "com.amazonaws.health#tagKey" : {
          "traits" : {
             "smithy.api#length" : {
@@ -4394,21 +5725,6 @@
             "smithy.api#pattern" : "^.{0,127}$"
          },
          "type" : "string"
-      },
-      "com.amazonaws.health#tagSet" : {
-         "key" : {
-            "target" : "com.amazonaws.health#tagKey"
-         },
-         "traits" : {
-            "smithy.api#length" : {
-               "max" : 50,
-               "min" : 0
-            }
-         },
-         "type" : "map",
-         "value" : {
-            "target" : "com.amazonaws.health#tagValue"
-         }
       },
       "com.amazonaws.health#tagValue" : {
          "traits" : {

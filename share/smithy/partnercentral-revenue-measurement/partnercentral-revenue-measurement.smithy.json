@@ -5,6 +5,7 @@
             "Message" : {
                "target" : "smithy.api#String",
                "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable message describing the access denial reason.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -92,6 +93,12 @@
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#CatalogName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The catalog that the revenue attribution belongs to.</p>"
+               }
+            },
+            "Context" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueAttributionContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Program-defined key-value attributes for the revenue attribution.</p>"
                }
             },
             "CreatedDate" : {
@@ -231,6 +238,7 @@
             "Message" : {
                "target" : "smithy.api#String",
                "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable message describing the conflict that occurred.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -278,6 +286,71 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.partnercentralrevenuemeasurement#ContextFilter" : {
+         "members" : {
+            "Key" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ContextKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The context key to filter on.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Values" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ContextFilterValueList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Matches when the stored value equals any of these values. When omitted, matches when the key is present.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Filters revenue attributions by a context key and, optionally, a set of values.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#ContextFilterList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#ContextFilter"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#ContextFilterValueList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#ContextValue"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#ContextKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\x21-\\x7E]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#ContextValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\x20-\\x7E]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.partnercentralrevenuemeasurement#CreateMarketplaceRevenueShare" : {
          "errors" : [
             {
@@ -319,7 +392,28 @@
                "method" : "POST",
                "uri" : "/CreateMarketplaceRevenueShare"
             },
-            "smithy.api#idempotent" : {}
+            "smithy.api#idempotent" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "CreateMarketplaceRevenueShareFailure",
+                  "params" : {
+                     "Catalog" : "AWS",
+                     "ClientToken" : "test-token",
+                     "Products" : [
+                        {
+                           "ProductId" : "prod-0a1b2c3d4e5f6"
+                        }
+                     ]
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
          },
          "type" : "operation"
       },
@@ -338,6 +432,9 @@
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#ResourceNotFoundException"
             },
             {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ServiceQuotaExceededException"
+            },
+            {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#ThrottlingException"
             },
             {
@@ -354,7 +451,7 @@
             "aws.iam#conditionKeys" : [
                "aws:ResourceTag/${TagKey}"
             ],
-            "smithy.api#documentation" : "<p>Creates a new marketplace revenue share allocation for the specified product.</p>",
+            "smithy.api#documentation" : "<p>Creates a new allocation under the specified marketplace revenue share.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -390,15 +487,25 @@
             "EffectiveUntil" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The effective end date for the allocation. Must be the last day of a month (YYYY-MM-DD). Omit for open-ended allocations.</p>"
+                  "smithy.api#documentation" : "<p>The effective end date for the allocation. Must be the last day of a month (YYYY-MM-DD).</p>",
+                  "smithy.api#required" : {}
                }
             },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
+            "MarketplaceRevenueShareIdentifier" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifier",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier for the parent revenue share.</p>",
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The parent marketplace revenue share, by ID (mrs-...) or ARN.</p>",
                   "smithy.api#required" : {},
-                  "smithy.api#resourceIdentifier" : "MarketplaceProductId"
+                  "smithy.api#resourceIdentifier" : "MarketplaceRevenueShareId"
+               }
+            },
+            "MarketplaceRevenueShareRevision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The revision of the parent marketplace revenue share that the caller last read, for optimistic concurrency control. A stale value returns ConflictException with Reason REVISION_MISMATCH.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "RevenueSharePercent" : {
@@ -416,17 +523,12 @@
       },
       "com.amazonaws.partnercentralrevenuemeasurement#CreateMarketplaceRevenueShareAllocationOutput" : {
          "members" : {
-            "Arn" : {
-               "target" : "smithy.api#String",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the allocation.</p>",
-                  "smithy.api#required" : {}
-               }
-            },
             "CreatedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the allocation was created.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the allocation was created.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "EffectiveFrom" : {
@@ -439,19 +541,17 @@
             "EffectiveUntil" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The effective end date of the allocation, or null if open-ended.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The effective end date of the allocation.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "LastModifiedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the allocation was last modified.</p>"
-               }
-            },
-            "LatestMarketplaceRevenueShareRevision" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The latest revision of the parent marketplace revenue share.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the allocation was last modified.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "MarketplaceRevenueShareAllocationId" : {
@@ -461,17 +561,28 @@
                   "smithy.api#required" : {}
                }
             },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
+            "MarketplaceRevenueShareIdentifier" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier.</p>",
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The parent marketplace revenue share, short ID form (mrs-...).</p>",
                   "smithy.api#required" : {}
                }
             },
-            "ProductName" : {
-               "target" : "smithy.api#String",
+            "MarketplaceRevenueShareLatestRevision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The display name of the AWS Marketplace product.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The latest revision of the parent marketplace revenue share.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MarketplaceRevenueShareRevision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The revision of the parent marketplace revenue share at which the allocation was created.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "RevenueSharePercent" : {
@@ -510,15 +621,20 @@
                   "smithy.api#idempotencyToken" : {}
                }
             },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
+            "Products" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductEntryList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier for this revenue share.</p>",
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The products in the marketplace revenue share, each with its typed account lists. 1 to 25 products.</p>",
+                  "smithy.api#length" : {
+                     "max" : 25,
+                     "min" : 1
+                  },
                   "smithy.api#required" : {}
                }
             },
             "Tags" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareTagList",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#TagList",
                "traits" : {
                   "smithy.api#documentation" : "<p>Tags to associate with the marketplace revenue share upon creation.</p>"
                }
@@ -532,7 +648,7 @@
       "com.amazonaws.partnercentralrevenuemeasurement#CreateMarketplaceRevenueShareOutput" : {
          "members" : {
             "Arn" : {
-               "target" : "smithy.api#String",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the newly created marketplace revenue share.</p>",
                   "smithy.api#required" : {}
@@ -541,47 +657,49 @@
             "Catalog" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#CatalogName",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The catalog that the marketplace revenue share belongs to.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The catalog that the marketplace revenue share belongs to.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "CreatedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was created.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareId",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The unique identifier of the newly created marketplace revenue share, short ID form (mrs-...).</p>",
+                  "smithy.api#required" : {}
                }
             },
             "LastModifiedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was last modified.</p>"
-               }
-            },
-            "ProductCode" : {
-               "target" : "smithy.api#String",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product code.</p>"
-               }
-            },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier of the newly created revenue share.</p>",
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was last modified.</p>",
                   "smithy.api#required" : {}
                }
             },
-            "ProductName" : {
-               "target" : "smithy.api#String",
+            "Products" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductSummaryList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The display name of the AWS Marketplace product.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The products in the newly created marketplace revenue share, each with per-type account counts.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "Revision" : {
-               "target" : "smithy.api#Integer",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The revision number of the newly created marketplace revenue share.</p>",
-                  "smithy.api#range" : {
-                     "min" : 1
-                  }
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The revision of the newly created marketplace revenue share.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -669,6 +787,12 @@
                   "smithy.api#idempotencyToken" : {}
                }
             },
+            "Context" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueAttributionContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Program-defined key-value attributes for the revenue attribution.</p>"
+               }
+            },
             "Description" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -728,6 +852,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the newly created revenue attribution.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "Context" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueAttributionContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Program-defined key-value attributes for the revenue attribution.</p>"
                }
             },
             "Description" : {
@@ -944,7 +1074,23 @@
                "method" : "POST",
                "uri" : "/GetMarketplaceRevenueShare"
             },
-            "smithy.api#readonly" : {}
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "GetMarketplaceRevenueShareFailure",
+                  "params" : {
+                     "Catalog" : "AWS",
+                     "Identifier" : "mrs-0a1b2c3d4e5f6"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
          },
          "type" : "operation"
       },
@@ -1002,18 +1148,19 @@
                   "smithy.api#required" : {}
                }
             },
+            "MarketplaceRevenueShareIdentifier" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifier",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The parent marketplace revenue share, by ID (mrs-...) or ARN.</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "MarketplaceRevenueShareId"
+               }
+            },
             "MarketplaceRevenueShareRevision" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
                "traits" : {
                   "smithy.api#documentation" : "<p>The revision of the parent marketplace revenue share at which to retrieve the allocation. Omit to return the latest.</p>"
-               }
-            },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier of the parent revenue share.</p>",
-                  "smithy.api#required" : {},
-                  "smithy.api#resourceIdentifier" : "MarketplaceProductId"
                }
             }
          },
@@ -1024,17 +1171,12 @@
       },
       "com.amazonaws.partnercentralrevenuemeasurement#GetMarketplaceRevenueShareAllocationOutput" : {
          "members" : {
-            "Arn" : {
-               "target" : "smithy.api#String",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the allocation.</p>",
-                  "smithy.api#required" : {}
-               }
-            },
             "CreatedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the allocation was created.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the allocation was created.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "EffectiveFrom" : {
@@ -1047,19 +1189,17 @@
             "EffectiveUntil" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The effective end date of the allocation, or null if open-ended.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The effective end date of the allocation.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "LastModifiedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the allocation was last modified.</p>"
-               }
-            },
-            "LatestMarketplaceRevenueShareRevision" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The latest revision of the parent marketplace revenue share.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the allocation was last modified.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "MarketplaceRevenueShareAllocationId" : {
@@ -1069,17 +1209,28 @@
                   "smithy.api#required" : {}
                }
             },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
+            "MarketplaceRevenueShareIdentifier" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier.</p>",
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The parent marketplace revenue share, short ID form (mrs-...).</p>",
                   "smithy.api#required" : {}
                }
             },
-            "ProductName" : {
-               "target" : "smithy.api#String",
+            "MarketplaceRevenueShareLatestRevision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The display name of the AWS Marketplace product.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The latest revision of the parent marketplace revenue share.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MarketplaceRevenueShareRevision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The revision of the parent marketplace revenue share at which the allocation was read.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "RevenueSharePercent" : {
@@ -1111,21 +1262,19 @@
                   "smithy.api#required" : {}
                }
             },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
+            "Identifier" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifier",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier of the revenue share to retrieve.</p>",
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The marketplace revenue share to retrieve, by ID (mrs-...) or ARN.</p>",
                   "smithy.api#required" : {},
-                  "smithy.api#resourceIdentifier" : "MarketplaceProductId"
+                  "smithy.api#resourceIdentifier" : "MarketplaceRevenueShareId"
                }
             },
             "Revision" : {
-               "target" : "smithy.api#Integer",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The revision of the marketplace revenue share to retrieve. Omit to return the latest revision.</p>",
-                  "smithy.api#range" : {
-                     "min" : 1
-                  }
+                  "smithy.api#documentation" : "<p>The revision of the marketplace revenue share to retrieve. Omit to return the latest revision.</p>"
                }
             }
          },
@@ -1137,7 +1286,7 @@
       "com.amazonaws.partnercentralrevenuemeasurement#GetMarketplaceRevenueShareOutput" : {
          "members" : {
             "Arn" : {
-               "target" : "smithy.api#String",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the marketplace revenue share.</p>",
                   "smithy.api#required" : {}
@@ -1153,62 +1302,77 @@
             "CreatedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was created.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "EffectiveFrom" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date from which this share is effective, derived from the earliest ACTIVE allocation start date (YYYY-MM-DD). Absent when no ACTIVE allocation remains.</p>"
+               }
+            },
+            "EffectiveUntil" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date until which this share is effective, derived from the latest ACTIVE allocation end date (YYYY-MM-DD). Absent when no ACTIVE allocation remains.</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareId",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The unique identifier of the marketplace revenue share, short ID form (mrs-...).</p>",
+                  "smithy.api#required" : {}
                }
             },
             "LastModifiedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was last modified.</p>"
-               }
-            },
-            "LatestRevision" : {
-               "target" : "smithy.api#Integer",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The latest revision number of the marketplace revenue share.</p>",
-                  "smithy.api#range" : {
-                     "min" : 1
-                  }
-               }
-            },
-            "ProductCode" : {
-               "target" : "smithy.api#String",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product code.</p>"
-               }
-            },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier of the revenue share.</p>",
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was last modified.</p>",
                   "smithy.api#required" : {}
                }
             },
-            "ProductName" : {
-               "target" : "smithy.api#String",
+            "LatestRevision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The display name of the AWS Marketplace product.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The latest revision of the marketplace revenue share.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Products" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductDetailList",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The products in the marketplace revenue share, each with its typed account lists and full account IDs. Empty when the share is closed.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "Revision" : {
-               "target" : "smithy.api#Integer",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The revision number of the retrieved marketplace revenue share.</p>",
-                  "smithy.api#range" : {
-                     "min" : 1
-                  }
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The revision of the retrieved marketplace revenue share.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "TotalActiveMarketplaceRevenueShareAllocationCount" : {
-               "target" : "smithy.api#Integer",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationCount",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The number of active allocations under this marketplace revenue share.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The number of active allocations under this marketplace revenue share.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "TotalMarketplaceRevenueShareAllocationCount" : {
-               "target" : "smithy.api#Integer",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationCount",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The total number of allocations under this marketplace revenue share.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The total number of allocations under this marketplace revenue share.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -1630,6 +1794,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "Context" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueAttributionContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Program-defined key-value attributes for the revenue attribution.</p>"
+               }
+            },
             "CreatedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
@@ -1728,6 +1898,7 @@
             "Message" : {
                "target" : "smithy.api#String",
                "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable message describing the internal server error.</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -1792,10 +1963,22 @@
                   "smithy.api#documentation" : "<p>Inclusive lower bound for EffectiveFrom date filter.</p>"
                }
             },
+            "AfterEffectiveUntil" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Inclusive lower bound for EffectiveUntil date filter.</p>"
+               }
+            },
             "BeforeEffectiveFrom" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
                "traits" : {
                   "smithy.api#documentation" : "<p>Exclusive upper bound for EffectiveFrom date filter (half-open range).</p>"
+               }
+            },
+            "BeforeEffectiveUntil" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Exclusive upper bound for EffectiveUntil date filter (half-open range).</p>"
                }
             },
             "Catalog" : {
@@ -1803,6 +1986,15 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The catalog containing the allocations.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "MarketplaceRevenueShareIdentifier" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifier",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The parent marketplace revenue share, by ID (mrs-...) or ARN.</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "MarketplaceRevenueShareId"
                }
             },
             "MarketplaceRevenueShareRevision" : {
@@ -1827,14 +2019,6 @@
                   "smithy.api#documentation" : "<p>Pagination token from a previous response.</p>"
                }
             },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier for the parent revenue share.</p>",
-                  "smithy.api#required" : {},
-                  "smithy.api#resourceIdentifier" : "MarketplaceProductId"
-               }
-            },
             "SortBy" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareAllocationSortField",
                "traits" : {
@@ -1844,10 +2028,10 @@
             "SortOrder" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#SortOrder",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The direction to sort results. Defaults to DESCENDING.</p>"
+                  "smithy.api#documentation" : "<p>The direction to sort results. Defaults to ASCENDING.</p>"
                }
             },
-            "Status" : {
+            "StatusFilter" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationStatus",
                "traits" : {
                   "smithy.api#documentation" : "<p>Filter by allocation status.</p>"
@@ -1889,6 +2073,9 @@
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#InternalServerException"
             },
             {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ResourceNotFoundException"
+            },
+            {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#ThrottlingException"
             },
             {
@@ -1914,7 +2101,23 @@
                "outputToken" : "NextToken",
                "pageSize" : "MaxResults"
             },
-            "smithy.api#readonly" : {}
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "ListMarketplaceRevenueSharesFailure",
+                  "params" : {
+                     "Catalog" : "AWS",
+                     "MaxResults" : 1
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
          },
          "type" : "operation"
       },
@@ -1930,13 +2133,19 @@
             "CreatedAfter" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filter results to only include marketplace revenue shares created after this timestamp.</p>"
+                  "smithy.api#documentation" : "<p>Filter results to marketplace revenue shares created at or after this timestamp (inclusive).</p>"
                }
             },
             "CreatedBefore" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filter results to only include marketplace revenue shares created before this timestamp.</p>"
+                  "smithy.api#documentation" : "<p>Filter results to marketplace revenue shares created before this timestamp (exclusive).</p>"
+               }
+            },
+            "Identifiers" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifierList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter results to only include these marketplace revenue shares, by ID or ARN. 1 to 100 identifiers. When several filters are sent, a share must match all of them.</p>"
                }
             },
             "MaxResults" : {
@@ -1958,13 +2167,13 @@
             "ProductCodes" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#ProductCodeList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filter results to only include shares with these product codes.</p>"
+                  "smithy.api#documentation" : "<p>Filter results to the marketplace revenue shares that contain a product with any of these product codes. 1 to 10 product codes.</p>"
                }
             },
             "ProductIds" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductIdList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filter results to only include shares with these product identifiers.</p>"
+                  "smithy.api#documentation" : "<p>Filter results to the marketplace revenue shares that contain any of these products. 1 to 10 product IDs or product ARNs. Shares the caller does not own are never returned.</p>"
                }
             },
             "SortBy" : {
@@ -2242,6 +2451,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "ContextFilters" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ContextFilterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter results by context. Filters are combined with AND; values within a filter are combined with OR.</p>"
+               }
+            },
             "CreatedAfter" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
@@ -2369,7 +2584,7 @@
                   },
                   "id" : "ListTagsForResourceFailureMarketplaceRevenueShare",
                   "params" : {
-                     "resourceArn" : "arn:aws:partnercentral:us-east-1:123456789012:catalog/AWS/marketplace-revenue-share/prod-0a1b2c3d4e5f6"
+                     "resourceArn" : "arn:aws:partnercentral:us-east-1:123456789012:catalog/AWS/marketplace-revenue-share/mrs-0a1b2c3d4e5f6"
                   },
                   "vendorParams" : {
                      "region" : "us-east-1"
@@ -2403,7 +2618,7 @@
                {
                   "ids" : {
                      "Catalog" : "resourceArn",
-                     "MarketplaceProductId" : "resourceArn"
+                     "MarketplaceRevenueShareId" : "resourceArn"
                   },
                   "resource" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShare"
                }
@@ -2428,16 +2643,16 @@
       "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 18,
-               "min" : 18
+               "max" : 256,
+               "min" : 3
             },
-            "smithy.api#pattern" : "^prod-[a-z0-9]{13}$"
+            "smithy.api#pattern" : "^[a-zA-Z0-9][.a-zA-Z0-9/-]{1,254}[a-zA-Z0-9]$"
          },
          "type" : "string"
       },
       "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductIdList" : {
          "member" : {
-            "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId"
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductIdentifier"
          },
          "traits" : {
             "smithy.api#length" : {
@@ -2446,6 +2661,16 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\w\\-:/.]+$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductSummary" : {
          "members" : {
@@ -2486,8 +2711,8 @@
             "Catalog" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#CatalogName"
             },
-            "MarketplaceProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId"
+            "MarketplaceRevenueShareId" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifier"
             }
          },
          "list" : {
@@ -2512,7 +2737,7 @@
          },
          "traits" : {
             "aws.api#arn" : {
-               "template" : "catalog/{Catalog}/marketplace-revenue-share/{MarketplaceProductId}"
+               "template" : "catalog/{Catalog}/marketplace-revenue-share/{MarketplaceRevenueShareId}"
             },
             "aws.api#taggable" : {},
             "aws.iam#conditionKeys" : [
@@ -2523,7 +2748,10 @@
                "name" : "marketplace-revenue-share"
             }
          },
-         "type" : "resource"
+         "type" : "resource",
+         "update" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#UpdateMarketplaceRevenueShare"
+         }
       },
       "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareAllocationId" : {
          "traits" : {
@@ -2531,7 +2759,7 @@
                "max" : 18,
                "min" : 18
             },
-            "smithy.api#pattern" : "^mrsa-[A-Za-z0-9]{13}$"
+            "smithy.api#pattern" : "^mrsa-[a-z0-9]{13}$"
          },
          "type" : "string"
       },
@@ -2548,17 +2776,12 @@
       },
       "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareAllocationSummary" : {
          "members" : {
-            "Arn" : {
-               "target" : "smithy.api#String",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the parent marketplace revenue share.</p>",
-                  "smithy.api#required" : {}
-               }
-            },
             "CreatedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the allocation was created.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the allocation was created.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "EffectiveFrom" : {
@@ -2571,13 +2794,17 @@
             "EffectiveUntil" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The effective end date of the allocation, or null if open-ended.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The effective end date of the allocation.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "LastModifiedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the allocation was last modified.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the allocation was last modified.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "MarketplaceRevenueShareAllocationId" : {
@@ -2587,17 +2814,12 @@
                   "smithy.api#required" : {}
                }
             },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
+            "MarketplaceRevenueShareIdentifier" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier.</p>",
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The parent marketplace revenue share, short ID form (mrs-...).</p>",
                   "smithy.api#required" : {}
-               }
-            },
-            "ProductName" : {
-               "target" : "smithy.api#String",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The display name of the AWS Marketplace product.</p>"
                }
             },
             "RevenueSharePercent" : {
@@ -2626,6 +2848,171 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/marketplace-revenue-share/mrs-[a-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 17,
+               "min" : 17
+            },
+            "smithy.api#pattern" : "^mrs-[a-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 17
+            },
+            "smithy.api#pattern" : "^(arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/marketplace-revenue-share/mrs-[a-z0-9]{13}|mrs-[a-z0-9]{13})$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifierList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifier"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductDetail" : {
+         "members" : {
+            "Accounts" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountDetailList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The typed account lists for this product, each with its count and full list of IDs.</p>"
+               }
+            },
+            "ProductCode" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ProductCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Marketplace product code, resolved by the service.</p>"
+               }
+            },
+            "ProductId" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ProductName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the AWS Marketplace product, resolved by the service.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A product in a marketplace revenue share, as returned by GetMarketplaceRevenueShare, with the full typed account lists.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductDetailList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductDetail"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductEntry" : {
+         "members" : {
+            "Accounts" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountEntryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The typed account lists for this product. Omit to have the service determine the accounts. At most one entry per type; each entry must carry at least one account. An empty list is the same as omitting the field.</p>"
+               }
+            },
+            "ProductId" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Marketplace product ID or product ARN. The share stores and returns the product ID.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A product and its typed account lists as supplied in a CreateMarketplaceRevenueShare or UpdateMarketplaceRevenueShare request.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductEntryList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductEntry"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductSummary" : {
+         "members" : {
+            "Accounts" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Per-type counts of the accounts associated with this product.</p>"
+               }
+            },
+            "ProductCode" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ProductCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Marketplace product code, resolved by the service.</p>"
+               }
+            },
+            "ProductId" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ProductName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the AWS Marketplace product, resolved by the service.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A product in a marketplace revenue share, as returned in Create, Update and List responses, with per-type account counts but no account IDs.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductSummary"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareSortBy" : {
          "members" : {
             "LAST_MODIFIED_DATE" : {
@@ -2640,7 +3027,7 @@
       "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareSummary" : {
          "members" : {
             "Arn" : {
-               "target" : "smithy.api#String",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the marketplace revenue share.</p>",
                   "smithy.api#required" : {}
@@ -2649,56 +3036,77 @@
             "Catalog" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#CatalogName",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The catalog that the marketplace revenue share belongs to.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The catalog that the marketplace revenue share belongs to.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "CreatedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was created.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "EffectiveFrom" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date from which this share is effective, derived from the earliest ACTIVE allocation start date (YYYY-MM-DD). Absent when no ACTIVE allocation remains.</p>"
+               }
+            },
+            "EffectiveUntil" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date until which this share is effective, derived from the latest ACTIVE allocation end date (YYYY-MM-DD). Absent when no ACTIVE allocation remains.</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareId",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The unique identifier of the marketplace revenue share, short ID form (mrs-...).</p>",
+                  "smithy.api#required" : {}
                }
             },
             "LastModifiedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was last modified.</p>"
-               }
-            },
-            "LatestRevision" : {
-               "target" : "smithy.api#Integer",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The latest revision number of the marketplace revenue share.</p>"
-               }
-            },
-            "ProductCode" : {
-               "target" : "smithy.api#String",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product code.</p>"
-               }
-            },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier.</p>",
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was last modified.</p>",
                   "smithy.api#required" : {}
                }
             },
-            "ProductName" : {
-               "target" : "smithy.api#String",
+            "LatestRevision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The display name of the AWS Marketplace product.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The latest revision of the marketplace revenue share.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Products" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductSummaryList",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The products in the marketplace revenue share, each with per-type account counts. Empty when the share is closed.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "TotalActiveMarketplaceRevenueShareAllocationCount" : {
-               "target" : "smithy.api#Integer",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationCount",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The number of active allocations under this share.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The number of active allocations under this share.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "TotalMarketplaceRevenueShareAllocationCount" : {
-               "target" : "smithy.api#Integer",
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationCount",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The total number of allocations under this share.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The total number of allocations under this share.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -2710,18 +3118,6 @@
       "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareSummaryList" : {
          "member" : {
             "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareSummary"
-         },
-         "type" : "list"
-      },
-      "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareTagList" : {
-         "member" : {
-            "target" : "com.amazonaws.partnercentralrevenuemeasurement#Tag"
-         },
-         "traits" : {
-            "smithy.api#length" : {
-               "max" : 50,
-               "min" : 0
-            }
          },
          "type" : "list"
       },
@@ -3483,9 +3879,19 @@
          "type" : "service",
          "version" : "2022-07-26"
       },
+      "com.amazonaws.partnercentralrevenuemeasurement#ProductCode" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[A-Za-z0-9]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.partnercentralrevenuemeasurement#ProductCodeList" : {
          "member" : {
-            "target" : "smithy.api#String"
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#ProductCode"
          },
          "traits" : {
             "smithy.api#length" : {
@@ -3501,7 +3907,7 @@
                "max" : 1011,
                "min" : 1
             },
-            "smithy.api#pattern" : "^arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-revenue-share/prod-[a-z0-9]{13})$"
+            "smithy.api#pattern" : "^arn:aws:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(revenue-attribution/[a-zA-Z0-9-]+|marketplace-revenue-share/mrs-[a-z0-9]{13})$"
          },
          "type" : "string"
       },
@@ -3510,6 +3916,7 @@
             "Message" : {
                "target" : "smithy.api#String",
                "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable message describing which resource was not found.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -3866,6 +4273,21 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueAttributionContext" : {
+         "key" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#ContextKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#ContextValue"
+         }
+      },
       "com.amazonaws.partnercentralrevenuemeasurement#RevenueAttributionId" : {
          "traits" : {
             "smithy.api#length" : {
@@ -3995,6 +4417,163 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountCount" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountDetail" : {
+         "members" : {
+            "AccountIds" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The full list of AWS account identifiers of this type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "AccountType" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of account list.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Count" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of accounts of this type.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A typed account list returned by GetMarketplaceRevenueShare, with its count and full list of IDs.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountDetailList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountDetail"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountEntry" : {
+         "members" : {
+            "AccountIds" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account identifiers for this type. Each ID must be a 12-digit AWS account ID. Account ownership is verified after the request is accepted.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "AccountType" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of account list.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A typed account list supplied for a product in a CreateMarketplaceRevenueShare or UpdateMarketplaceRevenueShare request.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountEntryList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountEntry"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 12,
+               "min" : 12
+            },
+            "smithy.api#pattern" : "^[0-9]{12}$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountIdList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountId"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1000,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountSummary" : {
+         "members" : {
+            "AccountType" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of account list.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Count" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of accounts of this type.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A per-type count of accounts associated with a product.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountSummary"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#RevenueShareProductAccountType" : {
+         "members" : {
+            "DEPLOYMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEPLOYMENT"
+               }
+            },
+            "ORGANIZATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ORGANIZATION"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken" : {
          "traits" : {
             "smithy.api#length" : {
@@ -4010,6 +4589,7 @@
             "Message" : {
                "target" : "smithy.api#String",
                "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable message describing which service quota would be exceeded.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -4322,7 +4902,7 @@
                   },
                   "id" : "TagResourceFailureMarketplaceRevenueShare",
                   "params" : {
-                     "resourceArn" : "arn:aws:partnercentral:us-east-1:123456789012:catalog/AWS/marketplace-revenue-share/prod-0a1b2c3d4e5f6",
+                     "resourceArn" : "arn:aws:partnercentral:us-east-1:123456789012:catalog/AWS/marketplace-revenue-share/mrs-0a1b2c3d4e5f6",
                      "tags" : [
                         {
                            "Key" : "TestKey",
@@ -4369,7 +4949,7 @@
                {
                   "ids" : {
                      "Catalog" : "resourceArn",
-                     "MarketplaceProductId" : "resourceArn"
+                     "MarketplaceRevenueShareId" : "resourceArn"
                   },
                   "resource" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShare"
                }
@@ -4409,6 +4989,7 @@
             "Message" : {
                "target" : "smithy.api#String",
                "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable message indicating that the request rate limit has been exceeded.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -4494,7 +5075,7 @@
                   },
                   "id" : "UntagResourceFailureMarketplaceRevenueShare",
                   "params" : {
-                     "resourceArn" : "arn:aws:partnercentral:us-east-1:123456789012:catalog/AWS/marketplace-revenue-share/prod-0a1b2c3d4e5f6",
+                     "resourceArn" : "arn:aws:partnercentral:us-east-1:123456789012:catalog/AWS/marketplace-revenue-share/mrs-0a1b2c3d4e5f6",
                      "tagKeys" : [
                         "TestKey"
                      ]
@@ -4538,13 +5119,80 @@
                {
                   "ids" : {
                      "Catalog" : "resourceArn",
-                     "MarketplaceProductId" : "resourceArn"
+                     "MarketplaceRevenueShareId" : "resourceArn"
                   },
                   "resource" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShare"
                }
             ]
          },
          "type" : "structure"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#UpdateMarketplaceRevenueShare" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#UpdateMarketplaceRevenueShareInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralrevenuemeasurement#UpdateMarketplaceRevenueShareOutput"
+         },
+         "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:ResourceTag/${TagKey}"
+            ],
+            "smithy.api#documentation" : "<p>Replaces the products of a marketplace revenue share. The request carries the complete desired set of products and their typed account lists; a product not listed is removed and its account lists cleared, and an empty Products list closes the marketplace revenue share. Closing is one-way.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/UpdateMarketplaceRevenueShare"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "UpdateMarketplaceRevenueShareFailure",
+                  "params" : {
+                     "Catalog" : "AWS",
+                     "ClientToken" : "test-token",
+                     "Identifier" : "mrs-0a1b2c3d4e5f6",
+                     "Products" : [
+                        {
+                           "ProductId" : "prod-0a1b2c3d4e5f6"
+                        }
+                     ],
+                     "Revision" : "1"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
       },
       "com.amazonaws.partnercentralrevenuemeasurement#UpdateMarketplaceRevenueShareAllocation" : {
          "errors" : [
@@ -4577,7 +5225,7 @@
             "aws.iam#conditionKeys" : [
                "aws:ResourceTag/${TagKey}"
             ],
-            "smithy.api#documentation" : "<p>Updates an existing marketplace revenue share allocation. Supports modifying effective dates, revenue share percentage, and status with time-based mutability rules.</p>",
+            "smithy.api#documentation" : "<p>Updates an existing marketplace revenue share allocation. Supports modifying the revenue share percentage and status only, with time-based mutability rules.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -4603,18 +5251,6 @@
                   "smithy.api#idempotencyToken" : {}
                }
             },
-            "EffectiveFrom" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The new effective start date. Must be the first day of a month. Only modifiable on future-dated allocations.</p>"
-               }
-            },
-            "EffectiveUntil" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The new effective end date. Must be the last day of a month and on or after today.</p>"
-               }
-            },
             "MarketplaceRevenueShareAllocationId" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareAllocationId",
                "traits" : {
@@ -4622,19 +5258,20 @@
                   "smithy.api#required" : {}
                }
             },
+            "MarketplaceRevenueShareIdentifier" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifier",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The parent marketplace revenue share, by ID (mrs-...) or ARN.</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "MarketplaceRevenueShareId"
+               }
+            },
             "MarketplaceRevenueShareRevision" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
                "traits" : {
                   "smithy.api#documentation" : "<p>The current revision of the parent share. Must match for optimistic concurrency control.</p>",
                   "smithy.api#required" : {}
-               }
-            },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier for the parent revenue share.</p>",
-                  "smithy.api#required" : {},
-                  "smithy.api#resourceIdentifier" : "MarketplaceProductId"
                }
             },
             "RevenueSharePercent" : {
@@ -4657,17 +5294,12 @@
       },
       "com.amazonaws.partnercentralrevenuemeasurement#UpdateMarketplaceRevenueShareAllocationOutput" : {
          "members" : {
-            "Arn" : {
-               "target" : "smithy.api#String",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the parent marketplace revenue share.</p>",
-                  "smithy.api#required" : {}
-               }
-            },
             "CreatedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the allocation was created.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the allocation was created.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "EffectiveFrom" : {
@@ -4680,19 +5312,17 @@
             "EffectiveUntil" : {
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationEffectiveDateString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The effective end date of the allocation, or null if open-ended.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The effective end date of the allocation.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "LastModifiedDate" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The date when the allocation was last modified.</p>"
-               }
-            },
-            "LatestMarketplaceRevenueShareRevision" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
-               "traits" : {
-                  "smithy.api#documentation" : "<p>The latest revision of the parent marketplace revenue share after the update.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date when the allocation was last modified.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "MarketplaceRevenueShareAllocationId" : {
@@ -4702,17 +5332,28 @@
                   "smithy.api#required" : {}
                }
             },
-            "ProductId" : {
-               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceProductId",
+            "MarketplaceRevenueShareIdentifier" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The AWS Marketplace product identifier.</p>",
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The parent marketplace revenue share, short ID form (mrs-...).</p>",
                   "smithy.api#required" : {}
                }
             },
-            "ProductName" : {
-               "target" : "smithy.api#String",
+            "MarketplaceRevenueShareLatestRevision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The display name of the AWS Marketplace product.</p>"
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The latest revision of the parent marketplace revenue share after the update.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MarketplaceRevenueShareRevision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The revision of the parent marketplace revenue share at which the update was committed.</p>",
+                  "smithy.api#required" : {}
                }
             },
             "RevenueSharePercent" : {
@@ -4726,6 +5367,93 @@
                "target" : "com.amazonaws.partnercentralrevenuemeasurement#AllocationStatus",
                "traits" : {
                   "smithy.api#documentation" : "<p>The status of the allocation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#UpdateMarketplaceRevenueShareInput" : {
+         "members" : {
+            "Catalog" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#CatalogName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog that the marketplace revenue share belongs to.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ClientToken" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique token to ensure idempotency of the update request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The marketplace revenue share to update, by ID (mrs-...) or ARN.</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "MarketplaceRevenueShareId"
+               }
+            },
+            "Products" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductEntryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The complete desired set of products in the marketplace revenue share, each with its typed account lists. 0 to 25 products; an empty list closes the marketplace revenue share.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Revision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current revision of the marketplace revenue share, for optimistic concurrency control. A stale value returns ConflictException with Reason REVISION_MISMATCH.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralrevenuemeasurement#UpdateMarketplaceRevenueShareOutput" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the updated marketplace revenue share.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the updated marketplace revenue share, short ID form (mrs-...).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "LastModifiedDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date when the marketplace revenue share was last modified.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "LatestRevision" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevisionToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The latest revision of the marketplace revenue share after the update.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Products" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#MarketplaceRevenueShareProductSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The products in the marketplace revenue share after the update, each with per-type account counts. Empty when the marketplace revenue share is closed.</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -4811,6 +5539,12 @@
                   "smithy.api#idempotencyToken" : {}
                }
             },
+            "Context" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueAttributionContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Full-replacement context map. Omit to leave the stored context unchanged; pass an empty map to clear it.</p>"
+               }
+            },
             "Description" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -4849,6 +5583,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the updated revenue attribution.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "Context" : {
+               "target" : "com.amazonaws.partnercentralrevenuemeasurement#RevenueAttributionContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The context stored on the revenue attribution after the update.</p>"
                }
             },
             "Description" : {
@@ -4894,6 +5634,7 @@
             "Message" : {
                "target" : "smithy.api#String",
                "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable message describing the validation failure.</p>",
                   "smithy.api#required" : {}
                }
             },
