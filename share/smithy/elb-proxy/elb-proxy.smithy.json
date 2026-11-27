@@ -1,0 +1,3568 @@
+{
+   "shapes" : {
+      "com.amazonaws.elbproxy#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Description of the error",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The user does not have sufficient access to perform this action.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#AmazonResourceName" : {
+         "traits" : {
+            "smithy.api#documentation" : "An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#AssociateCertificate" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#AssociateCertificateRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#AssociateCertificateResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Associates an ACM certificate with the specified Proxy.",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#AssociateCertificateRequest" : {
+         "members" : {
+            "certificateIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#CertificateIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the ACM certificate.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#AssociateCertificateResponse" : {
+         "members" : {
+            "certificateAssociation" : {
+               "target" : "com.amazonaws.elbproxy#CertificateAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "The certificate association.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#Attribute" : {
+         "members" : {
+            "key" : {
+               "target" : "com.amazonaws.elbproxy#ProxyAttributeKey",
+               "traits" : {
+                  "smithy.api#documentation" : "The key of the attribute.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.elbproxy#ProxyAttributeValue",
+               "traits" : {
+                  "smithy.api#documentation" : "The value of the attribute.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A key-value attribute for a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#AttributeDetails" : {
+         "members" : {
+            "defaultValue" : {
+               "target" : "com.amazonaws.elbproxy#ProxyAttributeValue",
+               "traits" : {
+                  "smithy.api#documentation" : "The default value of the attribute."
+               }
+            },
+            "key" : {
+               "target" : "com.amazonaws.elbproxy#ProxyAttributeKey",
+               "traits" : {
+                  "smithy.api#documentation" : "The key of the attribute.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.elbproxy#ProxyAttributeValue",
+               "traits" : {
+                  "smithy.api#documentation" : "The value of the attribute.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A key-value attribute for a proxy, including its default value."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#CertificateArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "The Amazon Resource Name (ARN) of an ACM certificate.",
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:[a-z0-9\\-]+:acm:[a-z0-9\\-]+:[0-9]{12}:certificate/.+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#CertificateAssociation" : {
+         "members" : {
+            "certificateArn" : {
+               "target" : "com.amazonaws.elbproxy#CertificateArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the ACM certificate.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the association was created."
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.elbproxy#CertificateAssociationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "The status of the association.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "An association between an ACM certificate and a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#CertificateAssociationList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#CertificateAssociation"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of certificate associations."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#CertificateAssociationStatus" : {
+         "members" : {
+            "code" : {
+               "target" : "com.amazonaws.elbproxy#CertificateAssociationStatusCode",
+               "traits" : {
+                  "smithy.api#documentation" : "The status code of the association.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reasons" : {
+               "target" : "com.amazonaws.elbproxy#CertificateAssociationStatusReasonList",
+               "traits" : {
+                  "smithy.api#documentation" : "The reasons for the current status of the association.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The status of a certificate association."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#CertificateAssociationStatusCode" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The certificate is associated and available to the proxy.",
+                  "smithy.api#enumValue" : "active"
+               }
+            },
+            "ASSOCIATE_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The certificate could not be associated with the proxy. To retry, call\nAssociateCertificate again.",
+                  "smithy.api#enumValue" : "associate-failed"
+               }
+            },
+            "ASSOCIATE_IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The certificate is being associated with the proxy.",
+                  "smithy.api#enumValue" : "associate-in-progress"
+               }
+            },
+            "DISASSOCIATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The certificate is not associated with the proxy.",
+                  "smithy.api#enumValue" : "disassociated"
+               }
+            },
+            "DISASSOCIATE_IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The certificate is being removed from the proxy.",
+                  "smithy.api#enumValue" : "disassociate-in-progress"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The status code of a certificate association."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.elbproxy#CertificateAssociationStatusReason" : {
+         "members" : {
+            "code" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The status reason code.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The status reason message."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A reason for the current status of a certificate association."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#CertificateAssociationStatusReasonList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#CertificateAssociationStatusReason"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of certificate association status reasons."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#CertificateIdentifier" : {
+         "traits" : {
+            "smithy.api#documentation" : "The Amazon Resource Name (ARN) of an ACM certificate.",
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:[a-z0-9\\-]+:acm:[a-z0-9\\-]+:[0-9]{12}:certificate/.+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ClientToken" : {
+         "traits" : {
+            "smithy.api#documentation" : "A unique, case-sensitive identifier used to make a create request idempotent.",
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[!-~]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ConfigurationArchive" : {
+         "members" : {
+            "configurationBytes" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationArchiveBytes",
+               "traits" : {
+                  "smithy.api#documentation" : "The contents of the configuration archive.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The configuration archive for a proxy. This is a bundle of the files\nreferenced by the configuration file."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ConfigurationArchiveBytes" : {
+         "traits" : {
+            "smithy.api#documentation" : "The contents of the configuration archive.",
+            "smithy.api#length" : {
+               "max" : 52428800
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "blob"
+      },
+      "com.amazonaws.elbproxy#ConfigurationFile" : {
+         "members" : {
+            "configurationBytes" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationFileBytes",
+               "traits" : {
+                  "smithy.api#documentation" : "The contents of the configuration file.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The configuration file for a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ConfigurationFileBytes" : {
+         "traits" : {
+            "smithy.api#documentation" : "The contents of the configuration file.",
+            "smithy.api#length" : {
+               "max" : 1048576
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "blob"
+      },
+      "com.amazonaws.elbproxy#ConfigurationMetadata" : {
+         "members" : {
+            "configArchiveHash" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The SHA-256 hash of the configuration archive. This value is absent when\nthe proxy does not have a configuration archive."
+               }
+            },
+            "configArchiveLastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the configuration archive was last updated."
+               }
+            },
+            "configFileHash" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The SHA-256 hash of the configuration file."
+               }
+            },
+            "configFileLastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the configuration file was last updated."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The configuration metadata for a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Description of the error",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request conflicts with the current state of the resource.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#CreateProxy" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#OperationNotPermittedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#CreateProxyRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#CreateProxyResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Creates a proxy. A proxy is a fully managed, Envoy-based proxy that runs your\nEnvoy configuration on Amazon EC2 instances inside your own virtual private\ncloud (VPC). AWS provisions and scales the proxy, upgrades the Envoy version,\npatches the operating system, and monitors its health."
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#CreateProxyRequest" : {
+         "members" : {
+            "attributes" : {
+               "target" : "com.amazonaws.elbproxy#ProxyAttributeList",
+               "traits" : {
+                  "smithy.api#documentation" : "The attributes for the proxy. Attributes can be changed after creation.\nAttributes that you don't specify are set to their default values."
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.elbproxy#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "configuration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "customerKmsKeyArn" : {
+               "target" : "com.amazonaws.elbproxy#CustomerKmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the customer managed KMS key used to\nencrypt the proxy's configuration content. If you don't specify a key,\nthe default service-owned key is used."
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.elbproxy#ProxyName",
+               "traits" : {
+                  "smithy.api#documentation" : "The name of the proxy. The name must be unique within your account for\nthe Region. The valid characters are a-z, 0-9, and hyphens (-). You can't\nuse a hyphen as the first or last character.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "networkConfiguration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyNetworkUserConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The network configuration for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "proxyVersion" : {
+               "target" : "com.amazonaws.elbproxy#ProxyVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "The version of the proxy software, in `major.minor` format.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "roleArn" : {
+               "target" : "com.amazonaws.elbproxy#IamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the IAM role that provides permissions to\nthe code that your Envoy configuration runs on the proxy, such as filters and\nextensions. These are the permissions that this code needs when it calls AWS\nservices.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.elbproxy#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "The tags for the proxy."
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.elbproxy#ProxyType",
+               "traits" : {
+                  "smithy.api#documentation" : "The type of proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#CreateProxyResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.elbproxy#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy."
+               }
+            },
+            "configurationMetadata" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration metadata for the proxy."
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the proxy was created."
+               }
+            },
+            "customerKmsKeyArn" : {
+               "target" : "com.amazonaws.elbproxy#CustomerKmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the customer managed KMS key used to\nencrypt the proxy's configuration content. This value is absent when the\nproxy uses the default service-owned key."
+               }
+            },
+            "dnsName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The DNS name of the proxy."
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.elbproxy#ProxyName",
+               "traits" : {
+                  "smithy.api#documentation" : "The name of the proxy."
+               }
+            },
+            "networkConfiguration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyNetworkConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The network configuration for the proxy."
+               }
+            },
+            "proxyVersion" : {
+               "target" : "com.amazonaws.elbproxy#ProxyVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "The version of the proxy software."
+               }
+            },
+            "roleArn" : {
+               "target" : "com.amazonaws.elbproxy#IamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the IAM role that provides permissions to\nthe code that your Envoy configuration runs on the proxy, such as filters and\nextensions. These are the permissions that this code needs when it calls AWS\nservices."
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.elbproxy#ProxyStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "The status of the proxy."
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.elbproxy#ProxyType",
+               "traits" : {
+                  "smithy.api#documentation" : "The type of proxy."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Common Proxy details response mixin",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#CustomerKmsKeyArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the customer managed KMS key used to\nencrypt the proxy's configuration content.",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:[a-z-]+:kms:[a-z0-9-]+:[0-9]{12}:key/(mrk-)?[a-f0-9-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#DeleteProxy" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#OperationNotPermittedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#DeleteProxyRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#DeleteProxyResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Deletes a proxy.",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#DeleteProxyRequest" : {
+         "members" : {
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#DeleteProxyResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.elbproxy#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.elbproxy#ProxyName",
+               "traits" : {
+                  "smithy.api#documentation" : "The name of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.elbproxy#ProxyStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "The status of the proxy."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#DisassociateCertificate" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#DisassociateCertificateRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#DisassociateCertificateResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Disassociates an ACM certificate from the specified proxy.",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#DisassociateCertificateRequest" : {
+         "members" : {
+            "certificateIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#CertificateIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the ACM certificate.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#DisassociateCertificateResponse" : {
+         "members" : {
+            "certificateAssociation" : {
+               "target" : "com.amazonaws.elbproxy#CertificateAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "The certificate association.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ELBProxy" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ThrottlingException"
+            }
+         ],
+         "operations" : [
+            {
+               "target" : "com.amazonaws.elbproxy#ListProxyVersions"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#UntagResource"
+            }
+         ],
+         "resources" : [
+            {
+               "target" : "com.amazonaws.elbproxy#Proxy"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "elasticloadbalancing",
+               "cloudTrailEventSource" : "elb-proxy.amazonaws.com",
+               "endpointPrefix" : "elb-proxy",
+               "sdkId" : "ELB Proxy"
+            },
+            "aws.api#tagEnabled" : {},
+            "aws.auth#sigv4" : {
+               "name" : "elasticloadbalancing"
+            },
+            "aws.endpoints#dualStackOnlyEndpoints" : {},
+            "aws.endpoints#standardRegionalEndpoints" : {},
+            "smithy.api#documentation" : "Elastic Load Balancing for Envoy is a fully managed service that runs the\nopen-source Envoy proxy on your behalf. You bring your Envoy configuration, and\nAWS provisions the proxy, scales it, upgrades the Envoy version, patches the\noperating system, and monitors its health. The proxy runs on Amazon EC2\ninstances inside your own virtual private cloud (VPC), so you keep full\ncontrol of your network, security groups, and IAM.",
+            "smithy.api#title" : "Elastic Load Balancing for Envoy",
+            "smithy.protocols#rpcv2Cbor" : {},
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 6,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAYAAAADAAAAAQAAAAQF9eEFAAAAAgAAAAUF9eEFAAAAAwX14QMF9eEEAAAAAwX14QEF9eEC",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://elb-proxy-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://elb-proxy.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "headers" : {},
+                              "properties" : {},
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {},
+                                          "url" : "https://elb-proxy-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {},
+                                          "url" : "https://elb-proxy.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://elb-proxy-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://elb-proxy.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://elb-proxy-fips.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://elb-proxy.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://elb-proxy-fips.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://elb-proxy.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2026-11-20"
+      },
+      "com.amazonaws.elbproxy#GetProxy" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#GetProxyRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#GetProxyResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Retrieves information about the specified proxy.",
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {
+                        "errorId" : "com.amazonaws.elbproxy#ValidationException"
+                     }
+                  },
+                  "id" : "GetProxyCrossAccountValidation",
+                  "params" : {
+                     "proxyIdentifier" : "arn:aws:elasticloadbalancing:us-east-1:000000000000:proxy/smoke-test-nonexistent:abc123"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ],
+            "smithy.waiters#waitable" : {
+               "ProxyActive" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "active",
+                              "path" : "status.code"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "create-failed",
+                              "path" : "status.code"
+                           }
+                        },
+                        "state" : "failure"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "action-required",
+                              "path" : "status.code"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "maxDelay" : 600,
+                  "minDelay" : 15
+               },
+               "ProxyDeleted" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "errorType" : "ResourceNotFoundException"
+                        },
+                        "state" : "success"
+                     }
+                  ],
+                  "maxDelay" : 600,
+                  "minDelay" : 15
+               }
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#GetProxyAttributes" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#GetProxyAttributesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#GetProxyAttributesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Retrieves the attributes for the specified proxy.",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#GetProxyAttributesRequest" : {
+         "members" : {
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#GetProxyAttributesResponse" : {
+         "members" : {
+            "attributes" : {
+               "target" : "com.amazonaws.elbproxy#ProxyAttributeDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "The attributes for the proxy."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#GetProxyConfigurationContents" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#GetProxyConfigurationContentsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#GetProxyConfigurationContentsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Retrieves the configuration file, the configuration archive, or both for the\nspecified proxy. This operation is separate from GetProxy so that you can\ngrant access to proxy metadata without granting access to the configuration\ncontent.",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#GetProxyConfigurationContentsRequest" : {
+         "members" : {
+            "includeConfigArchive" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "Indicates whether to include the configuration archive contents in the\nresponse. The default is `false`."
+               }
+            },
+            "includeConfigFile" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "Indicates whether to include the configuration file contents in the\nresponse. The default is `false`."
+               }
+            },
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#GetProxyConfigurationContentsResponse" : {
+         "members" : {
+            "configurationArchiveContents" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationArchiveBytes",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration archive contents. Populated only if\n`includeConfigArchive` was `true`."
+               }
+            },
+            "configurationFileContents" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationFileBytes",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration file contents. Populated only if `includeConfigFile`\nwas `true`."
+               }
+            },
+            "configurationMetadata" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration metadata for the proxy."
+               }
+            },
+            "customerKmsKeyArn" : {
+               "target" : "com.amazonaws.elbproxy#CustomerKmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "CMK ARN used to encrypt the proxy's configuration content"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#GetProxyRequest" : {
+         "members" : {
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#GetProxyResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.elbproxy#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy."
+               }
+            },
+            "configurationMetadata" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration metadata for the proxy."
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the proxy was created."
+               }
+            },
+            "customerKmsKeyArn" : {
+               "target" : "com.amazonaws.elbproxy#CustomerKmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the customer managed KMS key used to\nencrypt the proxy's configuration content. This value is absent when the\nproxy uses the default service-owned key."
+               }
+            },
+            "dnsName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The DNS name of the proxy."
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.elbproxy#ProxyName",
+               "traits" : {
+                  "smithy.api#documentation" : "The name of the proxy."
+               }
+            },
+            "networkConfiguration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyNetworkConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The network configuration for the proxy."
+               }
+            },
+            "proxyVersion" : {
+               "target" : "com.amazonaws.elbproxy#ProxyVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "The version of the proxy software."
+               }
+            },
+            "roleArn" : {
+               "target" : "com.amazonaws.elbproxy#IamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the IAM role that provides permissions to\nthe code that your Envoy configuration runs on the proxy, such as filters and\nextensions. These are the permissions that this code needs when it calls AWS\nservices."
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.elbproxy#ProxyStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "The status of the proxy."
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.elbproxy#ProxyType",
+               "traits" : {
+                  "smithy.api#documentation" : "The type of proxy."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Common Proxy details response mixin",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#GetProxyUpdate" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#GetProxyUpdateRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#GetProxyUpdateResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Retrieves information about the specified proxy update.",
+            "smithy.api#readonly" : {},
+            "smithy.waiters#waitable" : {
+               "ProxyUpdateComplete" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "complete",
+                              "path" : "state.propagationStatus"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "failed",
+                              "path" : "state.propagationStatus"
+                           }
+                        },
+                        "state" : "failure"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "cancelled",
+                              "path" : "state.propagationStatus"
+                           }
+                        },
+                        "state" : "failure"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "skipped",
+                              "path" : "state.propagationStatus"
+                           }
+                        },
+                        "state" : "failure"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "invalid",
+                              "path" : "state.validationStatus"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "minDelay" : 5
+               }
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#GetProxyUpdateRequest" : {
+         "members" : {
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updateIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the update.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#GetProxyUpdateResponse" : {
+         "members" : {
+            "completedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the update's propagation status became\n`complete`, `failed`, or `cancelled`. This value is absent while the\nupdate is `in-progress` or `skipped`."
+               }
+            },
+            "details" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "Details about the update.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "proxyArn" : {
+               "target" : "com.amazonaws.elbproxy#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateState",
+               "traits" : {
+                  "smithy.api#documentation" : "The state of the update.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "submittedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the update was submitted.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updateId" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the update.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "validatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the update was first successfully applied to a\nproxy node. This value is absent until the update is valid."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#IamRoleArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "The Amazon Resource Name (ARN) of an IAM role.",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:[a-z-]+:iam::[0-9]{12}:role/.+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Description of the error",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "An unexpected error occurred while processing the request.",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ListCertificateAssociations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#ListCertificateAssociationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#ListCertificateAssociationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Lists the ACM certificate associations for the specified proxy.",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#ListCertificateAssociationsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "The maximum number of results to return.",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.elbproxy#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "A pagination token for the next page of results."
+               }
+            },
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ListCertificateAssociationsResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.elbproxy#CertificateAssociationList",
+               "traits" : {
+                  "smithy.api#documentation" : "Information about the certificate associations.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.elbproxy#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "If there are additional results, a pagination token for the next page of results."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ListProxies" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#ListProxiesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#ListProxiesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Lists the proxies owned by the caller account.",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "ListProxiesSuccess",
+                  "params" : {},
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#ListProxiesRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "The maximum number of results to return.",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.elbproxy#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "A pagination token for the next page of results."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ListProxiesResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.elbproxy#ProxySummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "Information about the proxies.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.elbproxy#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "If there are additional results, a pagination token for the next page of results."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ListProxyUpdates" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#ListProxyUpdatesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#ListProxyUpdatesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Lists the updates for the specified proxy, most recently submitted first.",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#ListProxyUpdatesRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "The maximum number of results to return.",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.elbproxy#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "A pagination token for the next page of results."
+               }
+            },
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ListProxyUpdatesResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "Information about the updates for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.elbproxy#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "If there are additional results, a pagination token for the next page of results."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ListProxyVersions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#ListProxyVersionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#ListProxyVersionsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Lists the available proxy versions.",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "ListProxyVersionsSuccess",
+                  "params" : {
+                     "type" : "envoy"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#ListProxyVersionsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "The maximum number of results to return.",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 50
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.elbproxy#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "A pagination token for the next page of results."
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.elbproxy#ProxyType",
+               "traits" : {
+                  "smithy.api#documentation" : "The type of proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ListProxyVersionsResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.elbproxy#ProxyVersionSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "Information about the proxy versions.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.elbproxy#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "If there are additional results, a pagination token for the next page of results."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#ListTagsForResourceInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#ListTagsForResourceOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Lists the tags for the specified resource.",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#ListTagsForResourceInput" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.elbproxy#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the resource.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "ids" : {
+                     "proxyIdentifier" : "resourceArn"
+                  },
+                  "resource" : "com.amazonaws.elbproxy#Proxy"
+               }
+            ]
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ListTagsForResourceOutput" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.elbproxy#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "The tags for the resource."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#NextToken" : {
+         "traits" : {
+            "smithy.api#documentation" : "A pagination token for the next page of results.",
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#OperationNotPermittedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Description of the error",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The requested operation is not permitted.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#PriorRequestNotCompletedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Description of the error",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request could not be completed because a prior request has not yet completed.",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#Proxy" : {
+         "create" : {
+            "target" : "com.amazonaws.elbproxy#CreateProxy"
+         },
+         "delete" : {
+            "target" : "com.amazonaws.elbproxy#DeleteProxy"
+         },
+         "identifiers" : {
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.elbproxy#ListProxies"
+         },
+         "operations" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AssociateCertificate"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#DisassociateCertificate"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#GetProxyAttributes"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#GetProxyConfigurationContents"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#GetProxyUpdate"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ListCertificateAssociations"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ListProxyUpdates"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#UpdateProxyAttributes"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#UpdateProxyConfiguration"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#UpdateProxyNetworkConfiguration"
+            }
+         ],
+         "read" : {
+            "target" : "com.amazonaws.elbproxy#GetProxy"
+         },
+         "traits" : {
+            "aws.api#arn" : {
+               "template" : "proxy/{proxyIdentifier}"
+            },
+            "aws.api#taggable" : {},
+            "aws.iam#iamResource" : {
+               "name" : "proxy"
+            }
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.elbproxy#ProxyAttributeDetailsList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#AttributeDetails"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of proxy attributes, including their default values."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#ProxyAttributeKey" : {
+         "traits" : {
+            "smithy.api#documentation" : "The key of a proxy attribute.",
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ProxyAttributeList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#Attribute"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of proxy attributes."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#ProxyAttributeValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "The value of a proxy attribute.",
+            "smithy.api#length" : {
+               "max" : 2048
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ProxyConfiguration" : {
+         "members" : {
+            "configurationArchive" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationArchive",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration archive for the proxy. This is a bundle of the files\nreferenced by the configuration file."
+               }
+            },
+            "configurationFile" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationFile",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration file for the proxy."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The configuration for a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyConfigurationUpdateDetails" : {
+         "members" : {
+            "newConfigurationMetadata" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration metadata for the configuration that was submitted with\nthis update."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Details about an update to a proxy's configuration."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyIdentifier" : {
+         "traits" : {
+            "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:[a-z-]+:elasticloadbalancing:[a-z0-9-]+:[0-9]{12}:proxy/[a-zA-Z0-9-]+:[a-zA-Z0-9]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ProxyIpAddressingConfiguration" : {
+         "members" : {
+            "ipv4Addressability" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIpv4Addressability",
+               "traits" : {
+                  "smithy.api#documentation" : "The IPv4 addressability setting for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ipv6Addressability" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIpv6Addressability",
+               "traits" : {
+                  "smithy.api#documentation" : "The IPv6 addressability setting for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The IP addressing configuration for a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyIpConfiguration" : {
+         "members" : {
+            "ipAddressingConfiguration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIpAddressingConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The IP addressing configuration for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The IP configuration for a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyIpv4Addressability" : {
+         "members" : {
+            "INTERNAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is IPv4-addressable for internal clients only.",
+                  "smithy.api#enumValue" : "internal"
+               }
+            },
+            "INTERNET_FACING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is IPv4-addressable for both internet-facing and internal clients.",
+                  "smithy.api#enumValue" : "internet-facing"
+               }
+            },
+            "OFF" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is not IPv4-addressable.",
+                  "smithy.api#enumValue" : "off"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The IPv4 addressability setting for a proxy."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.elbproxy#ProxyIpv6Addressability" : {
+         "members" : {
+            "INTERNAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is IPv6-addressable for internal clients only.",
+                  "smithy.api#enumValue" : "internal"
+               }
+            },
+            "INTERNET_FACING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is IPv6-addressable for both internet-facing and internal clients.",
+                  "smithy.api#enumValue" : "internet-facing"
+               }
+            },
+            "OFF" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is not IPv6-addressable.",
+                  "smithy.api#enumValue" : "off"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The IPv6 addressability setting for a proxy."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.elbproxy#ProxyName" : {
+         "traits" : {
+            "smithy.api#documentation" : "The name of the proxy. The name must be unique within your account for the\nRegion. The valid characters are a-z, 0-9, and hyphens (-). You can't use a\nhyphen as the first or last character.",
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "(^[a-zA-Z0-9]+$|^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$)"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ProxyNetworkConfiguration" : {
+         "members" : {
+            "ipConfiguration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIpConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The IP configuration for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "vpcConfiguration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyVpcConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The VPC configuration for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The network configuration for a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyNetworkUserConfiguration" : {
+         "members" : {
+            "ipConfiguration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIpConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The IP configuration for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "vpcConfiguration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyVpcUserConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The VPC configuration for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The network configuration for a proxy, used by mutating operations."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyStatus" : {
+         "members" : {
+            "code" : {
+               "target" : "com.amazonaws.elbproxy#ProxyStatusCode",
+               "traits" : {
+                  "smithy.api#documentation" : "The status code of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reasons" : {
+               "target" : "com.amazonaws.elbproxy#ProxyStatusReasonList",
+               "traits" : {
+                  "smithy.api#documentation" : "The reasons for the current status of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The status of a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyStatusCode" : {
+         "members" : {
+            "ACTION_REQUIRED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy may be impaired and requires action.",
+                  "smithy.api#enumValue" : "action-required"
+               }
+            },
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is active.",
+                  "smithy.api#enumValue" : "active"
+               }
+            },
+            "CANCEL_UPDATE_IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is cancelling a version update and reverting to its previous version.",
+                  "smithy.api#enumValue" : "cancel-update-in-progress"
+               }
+            },
+            "CREATE_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy failed to create.",
+                  "smithy.api#enumValue" : "create-failed"
+               }
+            },
+            "CREATE_IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is being created.",
+                  "smithy.api#enumValue" : "create-in-progress"
+               }
+            },
+            "DELETED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy has been deleted.",
+                  "smithy.api#enumValue" : "deleted"
+               }
+            },
+            "DELETE_IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is being deleted.",
+                  "smithy.api#enumValue" : "delete-in-progress"
+               }
+            },
+            "UPDATE_IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The proxy is updating its version.",
+                  "smithy.api#enumValue" : "update-in-progress"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The status code of a proxy."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.elbproxy#ProxyStatusReason" : {
+         "members" : {
+            "code" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The status reason code.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The status reason message."
+               }
+            },
+            "target" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The target resource of the status reason."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A reason for the current status of a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyStatusReasonList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#ProxyStatusReason"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of proxy status reasons."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#ProxySummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.elbproxy#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy."
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the proxy was created."
+               }
+            },
+            "dnsName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The DNS name of the proxy."
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.elbproxy#ProxyName",
+               "traits" : {
+                  "smithy.api#documentation" : "The name of the proxy."
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.elbproxy#ProxyStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "The status of the proxy."
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.elbproxy#ProxyType",
+               "traits" : {
+                  "smithy.api#documentation" : "The type of proxy."
+               }
+            },
+            "vpcId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the VPC."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Summary information about a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxySummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#ProxySummary"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of proxy summaries."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#ProxyType" : {
+         "members" : {
+            "ENVOY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "envoy"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The type of proxy."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.elbproxy#ProxyUpdateDetails" : {
+         "members" : {
+            "configuration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyConfigurationUpdateDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "Details about an update to the proxy's configuration."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Details about a proxy update."
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.elbproxy#ProxyUpdateIdentifier" : {
+         "traits" : {
+            "smithy.api#documentation" : "The ID of a proxy update.",
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ProxyUpdatePropagationStatus" : {
+         "members" : {
+            "CANCELLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The update was cancelled before it was applied to all proxy nodes.",
+                  "smithy.api#enumValue" : "cancelled"
+               }
+            },
+            "COMPLETE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration was applied to all proxy nodes.",
+                  "smithy.api#enumValue" : "complete"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The update failed to apply.",
+                  "smithy.api#enumValue" : "failed"
+               }
+            },
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration is being applied to the proxy nodes.",
+                  "smithy.api#enumValue" : "in-progress"
+               }
+            },
+            "SKIPPED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "A newer update replaced this update before it was applied to all proxy\nnodes.",
+                  "smithy.api#enumValue" : "skipped"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Whether the configuration submitted with a proxy update was applied to all\nproxy nodes."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.elbproxy#ProxyUpdateState" : {
+         "members" : {
+            "propagationStatus" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdatePropagationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "Whether the configuration submitted with the update was applied to all\nproxy nodes.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reasons" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateStateReasonList",
+               "traits" : {
+                  "smithy.api#documentation" : "The reasons for the current state of the update."
+               }
+            },
+            "validationStatus" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateValidationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "Whether the configuration submitted with the update works. An update is\nvalid once it is successfully applied to at least one proxy node.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The state of a proxy update."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyUpdateStateReason" : {
+         "traits" : {
+            "smithy.api#documentation" : "A reason for the current state of a proxy update.",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ProxyUpdateStateReasonList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#ProxyUpdateStateReason"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of proxy update state reasons."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#ProxyUpdateSummary" : {
+         "members" : {
+            "completedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the update's propagation status became\n`complete`, `failed`, or `cancelled`. This value is absent while the\nupdate is `in-progress` or `skipped`."
+               }
+            },
+            "propagationStatus" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdatePropagationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "Whether the configuration submitted with the update was applied to all\nproxy nodes.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "submittedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the update was submitted.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateType",
+               "traits" : {
+                  "smithy.api#documentation" : "The type of the update.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updateId" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the update.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "validatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the update was first successfully applied to a\nproxy node. This value is absent until the update is valid."
+               }
+            },
+            "validationStatus" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateValidationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "Whether the configuration submitted with the update works.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Summary information about a proxy update."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyUpdateSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#ProxyUpdateSummary"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of proxy update summaries."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#ProxyUpdateType" : {
+         "members" : {
+            "UPDATE_PROXY_CONFIGURATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "An update to the proxy's configuration.",
+                  "smithy.api#enumValue" : "update-proxy-configuration"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The type of a proxy update."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.elbproxy#ProxyUpdateValidationStatus" : {
+         "members" : {
+            "INVALID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "Proxy nodes failed to apply the configuration.",
+                  "smithy.api#enumValue" : "invalid"
+               }
+            },
+            "NOT_VALIDATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "No proxy node has applied or rejected the configuration.",
+                  "smithy.api#enumValue" : "not-validated"
+               }
+            },
+            "VALID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration was successfully applied to at least one proxy node.",
+                  "smithy.api#enumValue" : "valid"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Whether the configuration submitted with a proxy update works."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.elbproxy#ProxyVersion" : {
+         "traits" : {
+            "smithy.api#documentation" : "The version of the proxy software, in `major.minor` format (for example, `1.37`).",
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^\\d+\\.\\d+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ProxyVersionSummary" : {
+         "members" : {
+            "type" : {
+               "target" : "com.amazonaws.elbproxy#ProxyType",
+               "traits" : {
+                  "smithy.api#documentation" : "The type of proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "version" : {
+               "target" : "com.amazonaws.elbproxy#ProxyVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "The version of the proxy software, in `major.minor` format.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Information about a proxy version."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyVersionSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#ProxyVersionSummary"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of proxy versions."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#ProxyVpcConfiguration" : {
+         "members" : {
+            "availabilityZones" : {
+               "target" : "com.amazonaws.elbproxy#SubnetAndZoneList",
+               "traits" : {
+                  "smithy.api#documentation" : "The Availability Zones used by the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "securityGroups" : {
+               "target" : "com.amazonaws.elbproxy#SecurityGroupDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "The security groups used by the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "vpcId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the VPC."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The VPC configuration for a proxy."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ProxyVpcUserConfiguration" : {
+         "members" : {
+            "securityGroups" : {
+               "target" : "com.amazonaws.elbproxy#SecurityGroupDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "The security groups used by the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "subnets" : {
+               "target" : "com.amazonaws.elbproxy#SubnetDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "The subnets used by the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The VPC configuration for a proxy, used by mutating operations."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Description of the error",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request references a resource that does not exist.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#SecurityGroupDetails" : {
+         "members" : {
+            "securityGroupId" : {
+               "target" : "com.amazonaws.elbproxy#SecurityGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the security group.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The details of a security group."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#SecurityGroupDetailsList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#SecurityGroupDetails"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of security group details.",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#SecurityGroupId" : {
+         "traits" : {
+            "smithy.api#documentation" : "The ID of an EC2 security group.",
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^sg-.+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Description of the error",
+                  "smithy.api#required" : {}
+               }
+            },
+            "quotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the service quota that was exceeded."
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the resource that caused the service quota to be exceeded."
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The type of the resource that caused the service quota to be exceeded."
+               }
+            },
+            "serviceCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The code of the service associated with the exceeded quota."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request would cause a service quota to be exceeded.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#SubnetAndZone" : {
+         "members" : {
+            "subnetId" : {
+               "target" : "com.amazonaws.elbproxy#SubnetId",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the subnet.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "zoneId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the Availability Zone.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "zoneName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The name of the Availability Zone (for example, `us-east-1a`)."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A subnet and its associated Availability Zone."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#SubnetAndZoneList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#SubnetAndZone"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of subnets and their associated Availability Zones."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#SubnetDetails" : {
+         "members" : {
+            "subnetId" : {
+               "target" : "com.amazonaws.elbproxy#SubnetId",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the subnet.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The details of a subnet."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#SubnetDetailsList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#SubnetDetails"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of subnet details.",
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#SubnetId" : {
+         "traits" : {
+            "smithy.api#documentation" : "The ID of an EC2 subnet.",
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^subnet-.+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#TagKey" : {
+         "traits" : {
+            "smithy.api#documentation" : "The key of a tag.",
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.elbproxy#TagKey"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of tag keys.",
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.elbproxy#TagMap" : {
+         "key" : {
+            "target" : "com.amazonaws.elbproxy#TagKey"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The tags for a resource, as a map of tag keys to tag values.",
+            "smithy.api#length" : {
+               "max" : 200
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.elbproxy#TagValue"
+         }
+      },
+      "com.amazonaws.elbproxy#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#TagResourceInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#TagResourceOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Adds the specified tags to the specified resource."
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#TagResourceInput" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.elbproxy#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the resource.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.elbproxy#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "The tags for the resource.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "ids" : {
+                     "proxyIdentifier" : "resourceArn"
+                  },
+                  "resource" : "com.amazonaws.elbproxy#Proxy"
+               }
+            ]
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#TagResourceOutput" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#TagValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "The value of a tag.",
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.elbproxy#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "Description of the error",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The limit on the number of requests per second was exceeded.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#UntagResourceInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#UntagResourceOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Removes the specified tags from the specified resource."
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#UntagResourceInput" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.elbproxy#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the resource.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tagKeys" : {
+               "target" : "com.amazonaws.elbproxy#TagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "The tag keys of the tags to remove.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {},
+            "smithy.api#references" : [
+               {
+                  "ids" : {
+                     "proxyIdentifier" : "resourceArn"
+                  },
+                  "resource" : "com.amazonaws.elbproxy#Proxy"
+               }
+            ]
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#UntagResourceOutput" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#UpdateProxyAttributes" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#UpdateProxyAttributesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#UpdateProxyAttributesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Updates the attributes for the specified proxy."
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#UpdateProxyAttributesRequest" : {
+         "members" : {
+            "attributes" : {
+               "target" : "com.amazonaws.elbproxy#ProxyAttributeList",
+               "traits" : {
+                  "smithy.api#documentation" : "The attributes to update. Attributes that you don't specify are unchanged.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#UpdateProxyAttributesResponse" : {
+         "members" : {
+            "attributes" : {
+               "target" : "com.amazonaws.elbproxy#ProxyAttributeDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "The attributes for the proxy after the update.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#UpdateProxyConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#PriorRequestNotCompletedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#UpdateProxyConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#UpdateProxyConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Updates the configuration for the specified proxy. You can update the\nconfiguration file, the configuration archive, or both."
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#UpdateProxyConfigurationRequest" : {
+         "members" : {
+            "configurationArchive" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationArchive",
+               "traits" : {
+                  "smithy.api#documentation" : "The updated configuration archive for the proxy. If you don't specify a\nvalue, the existing configuration archive is unchanged."
+               }
+            },
+            "configurationFile" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationFile",
+               "traits" : {
+                  "smithy.api#documentation" : "The updated configuration file for the proxy. If you don't specify a\nvalue, the existing configuration file is unchanged."
+               }
+            },
+            "customerKmsKeyArn" : {
+               "target" : "com.amazonaws.elbproxy#CustomerKmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the customer managed KMS key used to\nencrypt the proxy's configuration content. Specify a new ARN to set or\nrotate the key. If you don't specify a value, the existing key is\nunchanged."
+               }
+            },
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resetConfigurationArchive" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "Indicates whether to remove the configuration archive from the proxy."
+               }
+            },
+            "resetCustomerKmsKeyArn" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "Indicates whether to remove the customer managed KMS key from the proxy\nand use the default service-owned key."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#UpdateProxyConfigurationResponse" : {
+         "members" : {
+            "configurationMetadata" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration metadata for the proxy after the update.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "customerKmsKeyArn" : {
+               "target" : "com.amazonaws.elbproxy#CustomerKmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the customer managed KMS key used to\nencrypt the proxy's configuration content after the update. This value is\nabsent when the proxy uses the default service-owned key."
+               }
+            },
+            "updateId" : {
+               "target" : "com.amazonaws.elbproxy#ProxyUpdateIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The ID of the update that was submitted."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#UpdateProxyNetworkConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.elbproxy#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.elbproxy#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.elbproxy#UpdateProxyNetworkConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.elbproxy#UpdateProxyNetworkConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Updates the network configuration for the specified proxy."
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.elbproxy#UpdateProxyNetworkConfigurationRequest" : {
+         "members" : {
+            "proxyIdentifier" : {
+               "target" : "com.amazonaws.elbproxy#ProxyIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "vpcConfiguration" : {
+               "target" : "com.amazonaws.elbproxy#UpdateProxyVpcConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The updated VPC configuration for the proxy.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#UpdateProxyNetworkConfigurationResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.elbproxy#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the proxy."
+               }
+            },
+            "configurationMetadata" : {
+               "target" : "com.amazonaws.elbproxy#ConfigurationMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "The configuration metadata for the proxy."
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "The date and time that the proxy was created."
+               }
+            },
+            "customerKmsKeyArn" : {
+               "target" : "com.amazonaws.elbproxy#CustomerKmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the customer managed KMS key used to\nencrypt the proxy's configuration content. This value is absent when the\nproxy uses the default service-owned key."
+               }
+            },
+            "dnsName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "The DNS name of the proxy."
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.elbproxy#ProxyName",
+               "traits" : {
+                  "smithy.api#documentation" : "The name of the proxy."
+               }
+            },
+            "networkConfiguration" : {
+               "target" : "com.amazonaws.elbproxy#ProxyNetworkConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "The network configuration for the proxy."
+               }
+            },
+            "proxyVersion" : {
+               "target" : "com.amazonaws.elbproxy#ProxyVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "The version of the proxy software."
+               }
+            },
+            "roleArn" : {
+               "target" : "com.amazonaws.elbproxy#IamRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "The Amazon Resource Name (ARN) of the IAM role that provides permissions to\nthe code that your Envoy configuration runs on the proxy, such as filters and\nextensions. These are the permissions that this code needs when it calls AWS\nservices."
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.elbproxy#ProxyStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "The status of the proxy."
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.elbproxy#ProxyType",
+               "traits" : {
+                  "smithy.api#documentation" : "The type of proxy."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Common Proxy details response mixin",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#UpdateProxyVpcConfiguration" : {
+         "members" : {
+            "securityGroups" : {
+               "target" : "com.amazonaws.elbproxy#SecurityGroupDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "The updated security groups for the proxy."
+               }
+            },
+            "subnets" : {
+               "target" : "com.amazonaws.elbproxy#SubnetDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "The updated subnets for the proxy."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The updated VPC configuration for a proxy. You must provide at least one of\n`subnets` or `securityGroups`."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ValidationException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.elbproxy#ValidationExceptionMessage"
+            }
+         },
+         "traits" : {
+            "aws.protocols#awsQueryError" : {
+               "code" : "ValidationError",
+               "httpResponseCode" : 400
+            },
+            "smithy.api#documentation" : "The input does not satisfy the constraints specified by an AWS service.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elbproxy#ValidationExceptionMessage" : {
+         "type" : "string"
+      }
+   },
+   "smithy" : "2.0"
+}

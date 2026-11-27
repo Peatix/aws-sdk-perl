@@ -1,0 +1,1362 @@
+{
+   "shapes" : {
+      "com.amazonaws.agentdiscovery#ArdErrorCode" : {
+         "members" : {
+            "INTERNAL_ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INTERNAL_ERROR"
+               }
+            },
+            "INVALID_ARGUMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INVALID_ARGUMENT"
+               }
+            },
+            "NOT_FOUND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NOT_FOUND"
+               }
+            },
+            "RATE_LIMIT_EXCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RATE_LIMIT_EXCEEDED"
+               }
+            },
+            "UNAUTHENTICATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UNAUTHENTICATED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "ARD's error classification (Appendix B). Values are ARD's, uppercase on the wire."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentdiscovery#BelfryGlobalDP" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.agentdiscovery#SearchPublicRecords"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "agent-discovery",
+               "sdkId" : "Agent Discovery"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "agent-discovery"
+            },
+            "aws.iam#disableConditionKeyInference" : {},
+            "aws.iam#supportedPrincipalTypes" : [
+               "Root",
+               "IAMUser",
+               "IAMRole",
+               "FederatedUser"
+            ],
+            "aws.protocols#restJson1" : {},
+            "smithy.api#auth" : [
+               "aws.auth#sigv4"
+            ],
+            "smithy.api#documentation" : "Agent Discovery lets you search public records for AI agents, tools, skills, and other resources\nthat their publishers have made discoverable.",
+            "smithy.api#title" : "Agent Discovery",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        },
+                        "us-east-1"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        },
+                        "eu-west-1"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        },
+                        "ap-northeast-1"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 11,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAoAAAADAAAAAQAAAAQF9eEKAAAAAgAAAAUF9eEKAAAAAwX14QQAAAAGAAAABAX14QUAAAAHAAAABQX14QYAAAAIAAAABgX14QcAAAAJAAAABwX14QgF9eEJAAAAAwX14QEAAAALAAAABwX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS Region the client is configured for. us-east-1, eu-west-1 and ap-northeast-1 resolve to their own Regional endpoint; any other Region resolves to the standard Regional pattern, which Agent Discovery does not serve.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, send the request to a dual-stack endpoint. Agent Discovery's Regional endpoints already are, so they resolve unchanged.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send the request to a FIPS-compliant endpoint. Agent Discovery has none, so this is an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but Agent Discovery does not have a FIPS endpoint",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "agent-discovery",
+                                 "signingRegion" : "us-east-1"
+                              }
+                           ]
+                        },
+                        "url" : "https://agent-discovery.us-east-1.api.aws"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "agent-discovery",
+                                 "signingRegion" : "eu-west-1"
+                              }
+                           ]
+                        },
+                        "url" : "https://agent-discovery.eu-west-1.api.aws"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "agent-discovery",
+                                 "signingRegion" : "ap-northeast-1"
+                              }
+                           ]
+                        },
+                        "url" : "https://agent-discovery.ap-northeast-1.api.aws"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://agent-discovery.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "documentation" : "Any other Region, in any partition, gets the standard Regional pattern, which is not deployed.",
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://agent-discovery.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request.",
+                     "required" : false,
+                     "type" : "String"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS Region the client is configured for. us-east-1, eu-west-1 and ap-northeast-1 resolve to their own Regional endpoint; any other Region resolves to the standard Regional pattern, which Agent Discovery does not serve.",
+                     "required" : false,
+                     "type" : "String"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, send the request to a dual-stack endpoint. Agent Discovery's Regional endpoints already are, so they resolve unchanged.",
+                     "required" : true,
+                     "type" : "Boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send the request to a FIPS-compliant endpoint. Agent Discovery has none, so this is an error.",
+                     "required" : true,
+                     "type" : "Boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "documentation" : "An explicit endpoint override wins.",
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseDualStack"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Region"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        },
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Region"
+                              }
+                           ],
+                           "assign" : "PartitionResult",
+                           "fn" : "aws.partition"
+                        }
+                     ],
+                     "documentation" : "Any Region: its own Regional endpoint where Agent Discovery serves, the standard pattern elsewhere.",
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "FIPS is enabled but Agent Discovery does not have a FIPS endpoint",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    },
+                                    "us-east-1"
+                                 ],
+                                 "fn" : "stringEquals"
+                              }
+                           ],
+                           "documentation" : "us-east-1 serves Agent Discovery.",
+                           "endpoint" : {
+                              "properties" : {
+                                 "authSchemes" : [
+                                    {
+                                       "name" : "sigv4",
+                                       "signingName" : "agent-discovery",
+                                       "signingRegion" : "us-east-1"
+                                    }
+                                 ]
+                              },
+                              "url" : "https://agent-discovery.us-east-1.api.aws"
+                           },
+                           "type" : "endpoint"
+                        },
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    },
+                                    "eu-west-1"
+                                 ],
+                                 "fn" : "stringEquals"
+                              }
+                           ],
+                           "documentation" : "eu-west-1 serves Agent Discovery.",
+                           "endpoint" : {
+                              "properties" : {
+                                 "authSchemes" : [
+                                    {
+                                       "name" : "sigv4",
+                                       "signingName" : "agent-discovery",
+                                       "signingRegion" : "eu-west-1"
+                                    }
+                                 ]
+                              },
+                              "url" : "https://agent-discovery.eu-west-1.api.aws"
+                           },
+                           "type" : "endpoint"
+                        },
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    },
+                                    "ap-northeast-1"
+                                 ],
+                                 "fn" : "stringEquals"
+                              }
+                           ],
+                           "documentation" : "ap-northeast-1 serves Agent Discovery.",
+                           "endpoint" : {
+                              "properties" : {
+                                 "authSchemes" : [
+                                    {
+                                       "name" : "sigv4",
+                                       "signingName" : "agent-discovery",
+                                       "signingRegion" : "ap-northeast-1"
+                                    }
+                                 ]
+                              },
+                              "url" : "https://agent-discovery.ap-northeast-1.api.aws"
+                           },
+                           "type" : "endpoint"
+                        },
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseDualStack"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "documentation" : "Any other Region with dual-stack gets the partition's dual-stack Regional pattern, which is not deployed.",
+                           "endpoint" : {
+                              "url" : "https://agent-discovery.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                           },
+                           "type" : "endpoint"
+                        },
+                        {
+                           "conditions" : [],
+                           "documentation" : "Any other Region, in any partition, gets the standard Regional pattern, which is not deployed.",
+                           "endpoint" : {
+                              "url" : "https://agent-discovery.{Region}.{PartitionResult#dnsSuffix}"
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "us-east-1 resolves to its own Regional endpoint and signs for us-east-1",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingName" : "agent-discovery",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://agent-discovery.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "ap-northeast-1 resolves to its own Regional endpoint and signs for ap-northeast-1",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingName" : "agent-discovery",
+                                    "signingRegion" : "ap-northeast-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://agent-discovery.ap-northeast-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ap-northeast-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "An aws Region where Agent Discovery doesn't serve gets the standard pattern, not another Region's endpoint",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://agent-discovery.us-west-2.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-west-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "eu-west-1 resolves to its own Regional endpoint and signs for eu-west-1",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingName" : "agent-discovery",
+                                    "signingRegion" : "eu-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://agent-discovery.eu-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-west-1"
+                     }
+                  },
+                  {
+                     "documentation" : "A Region in the aws-cn partition gets the standard Regional pattern",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://agent-discovery.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "A Region in the aws-us-gov partition gets the standard Regional pattern, not the commercial global endpoint",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://agent-discovery.us-gov-west-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "FIPS is an error",
+                     "expect" : {
+                        "error" : "FIPS is enabled but Agent Discovery does not have a FIPS endpoint"
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "Dual-stack resolves to the same Regional endpoint, which is already dual-stack",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingName" : "agent-discovery",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://agent-discovery.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Dual-stack in a Region Agent Discovery doesn't serve gets the dual-stack standard pattern",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://agent-discovery.us-west-2.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-west-2",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "An endpoint override wins over the Region",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "An endpoint override needs no Region",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "An endpoint override with FIPS is an error",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "An endpoint override with dual-stack is an error",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "No Region and no endpoint override is an error",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     },
+                     "params" : {
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2022-07-26"
+      },
+      "com.amazonaws.agentdiscovery#DescriptorEntry" : {
+         "members" : {
+            "additionalData" : {
+               "target" : "com.amazonaws.agentdiscovery#DescriptorMap",
+               "traits" : {
+                  "smithy.api#documentation" : "Nested sub-descriptors keyed by slot name (e.g. `tools`, `skillMd`)."
+               }
+            },
+            "data" : {
+               "target" : "com.amazonaws.agentdiscovery#descriptorData",
+               "traits" : {
+                  "smithy.api#documentation" : "Inline descriptor content (JSON string)."
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.agentdiscovery#DescriptorSource",
+               "traits" : {
+                  "smithy.api#documentation" : "Reference to externally-hosted descriptor content."
+               }
+            },
+            "version" : {
+               "target" : "com.amazonaws.agentdiscovery#descriptorTypeVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "Descriptor type version."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A descriptor slot value (A2A card, MCP server card, skills definition, custom). Content is\neither inline (`data`) or a reference (`source`). `additionalData` carries nested sub-descriptors\n(e.g. mcpServer.tools, agentSkillsDefinition.skillMd)."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#DescriptorMap" : {
+         "key" : {
+            "target" : "com.amazonaws.agentdiscovery#descriptorSlotKey"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Keyed descriptor slots (Vestry DescriptorsV2 = Map<String, DescriptorEntry>). A record carries one\nslot per descriptor type it publishes, and `additionalData` one per named sub-descriptor, so 32 is\nwell above any real record. A PutRecord over the cap is a 400.",
+            "smithy.api#length" : {
+               "max" : 32
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.agentdiscovery#DescriptorEntry"
+         }
+      },
+      "com.amazonaws.agentdiscovery#DescriptorSource" : {
+         "members" : {
+            "fromUrl" : {
+               "target" : "com.amazonaws.agentdiscovery#DescriptorSourceUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "The URL that hosts the descriptor content."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Reference to descriptor content hosted at a URL."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#DescriptorSourceUrl" : {
+         "members" : {
+            "url" : {
+               "target" : "com.amazonaws.agentdiscovery#url",
+               "traits" : {
+                  "smithy.api#documentation" : "The URL of the externally hosted descriptor content.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A URL that hosts descriptor content."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#DomainName" : {
+         "traits" : {
+            "smithy.api#documentation" : "FQDN per RFC-1035/1123, case-insensitive, at least two labels.",
+            "smithy.api#length" : {
+               "max" : 253,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(?=.{1,253}$)([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#Identifier" : {
+         "members" : {
+            "domain" : {
+               "target" : "com.amazonaws.agentdiscovery#DomainName",
+               "traits" : {
+                  "smithy.api#documentation" : "Verified domain (e.g. example.com)."
+               }
+            },
+            "uri" : {
+               "target" : "com.amazonaws.agentdiscovery#identifierUri",
+               "traits" : {
+                  "smithy.api#documentation" : "Arbitrary resolvable URI (urn / url / did)."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The resolvable identifier value. Discriminated union — exactly one member is set."
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.agentdiscovery#InternalServerException" : {
+         "members" : {
+            "errorCode" : {
+               "target" : "com.amazonaws.agentdiscovery#ArdErrorCode",
+               "traits" : {
+                  "smithy.api#documentation" : "ARD's Appendix B code on the ARD surface, `INTERNAL_ERROR`."
+               }
+            },
+            "message" : {
+               "target" : "com.amazonaws.agentdiscovery#errorMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Thrown on an internal defect — a bug or malformed state, not a failed dependency.\n\n<p>⚠️ Deliberately a **permanent** failure. Repeating a request that failed to serialize will fail\nidentically, so treating a 500 as retryable would spin a poison message through redelivery forever\ninstead of letting it reach a dead-letter queue. Dependency failures that *are* worth retrying use\n`ServiceUnavailableException` and its 503 instead.",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#ProvenanceLink" : {
+         "members" : {
+            "relation" : {
+               "target" : "com.amazonaws.agentdiscovery#ProvenanceRelation",
+               "traits" : {
+                  "smithy.api#documentation" : "How the contributor got the record.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sourceId" : {
+               "target" : "com.amazonaws.agentdiscovery#trustUri",
+               "traits" : {
+                  "smithy.api#documentation" : "The source of the record. Not always a URI. On `publishedFrom` it's the value of the record's\n`identifier` union member, `identifier.uri` or `identifier.domain`, unchanged. On `discoveredFrom` it's\nthe name the registry gave the partner source when it was configured for crawling, not a URL.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Lineage of a record (AI Catalog Provenance Link Object), with only its required members."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#ProvenanceLinkList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentdiscovery#ProvenanceLink"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentdiscovery#ProvenanceRelation" : {
+         "members" : {
+            "DISCOVERED_FROM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "Discovered by the registry at a partner source.",
+                  "smithy.api#enumValue" : "discoveredFrom"
+               }
+            },
+            "FEDERATED_FROM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "Received from a peer registry.",
+                  "smithy.api#enumValue" : "federatedFrom"
+               }
+            },
+            "PUBLISHED_FROM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "Published to the registry by the record's owner.",
+                  "smithy.api#enumValue" : "publishedFrom"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A provenance link's `relation`, in AI Catalog's verb-phrase style (AI Catalog leaves it free text), and the\nvalue of an ARD entry's `com.amazon.route53.registry.origin` extension. The `provenance` filter on\nSearchPublicRecords and ARD takes these values or `authoritative`, `discovered` and `federated`, in any case."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentdiscovery#PublicRecord" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "When the record was created."
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.agentdiscovery#description",
+               "traits" : {
+                  "smithy.api#documentation" : "A description of the record."
+               }
+            },
+            "descriptors" : {
+               "target" : "com.amazonaws.agentdiscovery#DescriptorMap",
+               "traits" : {
+                  "smithy.api#documentation" : "Every PUBLIC descriptor slot the record was published with, as published: each slot's `source`,\ninline `data`, `version` and nested `additionalData`, the `custom` slot included. Absent on a record\ndiscovered at a partner source; ARD serves the partner's cards."
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.agentdiscovery#displayName",
+               "traits" : {
+                  "smithy.api#documentation" : "The record's display name.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "domain" : {
+               "target" : "com.amazonaws.agentdiscovery#DomainName"
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.agentdiscovery#Identifier",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordType" : {
+               "target" : "com.amazonaws.agentdiscovery#RecordType",
+               "traits" : {
+                  "smithy.api#documentation" : "The kind of resource the record describes, such as an agent, a tool, or a skill.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recordVersion" : {
+               "target" : "com.amazonaws.agentdiscovery#recordVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "The record's version string, set by its publisher. Left off when the record has none, for example\na discovered record whose source carries no version."
+               }
+            },
+            "trustManifests" : {
+               "target" : "com.amazonaws.agentdiscovery#TrustManifestList",
+               "traits" : {
+                  "smithy.api#documentation" : "Trust Manifests (AI Catalog Trust Manifest Object), today only the registry's own, `contributor`\n`did:web:agent-registry.global.api.aws`. Its one provenance link says how the registry got the record:\n`relation` is `publishedFrom` for a record its owner published and `discoveredFrom` for one the registry\ndiscovered at a partner source, with `sourceId` as `ProvenanceLink.sourceId` describes. The `provenance`\nfilter takes the same values (see `ProvenanceRelation`). It's left off when the registry can't name the\nsource: a `federatedFrom` record until the index carries the peer registry, a discovered record with no\nsource, or a missing or unknown origin. The manifest is unsigned, so it attributes the claim to the\nregistry and doesn't authenticate it."
+               }
+            },
+            "updatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "When the record was last updated."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A public record returned by search. Only the record's public descriptors are included."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#PublicRecordList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentdiscovery#PublicRecord"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentdiscovery#RecordType" : {
+         "members" : {
+            "AGENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AGENT"
+               }
+            },
+            "CUSTOM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOM"
+               }
+            },
+            "GATEWAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GATEWAY"
+               }
+            },
+            "SKILL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SKILL"
+               }
+            },
+            "TOOL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TOOL"
+               }
+            },
+            "WEB_BOT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WEB_BOT"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.agentdiscovery#SearchFilterExpression" : {
+         "traits" : {
+            "smithy.api#documentation" : "SearchPublicRecords' `filters`: an object of field → `{operator: value}`, or one `$and`/`$or` key holding an\narray of such objects. A document because a value is a string or an array depending on the operator."
+         },
+         "type" : "document"
+      },
+      "com.amazonaws.agentdiscovery#SearchPublicRecords" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.agentdiscovery#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.agentdiscovery#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.agentdiscovery#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.agentdiscovery#SearchPublicRecordsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.agentdiscovery#SearchPublicRecordsResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to search public agent registry records"
+            },
+            "smithy.api#documentation" : "Search public agent records across the authoritative + crawler indexes. Hybrid keyword +\nneural ranking, merged and fused (weighted RRF), with filters, org governance policy, and\ndescriptor-visibility enforcement applied server-side. Public, authenticated (D-1).",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/records/search"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "records",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "SearchPublicRecordsSuccess",
+                  "params" : {
+                     "maxResults" : 1,
+                     "searchQuery" : "agent"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               },
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "SearchPublicRecordsSuccessEuWest1",
+                  "params" : {
+                     "maxResults" : 1,
+                     "searchQuery" : "agent"
+                  },
+                  "vendorParams" : {
+                     "region" : "eu-west-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               },
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "SearchPublicRecordsSuccessApNortheast1",
+                  "params" : {
+                     "maxResults" : 1,
+                     "searchQuery" : "agent"
+                  },
+                  "vendorParams" : {
+                     "region" : "ap-northeast-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.agentdiscovery#SearchPublicRecordsRequest" : {
+         "members" : {
+            "filters" : {
+               "target" : "com.amazonaws.agentdiscovery#SearchFilterExpression",
+               "traits" : {
+                  "smithy.api#documentation" : "Structured filter narrowing the results, in the grammar of Agent Registry's\nSearchDiscoverableRegistryRecords `filters`: `$eq`, `$ne` and `$in` on a field, with `$and` or `$or`\nover single-condition objects, never nested. Fields are `identifier`, `domain`, `recordType`,\n`descriptorType`, `provenance` and `recordVersion`, and `identifier` also takes `$prefix`. For example\n`{\"recordType\": {\"$eq\": \"AGENT\"}}` or\n`{\"$or\": [{\"recordType\": {\"$eq\": \"MCP\"}}, {\"domain\": {\"$eq\": \"acme.com\"}}]}`.\n\n<p>Limits, the same ones Agent Registry applies: at most 10 conditions, `$in` takes 1-25 values, values\nare strings of 1-512 characters, and `{}` is invalid. A `document` can't carry `@length`, so the service\nenforces these and answers a filter past them with a ValidationException, as Agent Registry does."
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.agentdiscovery#maxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "Max records per page. Default 20, max 100."
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.agentdiscovery#nextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "Opaque composite-cursor pagination token (O-DM12)."
+               }
+            },
+            "searchQuery" : {
+               "target" : "com.amazonaws.agentdiscovery#searchQuery",
+               "traits" : {
+                  "smithy.api#documentation" : "Free-text natural-language query (ARD `text`). Drives semantic + lexical ranking.",
+                  "smithy.api#jsonName" : "query"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#SearchPublicRecordsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.agentdiscovery#nextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "The token to pass in a later request to get the next page of results. Absent when there are no\nmore results."
+               }
+            },
+            "records" : {
+               "target" : "com.amazonaws.agentdiscovery#PublicRecordList",
+               "traits" : {
+                  "smithy.api#documentation" : "The records that match the search, most relevant first.",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#ThrottlingException" : {
+         "members" : {
+            "errorCode" : {
+               "target" : "com.amazonaws.agentdiscovery#ArdErrorCode"
+            },
+            "message" : {
+               "target" : "com.amazonaws.agentdiscovery#errorMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Thrown when the caller exceeds a rate/burst limit (D-9). ARD's code for it is `RATE_LIMIT_EXCEEDED`.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#TrustManifest" : {
+         "members" : {
+            "contributor" : {
+               "target" : "com.amazonaws.agentdiscovery#trustUri",
+               "traits" : {
+                  "smithy.api#documentation" : "Absolute URI of the contributor these claims are attributed to.",
+                  "smithy.api#required" : {}
+               }
+            },
+            "provenance" : {
+               "target" : "com.amazonaws.agentdiscovery#ProvenanceLinkList",
+               "traits" : {
+                  "smithy.api#documentation" : "The record's lineage as the contributor states it: how the contributor got the record, and from\nwhich source."
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "One contributor's trust metadata about a record (AI Catalog Trust Manifest Object), with only the\nmembers the registry sets. AI Catalog's other members (`subject`, `signature`, `trustSchema`,\n`attestations`, `extensions`) are optional, so each can be added when something sets it."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#TrustManifestList" : {
+         "member" : {
+            "target" : "com.amazonaws.agentdiscovery#TrustManifest"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Capped like `ArdTrustManifestList`. AI Catalog sets no count.",
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.agentdiscovery#ValidationException" : {
+         "members" : {
+            "errorCode" : {
+               "target" : "com.amazonaws.agentdiscovery#ArdErrorCode"
+            },
+            "message" : {
+               "target" : "com.amazonaws.agentdiscovery#errorMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Thrown when a request fails input validation.\n\n<p>`errorCode` carries ARD's Appendix B code, `INVALID_ARGUMENT`, which ARD's OpenAPI makes a required\nmember of every error body on the ARD surface. The Amazon-shaped and internal surfaces leave it unset.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.agentdiscovery#description" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 4096,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#descriptorData" : {
+         "traits" : {
+            "smithy.api#documentation" : "Inline descriptor content (opaque JSON string).",
+            "smithy.api#length" : {
+               "max" : 131072,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#descriptorSlotKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#descriptorTypeVersion" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#displayName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#errorMessage" : {
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#identifierUri" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#maxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.agentdiscovery#nextToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#recordVersion" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#searchQuery" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#trustUri" : {
+         "traits" : {
+            "smithy.api#documentation" : "A URI or other identifier in a Trust Manifest: a contributor or a source.",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.agentdiscovery#url" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      }
+   },
+   "smithy" : "2.0"
+}
