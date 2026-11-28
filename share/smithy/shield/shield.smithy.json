@@ -156,6 +156,7 @@
             "smithy.api#xmlNamespace" : {
                "uri" : "http://ddp.amazonaws.com/doc/2016-06-02/"
             },
+            "smithy.protocols#rpcv2Cbor" : {},
             "smithy.rules#endpointBdd" : {
                "conditions" : [
                   {

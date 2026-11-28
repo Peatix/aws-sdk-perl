@@ -1,0 +1,2115 @@
+{
+   "shapes" : {
+      "com.amazonaws.connectscheduling#ARN" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectscheduling#AccessDeniedException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.connectscheduling#Message",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>You do not have sufficient permissions to perform this action.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#ActorInfo" : {
+         "members" : {
+            "AWSIdentityArn" : {
+               "target" : "com.amazonaws.connectscheduling#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IAM or AWS STS ARN of the identity that performed the action. Present when that identity is not a Connect Customer user.</p>"
+               }
+            },
+            "ConnectUserArn" : {
+               "target" : "com.amazonaws.connectscheduling#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Connect Customer user who performed the action.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the identity that performed an action on a time off request: a Connect Customer user or an IAM or AWS STS identity. Exactly one member is set.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.connectscheduling#AmazonConnectScheduling" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.connectscheduling#ApproveTimeOff"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#CancelTimeOff"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#CreateTimeOff"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#GetTimeOff"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#PutTimeOffBalance"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#RejectTimeOff"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "connect",
+               "cloudTrailEventSource" : "connect.amazonaws.com",
+               "sdkId" : "ConnectScheduling"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "connect"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#documentation" : "<ul> <li> <p> <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_Operations_Amazon_Connect_Scheduling.html\">Scheduling actions</a> </p> </li> <li> <p> <a href=\"https://docs.aws.amazon.com/connect/latest/APIReference/API_Types_Amazon_Connect_Scheduling.html\">Scheduling data types</a> </p> </li> </ul> <p>Use the Amazon Connect Scheduling API to work programmatically with Connect Customer forecasting, capacity planning, and scheduling, and to integrate these capabilities with your own systems. In the Connect Customer admin website, you use them to forecast contact volume, plan capacity, and create and manage agent schedules.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/forecasting-capacity-planning-scheduling.html\">Forecasting &amp; agent scheduling</a> in the <i>Connect Customer Administrator Guide</i>.</p>",
+            "smithy.api#title" : "Amazon Connect Scheduling",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://connect-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://connect-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://connect.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://connect.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                 "type" : "error"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : {
+                                       "ref" : "Endpoint"
+                                    }
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                },
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://connect-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      true
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://connect-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS is enabled but this partition does not support FIPS",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://connect.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://connect.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2026-07-16"
+      },
+      "com.amazonaws.connectscheduling#ApprovalType" : {
+         "members" : {
+            "AUTOMATIC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Connect Customer decides the request itself, with no second decision call needed. The request may be <code>PENDING</code> while that decision is processed, then ends <code>APPROVED</code> or <code>REJECTED</code>. Does not bypass rule evaluation.</p>",
+                  "smithy.api#enumValue" : "AUTOMATIC"
+               }
+            },
+            "AWAIT_APPROVAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request is created in <code>AWAITING_APPROVAL</code> and rests there until an explicit <code>ApproveTimeOff</code> or <code>RejectTimeOff</code> call decides it.</p>",
+                  "smithy.api#enumValue" : "AWAIT_APPROVAL"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Controls who approves a time off request. Use it on <code>CreateTimeOff</code> only, because <code>ApproveTimeOff</code> already names its own decision. <code>AWAIT_APPROVAL</code> waits for an <code>ApproveTimeOff</code> or <code>RejectTimeOff</code> call. <code>AUTOMATIC</code> has Connect Customer decide the request.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connectscheduling#ApproveTimeOff" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectscheduling#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectscheduling#ApproveTimeOffRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectscheduling#ApproveTimeOffResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Approves a time off request. Evaluates agent time off balances and group time off allowances before approving. <code>RuleFailureAction</code> controls what happens when these evaluations fail. The request is rejected with <code>CONFLICTING_TIME_OFF_REQUEST</code> if it overlaps another time off request for the user that is <code>APPROVED</code> or being approved.</p> <p>The time off request is processed asynchronously, so a successful call doesn't indicate the final status. Read the resulting status with <code>GetTimeOff</code> or from the time off state-change events.</p> <p>Approving an <code>APPROVED</code> request succeeds without a change. Approving a <code>REJECTED</code> request evaluates the rules again, so it can end <code>APPROVED</code> or <code>REJECTED</code>, and repeating the call can give a different result. Check the status with <code>GetTimeOff</code> before you retry.</p> <p>Returns <code>ConflictException</code> if the request is <code>PENDING</code> or <code>CANCELLED</code>. <code>PENDING</code> means Connect Customer is still processing the request asynchronously. Wait until <code>GetTimeOff</code> returns a status other than <code>PENDING</code>, and then retry.</p> <important> <p>When the approval succeeds, Connect Customer cancels any overtime or voluntary time off activity that overlaps the approved window.</p> </important> <note> <p>Connect Customer doesn't check whether the principal that calls this operation supervises the user. The staffing group's approval settings also don't apply. IAM permissions are the only control. If you allow a principal to call this operation, that principal can send <code>RuleFailureAction</code> <code>OVERRIDE</code> and approve a request past failed rules. Grant permission for this operation only to principals that you trust to override time off rules.</p> </note>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/scheduling/instances/{InstanceId}/users/{UserId}/timeoffs/{TimeOffId}/approve"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectscheduling#ApproveTimeOffRequest" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.connectscheduling#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description recorded with the approval. <code>GetTimeOff</code> doesn't return it.</p>"
+               }
+            },
+            "InstanceId" : {
+               "target" : "com.amazonaws.connectscheduling#InstanceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. This can be the ID or the ARN of the instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "RuleFailureAction" : {
+               "target" : "com.amazonaws.connectscheduling#RuleFailureAction",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Controls what happens when a configured rule fails. <code>REJECT</code>, the default, records an <code>ERROR</code> and leaves the request <code>REJECTED</code>. <code>OVERRIDE</code> records a <code>WARNING</code> and approves the request, like the <i>Override time off rules</i> option in the Connect Customer admin website. <code>OVERRIDE</code> never waives <code>CONFLICTING_TIME_OFF_REQUEST</code>.</p>"
+               }
+            },
+            "TimeOffId" : {
+               "target" : "com.amazonaws.connectscheduling#TimeOffId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the time off request to approve. If the time off request doesn't belong to <code>UserId</code>, the operation returns <code>ResourceNotFoundException</code>.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserId" : {
+               "target" : "com.amazonaws.connectscheduling#UserIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who the time off request belongs to. This can be the ID or the ARN of the user.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request for <code>ApproveTimeOff</code>.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#ApproveTimeOffResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for <code>ApproveTimeOff</code>.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#CancelTimeOff" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectscheduling#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectscheduling#CancelTimeOffRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectscheduling#CancelTimeOffResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Cancels a time off request.</p> <p>Cancelling a <code>CANCELLED</code> request succeeds without a change. Returns <code>ConflictException</code> if the request is <code>PENDING</code>, which means Connect Customer is still processing the request asynchronously. Wait until <code>GetTimeOff</code> returns a status other than <code>PENDING</code>, and then retry.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/scheduling/instances/{InstanceId}/users/{UserId}/timeoffs/{TimeOffId}/cancel"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectscheduling#CancelTimeOffRequest" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.connectscheduling#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description recorded with the cancellation. It replaces the description of the time off request. If you omit it, the request's description is removed.</p>"
+               }
+            },
+            "InstanceId" : {
+               "target" : "com.amazonaws.connectscheduling#InstanceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. This can be the ID or the ARN of the instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "TimeOffId" : {
+               "target" : "com.amazonaws.connectscheduling#TimeOffId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the time off request to cancel. If the time off request doesn't belong to <code>UserId</code>, the operation returns <code>ResourceNotFoundException</code>.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserId" : {
+               "target" : "com.amazonaws.connectscheduling#UserIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who the time off request belongs to. This can be the ID or the ARN of the user.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request for <code>CancelTimeOff</code>.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#CancelTimeOffResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for <code>CancelTimeOff</code>.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#ClientToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 500,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectscheduling#ConflictException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.connectscheduling#Message",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier or ARN of the resource that is in conflict.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource that is in conflict.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request could not be processed because of a conflict with the current state of the resource.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#CreateTimeOff" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectscheduling#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectscheduling#CreateTimeOffRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectscheduling#CreateTimeOffResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a time off request for a user. You don't provide a status, because Connect Customer owns the request lifecycle. To get the decided status, call <code>GetTimeOff</code> or use the time off state-change events.</p> <p> <code>ApprovalType</code> controls who approves the request. You can specify one of the following values:</p> <ul> <li> <p> <code>AWAIT_APPROVAL</code>: the request waits in <code>AWAITING_APPROVAL</code> until you call <code>ApproveTimeOff</code> or <code>RejectTimeOff</code>. Rule evaluation and the overlap check run at approval, not at creation. A waiting request doesn't reserve its window, so another request for the same window can be approved first.</p> </li> <li> <p> <code>AUTOMATIC</code>: Connect Customer evaluates the rules (time off balances and group allowances) and decides the request. The request can be <code>PENDING</code> while Connect Customer decides, and then ends <code>APPROVED</code> or <code>REJECTED</code>. If it overlaps another time off request for the user, the requested time off ends <code>REJECTED</code> with <code>CONFLICTING_TIME_OFF_REQUEST</code>. It also ends <code>REJECTED</code> if it overlaps overtime or voluntary time off. If the whole window is in the past, Connect Customer records failed rules as <code>WARNING</code> and doesn't reject the request, whatever the <code>RuleFailureAction</code>.</p> </li> </ul> <p>The staffing group's <i>Supervisor approval needed</i> setting doesn't apply to this operation. <code>ApprovalType</code> alone decides whether the request waits for approval. The operation fails with <code>ValidationException</code> on <code>UserId</code> in the following cases:</p> <ul> <li> <p>The user isn't in a staffing group, or the staffing group isn't associated with a forecast group.</p> </li> <li> <p>Time off isn't <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/enable-to.html\">enabled</a> for the user's staffing group, or the user's staff rules don't allow time off.</p> </li> </ul> <p>To change the dates of a request, cancel it with <code>CancelTimeOff</code> and create a new request. The new request has a new <code>TimeOffId</code>.</p> <note> <p>Connect Customer doesn't check whether the principal that calls this operation supervises the user. The staffing group's approval settings also don't apply. IAM permissions are the only control. If you allow a principal to call this operation, that principal can send <code>ApprovalType</code> <code>AUTOMATIC</code> with <code>RuleFailureAction</code> <code>OVERRIDE</code> and approve a request past failed rules. Grant permission for this operation only to principals that you trust to override time off rules.</p> </note> <p>For information about time off in the Connect Customer admin website, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/scheduling-time-off.html\">Time off management</a> in the <i>Connect Customer Administrator Guide</i>.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/scheduling/instances/{InstanceId}/users/{UserId}/timeoffs"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectscheduling#CreateTimeOffRequest" : {
+         "members" : {
+            "ApprovalType" : {
+               "target" : "com.amazonaws.connectscheduling#ApprovalType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Controls who approves the request. <code>AWAIT_APPROVAL</code> waits for an <code>ApproveTimeOff</code> or <code>RejectTimeOff</code> call. <code>AUTOMATIC</code> has Connect Customer decide the request. For details, see <code>CreateTimeOff</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ClientToken" : {
+               "target" : "com.amazonaws.connectscheduling#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, Connect Customer returns the result of that request and doesn't create another time off request. If you don't provide a token, the AWS SDK populates this field. If you reuse a client token with a different request body, the request fails with <code>ValidationException</code>. For more information about idempotency, see <a href=\"https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/\">Making retries safe with idempotent APIs</a>.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.connectscheduling#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description recorded on the time off request. If you omit it, the request has no description.</p>"
+               }
+            },
+            "EndAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end of the time off window, exclusive. It must be after <code>StartAt</code> and no later than 24 months after the current date. Connect Customer stores the value as sent, to the millisecond.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "InstanceId" : {
+               "target" : "com.amazonaws.connectscheduling#InstanceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. This can be the ID or the ARN of the instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "RuleFailureAction" : {
+               "target" : "com.amazonaws.connectscheduling#RuleFailureAction",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Controls what happens when a configured rule fails. <code>REJECT</code>, the default, records an <code>ERROR</code> and ends the request <code>REJECTED</code>, unless the whole window is in the past. <code>OVERRIDE</code> records a <code>WARNING</code> and ends the request <code>APPROVED</code>, like the <i>Override time off rules</i> option in the Connect Customer admin website. <code>OVERRIDE</code> requires <code>AUTOMATIC</code>. With <code>AWAIT_APPROVAL</code>, <code>OVERRIDE</code> fails with <code>ValidationException</code>. Set it on <code>ApproveTimeOff</code> instead. <code>OVERRIDE</code> never waives <code>CONFLICTING_TIME_OFF_REQUEST</code>.</p>"
+               }
+            },
+            "ShiftActivityId" : {
+               "target" : "com.amazonaws.connectscheduling#ShiftActivityIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the shift activity that defines the type of time off being requested. This can be the ID or the ARN of the shift activity. It must be a time off activity. Activities that aren't set as <i>Requestable</i> are accepted.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "StartAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start of the time off window, inclusive. It must be no earlier than one year before the current date. Connect Customer stores the value as sent, to the millisecond.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserId" : {
+               "target" : "com.amazonaws.connectscheduling#UserIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who the time off request is for. This can be the ID or the ARN of the user.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request for <code>CreateTimeOff</code>.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#CreateTimeOffResponse" : {
+         "members" : {
+            "TimeOffId" : {
+               "target" : "com.amazonaws.connectscheduling#TimeOffId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the time off request.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for <code>CreateTimeOff</code>.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#Description" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A description recorded on a time off request. This field is sensitive, and CloudTrail redacts it. To send no description, omit the member instead of sending an empty string.</p>",
+            "smithy.api#length" : {
+               "max" : 500,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectscheduling#Duration" : {
+         "members" : {
+            "Unit" : {
+               "target" : "com.amazonaws.connectscheduling#DurationUnit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unit the value is counted in.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Value" : {
+               "target" : "com.amazonaws.connectscheduling#DurationValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of units of time. You can use a negative value to report an overdrawn balance. The value must be within 876,000 hours (100 years) of zero: at most 52,560,000 <code>MINUTES</code>, 876,000 <code>HOURS</code>, or 36,500 <code>DAYS</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A length of time, expressed as a value and the unit it is counted in.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#DurationUnit" : {
+         "members" : {
+            "DAYS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DAYS"
+               }
+            },
+            "HOURS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "HOURS"
+               }
+            },
+            "MINUTES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MINUTES"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The unit a Duration value is counted in.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connectscheduling#DurationValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>A number of time units, which can be negative. It must stay within 876,000 hours (100 years) of zero: at most 52,560,000 <code>MINUTES</code>, 876,000 <code>HOURS</code>, or 36,500 <code>DAYS</code>.</p>",
+            "smithy.api#range" : {
+               "max" : 52560000,
+               "min" : -52560000
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.connectscheduling#GetTimeOff" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectscheduling#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectscheduling#GetTimeOffRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectscheduling#GetTimeOffResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a time off request, including its current status and validation results.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/scheduling/instances/{InstanceId}/users/{UserId}/timeoffs/{TimeOffId}"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "GetTimeOffFailure",
+                  "params" : {
+                     "InstanceId" : "00000000-0000-0000-0000-000000000000",
+                     "TimeOffId" : "00000000-0000-0000-0000-000000000000",
+                     "UserId" : "00000000-0000-0000-0000-000000000000"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-west-2"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectscheduling#GetTimeOffRequest" : {
+         "members" : {
+            "InstanceId" : {
+               "target" : "com.amazonaws.connectscheduling#InstanceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. This can be the ID or the ARN of the instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "TimeOffId" : {
+               "target" : "com.amazonaws.connectscheduling#TimeOffId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the time off request. If the time off request doesn't belong to <code>UserId</code>, the operation returns <code>ResourceNotFoundException</code>.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserId" : {
+               "target" : "com.amazonaws.connectscheduling#UserIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who the time off request belongs to. This can be the ID or the ARN of the user.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request for <code>GetTimeOff</code>.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#GetTimeOffResponse" : {
+         "members" : {
+            "CreatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the time off request was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "CreatedBy" : {
+               "target" : "com.amazonaws.connectscheduling#ActorInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identity that created the request. Immutable for the life of the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.connectscheduling#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the time off request. <code>CreateTimeOff</code> sets it, and <code>CancelTimeOff</code> replaces or removes it. An edit in the Connect Customer admin website can also change it. <code>GetTimeOff</code> doesn't return descriptions sent with <code>ApproveTimeOff</code> or <code>RejectTimeOff</code>.</p>"
+               }
+            },
+            "EndAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end of the time off window, exclusive, as sent to <code>CreateTimeOff</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ShiftActivityId" : {
+               "target" : "com.amazonaws.connectscheduling#ShiftActivityId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the shift activity for the time off request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "StartAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start of the time off window, inclusive, as sent to <code>CreateTimeOff</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.connectscheduling#TimeOffStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the time off request.</p> <ul> <li> <p> <code>PENDING</code>: Connect Customer is processing a change to the request, which then changes to another status. An edit in the Connect Customer admin website can also make a request <code>PENDING</code>, so an <code>APPROVED</code> request can become <code>PENDING</code> and then end <code>APPROVED</code> or <code>REJECTED</code>.</p> </li> <li> <p> <code>AWAITING_APPROVAL</code>: the request is waiting for an <code>ApproveTimeOff</code> or <code>RejectTimeOff</code> call.</p> </li> </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "TimeOffId" : {
+               "target" : "com.amazonaws.connectscheduling#TimeOffId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the time off request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the time off request was last modified.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UpdatedBy" : {
+               "target" : "com.amazonaws.connectscheduling#ActorInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identity that made the most recent <code>ApproveTimeOff</code>, <code>RejectTimeOff</code>, or <code>CancelTimeOff</code> call on the request, or took the same action in the Connect Customer admin website. Absent until one of those actions is taken, including after Connect Customer decides an <code>AUTOMATIC</code> request. <code>UpdatedAt</code> also changes when a <code>PENDING</code> request changes to another status and for other edits, which don't set <code>UpdatedBy</code>.</p>"
+               }
+            },
+            "UserId" : {
+               "target" : "com.amazonaws.connectscheduling#UserId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user the time off is for.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ValidationResults" : {
+               "target" : "com.amazonaws.connectscheduling#TimeOffValidationResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Warnings or failures produced while processing the time off request.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for <code>GetTimeOff</code>.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#InstanceIdOrArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 250,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(arn:(aws|aws-us-gov):connect:[a-z]{2}(-[a-z]+){1,2}-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectscheduling#InternalServerException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.connectscheduling#Message",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "RetryAfterSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of seconds to wait before retrying.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request processing failed because of an error or failure with the service.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#Message" : {
+         "type" : "string"
+      },
+      "com.amazonaws.connectscheduling#PutTimeOffBalance" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectscheduling#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectscheduling#PutTimeOffBalanceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectscheduling#PutTimeOffBalanceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Sets the time off balance for one user and shift activity. The value replaces the existing balance rather than adjusting it, so you can safely retry the call. This operation can't remove a balance. To remove one, upload a blank balance in the Connect Customer admin website. For more information, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/upload-timeoff-balance.html\">Import an agent's time off balance</a> in the <i>Connect Customer Administrator Guide</i>.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/scheduling/instances/{InstanceId}/users/{UserId}/timeoff-balances/{ShiftActivityId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectscheduling#PutTimeOffBalanceRequest" : {
+         "members" : {
+            "Balance" : {
+               "target" : "com.amazonaws.connectscheduling#Duration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new time off balance for the user and activity. It replaces the existing balance.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "InstanceId" : {
+               "target" : "com.amazonaws.connectscheduling#InstanceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. This can be the ID or the ARN of the instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ShiftActivityId" : {
+               "target" : "com.amazonaws.connectscheduling#ShiftActivityIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the shift activity that the balance applies to. This can be the ID or the ARN of the shift activity.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserId" : {
+               "target" : "com.amazonaws.connectscheduling#UserIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user whose balance is being updated. This can be the ID or the ARN of the user.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request for <code>PutTimeOffBalance</code>.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#PutTimeOffBalanceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for <code>PutTimeOffBalance</code>.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#RejectTimeOff" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectscheduling#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectscheduling#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectscheduling#RejectTimeOffRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectscheduling#RejectTimeOffResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Rejects a time off request.</p> <p>Rejecting a <code>REJECTED</code> request succeeds without a change. Returns <code>ConflictException</code> if the request is <code>PENDING</code> or <code>CANCELLED</code>. <code>PENDING</code> means Connect Customer is still processing the request asynchronously. Wait until <code>GetTimeOff</code> returns a status other than <code>PENDING</code>, and then retry.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/scheduling/instances/{InstanceId}/users/{UserId}/timeoffs/{TimeOffId}/reject"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectscheduling#RejectTimeOffRequest" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.connectscheduling#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description recorded with the rejection, such as the reason. <code>GetTimeOff</code> doesn't return it.</p>"
+               }
+            },
+            "InstanceId" : {
+               "target" : "com.amazonaws.connectscheduling#InstanceIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Connect Customer instance. This can be the ID or the ARN of the instance. You can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the instance ID</a> in the Amazon Resource Name (ARN) of the instance.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "TimeOffId" : {
+               "target" : "com.amazonaws.connectscheduling#TimeOffId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the time off request to reject. If the time off request doesn't belong to <code>UserId</code>, the operation returns <code>ResourceNotFoundException</code>.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "UserId" : {
+               "target" : "com.amazonaws.connectscheduling#UserIdOrArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who the time off request belongs to. This can be the ID or the ARN of the user.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request for <code>RejectTimeOff</code>.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#RejectTimeOffResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response for <code>RejectTimeOff</code>.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#ResourceNotFoundException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.connectscheduling#Message",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier or ARN of the resource that was not found.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource that was not found.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specified resource was not found.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#RuleFailureAction" : {
+         "members" : {
+            "OVERRIDE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The failed rule is recorded as a <code>WARNING</code> instead and the request ends <code>APPROVED</code>. Overlap with another time off request for the user that is <code>APPROVED</code> or being approved (<code>CONFLICTING_TIME_OFF_REQUEST</code>) is always an <code>ERROR</code> and is never waived.</p>",
+                  "smithy.api#enumValue" : "OVERRIDE"
+               }
+            },
+            "REJECT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The failed rule is recorded as an <code>ERROR</code> and the request ends <code>REJECTED</code>.</p>",
+                  "smithy.api#enumValue" : "REJECT"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Controls what happens when a configured rule fails during rule evaluation. <code>REJECT</code> records the failure as an <code>ERROR</code> and ends the request <code>REJECTED</code>. <code>OVERRIDE</code> records it as a <code>WARNING</code> and ends the request <code>APPROVED</code>.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connectscheduling#ServiceQuotaExceededException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.connectscheduling#Message",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "QuotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code of the quota that would be exceeded, for use with the Service Quotas API.</p>"
+               }
+            },
+            "ResourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier or ARN of the resource whose quota would be exceeded.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource whose quota would be exceeded.</p>"
+               }
+            },
+            "ServiceCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code of the service that owns the quota.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request would cause a service quota to be exceeded.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#ShiftActivityId" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of the shift activity associated with the time off request.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectscheduling#ShiftActivityIdOrArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of the shift activity. You can specify either of the following:</p> <ul> <li> <p>The shift activity ID.</p> </li> <li> <p>The ARN of the shift activity.</p> </li> </ul> <p>The response returns <code>ShiftActivityId</code>.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectscheduling#ThrottlingException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.connectscheduling#Message",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "QuotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code of the quota that was throttled, for use with the Service Quotas API.</p>"
+               }
+            },
+            "RetryAfterSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of seconds to wait before retrying.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            },
+            "ServiceCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code of the service that owns the quota.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request was denied due to request throttling.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#TimeOffId" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of the time off request. Connect Customer generates it.</p>",
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-z0-9-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectscheduling#TimeOffStatus" : {
+         "members" : {
+            "APPROVED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request passed rule evaluation, or a failed rule was overridden with <code>RuleFailureAction</code> <code>OVERRIDE</code>, and the time off is applied to the user's schedule.</p>",
+                  "smithy.api#enumValue" : "APPROVED"
+               }
+            },
+            "AWAITING_APPROVAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request is waiting for an <code>ApproveTimeOff</code> or <code>RejectTimeOff</code> decision.</p>",
+                  "smithy.api#enumValue" : "AWAITING_APPROVAL"
+               }
+            },
+            "CANCELLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request is cancelled.</p>",
+                  "smithy.api#enumValue" : "CANCELLED"
+               }
+            },
+            "PENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Connect Customer is processing a change to the request, such as a create, approval, rejection, or cancellation, or an edit in the Connect Customer admin website. The request changes to another status when processing completes.</p>",
+                  "smithy.api#enumValue" : "PENDING"
+               }
+            },
+            "REJECTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request was rejected, either explicitly or by a failed rule during rule evaluation.</p>",
+                  "smithy.api#enumValue" : "REJECTED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The status of a time off request. <code>PENDING</code> means Connect Customer is processing a change to the request. <code>AWAITING_APPROVAL</code> means the request is waiting for a decision.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connectscheduling#TimeOffValidationCode" : {
+         "members" : {
+            "CONFLICTING_TIME_OFF_REQUEST" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The requested period overlaps another time off request for the user that is <code>APPROVED</code> or being approved. On <code>CreateTimeOff</code> with <code>AUTOMATIC</code>, overlapping overtime and voluntary time off activities count too. <code>ApproveTimeOff</code> cancels them instead.</p>",
+                  "smithy.api#enumValue" : "CONFLICTING_TIME_OFF_REQUEST"
+               }
+            },
+            "INSUFFICIENT_GROUP_TIME_OFF_ALLOWANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time off allowance shared by the user's forecast or demand group for the requested activity is too low to cover this request.</p>",
+                  "smithy.api#enumValue" : "INSUFFICIENT_GROUP_TIME_OFF_ALLOWANCE"
+               }
+            },
+            "INSUFFICIENT_STAFFING_GROUP_TIME_OFF_ALLOWANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The daily time off allowance shared by the user's staffing group for the requested activity is too low to cover this request.</p>",
+                  "smithy.api#enumValue" : "INSUFFICIENT_STAFFING_GROUP_TIME_OFF_ALLOWANCE"
+               }
+            },
+            "INSUFFICIENT_USER_TIME_OFF_BALANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user's own time off balance for the requested activity is less than the time this request deducts. Connect Customer deducts only working time in the request window, not the full window.</p>",
+                  "smithy.api#enumValue" : "INSUFFICIENT_USER_TIME_OFF_BALANCE"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specific reason for a time off validation result. New values may be added over time, so treat an unrecognized value as a generic failure of the severity reported with it.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connectscheduling#TimeOffValidationResult" : {
+         "members" : {
+            "Code" : {
+               "target" : "com.amazonaws.connectscheduling#TimeOffValidationCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The specific reason for the validation result. New values may be added, so treat an unrecognized value as a generic failure of the reported severity.</p> <ul> <li> <p> <code>INSUFFICIENT_USER_TIME_OFF_BALANCE</code>: the user's time off balance for the activity is less than the time this request deducts. Connect Customer deducts only working time in the window. For details, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/upload-timeoff-balance.html#how-system-calculates-time-off-deductions\">How the system calculates time off deductions</a> in the <i>Connect Customer Administrator Guide</i>.</p> </li> <li> <p> <code>INSUFFICIENT_GROUP_TIME_OFF_ALLOWANCE</code>: the time off allowance of the user's forecast group or demand group for the activity is too low for this request.</p> </li> <li> <p> <code>INSUFFICIENT_STAFFING_GROUP_TIME_OFF_ALLOWANCE</code>: the daily time off allowance of the user's staffing group for the activity is too low for this request.</p> </li> <li> <p> <code>CONFLICTING_TIME_OFF_REQUEST</code>: the request overlaps another time off request for the user that is <code>APPROVED</code> or being approved. Requests in <code>AWAITING_APPROVAL</code> don't count. For <code>CreateTimeOff</code> with <code>AUTOMATIC</code>, overlapping overtime and voluntary time off also count.</p> </li> </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Severity" : {
+               "target" : "com.amazonaws.connectscheduling#TimeOffValidationSeverity",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The severity of the validation result. <code>WARNING</code> is a breach of the configured rules that is not enough to reject the request, either because of the rules configuration or because the caller sent <code>RuleFailureAction</code> <code>OVERRIDE</code>. <code>ERROR</code> is a reason the request was rejected.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A warning or failure produced while processing the time off request.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#TimeOffValidationResults" : {
+         "member" : {
+            "target" : "com.amazonaws.connectscheduling#TimeOffValidationResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of warnings or failures produced while processing the time off request.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectscheduling#TimeOffValidationSeverity" : {
+         "members" : {
+            "ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>This validation result is a reason the request was rejected.</p>",
+                  "smithy.api#enumValue" : "ERROR"
+               }
+            },
+            "WARNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>This validation result is a breach of the configured rules that is not sufficient to reject the request, either due to rules configuration or because the caller sent <code>RuleFailureAction</code> <code>OVERRIDE</code>.</p>",
+                  "smithy.api#enumValue" : "WARNING"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The severity of a time off validation result.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connectscheduling#UserId" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of the user.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectscheduling#UserIdOrArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The identifier of the user. You can specify either of the following:</p> <ul> <li> <p>The user ID.</p> </li> <li> <p>The ARN of the user.</p> </li> </ul> <p>The response returns <code>UserId</code>.</p>",
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectscheduling#ValidationException" : {
+         "members" : {
+            "FieldList" : {
+               "target" : "com.amazonaws.connectscheduling#ValidationExceptionFieldList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The specific input fields that failed validation, when <code>Reason</code> is <code>FIELD_VALIDATION_FAILED</code>.</p>"
+               }
+            },
+            "Message" : {
+               "target" : "com.amazonaws.connectscheduling#Message",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "Reason" : {
+               "target" : "com.amazonaws.connectscheduling#ValidationExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason the input failed validation. Branch on this value rather than on the message wording.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The input fails to satisfy the constraints specified by an AWS service.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#ValidationExceptionField" : {
+         "members" : {
+            "Message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing why the field failed validation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The path to the field that failed validation, using JSON pointer-style dotted notation for nested members.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An input field that failed validation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectscheduling#ValidationExceptionFieldList" : {
+         "member" : {
+            "target" : "com.amazonaws.connectscheduling#ValidationExceptionField"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of input fields that failed validation.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectscheduling#ValidationExceptionReason" : {
+         "members" : {
+            "CANNOT_PARSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request body could not be parsed.</p>",
+                  "smithy.api#enumValue" : "CANNOT_PARSE"
+               }
+            },
+            "FIELD_VALIDATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>One or more input fields failed validation. See <code>FieldList</code>.</p>",
+                  "smithy.api#enumValue" : "FIELD_VALIDATION_FAILED"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The input is invalid for a reason not covered by the other values.</p>",
+                  "smithy.api#enumValue" : "OTHER"
+               }
+            },
+            "UNKNOWN_OPERATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request referenced an operation that does not exist.</p>",
+                  "smithy.api#enumValue" : "UNKNOWN_OPERATION"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The reason an input failed validation. New values may be added over time, so treat an unrecognized value as a generic validation failure.</p>"
+         },
+         "type" : "enum"
+      }
+   },
+   "smithy" : "2.0"
+}
