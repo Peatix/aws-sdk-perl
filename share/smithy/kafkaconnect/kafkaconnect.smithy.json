@@ -377,6 +377,42 @@
                {
                   "name" : "ROLLBACK_COMPLETE",
                   "value" : "ROLLBACK_COMPLETE"
+               },
+               {
+                  "name" : "PAUSE_COMPLETE",
+                  "value" : "PAUSE_COMPLETE"
+               },
+               {
+                  "name" : "PAUSE_FAILED",
+                  "value" : "PAUSE_FAILED"
+               },
+               {
+                  "name" : "RESUME_COMPLETE",
+                  "value" : "RESUME_COMPLETE"
+               },
+               {
+                  "name" : "RESUME_FAILED",
+                  "value" : "RESUME_FAILED"
+               },
+               {
+                  "name" : "PAUSE_IN_PROGRESS",
+                  "value" : "PAUSE_IN_PROGRESS"
+               },
+               {
+                  "name" : "RESUME_IN_PROGRESS",
+                  "value" : "RESUME_IN_PROGRESS"
+               },
+               {
+                  "name" : "RESTART_IN_PROGRESS",
+                  "value" : "RESTART_IN_PROGRESS"
+               },
+               {
+                  "name" : "RESTART_COMPLETE",
+                  "value" : "RESTART_COMPLETE"
+               },
+               {
+                  "name" : "RESTART_FAILED",
+                  "value" : "RESTART_FAILED"
                }
             ]
          },
@@ -512,6 +548,18 @@
                {
                   "name" : "RESTORE_CONNECTOR",
                   "value" : "RESTORE_CONNECTOR"
+               },
+               {
+                  "name" : "RESTART_CONNECTOR",
+                  "value" : "RESTART_CONNECTOR"
+               },
+               {
+                  "name" : "PAUSE_CONNECTOR",
+                  "value" : "PAUSE_CONNECTOR"
+               },
+               {
+                  "name" : "RESUME_CONNECTOR",
+                  "value" : "RESUME_CONNECTOR"
                }
             ]
          },
@@ -539,6 +587,22 @@
                {
                   "name" : "FAILED",
                   "value" : "FAILED"
+               },
+               {
+                  "name" : "PAUSED",
+                  "value" : "PAUSED"
+               },
+               {
+                  "name" : "RESTARTING",
+                  "value" : "RESTARTING"
+               },
+               {
+                  "name" : "PAUSING",
+                  "value" : "PAUSING"
+               },
+               {
+                  "name" : "RESUMING",
+                  "value" : "RESUMING"
                }
             ]
          },
@@ -1267,6 +1331,29 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>A summary of the custom plugin.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kafkaconnect#CustomPluginUpdate" : {
+         "members" : {
+            "customPluginArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the custom plugin.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "revision" : {
+               "target" : "com.amazonaws.kafkaconnect#__longMin1",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "<p>The revision of the custom plugin.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details about a custom plugin to use when you update a connector via <code>UpdateConnector</code>.</p>"
          },
          "type" : "structure"
       },
@@ -2237,6 +2324,15 @@
             },
             {
                "target" : "com.amazonaws.kafkaconnect#ListWorkerConfigurations"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#PauseConnector"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#RestartConnector"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#ResumeConnector"
             },
             {
                "target" : "com.amazonaws.kafkaconnect#TagResource"
@@ -3783,6 +3879,86 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.kafkaconnect#PauseConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kafkaconnect#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#ForbiddenException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#InternalServerErrorException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#NotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#ServiceUnavailableException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#TooManyRequestsException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#UnauthorizedException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kafkaconnect#PauseConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kafkaconnect#PauseConnectorResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Pauses the specified connector. The operation runs asynchronously. To track the pause, pass the connector operation ARN from the response to <code>DescribeConnectorOperation</code>.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/v1/connectors/{connectorArn}/pause"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.kafkaconnect#PauseConnectorRequest" : {
+         "members" : {
+            "connectorArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector that you want to pause.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kafkaconnect#PauseConnectorResponse" : {
+         "members" : {
+            "connectorArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector.</p>"
+               }
+            },
+            "connectorOperationArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector operation created to perform the pause.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.kafkaconnect#Plugin" : {
          "members" : {
             "customPlugin" : {
@@ -3809,6 +3985,21 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>The description of the plugin.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kafkaconnect#PluginUpdate" : {
+         "members" : {
+            "customPlugin" : {
+               "target" : "com.amazonaws.kafkaconnect#CustomPluginUpdate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The custom plugin to use for the connector.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A custom plugin to use when you update a connector via <code>UpdateConnector</code>.</p>"
          },
          "type" : "structure"
       },
@@ -3879,6 +4070,170 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>An update to a connector's fixed capacity.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kafkaconnect#RestartConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kafkaconnect#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#ForbiddenException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#InternalServerErrorException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#NotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#ServiceUnavailableException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#TooManyRequestsException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#UnauthorizedException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kafkaconnect#RestartConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kafkaconnect#RestartConnectorResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to <code>DescribeConnectorOperation</code> to track the state of the restart.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/v1/connectors/{connectorArn}/restart"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.kafkaconnect#RestartConnectorRequest" : {
+         "members" : {
+            "connectorArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector that you want to restart.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "onlyFailedTasks" : {
+               "target" : "com.amazonaws.kafkaconnect#__boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether to restart only the connector's failed tasks. If <code>true</code>, the operation restarts only the tasks that are currently in a failed state, and healthy tasks continue running. If <code>false</code> or not specified, the operation restarts the connector and all of its tasks.</p>",
+                  "smithy.api#httpQuery" : "onlyFailedTasks"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kafkaconnect#RestartConnectorResponse" : {
+         "members" : {
+            "connectorArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector.</p>"
+               }
+            },
+            "connectorOperationArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector operation created to perform the restart.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kafkaconnect#ResumeConnector" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.kafkaconnect#BadRequestException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#ForbiddenException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#InternalServerErrorException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#NotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#ServiceUnavailableException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#TooManyRequestsException"
+            },
+            {
+               "target" : "com.amazonaws.kafkaconnect#UnauthorizedException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.kafkaconnect#ResumeConnectorRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.kafkaconnect#ResumeConnectorResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Resumes the specified paused connector. The operation runs asynchronously. To track the resume, pass the connector operation ARN from the response to <code>DescribeConnectorOperation</code>.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/v1/connectors/{connectorArn}/resume"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.kafkaconnect#ResumeConnectorRequest" : {
+         "members" : {
+            "connectorArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector that you want to resume.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.kafkaconnect#ResumeConnectorResponse" : {
+         "members" : {
+            "connectorArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector.</p>"
+               }
+            },
+            "connectorOperationArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the connector operation created to perform the resume.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -4358,7 +4713,7 @@
             "target" : "com.amazonaws.kafkaconnect#UpdateConnectorResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates the specified connector. For request body, specify only one parameter: either <code>capacity</code> or <code>connectorConfiguration</code>.</p>",
+            "smithy.api#documentation" : "<p>Updates the specified connector. In the request body, you can update either the connector's worker setting or its connector configuration, but not both in the same request. To update the worker setting, specify one or more of <code>capacity</code>, <code>plugins</code>, <code>workerConfiguration</code>, or <code>useDefaultWorkerConfiguration</code>. To update the connector configuration, specify only <code>connectorConfiguration</code>.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -4396,6 +4751,32 @@
                   "smithy.api#documentation" : "<p>The current version of the connector that you want to update.</p>",
                   "smithy.api#httpQuery" : "currentVersion",
                   "smithy.api#required" : {}
+               }
+            },
+            "plugins" : {
+               "target" : "com.amazonaws.kafkaconnect#__listOfPluginUpdate",
+               "traits" : {
+                  "smithy.api#documentation" : "<important> <p>Amazon MSK Connect does not currently support specifying multiple plugins as a list. To use more than one plugin for your connector, you can create a single custom plugin using a ZIP file that bundles multiple plugins together.</p> </important> <p>Specifies which plugin to use for the connector. You must specify a single-element list containing one <code>customPlugin</code> object. If you don't specify this parameter, the connector keeps its current plugin.</p>"
+               }
+            },
+            "skipHealthValidation" : {
+               "target" : "com.amazonaws.kafkaconnect#__boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether the update bypasses connector-level and task-level health checks. If <code>true</code>, the update skips the health checks. The update stays in effect even if the connector or its tasks are unhealthy, and Amazon MSK Connect doesn't roll it back. If <code>false</code> or not specified, the health checks run. If they fail, MSK Connect automatically rolls the connector back to its previous configuration, and the update doesn't take effect. To update a connector that is in the <code>PAUSED</code> state, you must set this parameter to <code>true</code>.</p>"
+               }
+            },
+            "useDefaultWorkerConfiguration" : {
+               "target" : "com.amazonaws.kafkaconnect#__boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether to switch the connector to the default worker configuration that Amazon MSK Connect provides. If <code>true</code>, the connector stops using its custom worker configuration and uses the default worker configuration instead. If <code>false</code> or not specified, the connector keeps its current worker configuration. You can't specify both <code>useDefaultWorkerConfiguration</code> and <code>workerConfiguration</code> in the same request.</p>"
+               }
+            },
+            "workerConfiguration" : {
+               "target" : "com.amazonaws.kafkaconnect#WorkerConfigurationUpdate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The worker configuration to use with the connector. Specify the Amazon Resource Name (ARN) and the revision of the worker configuration. You can't specify both <code>workerConfiguration</code> and <code>useDefaultWorkerConfiguration</code> in the same request. If you specify neither parameter, the connector keeps its current worker configuration.</p>"
                }
             }
          },
@@ -4631,6 +5012,29 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.kafkaconnect#WorkerConfigurationUpdate" : {
+         "members" : {
+            "revision" : {
+               "target" : "com.amazonaws.kafkaconnect#__longMin1",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "<p>The revision of the worker configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workerConfigurationArn" : {
+               "target" : "com.amazonaws.kafkaconnect#__string",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the worker configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The worker configuration to use when you update a connector via <code>UpdateConnector</code>.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.kafkaconnect#WorkerLogDelivery" : {
          "members" : {
             "cloudWatchLogs" : {
@@ -4686,7 +5090,29 @@
       "com.amazonaws.kafkaconnect#WorkerSetting" : {
          "members" : {
             "capacity" : {
-               "target" : "com.amazonaws.kafkaconnect#CapacityDescription"
+               "target" : "com.amazonaws.kafkaconnect#CapacityDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the compute capacity settings of the connector.</p>"
+               }
+            },
+            "plugins" : {
+               "target" : "com.amazonaws.kafkaconnect#__listOfPluginDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies which plugins the connector uses.</p>"
+               }
+            },
+            "useDefaultWorkerConfiguration" : {
+               "target" : "com.amazonaws.kafkaconnect#__boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "<p>Specifies whether the connector uses the default worker configuration instead of a custom worker configuration.</p>"
+               }
+            },
+            "workerConfiguration" : {
+               "target" : "com.amazonaws.kafkaconnect#WorkerConfigurationDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies which worker configuration the connector uses.</p>"
+               }
             }
          },
          "traits" : {
@@ -4759,6 +5185,12 @@
       "com.amazonaws.kafkaconnect#__listOfPluginDescription" : {
          "member" : {
             "target" : "com.amazonaws.kafkaconnect#PluginDescription"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.kafkaconnect#__listOfPluginUpdate" : {
+         "member" : {
+            "target" : "com.amazonaws.kafkaconnect#PluginUpdate"
          },
          "type" : "list"
       },

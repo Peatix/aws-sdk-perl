@@ -275,6 +275,79 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.networkmanager#AssociateContextStore" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#AssociateContextStoreRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#AssociateContextStoreResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Associates a transit gateway with a context store. The transit gateway must be registered with the global network of the context store, and can't be associated with more than one context store. The context store must be in the <code>AVAILABLE</code> state.</p>\n         <p>The association is in the <code>ASSOCIATING</code> state when it's created, and changes to <code>ASSOCIATED</code> when it's complete.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/context-stores/{ContextStoreId}/associations"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#AssociateContextStoreRequest" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "TransitGatewayArn" : {
+               "target" : "com.amazonaws.networkmanager#TransitGatewayArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the transit gateway to associate with the context store.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#AssociateContextStoreResponse" : {
+         "members" : {
+            "ContextStoreAssociation" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the context store association.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.networkmanager#AssociateCustomerGateway" : {
          "errors" : [
             {
@@ -595,6 +668,18 @@
                   "smithy.api#documentation" : "<p>Describes the error associated with the attachment request.</p>"
                }
             },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of NAT gateway support on the attachment. This is returned only to the core network owner for attachment types that support NAT.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. This is returned only to the core network owner for attachment types that support NAT.</p>"
+               }
+            },
             "NetworkFunctionGroupName" : {
                "target" : "com.amazonaws.networkmanager#NetworkFunctionGroupName",
                "traits" : {
@@ -689,6 +774,18 @@
       },
       "com.amazonaws.networkmanager#AttachmentErrorCode" : {
          "members" : {
+            "CREATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATION_FAILED"
+               }
+            },
+            "DELETION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETION_FAILED"
+               }
+            },
             "DIRECT_CONNECT_GATEWAY_EXISTING_ATTACHMENTS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -707,10 +804,22 @@
                   "smithy.api#enumValue" : "DIRECT_CONNECT_GATEWAY_NO_PRIVATE_VIF"
                }
             },
+            "DIRECT_CONNECT_GATEWAY_TOPOLOGY_RESTRICTIONS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DIRECT_CONNECT_GATEWAY_TOPOLOGY_RESTRICTIONS"
+               }
+            },
             "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED"
+               }
+            },
+            "SECURITY_GROUP_REFERENCING_UNSUPPORTED_AVAILABILITY_ZONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SECURITY_GROUP_REFERENCING_UNSUPPORTED_AVAILABILITY_ZONE"
                }
             },
             "SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE" : {
@@ -743,6 +852,12 @@
                   "smithy.api#enumValue" : "SUBNET_UNSUPPORTED_AVAILABILITY_ZONE"
                }
             },
+            "UPDATE_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATE_FAILED"
+               }
+            },
             "VPC_NOT_FOUND" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -765,6 +880,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "VPN_EXISTING_ASSOCIATIONS"
+               }
+            },
+            "VPN_STATIC_ROUTES_NAT_UNSUPPORTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VPN_STATIC_ROUTES_NAT_UNSUPPORTED"
                }
             }
          },
@@ -795,6 +916,50 @@
       "com.amazonaws.networkmanager#AttachmentList" : {
          "member" : {
             "target" : "com.amazonaws.networkmanager#Attachment"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.networkmanager#AttachmentNatConfiguration" : {
+         "members" : {
+            "AttachmentId" : {
+               "target" : "com.amazonaws.networkmanager#AttachmentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the attachment.</p>"
+               }
+            },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules of the attachment.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of NAT gateway support on the attachment.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the NAT configuration of a core network attachment.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#AttachmentNatConfigurationList" : {
+         "member" : {
+            "target" : "com.amazonaws.networkmanager#AttachmentNatConfiguration"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 500,
+               "min" : 0
+            }
          },
          "type" : "list"
       },
@@ -968,6 +1133,9 @@
          "traits" : {
             "smithy.api#default" : false
          },
+         "type" : "boolean"
+      },
+      "com.amazonaws.networkmanager#BoxedBoolean" : {
          "type" : "boolean"
       },
       "com.amazonaws.networkmanager#ChangeAction" : {
@@ -1483,6 +1651,18 @@
       },
       "com.amazonaws.networkmanager#ConnectPeerErrorCode" : {
          "members" : {
+            "CREATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATION_FAILED"
+               }
+            },
+            "DELETION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETION_FAILED"
+               }
+            },
             "EDGE_LOCATION_NO_FREE_IPS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -1852,6 +2032,283 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.networkmanager#ContextChange" : {
+         "members" : {
+            "ChangeType" : {
+               "target" : "com.amazonaws.networkmanager#ContextChangeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of change. The possible values are the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ADDED</code>: The context entry was added to the context store.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REMOVED</code>: The context entry was removed from the context store.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "Context" : {
+               "target" : "com.amazonaws.networkmanager#ContextEntry",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The context entry that was added or removed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a context entry that was added to or removed from a context store.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ContextChangeList" : {
+         "member" : {
+            "target" : "com.amazonaws.networkmanager#ContextChange"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.networkmanager#ContextChangeType" : {
+         "members" : {
+            "ADDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ADDED"
+               }
+            },
+            "REMOVED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REMOVED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.networkmanager#ContextEntry" : {
+         "members" : {
+            "AttachmentType" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the attachment, for example <code>VPC</code>. Network Manager returns this value only when the context type is <code>Attachment</code>.</p>"
+               }
+            },
+            "AvailabilityZone" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Availability Zone of the resource, for example <code>use1-az2</code>. Network Manager returns this value only when the context type is <code>Subnet</code>.</p>"
+               }
+            },
+            "ContextId" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context entry.</p>"
+               }
+            },
+            "ContextType" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the context entry, for example <code>SegmentId</code>, <code>Subnet</code>, or <code>Attachment</code>.</p>"
+               }
+            },
+            "PublicId" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resource, for example a security group ID, subnet ID, or transit gateway attachment ID.</p>"
+               }
+            },
+            "Region" : {
+               "target" : "com.amazonaws.networkmanager#ExternalRegionCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Region of the resource.</p>"
+               }
+            },
+            "SegmentType" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the segment, for example <code>SecurityGroup</code>. Network Manager returns this value only when the context type is <code>SegmentId</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a context entry in a context store. A context entry describes a resource, such as a security group, subnet, or attachment.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ContextList" : {
+         "member" : {
+            "target" : "com.amazonaws.networkmanager#ContextEntry"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.networkmanager#ContextStore" : {
+         "members" : {
+            "ContextStoreArn" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the context store.</p>"
+               }
+            },
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>"
+               }
+            },
+            "CreatedAt" : {
+               "target" : "com.amazonaws.networkmanager#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time that the context store was created.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the context store.</p>"
+               }
+            },
+            "GlobalNetworkId" : {
+               "target" : "com.amazonaws.networkmanager#GlobalNetworkId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the global network that the context store belongs to.</p>"
+               }
+            },
+            "State" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the context store. The possible values are the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>PENDING</code>: The context store is being created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>AVAILABLE</code>: The context store is ready to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>UPDATING</code>: The context store is being updated.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETING</code>: The context store is being deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETED</code>: The context store is deleted.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.networkmanager#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags associated with the context store.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a context store.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ContextStoreArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 500,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[\\s\\S]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.networkmanager#ContextStoreAssociation" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>"
+               }
+            },
+            "CreatedAt" : {
+               "target" : "com.amazonaws.networkmanager#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time that the association was created.</p>"
+               }
+            },
+            "State" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreAssociationState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the association. The possible values are the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ASSOCIATING</code>: The transit gateway is being associated with the context store.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ASSOCIATED</code>: The transit gateway is associated with the context store.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DISASSOCIATING</code>: The transit gateway is being disassociated from the context store.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED</code>: The association failed. To remove it, disassociate the transit gateway.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "TransitGatewayArn" : {
+               "target" : "com.amazonaws.networkmanager#TransitGatewayArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the transit gateway.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes the association between a context store and a transit gateway.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ContextStoreAssociationList" : {
+         "member" : {
+            "target" : "com.amazonaws.networkmanager#ContextStoreAssociation"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.networkmanager#ContextStoreAssociationState" : {
+         "members" : {
+            "ASSOCIATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ASSOCIATED"
+               }
+            },
+            "ASSOCIATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ASSOCIATING"
+               }
+            },
+            "DISASSOCIATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISASSOCIATING"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.networkmanager#ContextStoreId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^context-store-([0-9a-f]{8,17})$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.networkmanager#ContextStoreList" : {
+         "member" : {
+            "target" : "com.amazonaws.networkmanager#ContextStore"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.networkmanager#ContextStoreState" : {
+         "members" : {
+            "available" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AVAILABLE"
+               }
+            },
+            "deleted" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETED"
+               }
+            },
+            "deleting" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETING"
+               }
+            },
+            "pending" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING"
+               }
+            },
+            "updating" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.networkmanager#CoreNetwork" : {
          "members" : {
             "CoreNetworkArn" : {
@@ -2059,7 +2516,7 @@
             "RoutingPolicyAssociationDetails" : {
                "target" : "com.amazonaws.networkmanager#RoutingPolicyAssociationDetailsList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The names of the routing policies and other association details in the core network change values.</p>"
+                  "smithy.api#documentation" : "<p>The names of the routing policies and other association details in a core network change event.</p>"
                }
             },
             "RoutingPolicyDirection" : {
@@ -2131,6 +2588,12 @@
                   "smithy.api#documentation" : "<p>The inside IP addresses used for core network change values.</p>"
                }
             },
+            "MultipathResilience" : {
+               "target" : "com.amazonaws.networkmanager#MultipathResilienceChangeValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The change in multipath resilience configuration in the core network change values.</p>"
+               }
+            },
             "NetworkFunctionGroupName" : {
                "target" : "com.amazonaws.networkmanager#ConstrainedString",
                "traits" : {
@@ -2158,7 +2621,7 @@
             "RoutingPolicyDirection" : {
                "target" : "com.amazonaws.networkmanager#RoutingPolicyDirection",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The routing policy direction (inbound/outbound) in a core network change event.</p>"
+                  "smithy.api#documentation" : "<p>The routing policy direction (inbound/outbound) in the core network change values.</p>"
                }
             },
             "SecurityGroupReferencingSupport" : {
@@ -2741,6 +3204,18 @@
                   "smithy.api#required" : {}
                }
             },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules for the Connect attachment, up to 50 rules.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable NAT gateway support on the Connect attachment. NAT is supported only on Connect attachments that use the GRE tunnel protocol. Tunnel-less Connect attachments aren't supported. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.</p>"
+               }
+            },
             "Options" : {
                "target" : "com.amazonaws.networkmanager#ConnectAttachmentOptions",
                "traits" : {
@@ -2994,6 +3469,95 @@
                "target" : "com.amazonaws.networkmanager#Connection",
                "traits" : {
                   "smithy.api#documentation" : "<p>Information about the connection.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#CreateContextStore" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#CreateContextStoreRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#CreateContextStoreResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a context store in a global network. A context store maintains context entries, such as security groups, subnets, and attachments, for the resources connected to the transit gateways that you associate with it.</p>\n         <p>The context store is in the <code>PENDING</code> state when it's created, and changes to <code>AVAILABLE</code> when it's ready to use.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/global-networks/{GlobalNetworkId}/context-stores"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#CreateContextStoreRequest" : {
+         "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.networkmanager#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the context store.</p>\n         <p>Constraints: Maximum length of 256 characters. Only printable ASCII characters are allowed.</p>"
+               }
+            },
+            "GlobalNetworkId" : {
+               "target" : "com.amazonaws.networkmanager#GlobalNetworkId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the global network to create the context store in.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.networkmanager#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to apply to the context store during creation.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#CreateContextStoreResponse" : {
+         "members" : {
+            "ContextStore" : {
+               "target" : "com.amazonaws.networkmanager#ContextStore",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the context store.</p>"
                }
             }
          },
@@ -3389,6 +3953,24 @@
                   "smithy.api#required" : {}
                }
             },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules for the Direct Connect gateway attachment, up to 50 rules.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable NAT gateway support on the Direct Connect gateway attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of <code>SYSTEM</code>. NAT is applied to traffic whether or not this option is enabled. The default is <code>true</code>.</p>"
+               }
+            },
             "RoutingPolicyLabel" : {
                "target" : "com.amazonaws.networkmanager#ConstrainedString",
                "traits" : {
@@ -3741,6 +4323,24 @@
                   "smithy.api#required" : {}
                }
             },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules for the Site-to-Site VPN attachment, up to 50 rules.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable NAT gateway support on the Site-to-Site VPN attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of <code>SYSTEM</code>. NAT is applied to traffic whether or not this option is enabled. The default is <code>true</code> for VPN connections that use BGP and <code>false</code> for VPN connections that use static routing. If the VPN connection uses static routing, you must specify <code>false</code> or omit this parameter.</p>"
+               }
+            },
             "RoutingPolicyLabel" : {
                "target" : "com.amazonaws.networkmanager#ConstrainedString",
                "traits" : {
@@ -4009,6 +4609,18 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The ID of a core network for the VPC attachment.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules for the VPC attachment, up to 50 rules.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable NAT gateway support on the VPC attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.</p>"
                }
             },
             "Options" : {
@@ -4356,6 +4968,73 @@
                "target" : "com.amazonaws.networkmanager#Connection",
                "traits" : {
                   "smithy.api#documentation" : "<p>Information about the connection.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#DeleteContextStore" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#DeleteContextStoreRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#DeleteContextStoreResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a context store. The context store must be in the <code>AVAILABLE</code> state. You must disassociate all transit gateways from the context store before you can delete it.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/context-stores/{ContextStoreId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#DeleteContextStoreRequest" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#DeleteContextStoreResponse" : {
+         "members" : {
+            "ContextStore" : {
+               "target" : "com.amazonaws.networkmanager#ContextStore",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the context store.</p>"
                }
             }
          },
@@ -5425,6 +6104,81 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.networkmanager#DisassociateContextStore" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#DisassociateContextStoreRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#DisassociateContextStoreResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Disassociates a transit gateway from a context store. The association must be in the <code>ASSOCIATED</code> or <code>FAILED</code> state. The association stays in the <code>DISASSOCIATING</code> state until the disassociation completes.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/context-stores/{ContextStoreId}/associations/{TransitGatewayArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#DisassociateContextStoreRequest" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "TransitGatewayArn" : {
+               "target" : "com.amazonaws.networkmanager#TransitGatewayArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the transit gateway to disassociate from the context store.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#DisassociateContextStoreResponse" : {
+         "members" : {
+            "ContextStoreAssociation" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the context store association.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.networkmanager#DisassociateCustomerGateway" : {
          "errors" : [
             {
@@ -6148,6 +6902,206 @@
                "target" : "com.amazonaws.networkmanager#NextToken",
                "traits" : {
                   "smithy.api#documentation" : "<p>The token to use for the next page of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#GetContextStore" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#GetContextStoreRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#GetContextStoreResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about a context store.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/context-stores/{ContextStoreId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#GetContextStoreAssociation" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#GetContextStoreAssociationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#GetContextStoreAssociationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about the association between a context store and a transit gateway.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/context-stores/{ContextStoreId}/associations/{TransitGatewayArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#GetContextStoreAssociationRequest" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "TransitGatewayArn" : {
+               "target" : "com.amazonaws.networkmanager#TransitGatewayArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the transit gateway.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#GetContextStoreAssociationResponse" : {
+         "members" : {
+            "ContextStoreAssociation" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the context store association.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#GetContextStoreRequest" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#GetContextStoreResponse" : {
+         "members" : {
+            "ContextStore" : {
+               "target" : "com.amazonaws.networkmanager#ContextStore",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the context store.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#GetContextVersion" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#GetContextVersionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#GetContextVersionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the current version of the context entries of a context store. The context store must be in the <code>AVAILABLE</code> state.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/context-stores/{ContextStoreId}/context-version"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#GetContextVersionRequest" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#GetContextVersionResponse" : {
+         "members" : {
+            "VersionId" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current version of the context entries.</p>"
                }
             }
          },
@@ -7372,6 +8326,12 @@
                "code" : 200,
                "method" : "POST",
                "uri" : "/global-networks/{GlobalNetworkId}/network-routes"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "NetworkRoutes",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
             }
          },
          "type" : "operation"
@@ -7402,6 +8362,18 @@
                "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The most specific route that matches the traffic (longest prefix match).</p>"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.networkmanager#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
                }
             },
             "PrefixListIds" : {
@@ -7449,6 +8421,12 @@
       },
       "com.amazonaws.networkmanager#GetNetworkRoutesResponse" : {
          "members" : {
+            "CoreNetworkNetworkFunctionGroup" : {
+               "target" : "com.amazonaws.networkmanager#CoreNetworkNetworkFunctionGroupIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Describes the network function group route table that the routes are from. This field is present only when you specify <code>CoreNetworkNetworkFunctionGroup</code> in <code>RouteTableIdentifier</code>.</p>"
+               }
+            },
             "CoreNetworkSegmentEdge" : {
                "target" : "com.amazonaws.networkmanager#CoreNetworkSegmentEdgeIdentifier",
                "traits" : {
@@ -7459,6 +8437,12 @@
                "target" : "com.amazonaws.networkmanager#NetworkRouteList",
                "traits" : {
                   "smithy.api#documentation" : "<p>The network routes.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
                }
             },
             "RouteTableArn" : {
@@ -8643,6 +9627,105 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.networkmanager#ListAttachmentNatConfigurations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#ListAttachmentNatConfigurationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#ListAttachmentNatConfigurationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the NAT configurations of core network attachments. You must specify either a core network ID or an attachment ID. Only the core network owner can list NAT configurations.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/nat-configurations"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "AttachmentNatConfigurations",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#ListAttachmentNatConfigurationsRequest" : {
+         "members" : {
+            "AttachmentId" : {
+               "target" : "com.amazonaws.networkmanager#AttachmentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of an attachment. Returns the NAT configuration of the specified attachment. If you specify both an attachment ID and a core network ID, the attachment ID is used.</p>"
+               }
+            },
+            "CoreNetworkId" : {
+               "target" : "com.amazonaws.networkmanager#CoreNetworkId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of a core network. Returns the NAT configurations of attachments in the core network that support NAT.</p>"
+               }
+            },
+            "Filters" : {
+               "target" : "com.amazonaws.networkmanager#FilterMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The filters to apply to the results. Values for the same filter are joined with OR, and different filters are joined with AND. You can specify up to 10 filter values in total. The following filters are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>nat-gateway-support</code>: The state of NAT gateway support on the attachment, for example <code>ENABLED</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>nat-system-route-support</code>: Whether system routes are installed for the attachment, <code>true</code> or <code>false</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>rule-number</code>: The rule number of a NAT rule.</p>\n            </li>\n            <li>\n               <p>\n                  <code>match-source-cidr</code>: The source CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.</p>\n            </li>\n            <li>\n               <p>\n                  <code>nat-cidr</code>: The NAT CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.</p>\n            </li>\n            <li>\n               <p>\n                  <code>nat-rule-state</code>: The state of a NAT rule, for example <code>ACTIVATED</code>.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.networkmanager#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ListAttachmentNatConfigurationsResponse" : {
+         "members" : {
+            "AttachmentNatConfigurations" : {
+               "target" : "com.amazonaws.networkmanager#AttachmentNatConfigurationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT configurations of the attachments.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.networkmanager#ListAttachmentRoutingPolicyAssociations" : {
          "errors" : [
             {
@@ -8940,6 +10023,391 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.networkmanager#ListContextChanges" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#ListContextChangesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#ListContextChangesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the context entries that were added to or removed from a context store after the specified version. The context store must be in the <code>AVAILABLE</code> state.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/context-stores/{ContextStoreId}/context-changes"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "ContextChanges",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#ListContextChangesRequest" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "FromVersionId" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version to return changes from. Specify a version returned by <code>ListContexts</code>, <code>GetContextVersion</code>, or the <code>ToVersionId</code> of a previous <code>ListContextChanges</code> request. If the version is no longer available, the request fails, and you must call <code>ListContexts</code> to get the current context entries.</p>",
+                  "smithy.api#httpQuery" : "fromVersionId",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.networkmanager#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ListContextChangesResponse" : {
+         "members" : {
+            "ContextChanges" : {
+               "target" : "com.amazonaws.networkmanager#ContextChangeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The context entries that were added or removed.</p>"
+               }
+            },
+            "FromVersionId" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version that the changes start from.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            },
+            "ToVersionId" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version that the changes bring the context entries up to. To get later changes, specify this value as <code>FromVersionId</code> in your next request. All pages of the same request return the same version.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ListContextStoreAssociations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#ListContextStoreAssociationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#ListContextStoreAssociationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the transit gateway associations of a context store.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/context-stores/{ContextStoreId}/associations"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "ContextStoreAssociations",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#ListContextStoreAssociationsRequest" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.networkmanager#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ListContextStoreAssociationsResponse" : {
+         "members" : {
+            "ContextStoreAssociations" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreAssociationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The context store associations.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ListContextStores" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#ListContextStoresRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#ListContextStoresResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the context stores in your account. You can optionally return only the context stores in a specific global network.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/context-stores"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "ContextStores",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#ListContextStoresRequest" : {
+         "members" : {
+            "GlobalNetworkId" : {
+               "target" : "com.amazonaws.networkmanager#GlobalNetworkId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of a global network. If you specify this parameter, only the context stores in the global network are returned.</p>",
+                  "smithy.api#httpQuery" : "globalNetworkId"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.networkmanager#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ListContextStoresResponse" : {
+         "members" : {
+            "ContextStores" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The context stores.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ListContexts" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#ListContextsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#ListContextsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the context entries of a context store, and the version of the context entries. To get the context entries that were added or removed after this version, specify the returned <code>VersionId</code> in a <code>ListContextChanges</code> request. The context store must be in the <code>AVAILABLE</code> state.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/context-stores/{ContextStoreId}/contexts"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "Contexts",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#ListContextsRequest" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.networkmanager#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#ListContextsResponse" : {
+         "members" : {
+            "Contexts" : {
+               "target" : "com.amazonaws.networkmanager#ContextList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The context entries.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.networkmanager#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            },
+            "VersionId" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the returned context entries. All pages of the same request return the same version.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.networkmanager#ListCoreNetworkPolicyVersions" : {
          "errors" : [
             {
@@ -9196,10 +10664,22 @@
                   "smithy.api#documentation" : "<p>Exact AS path values to match when filtering routing information.</p>"
                }
             },
+            "ExactPrefixMatches" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Exact prefix values to match when filtering routing information.</p>"
+               }
+            },
             "LocalPreferenceMatches" : {
                "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
                "traits" : {
                   "smithy.api#documentation" : "<p>Local preference values to match when filtering routing information.</p>"
+               }
+            },
+            "LongestPrefixMatches" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters routing information based on the longest prefix that matches each provided IP address.</p>"
                }
             },
             "MaxResults" : {
@@ -9218,7 +10698,7 @@
             "NextHopFilters" : {
                "target" : "com.amazonaws.networkmanager#FilterMap",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Filters to apply based on next hop information.</p>"
+                  "smithy.api#documentation" : "<p>Filters to apply based on next hop information. Each filter value must exactly match the corresponding next hop value. Values for the same filter are joined with OR, and different filters are joined with AND. The following filters are supported:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>core-network-attachment-id</code>: The ID of the core network attachment for the next hop, for example <code>attachment-0123456789abcdef0</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>segment-name</code>: The name of the segment for the next hop.</p>\n            </li>\n            <li>\n               <p>\n                  <code>edge-location</code>: The edge location for the next hop, for example <code>us-east-1</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource-id</code>: The ID of the resource for the next hop.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resource-type</code>: The type of resource for the next hop. The possible values are <code>vpc</code>, <code>vpn</code>, <code>connect-peer</code>, <code>direct-connect-gateway</code>, <code>transit-gateway-route-table</code>, <code>attachment</code>, and <code>blackhole</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ip-address</code>: The IP address of the next hop. For a Site-to-Site VPN next hop, this is the outside IP address of the AWS side of the VPN tunnel. For a Connect peer next hop, this is the core network BGP address of the Connect peer. The value must be a single IPv4 or IPv6 address.</p>\n            </li>\n         </ul>\n         <p>You can specify up to 10 filter values in total across <code>NextHopFilters</code> and the other match parameters in the request. Each filter value can be up to 256 characters.</p>"
                }
             },
             "NextToken" : {
@@ -9233,6 +10713,18 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the segment to filter routing information by.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "SubnetOfMatches" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Prefix values to filter routing information whose prefix is a subnet of the prefixes provided.</p>"
+               }
+            },
+            "SupernetOfMatches" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedStringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Prefix values to filter routing information whose prefix is a supernet of the prefixes provided.</p>"
                }
             }
          },
@@ -9609,6 +11101,248 @@
          },
          "type" : "integer"
       },
+      "com.amazonaws.networkmanager#MultipathResilienceChangeValues" : {
+         "members" : {
+            "EdgeSets" : {
+               "target" : "com.amazonaws.networkmanager#EdgeSetList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A set of two edge locations.</p>"
+               }
+            },
+            "Mode" : {
+               "target" : "com.amazonaws.networkmanager#MultipathResilienceMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The mode (best-effort/disabled) of multipath resilience.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about a change in multipath resilience.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#MultipathResilienceMode" : {
+         "members" : {
+            "BEST_EFFORT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "best-effort"
+               }
+            },
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "disabled"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.networkmanager#NatGatewaySupportState" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLED"
+               }
+            },
+            "DISABLING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLING"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            },
+            "ENABLING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLING"
+               }
+            },
+            "PENDING_ATTACHMENT_ACCEPTANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_ATTACHMENT_ACCEPTANCE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.networkmanager#NatGatewaySupportValue" : {
+         "members" : {
+            "DISABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLE"
+               }
+            },
+            "ENABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.networkmanager#NatRule" : {
+         "members" : {
+            "MatchSourceCidr" : {
+               "target" : "com.amazonaws.networkmanager#IPAddress",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source CIDR block that the rule matches for traffic from the attachment.</p>"
+               }
+            },
+            "NatCidr" : {
+               "target" : "com.amazonaws.networkmanager#IPAddress",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The CIDR block that matching source addresses are translated to.</p>"
+               }
+            },
+            "RuleNumber" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleNumber",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The rule number. Rule numbers identify the rules of an attachment and don't set the order in which rules are evaluated.</p>"
+               }
+            },
+            "State" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the NAT rule. The possible values are the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CREATING</code>: The rule is being created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MODIFYING</code>: The rule is being modified.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETING</code>: The rule is being deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ACTIVATING</code>: NAT gateway support is being enabled, and the rule is being applied.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ACTIVATED</code>: NAT gateway support is enabled, and the rule is applied.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DEACTIVATING</code>: NAT gateway support is being disabled, and the rule is being removed from use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DEACTIVATED</code>: NAT gateway support is disabled, and the rule isn't applied.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED</code>: The attachment failed to be created, and the rule isn't applied.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PENDING_ATTACHMENT_ACCEPTANCE</code>: The attachment is pending acceptance. The rule is applied after the attachment is accepted.</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a NAT rule of an attachment.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#NatRuleList" : {
+         "member" : {
+            "target" : "com.amazonaws.networkmanager#NatRule"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.networkmanager#NatRuleNumber" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 32766,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.networkmanager#NatRuleRequest" : {
+         "members" : {
+            "MatchSourceCidr" : {
+               "target" : "com.amazonaws.networkmanager#IPAddress",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IPv4 CIDR block to match against the source address of traffic from the attachment. The CIDR block can't overlap with the multicast range (224.0.0.0/4).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NatCidr" : {
+               "target" : "com.amazonaws.networkmanager#IPAddress",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IPv4 CIDR block to translate matching source addresses to. The prefix length must be the same as the prefix length of <code>MatchSourceCidr</code>. The CIDR block must be within a private (RFC 1918) or shared address space (RFC 6598) range. The CIDR blocks of the NAT rules of an attachment can't overlap with each other.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RuleNumber" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleNumber",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The rule number, from 1 to 32766. Each rule number must be unique for the attachment.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a NAT rule to configure on an attachment. Source addresses in the source CIDR block of traffic from the attachment are translated to the same host addresses in the NAT CIDR block. Traffic to an address in the NAT CIDR block is translated back to the matching address in the source CIDR block.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#NatRuleRequestList" : {
+         "member" : {
+            "target" : "com.amazonaws.networkmanager#NatRuleRequest"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.networkmanager#NatRuleState" : {
+         "members" : {
+            "ACTIVATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVATED"
+               }
+            },
+            "ACTIVATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVATING"
+               }
+            },
+            "CREATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATING"
+               }
+            },
+            "DEACTIVATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEACTIVATED"
+               }
+            },
+            "DEACTIVATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEACTIVATING"
+               }
+            },
+            "DELETING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETING"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "MODIFYING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MODIFYING"
+               }
+            },
+            "PENDING_ATTACHMENT_ACCEPTANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_ATTACHMENT_ACCEPTANCE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.networkmanager#NetworkFunctionGroup" : {
          "members" : {
             "Name" : {
@@ -9644,6 +11378,9 @@
                "target" : "com.amazonaws.networkmanager#AssociateConnectPeer"
             },
             {
+               "target" : "com.amazonaws.networkmanager#AssociateContextStore"
+            },
+            {
                "target" : "com.amazonaws.networkmanager#AssociateCustomerGateway"
             },
             {
@@ -9660,6 +11397,9 @@
             },
             {
                "target" : "com.amazonaws.networkmanager#CreateConnectPeer"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#CreateContextStore"
             },
             {
                "target" : "com.amazonaws.networkmanager#CreateCoreNetwork"
@@ -9704,6 +11444,9 @@
                "target" : "com.amazonaws.networkmanager#DeleteConnectPeer"
             },
             {
+               "target" : "com.amazonaws.networkmanager#DeleteContextStore"
+            },
+            {
                "target" : "com.amazonaws.networkmanager#DeleteCoreNetwork"
             },
             {
@@ -9740,6 +11483,9 @@
                "target" : "com.amazonaws.networkmanager#DisassociateConnectPeer"
             },
             {
+               "target" : "com.amazonaws.networkmanager#DisassociateContextStore"
+            },
+            {
                "target" : "com.amazonaws.networkmanager#DisassociateCustomerGateway"
             },
             {
@@ -9762,6 +11508,15 @@
             },
             {
                "target" : "com.amazonaws.networkmanager#GetConnectPeerAssociations"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#GetContextStore"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#GetContextStoreAssociation"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#GetContextVersion"
             },
             {
                "target" : "com.amazonaws.networkmanager#GetCoreNetwork"
@@ -9833,6 +11588,9 @@
                "target" : "com.amazonaws.networkmanager#GetVpcAttachment"
             },
             {
+               "target" : "com.amazonaws.networkmanager#ListAttachmentNatConfigurations"
+            },
+            {
                "target" : "com.amazonaws.networkmanager#ListAttachmentRoutingPolicyAssociations"
             },
             {
@@ -9840,6 +11598,18 @@
             },
             {
                "target" : "com.amazonaws.networkmanager#ListConnectPeers"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ListContextChanges"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ListContexts"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ListContextStoreAssociations"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ListContextStores"
             },
             {
                "target" : "com.amazonaws.networkmanager#ListCoreNetworkPolicyVersions"
@@ -9896,7 +11666,13 @@
                "target" : "com.amazonaws.networkmanager#UntagResource"
             },
             {
+               "target" : "com.amazonaws.networkmanager#UpdateAttachmentNatConfiguration"
+            },
+            {
                "target" : "com.amazonaws.networkmanager#UpdateConnection"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#UpdateContextStore"
             },
             {
                "target" : "com.amazonaws.networkmanager#UpdateCoreNetwork"
@@ -11650,7 +13426,7 @@
             "Type" : {
                "target" : "com.amazonaws.networkmanager#RouteType",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The route type. The possible values are <code>propagated</code> and <code>static</code>.</p>"
+                  "smithy.api#documentation" : "<p>The route type. The possible values are <code>PROPAGATED</code>, <code>STATIC</code>, and <code>SYSTEM</code>. A <code>SYSTEM</code> route is installed by the core network for the NAT CIDR block of an attachment's NAT rule.</p>"
                }
             }
          },
@@ -11912,7 +13688,7 @@
             "LastModificationErrors" : {
                "target" : "com.amazonaws.networkmanager#PeeringErrorList",
                "traits" : {
-                  "smithy.api#documentation" : "<p>Describes the error associated with the Connect peer request.</p>"
+                  "smithy.api#documentation" : "<p>Describes the error associated with the peering request.</p>"
                }
             },
             "OwnerAccountId" : {
@@ -11997,6 +13773,18 @@
       },
       "com.amazonaws.networkmanager#PeeringErrorCode" : {
          "members" : {
+            "CREATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATION_FAILED"
+               }
+            },
+            "DELETION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETION_FAILED"
+               }
+            },
             "EDGE_LOCATION_PEER_DUPLICATE" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -12019,6 +13807,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "MISSING_PERMISSIONS"
+               }
+            },
+            "TRANSIT_GATEWAY_ENCRYPTION_NOT_SUPPORTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRANSIT_GATEWAY_ENCRYPTION_NOT_SUPPORTED"
                }
             },
             "TRANSIT_GATEWAY_NOT_FOUND" : {
@@ -12133,7 +13927,7 @@
             "CoreNetworkId" : {
                "target" : "com.amazonaws.networkmanager#CoreNetworkId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The core network id in the association.</p>"
+                  "smithy.api#documentation" : "<p>The ID of the core network in the association.</p>"
                }
             },
             "PrefixListAlias" : {
@@ -13251,6 +15045,12 @@
                "traits" : {
                   "smithy.api#enumValue" : "STATIC"
                }
+            },
+            "SYSTEM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SYSTEM"
+               }
             }
          },
          "type" : "enum"
@@ -14349,6 +16149,119 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.networkmanager#UpdateAttachmentNatConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#UpdateAttachmentNatConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#UpdateAttachmentNatConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the NAT configuration of a core network attachment. You can enable or disable NAT gateway support, specify whether the core network installs system routes for the NAT CIDR blocks, and replace the NAT rules of the attachment. Specify at least one of <code>NatGatewaySupport</code>, <code>NatSystemRouteSupport</code>, or <code>NatGatewayRules</code>.</p>\n         <p>Only the core network owner can update the NAT configuration of an attachment. The attachment must be in the <code>AVAILABLE</code>, <code>PENDING_ATTACHMENT_ACCEPTANCE</code>, or <code>PENDING_TAG_ACCEPTANCE</code> state. Changes are applied asynchronously, and the attachment is in the <code>UPDATING</code> state while they are applied. If the attachment is pending acceptance, the NAT configuration is stored and is applied after the attachment is accepted.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/attachments/{AttachmentId}/nat-configuration"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#UpdateAttachmentNatConfigurationRequest" : {
+         "members" : {
+            "AttachmentId" : {
+               "target" : "com.amazonaws.networkmanager#AttachmentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the attachment to update the NAT configuration for.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ClientToken" : {
+               "target" : "com.amazonaws.networkmanager#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client token associated with the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleRequestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The complete set of NAT rules for the attachment, up to 50 rules. The rules that you specify replace the existing rules of the attachment, matched by rule number. Existing rules that aren't included in the request are deleted. To delete all NAT rules, specify an empty list. You can delete all NAT rules only when NAT gateway support is disabled, or when you disable it in the same request. If you omit this parameter, the existing rules are unchanged.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether to enable or disable NAT gateway support on the attachment. When you disable NAT gateway support, the attachment keeps its NAT rules but doesn't apply them. To enable NAT gateway support, the attachment must have at least one NAT rule, either specified in this request or already configured on the attachment. If you omit this parameter, NAT gateway support is unchanged.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of <code>SYSTEM</code>. NAT is applied to traffic whether or not this option is enabled. If you omit this parameter, the current value is unchanged.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#UpdateAttachmentNatConfigurationResponse" : {
+         "members" : {
+            "AttachmentId" : {
+               "target" : "com.amazonaws.networkmanager#AttachmentId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the attachment.</p>"
+               }
+            },
+            "NatGatewayRules" : {
+               "target" : "com.amazonaws.networkmanager#NatRuleList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The NAT rules of the attachment, including rules that are being deleted.</p>"
+               }
+            },
+            "NatGatewaySupport" : {
+               "target" : "com.amazonaws.networkmanager#NatGatewaySupportState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of NAT gateway support on the attachment. The transitional states <code>ENABLING</code> and <code>DISABLING</code> change to <code>ENABLED</code> or <code>DISABLED</code> after the update is applied. The state is <code>PENDING_ATTACHMENT_ACCEPTANCE</code> when NAT gateway support is enabled on an attachment that is pending acceptance.</p>"
+               }
+            },
+            "NatSystemRouteSupport" : {
+               "target" : "com.amazonaws.networkmanager#BoxedBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.networkmanager#UpdateConnection" : {
          "errors" : [
             {
@@ -14434,6 +16347,79 @@
                "target" : "com.amazonaws.networkmanager#Connection",
                "traits" : {
                   "smithy.api#documentation" : "<p>Information about the connection.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#UpdateContextStore" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.networkmanager#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.networkmanager#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.networkmanager#UpdateContextStoreRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.networkmanager#UpdateContextStoreResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the description of a context store. The context store must be in the <code>AVAILABLE</code> state.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/context-stores/{ContextStoreId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.networkmanager#UpdateContextStoreRequest" : {
+         "members" : {
+            "ContextStoreId" : {
+               "target" : "com.amazonaws.networkmanager#ContextStoreId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the context store.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.networkmanager#ConstrainedString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new description of the context store.</p>\n         <p>Constraints: Maximum length of 256 characters. Only printable ASCII characters are allowed.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.networkmanager#UpdateContextStoreResponse" : {
+         "members" : {
+            "ContextStore" : {
+               "target" : "com.amazonaws.networkmanager#ContextStore",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the context store.</p>"
                }
             }
          },

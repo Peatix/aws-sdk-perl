@@ -1,0 +1,767 @@
+{
+   "shapes" : {
+      "com.amazonaws.accountaccessruntime#AWSAccountAccessRuntime" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.accountaccessruntime#GetRoleCredentials"
+            },
+            {
+               "target" : "com.amazonaws.accountaccessruntime#ListRoles"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "account-access",
+               "endpointPrefix" : "account-access-runtime",
+               "sdkId" : "Account Access Runtime"
+            },
+            "aws.endpoints#dualStackOnlyEndpoints" : {},
+            "aws.endpoints#standardRegionalEndpoints" : {},
+            "aws.protocols#restJson1" : {},
+            "smithy.api#auth" : [
+               "smithy.api#httpBearerAuth"
+            ],
+            "smithy.api#documentation" : "<p>Use the Account Access Runtime API to list the roles that you can access and retrieve temporary Amazon Web Services credentials for those roles. You authenticate with a bearer token from IAM Identity Center. Each request is scoped to a tenant.</p>",
+            "smithy.api#httpBearerAuth" : {},
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#title" : "Account Access Runtime",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 6,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAYAAAADAAAAAQAAAAQF9eEFAAAAAgAAAAUF9eEFAAAAAwX14QMF9eEEAAAAAwX14QEF9eEC",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://account-access-runtime-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://account-access-runtime.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "headers" : {},
+                              "properties" : {},
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {},
+                                          "url" : "https://account-access-runtime-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {},
+                                          "url" : "https://account-access-runtime.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://account-access-runtime-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://account-access-runtime.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://account-access-runtime-fips.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://account-access-runtime.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://account-access-runtime-fips.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://account-access-runtime.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2018-05-10"
+      },
+      "com.amazonaws.accountaccessruntime#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>You are authenticated but not authorized to perform the requested action, such as assuming a role that you aren't entitled to. This error returns an HTTP 403 status code.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accountaccessruntime#AccessDetails" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.accountaccessruntime#Account",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The 12-digit identifier of the Amazon Web Services account that contains the role.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "accountName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the Amazon Web Services account, if available. This value can be absent when the account name can't be resolved.</p>"
+               }
+            },
+            "roleArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the role that you can access.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Describes a role that you can access, including the Amazon Web Services account that contains the role and the role's ARN.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accountaccessruntime#AccessDetailsList" : {
+         "member" : {
+            "target" : "com.amazonaws.accountaccessruntime#AccessDetails"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.accountaccessruntime#AccessType" : {
+         "members" : {
+            "PROGRAMMATIC_ACCESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PROGRAMMATIC_ACCESS"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.accountaccessruntime#Account" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[0-9]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.accountaccessruntime#CredentialsDetails" : {
+         "members" : {
+            "programmaticAccess" : {
+               "target" : "com.amazonaws.accountaccessruntime#ProgrammaticAccessDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The access key credentials returned for programmatic access with the CLI or an Amazon Web Services SDK.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The temporary credentials returned for a role. Only one member is set, depending on the type of access that you requested.</p>",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.accountaccessruntime#GetRoleCredentials" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.accountaccessruntime#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.accountaccessruntime#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.accountaccessruntime#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.accountaccessruntime#UnauthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.accountaccessruntime#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.accountaccessruntime#GetRoleCredentialsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.accountaccessruntime#GetRoleCredentialsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns temporary Amazon Web Services credentials for a role that you are entitled to assume within a tenant. You can use these credentials for programmatic access with the CLI or an Amazon Web Services SDK. If you aren't entitled to the role, the request fails with an <code>AccessDeniedException</code> error.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/access/credentials"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.accountaccessruntime#GetRoleCredentialsRequest" : {
+         "members" : {
+            "accessType" : {
+               "target" : "com.amazonaws.accountaccessruntime#AccessType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of access to request for the role. Specify <code>PROGRAMMATIC_ACCESS</code> to receive access key credentials for use with the CLI or an Amazon Web Services SDK.</p>",
+                  "smithy.api#httpQuery" : "accessType",
+                  "smithy.api#required" : {}
+               }
+            },
+            "roleArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the role to retrieve credentials for. You must be entitled to assume this role.</p>",
+                  "smithy.api#httpQuery" : "roleArn",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sessionDuration" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The duration, in seconds, that the returned credentials remain valid. If you don't specify a value, the service uses the default session duration. The maximum value can't exceed the maximum session duration configured for the role.</p>",
+                  "smithy.api#httpQuery" : "sessionDuration"
+               }
+            },
+            "sessionName" : {
+               "target" : "com.amazonaws.accountaccessruntime#SessionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional name for the role session. The name can be 2 to 64 characters and can contain alphanumeric characters and the following symbols: plus (+), equal (=), comma (,), period (.), at (@), and hyphen (-). The session name appears in CloudTrail logs for the assumed role session.</p>",
+                  "smithy.api#httpQuery" : "sessionName"
+               }
+            },
+            "tenantId" : {
+               "target" : "com.amazonaws.accountaccessruntime#TenantId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the tenant that the request applies to. A tenant ID begins with <code>aa-</code> and is 3 to 24 characters long. It can contain lowercase letters, numbers, and hyphens.</p>",
+                  "smithy.api#httpQuery" : "tenantId",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accountaccessruntime#GetRoleCredentialsResponse" : {
+         "members" : {
+            "credentialsDetails" : {
+               "target" : "com.amazonaws.accountaccessruntime#CredentialsDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The temporary credentials that the service returns for the requested role.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accountaccessruntime#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An internal server error occurred. Retry the request. If the problem persists, contact Amazon Web Services Support. This error returns an HTTP 500 status code.</p>",
+            "smithy.api#error" : "server"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accountaccessruntime#ListRoles" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.accountaccessruntime#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.accountaccessruntime#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.accountaccessruntime#UnauthorizedException"
+            },
+            {
+               "target" : "com.amazonaws.accountaccessruntime#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.accountaccessruntime#ListRolesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.accountaccessruntime#ListRolesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the roles that you are entitled to access within a tenant. The results are paginated. Use a returned role with <code>GetRoleCredentials</code> to obtain temporary credentials.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/access"
+            },
+            "smithy.api#paginated" : {
+               "items" : "roles"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.accountaccessruntime#ListRolesRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of roles to return in a single response. If more roles are available than the specified value, the response includes a <code>nextToken</code> value that you can use to retrieve the next page of results. If you don't specify a value, the service uses a default page size.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.accountaccessruntime#Token",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token from a previous <code>ListRoles</code> response. Use it to retrieve the next page of results. Omit this parameter on the first call.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "tenantId" : {
+               "target" : "com.amazonaws.accountaccessruntime#TenantId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the tenant whose roles you want to list. A tenant ID begins with <code>aa-</code> and is 3 to 24 characters long. It can contain lowercase letters, numbers, and hyphens.</p>",
+                  "smithy.api#httpQuery" : "tenantId",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accountaccessruntime#ListRolesResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token to include in a subsequent <code>ListRoles</code> request to retrieve the next page of results. This value is absent when there are no more results to return.</p>"
+               }
+            },
+            "roles" : {
+               "target" : "com.amazonaws.accountaccessruntime#AccessDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of roles that you can access in the tenant. Each entry describes an Amazon Web Services account and a role.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accountaccessruntime#ProgrammaticAccessDetails" : {
+         "members" : {
+            "accessKeyId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The access key ID for the temporary credentials.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "expiresAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The date and time when the temporary credentials expire, after which they can no longer be used.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "secretAccessKey" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The secret access key for the temporary credentials. Treat this value as a secret.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sessionToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The session token that you must include along with the access key ID and secret access key when you make requests with the temporary credentials.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A set of temporary Amazon Web Services credentials for programmatic access. Treat these values as sensitive.</p>",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accountaccessruntime#SessionName" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-zA-Z0-9_+=,.@-]{2,64}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.accountaccessruntime#TenantId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 24,
+               "min" : 3
+            },
+            "smithy.api#pattern" : "^[a-z0-9-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.accountaccessruntime#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request rate exceeded the allowed limit. Reduce your request rate, and then retry the request. This error returns an HTTP 429 status code.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accountaccessruntime#Token" : {
+         "type" : "string"
+      },
+      "com.amazonaws.accountaccessruntime#UnauthorizedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The bearer token is missing, invalid, or expired. Obtain a new token, and then retry the request. This error returns an HTTP 401 status code.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 401
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accountaccessruntime#ValidationException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request is missing a required parameter, or a parameter value doesn't satisfy its constraints, such as its length or pattern. Correct the input, and then retry the request. This error returns an HTTP 400 status code.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      }
+   },
+   "smithy" : "2.0"
+}
